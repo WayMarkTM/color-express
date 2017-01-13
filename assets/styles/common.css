@@ -1,3 +1,174 @@
+@font-face {
+    font-family: 'HelveticaNeueCyr';
+    src: url('../fonts/HelveticaNeueCyr-Light.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'HelveticaNeueCyr';
+    src: url('../fonts/HelveticaNeueCyr-Roman.otf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
 html, body {
-    
+    font-family: 'HelveticaNeueCyr';
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url('../images/background.png');
+    background-size: cover;
+    background-repeat: none;
+}
+
+.logo-container {
+    padding: 20px 30px;    
+}
+
+.logo {
+    background-image: url('../images/logo.png');
+    background-repeat: none;
+    width: 190px;
+    height: 63px;
+}
+
+.side-menu {
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+}
+
+.side-menu a {
+    color: white;
+    text-decoration: underline;
+}
+
+.side-menu a:hover {
+    text-decoration: none;
+}
+
+.menu-container {
+    padding: 60px 30px 0 30px;
+}
+
+.menu-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu-container ul li {
+    font-size: 21px;
+    margin-bottom: 20px;
+}
+
+.menu-container ul li.active {
+    padding-left: 30px;
+    /* TODO: add > symbol*/
+}
+
+.menu-container ul li a {
+    color: white;
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+.menu-container ul li a:hover {
+    text-decoration: underline;
+}
+
+.sign-buttons-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 0 30px 40px 30px;
+    width: 190px;
+}
+
+.sign-buttons-container a {
+    padding-top: 10px;
+    font-size: 12px;
+}
+
+.sign-buttons-container buttom {
+    letter-spacing: 2px;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.custom-btn {
+    border: 0;
+    color: white;
+    font-size: 18px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.custom-btn.red {
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+.page-wrapper {
+    background-color: rgba(255, 255, 255, 0.5);
+    height: 100%;
+    padding-left: 250px;
+}
+
+.page-content {
+
+}
+
+.horizontal-menu {
+    padding: 20px;
+}
+
+.horizontal-menu .menu {
+    width: 100%;
+    overflow: hidden;
+    height: 65px;
+    padding: 0;
+    margin: 0;
+}
+
+.horizontal-menu .menu .menu-item {
+    height: 35px;
+    float: left;
+    display: block;
+    width: 16.66%;
+    background-color: white;
+    padding: 15px 30px;
+    text-align: center;
+}
+
+.horizontal-menu .menu .menu-item a {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    color: black;
+    text-decoration: none;
+}
+
+.horizontal-menu .menu .menu-item:hover a, 
+.horizontal-menu .menu .menu-item.active a {
+    color: white;
+}
+
+.horizontal-menu .menu .menu-item:hover, 
+.horizontal-menu .menu .menu-item.active {
+    background-color: #d12333;
+    cursor: pointer;
 }
