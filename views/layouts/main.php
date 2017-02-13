@@ -5,7 +5,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
+use yii\widgets\Menu;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
@@ -25,52 +25,34 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
-    ?>
+    <div class="side-menu">
+        <div class="logo-container">
+            <div class="logo"></div>
+        </div>
+        <div class="menu-container">
+            <?php
+                echo Menu::widget([
+                    'items' => [
+                        ['label' => 'Каталог рекламных конструкций', 'url' => ['site/index']],
+                        ['label' => 'Преимущества', 'url' => ['site/index']],
+                        ['label' => 'О компании', 'url' => ['site/about']],
+                        ['label' => 'Наши клиенты', 'url' => ['site/clients']],
+                        ['label' => 'Вакансии', 'url' => ['site/vacancies']],
+                        ['label' => 'Контакты', 'url' => ['site/contact']],
+                    ]
+                ]);
+            ?>
+        </div>
+        <div class="sign-buttons-container">
+            <a href="#" class="pull-left">Регистрация</a>
+            <button class="custom-btn red pull-right" type="button">Вход</button>
+        </div>
+    </div>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+    <div class="page-wrapper">
         <?= $content ?>
     </div>
 </div>
-
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
 
 <?php $this->endBody() ?>
 </body>
