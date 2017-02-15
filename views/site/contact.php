@@ -20,7 +20,7 @@ use dosamigos\google\maps\services\DirectionsRequest;
 use dosamigos\google\maps\overlays\Polygon;
 use dosamigos\google\maps\layers\BicyclingLayer;
 
-$coord = new LatLng(['lat' => 53.8786785, 'lng' => 27.5475754]);
+$coord = new LatLng(['lat' => 53.8805047, 'lng' => 27.5192012]);
 
 $map = new Map([
     'center' => $coord,
