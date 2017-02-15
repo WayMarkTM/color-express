@@ -25,7 +25,8 @@ $coord = new LatLng(['lat' => 53.8805047, 'lng' => 27.5192012]);
 $map = new Map([
     'center' => $coord,
     'zoom' => 17,
-    'width' => '100%'
+    'width' => '100%',
+    'height' => '365'
 ]);
 
 $marker = new Marker([
@@ -44,63 +45,70 @@ $map->addOverlay($marker);
 $this->title = 'Contact';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="page-content">
-    <?php echo $map->display(); ?>
-</div>
-
-
-<div class="site-contact">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?php if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
-
-        <div class="alert alert-success">
-            Thank you for contacting us. We will respond to you as soon as possible.
-        </div>
-
-        <p>
-            Note that if you turn on the Yii debugger, you should be able
-            to view the mail message on the mail panel of the debugger.
-            <?php if (Yii::$app->mailer->useFileTransport): ?>
-                Because the application is in development mode, the email is not sent but saved as
-                a file under <code><?= Yii::getAlias(Yii::$app->mailer->fileTransportPath) ?></code>.
-                Please configure the <code>useFileTransport</code> property of the <code>mail</code>
-                application component to be false to enable email sending.
-            <?php endif; ?>
-        </p>
-
-    <?php else: ?>
-
-        <p>
-            If you have business inquiries or other questions, please fill out the following form to contact us.
-            Thank you.
-        </p>
-
+<div class="page-container">
+    <div class="page-content">
         <div class="row">
-            <div class="col-lg-5">
-
-                <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
-
-                    <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
-
-                    <?= $form->field($model, 'email') ?>
-
-                    <?= $form->field($model, 'subject') ?>
-
-                    <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
-
+            <div class="col-sm-12">
+                <?php echo $map->display(); ?>
+            </div>
+        </div>
+        <div class="row section-row">
+            <div class="col-sm-4">
+                <?php if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
+                    Ваше сообщение отправлено. Мы свяжемся с Вами в ближайшее время.
+                <?php else: ?>
+                    <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
+                    <?= $form->field($model, 'name')->textInput(['autofocus' => true, 'placeholder' => 'Ваше имя *'])->label(false) ?>
+                    <?= $form->field($model, 'phone')->textInput(['placeholder' => '+375 (__) ___-__-__ *'])->label(false) ?>
+                    <?= $form->field($model, 'body')->textarea(['rows' => 6, 'placeholder' => 'Ваше сообщение (до 2000 символов)'])->label(false) ?>
                     <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                         'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
                     ]) ?>
-
                     <div class="form-group">
-                        <?= Html::submitButton('Отправить', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+                        <?= Html::submitButton('Отправить', ['class' => 'custom-btn primary full-width', 'name' => 'contact-button']) ?>
                     </div>
-
-                <?php ActiveForm::end(); ?>
-
+                    <?php ActiveForm::end(); ?>
+                <?php endif; ?>
+            </div>
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="note-message">Свяжитесь с нами любым удобным для вас способом, и мы ответим на все интересующие вас вопросы!</p>
+                    </div>
+                </div>
+                <div class="row section-row">
+                    <div class="col-sm-12">
+                        <div class="info-block">
+                            <h4 class="info-block-header"><i class="icon phone-icon"></i>Контакты для связи: </h4>
+                            <div class="info-block-content">
+                                <p>+375 17 399-10-95/96/97</p>
+                                <p>+375 29 199-27-89</p>
+                                <p>+375 44 742-59-21</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row section-row">
+                    <div class="col-sm-12">
+                        <div class="info-block">
+                            <h4 class="info-block-header"><i class="icon email-icon"></i>Email: </h4>
+                            <div class="info-block-content">
+                                <p>outdoor@colorexpress.by</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row section-row">
+                    <div class="col-sm-12">
+                        <div class="info-block">
+                            <h4 class="info-block-header"><i class="icon address-icon"></i>Наш адрес: </h4>
+                            <div class="info-block-content">
+                                <p>г. Минск, ул. Железнодорожная, 44</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-    <?php endif; ?>
+    </div>
 </div>

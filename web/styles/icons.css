@@ -1,0 +1,21 @@
+.icon {
+    display: inline-block;
+}
+
+.phone-icon {
+    background: url('/web/images/icons/phone-icon.png');
+    width: 20px;
+    height: 20px;
+}
+
+.email-icon {
+    background: url('/web/images/icons/email-icon.png');
+    width: 23px;
+    height: 23px;
+}
+
+.address-icon {
+    background: url('/web/images/icons/address-icon.png');
+    width: 22px;
+    height: 22px;
+}

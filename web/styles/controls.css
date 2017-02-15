@@ -1,0 +1,25 @@
+.has-error .form-control:focus {
+    box-shadow: inset 1px 1px 3px 0px #ce8483;
+}
+
+.has-error .form-control {
+    box-shadow: inset 1px 1px 3px 0px #a94442;
+}
+
+.has-success .form-control:focus {
+    box-shadow: inset 1px 1px 3px 0 #67b168;
+}
+
+.has-success .form-control {
+    box-shadow: inset 1px 1px 3px 0 #3c763d;
+}
+
+.form-control {
+    border: 0;
+    border-radius: 0;
+    box-shadow: inset 1px 1px 3px 0px rgba(0, 0, 0, 0.5);
+}
+
+.form-control:focus {
+    box-shadow: inset 1px 1px 3px 0px rgba(102, 175, 233, .6);
+}

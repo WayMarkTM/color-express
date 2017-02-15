@@ -1,0 +1,23 @@
+.info-block {
+
+}
+
+.info-block .info-block-content {
+
+}
+
+.info-block .info-block-header {
+    position: relative;
+    padding-left: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 4px;
+
+    border-bottom: 1px solid #c4c4c4;
+}
+
+.info-block .info-block-header .icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
