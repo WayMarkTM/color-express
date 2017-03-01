@@ -59,7 +59,10 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
-
+                'clients' => 'site/clients',
+                'about' => 'site/about',
+                'vacancies' => 'site/vacancies',
+                'contacts' => 'site/contact'
             ],
         ],
     ],
