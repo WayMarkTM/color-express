@@ -216,3 +216,11 @@ body {
 .block-row {
     margin-top: 10px;
 }
+
+.section-row {
+    margin-top: 60px;
+}
+
+.table-row [class*=' col-'] {
+    display: table;
+}

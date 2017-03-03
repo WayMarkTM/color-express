@@ -1,0 +1,39 @@
+.advantage-panel {
+    padding-left: 70px;
+    margin-bottom: 30px;
+}
+
+.advantage-panel.lamp {
+    background: url(../images/advantages/lamp-icon.png) no-repeat;
+}
+
+.advantage-panel.info {
+    background: url(../images/advantages/info-icon.png) no-repeat;
+}
+
+.advantage-panel.smile {
+    background: url(../images/advantages/smile-icon.png) no-repeat;
+}
+
+.advantage-panel.pig {
+    background: url(../images/advantages/pig-icon.png) no-repeat;
+}
+
+.advertising-placement-panel {
+    padding-left: 180px;
+    height: 150px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.advertising-placement-panel.road {
+    background: url(../images/advantages/1.png) no-repeat;
+}
+
+.advertising-placement-panel.billboard {
+    background: url(../images/advantages/2.png) no-repeat;
+}
+
+.advertising-placement-panel.house {
+    background: url(../images/advantages/3.png) no-repeat;
+}

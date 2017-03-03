@@ -62,7 +62,8 @@ $config = [
                 'clients' => 'site/clients',
                 'about' => 'site/about',
                 'vacancies' => 'site/vacancies',
-                'contacts' => 'site/contact'
+                'contacts' => 'site/contact',
+                'advantages' => 'site/advantages'
             ],
         ],
     ],
