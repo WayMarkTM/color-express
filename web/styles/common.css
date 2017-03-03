@@ -199,3 +199,20 @@ body {
     font-size: 14px;
     font-style: italic;
 }
+
+.important-text {
+    font-size: 18px;
+}
+
+.important-text p {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.block-row {
+    margin-top: 10px;
+}
