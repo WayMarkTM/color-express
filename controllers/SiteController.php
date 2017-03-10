@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\entities\OurClient;
+use app\models\entities\Vacancy;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -142,7 +143,11 @@ class SiteController extends Controller
 
     public function actionVacancies()
     {
-        return $this->render('vacancies');
+        $vacancies = Vacancy::find()->all();
+        
+        return $this->render('vacancies', [
+            'vacancies' => $vacancies
+        ]);
     }
 
     public function actionAdvantages()
