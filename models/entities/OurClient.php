@@ -2,7 +2,9 @@
 
 namespace app\models\entities;
 
+use app\queries\OurClientQuery;
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "our_client".
@@ -11,7 +13,7 @@ use Yii;
  * @property string $name
  * @property string $logo_url
  */
-class OurClient extends \yii\db\ActiveRecord
+class OurClient extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -39,17 +41,17 @@ class OurClient extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'logo_url' => 'Logo Url',
+            'name' => 'Название',
+            'logo_url' => 'Логотип',
         ];
     }
 
     /**
      * @inheritdoc
-     * @return \app\queries\OurClientQuery the active query used by this AR class.
+     * @return OurClientQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \app\queries\OurClientQuery(get_called_class());
+        return new OurClientQuery(get_called_class());
     }
 }

@@ -7,6 +7,9 @@
  */
 
     /* @var $this yii\web\View */
+    /* @var $clients array app\models\entities\OurClient */
+
+$this->title = 'Наши Клиенты';
 ?>
 <div class="page-container">
     <div class="page-content">
@@ -22,6 +25,27 @@
             </div>
         </div>
         <hr/>
+        <div class="row">
+        <?php
+            $i=0;
+            foreach($clients as $client)
+            { ?>
+                <div class="col-sm-2">
+                    <div class="client-container">
+                        <div class="client-logo">
+                            <img src="<?php echo $client->logo_url; ?>" />
+                        </div>
+                        <div class="client-name text-uppercase">
+                            <?php echo $client->name; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php
+                $i++;
+                if ($i%6 == 0) echo '</div><div class="row">';
+            }
+        ?>
+        </div>
 
         <hr/>
         <div class="row">

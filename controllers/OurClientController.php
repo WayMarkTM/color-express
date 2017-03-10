@@ -2,12 +2,16 @@
 
 namespace app\controllers;
 
+use app\models\OurClientForm;
 use Yii;
 use app\models\entities\OurClient;
+use app\services\OurClientService;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
 
 /**
  * OurClientController implements the CRUD actions for OurClient model.
@@ -63,15 +67,24 @@ class OurClientController extends Controller
      */
     public function actionCreate()
     {
-        $model = new OurClient();
+        $model = new OurClientForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if (Yii::$app->request->isPost) {
+            $model->load(Yii::$app->request->post());
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                $ourClientService = new OurClientService();
+                $entity = $ourClientService->saveOurClient($model);
+                return $this->redirect(['view', 'id' => $entity->id]);
+            } else {
+                echo 'failed '.$model->imageFile;
+                return $this->redirect('www.google.com');
+            }
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
