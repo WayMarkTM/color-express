@@ -34,6 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'traffic_info:ntext',
             'has_traffic_lights',
             'address',
+            'latitude',
+            'longitude',
             'size.size',
             'price',
             'type.name',

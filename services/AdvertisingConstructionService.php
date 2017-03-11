@@ -15,6 +15,22 @@ use yii\helpers\ArrayHelper;
 
 class AdvertisingConstructionService
 {
+    /**
+     * @param ..\models\entities\AdvertisingConstruction $viewModel
+     */
+    public function saveAdvertisingConstruction($viewModel) {
+        $geocodingService = new GoogleGeocodingService();
+
+        $coordinates = $geocodingService->geocode($viewModel->address);
+
+        if ($coordinates) {
+            $viewModel->latitude = strval($coordinates['lat']);
+            $viewModel->longitude = strval($coordinates['long']);
+        }
+
+        $viewModel->save();
+    }
+
     public static function getAdvertisingConstructionTypeDropdownItems() {
         return ArrayHelper::map(AdvertisingConstructionType::find()->all(), 'id', 'name');
     }

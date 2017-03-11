@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\entities\AdvertisingConstructionSize;
 use Yii;
 use app\models\entities\AdvertisingConstruction;
 use app\models\AdvertisingConstructionSearch;
@@ -66,7 +67,9 @@ class AdvertisingConstructionController extends Controller
     {
         $model = new AdvertisingConstruction();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $service = new AdvertisingConstructionService();
+            $service->saveAdvertisingConstruction($model);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems();
@@ -89,7 +92,9 @@ class AdvertisingConstructionController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $service = new AdvertisingConstructionService();
+            $service->saveAdvertisingConstruction($model);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems();

@@ -2,5 +2,6 @@
 
 return [
     'adminEmail' => 'gromilich@gmail.com',
-    'uploadFilesPath' => 'uploads/'
+    'uploadFilesPath' => 'uploads/',
+    'googleMapsGeocodeApiUrl' => 'http://maps.google.com/maps/api/geocode/json'
 ];

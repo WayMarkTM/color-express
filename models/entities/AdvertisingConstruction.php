@@ -16,6 +16,8 @@ use Yii;
  * @property integer $size_id
  * @property string $price
  * @property integer $type_id
+ * @property string $latitude
+ * @property string $longitude
  *
  * @property AdvertisingConstructionSize $size
  * @property AdvertisingConstructionType $type
@@ -39,12 +41,11 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
-            [['nearest_locations', 'traffic_info'], 'string'],
+            [['nearest_locations', 'traffic_info', 'latitude', 'longitude'], 'string'],
             [['size_id', 'type_id'], 'integer'],
             [['has_traffic_lights'], 'boolean'],
             [['price'], 'number'],
-            [['name'], 'string', 'max' => 255],
-            [['address'], 'string', 'max' => 255],
+            [['name', 'address'], 'string', 'max' => 255],
             [['size_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstructionSize::className(), 'targetAttribute' => ['size_id' => 'id']],
             [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstructionType::className(), 'targetAttribute' => ['type_id' => 'id']],
         ];
@@ -65,6 +66,8 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
             'size_id' => 'Формат',
             'price' => 'Цена',
             'type_id' => 'Тип',
+            'latitude' => 'Широта',
+            'longitude' => 'Долгота'
         ];
     }
 

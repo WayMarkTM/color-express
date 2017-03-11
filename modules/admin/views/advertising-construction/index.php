@@ -30,9 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'traffic_info:ntext',
             'has_traffic_lights',
             'address',
-            // 'size_id',
-            // 'price',
-            // 'type_id',
+            'size.size',
+            'price',
+            'type.name',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
