@@ -12,12 +12,11 @@ use Yii;
  * @property string $nearest_locations
  * @property string $traffic_info
  * @property integer $has_traffic_lights
- * @property integer $address_id
+ * @property integer $address
  * @property integer $size_id
  * @property string $price
  * @property integer $type_id
  *
- * @property Address $address
  * @property AdvertisingConstructionSize $size
  * @property AdvertisingConstructionType $type
  * @property AdvertisingConstructionImage[] $advertisingConstructionImages
@@ -39,12 +38,12 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'address_id', 'size_id', 'price', 'type_id'], 'required'],
+            [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
             [['nearest_locations', 'traffic_info'], 'string'],
-            [['has_traffic_lights', 'address_id', 'size_id', 'type_id'], 'integer'],
+            [['has_traffic_lights', 'size_id', 'type_id'], 'integer'],
             [['price'], 'number'],
             [['name'], 'string', 'max' => 255],
-            [['address_id'], 'exist', 'skipOnError' => true, 'targetClass' => Address::className(), 'targetAttribute' => ['address_id' => 'id']],
+            [['address'], 'string', 'max' => 255],
             [['size_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstructionSize::className(), 'targetAttribute' => ['size_id' => 'id']],
             [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstructionType::className(), 'targetAttribute' => ['type_id' => 'id']],
         ];
@@ -61,19 +60,11 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
             'nearest_locations' => 'Nearest Locations',
             'traffic_info' => 'Traffic Info',
             'has_traffic_lights' => 'Has Traffic Lights',
-            'address_id' => 'Address ID',
+            'address' => 'Address ID',
             'size_id' => 'Size ID',
             'price' => 'Price',
             'type_id' => 'Type ID',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAddress()
-    {
-        return $this->hasOne(Address::className(), ['id' => 'address_id']);
     }
 
     /**

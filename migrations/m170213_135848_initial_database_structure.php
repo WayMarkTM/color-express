@@ -7,14 +7,6 @@ class m170213_135848_initial_database_structure extends Migration
 {
     public function up()
     {
-        $this->createTable('address', [
-            'id' => $this->primaryKey(),
-            'city' => $this->string()->notNull(),
-            'street' => $this->string()->notNull(),
-            'house' => $this->string()->notNull(),
-            'housing' => $this->string()
-        ]);
-
         $this->createTable('contact_us_submission', [
             'id' => $this->primaryKey(),
             'name' => $this->string(),
@@ -55,7 +47,7 @@ class m170213_135848_initial_database_structure extends Migration
             'nearest_locations' => $this->text(),
             'traffic_info' => $this->text(),
             'has_traffic_lights' => $this->boolean(),
-            'address_id' => $this->integer()->notNull(),
+            'address' => $this->string()->notNull(),
             'size_id' => $this->integer()->notNull(),
             'price' => $this->decimal()->notNull(),
             'type_id' => $this->integer()->notNull()
@@ -77,13 +69,6 @@ class m170213_135848_initial_database_structure extends Migration
             'file_id' => $this->integer()->notNull()
         ]);
 
-        $this->addForeignKey(
-            'fk-advertising_construction_address',
-            'advertising_construction',
-            'address_id',
-            'address',
-            'id'
-        );
 
         $this->addForeignKey(
             'fk-advertising_construction_size',
@@ -191,7 +176,6 @@ class m170213_135848_initial_database_structure extends Migration
         $this->dropForeignKey('fk-advertising_construction_reservation_construction', 'advertising_construction_reservation');
         $this->dropForeignKey('fk-advertising_construction_type', 'advertising_construction');
         $this->dropForeignKey('fk-advertising_construction_size', 'advertising_construction');
-        $this->dropForeignKey('fk-advertising_construction_address', 'advertising_construction');
 
         $this->dropTable('user_document');
         $this->dropTable('advertising_construction_image');
@@ -202,7 +186,6 @@ class m170213_135848_initial_database_structure extends Migration
         $this->dropTable('advertising_construction_size');
         $this->dropTable('advertising_construction_reservation_status');
         $this->dropTable('contact_us_submission');
-        $this->dropTable('address');
     }
 
     /*
