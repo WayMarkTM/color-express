@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены, что хотите удалить эту рекламную конструкцию??',
                 'method' => 'post',
             ],
         ]) ?>
@@ -34,9 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'traffic_info:ntext',
             'has_traffic_lights',
             'address',
-            'size_id',
+            'size.size',
             'price',
-            'type_id',
+            'type.name',
         ],
     ]) ?>
 

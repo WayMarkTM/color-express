@@ -18,8 +18,8 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
     public function rules()
     {
         return [
-            [['id', 'has_traffic_lights', 'address_id', 'size_id', 'type_id'], 'integer'],
-            [['name', 'nearest_locations', 'traffic_info'], 'safe'],
+            [['id', 'has_traffic_lights', 'size_id', 'type_id'], 'integer'],
+            [['name', 'nearest_locations', 'address', 'traffic_info'], 'safe'],
             [['price'], 'number'],
         ];
     }
@@ -62,7 +62,7 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
         $query->andFilterWhere([
             'id' => $this->id,
             'has_traffic_lights' => $this->has_traffic_lights,
-            'address_id' => $this->address_id,
+            'address' => $this->address,
             'size_id' => $this->size_id,
             'price' => $this->price,
             'type_id' => $this->type_id,

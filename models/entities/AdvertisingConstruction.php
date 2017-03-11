@@ -40,7 +40,8 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
         return [
             [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
             [['nearest_locations', 'traffic_info'], 'string'],
-            [['has_traffic_lights', 'size_id', 'type_id'], 'integer'],
+            [['size_id', 'type_id'], 'integer'],
+            [['has_traffic_lights'], 'boolean'],
             [['price'], 'number'],
             [['name'], 'string', 'max' => 255],
             [['address'], 'string', 'max' => 255],
@@ -56,14 +57,14 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'nearest_locations' => 'Nearest Locations',
-            'traffic_info' => 'Traffic Info',
-            'has_traffic_lights' => 'Has Traffic Lights',
-            'address' => 'Address ID',
-            'size_id' => 'Size ID',
-            'price' => 'Price',
-            'type_id' => 'Type ID',
+            'name' => 'Название',
+            'nearest_locations' => 'Рядом расположены',
+            'traffic_info' => 'Трафик',
+            'has_traffic_lights' => 'Светофоры',
+            'address' => 'Адрес',
+            'size_id' => 'Формат',
+            'price' => 'Цена',
+            'type_id' => 'Тип',
         ];
     }
 

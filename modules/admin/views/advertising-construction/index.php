@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\AdvertisingConstructionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Advertising Constructions';
+$this->title = 'Рекламные конструкции';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="advertising-construction-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Advertising Construction', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать рекламную конструкцию', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
