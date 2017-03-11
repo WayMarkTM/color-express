@@ -67,6 +67,11 @@ $config = [
             ],
         ],
     ],
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+        ],
+    ],
     'language' => 'ru-RU',
     'params' => $params,
 ];
