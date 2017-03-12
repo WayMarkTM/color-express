@@ -23,3 +23,9 @@
     margin-right: 15px;
     min-width: 250px;
 }
+
+.advertising-construction-list-container .content .grid-footer-panel .pagination {
+    display: inline;
+    float: right;
+    margin: 0;
+ }
