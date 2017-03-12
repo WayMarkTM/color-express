@@ -23,7 +23,8 @@ class AppAsset extends AssetBundle
         'styles/info-block.css',
         'styles/advantages.css',
         'styles/clients.css',
-        'styles/icons.css'
+        'styles/icons.css',
+        'styles/construction.css',
     ];
     public $js = [
     ];

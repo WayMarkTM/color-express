@@ -48,6 +48,9 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 7,
+            ],
         ]);
 
         $this->load($params);

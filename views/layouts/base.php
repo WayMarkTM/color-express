@@ -33,7 +33,7 @@ AppAsset::register($this);
             <?php
             echo Menu::widget([
                 'items' => [
-                    ['label' => 'Каталог рекламных конструкций', 'url' => ['site/index']],
+                    ['label' => 'Каталог рекламных конструкций', 'url' => ['advertising-construction/index']],
                     ['label' => 'Преимущества', 'url' => ['site/advantages']],
                     ['label' => 'О компании', 'url' => ['site/about']],
                     ['label' => 'Наши клиенты', 'url' => ['site/clients']],

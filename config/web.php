@@ -59,6 +59,7 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
+                'index' => 'advertising-construction/index',
                 'clients' => 'site/clients',
                 'about' => 'site/about',
                 'vacancies' => 'site/vacancies',
