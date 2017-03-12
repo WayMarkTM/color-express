@@ -155,7 +155,7 @@ body {
 }
 
 .horizontal-menu {
-    padding: 20px;
+
 }
 
 .horizontal-menu .menu {
@@ -167,13 +167,22 @@ body {
 }
 
 .horizontal-menu .menu .menu-item {
-    height: 35px;
+    height: 65px;
     float: left;
     display: block;
     width: 16.66%;
     background-color: white;
     padding: 15px 30px;
     text-align: center;
+    position: relative;
+}
+
+.horizontal-menu .menu .menu-item::before {
+    content: " ";
+    display: inline-block;
+    height: 100%;
+    /*width: 1%;*/
+    vertical-align: middle;
 }
 
 .horizontal-menu .menu .menu-item a {
@@ -182,6 +191,8 @@ body {
     font-style: normal;
     color: black;
     text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .horizontal-menu .menu .menu-item:hover a, 

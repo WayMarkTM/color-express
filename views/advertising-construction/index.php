@@ -54,7 +54,7 @@ $map = new Map([
     'center' => $coord,
     'zoom' => 11,
     'width' => '100%',
-    'height' => '500'
+    'height' => '450'
 ]);
 
 foreach($models as $model) {
@@ -86,7 +86,16 @@ $this->title = "Каталог рекламных конструкций";
         <div class="row">
             <div class="col-md-12">
                 <div class="construction-type-navigation-container">
-                    Меню
+                    <div class="horizontal-menu">
+                        <div class="menu">
+                            <div class="menu-item"><a href="#">Щитовые рекламные конструкции</a></div>
+                            <div class="menu-item"><a href="#">Брандмауэры</a></div>
+                            <div class="menu-item"><a href="#">Настенные световые короба</a></div>
+                            <div class="menu-item active"><a href="#">Рекламные конструкции на путепроводах</a></div>
+                            <div class="menu-item"><a href="#">Надкрышные световые короба</a></div>
+                            <div class="menu-item"><a href="#">Лайтбоксы в метро и переходах</a></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
