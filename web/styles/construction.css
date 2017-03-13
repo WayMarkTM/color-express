@@ -29,3 +29,47 @@
     float: right;
     margin: 0;
  }
+
+
+.advertising-construction-details .details-row {
+    margin-top: 20px;
+}
+
+.advertising-construction-details .details-row p {
+    margin-bottom: 0;
+}
+
+.advertising-construction-details .details-row a {
+    color: #333;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+.advertising-construction-details .reminder-link {
+    color: #d12333;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+.advertising-construction-details .details-row a:focus,
+.advertising-construction-details .details-row a:hover {
+    text-decoration: none;
+}
+
+.advertising-construction-details .buttons-row .btn-primary {
+    width: 300px;
+}
+
+.advertising-construction-details .buttons-row .btn-default {
+    width: 200px;
+}
+
+.advertising-construction-details .datepicker-row .input-group .range-prefix {
+    float: left;
+    padding-top: 7px;
+}
+
+.advertising-construction-details .datepicker-row .input-group div.form-control {
+    width: auto;
+    margin-left: 20px;
+}
