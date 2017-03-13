@@ -4,6 +4,7 @@ namespace app\models;
 
 class User extends \yii\base\Object implements \yii\web\IdentityInterface
 {
+    private $user;
     public $id;
     public $username;
     public $password;

@@ -66,6 +66,9 @@ $config = [
                 'advantages' => 'site/advantages'
             ],
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
     ],
     'modules' => [
         'admin' => [

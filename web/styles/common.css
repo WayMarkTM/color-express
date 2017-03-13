@@ -224,3 +224,12 @@ body {
 .table-row [class*=' col-'] {
     display: table;
 }
+
+.modal-form {
+    padding: 20px 110px 40px 110px;
+}
+
+.modal-btn, .modal-btn:hover {
+    background-color: #164a9e;
+    color: #fff;
+}
