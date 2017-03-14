@@ -17,6 +17,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AdvertisingConstructionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $sizes array yii\data\AdvertisingConstructionSize*/
 
 /**
  * takes an array of models and their attributes names and outputs them as json. works with relations unlike CJSON::encode()
@@ -107,7 +108,10 @@ $this->title = "Каталог рекламных конструкций";
         <div class="content">
             <div class="row">
                 <div class="col-md-4">
-                    фильтры
+                    <?= $this->render('_search', [
+                        'model' => $searchModel,
+                        'sizes' => $sizes
+                    ]) ?>
                 </div>
                 <div class="col-md-8">
                     <?php Pjax::begin(); ?>

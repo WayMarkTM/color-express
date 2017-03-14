@@ -75,6 +75,7 @@ $config = [
     ],
     'language' => 'ru-RU',
     'params' => $params,
+    'defaultRoute' => 'advertising-construction/index'
 ];
 
 if (YII_ENV_DEV) {

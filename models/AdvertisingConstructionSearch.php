@@ -12,6 +12,10 @@ use app\models\entities\AdvertisingConstruction;
  */
 class AdvertisingConstructionSearch extends AdvertisingConstruction
 {
+    public $fromDate;
+    public $toDate;
+    public $showOnlyFreeConstructions;
+
     /**
      * @inheritdoc
      */
@@ -65,11 +69,10 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
         $query->andFilterWhere([
             'id' => $this->id,
             'has_traffic_lights' => $this->has_traffic_lights,
-            'address' => $this->address,
             'size_id' => $this->size_id,
             'price' => $this->price,
             'type_id' => $this->type_id,
-        ]);
+        ])->andFilterWhere(['like', 'address', $this->address]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'nearest_locations', $this->nearest_locations])

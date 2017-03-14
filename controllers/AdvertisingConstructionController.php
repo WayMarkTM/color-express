@@ -11,6 +11,7 @@ namespace app\controllers;
 use app\models\AdvertisingConstructionFastReservationForm;
 use app\models\AdvertisingConstructionSearch;
 use app\models\entities\AdvertisingConstruction;
+use app\services\AdvertisingConstructionService;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -34,12 +35,14 @@ class AdvertisingConstructionController extends Controller
     {
         $searchModel = new AdvertisingConstructionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems();
 
         $this->layout = 'base.php';
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'sizes' => $sizes
         ]);
     }
 

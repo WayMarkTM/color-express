@@ -240,3 +240,18 @@ body {
 .input-value {
     padding-top: 7px;
 }
+
+.range-prefix {
+    float: left;
+    padding-top: 7px;
+}
+
+.input-group .kv-container-to.form-control,
+.input-group .kv-container-from.form-control {
+    width: auto;
+    margin-left: 20px;
+}
+
+.input-group .kv-container-from.form-control {
+    margin-left: 28px;
+}
