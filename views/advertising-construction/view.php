@@ -108,9 +108,9 @@ $this->title = $model->name.' | Информация о рекламной ко�
             </div>
             <div class="row buttons-row block-row">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-primary">Купить</button>
-                    <button type="button" class="btn btn-primary">Отложить на 5 дней</button>
-                    <?= Html::a('Вернуться назад', ['/advertising-construction/index'], ['class'=>'btn btn-default']) ?>
+                    <button type="button" class="custom-btn sm blue">Купить</button>
+                    <button type="button" class="custom-btn sm blue">Отложить на 5 дней</button>
+                    <?= Html::a('Вернуться назад', ['/advertising-construction/index'], ['class'=>'custom-btn sm white']) ?>
                 </div>
             </div>
             <?php ActiveForm::end(); ?>

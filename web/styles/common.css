@@ -120,6 +120,26 @@ body {
     font-size: 18px;
     padding: 8px;
     cursor: pointer;
+    cursor: pointer;
+    text-transform: none;
+    overflow: visible;
+    margin: 0;
+    align-items: flex-start;
+    text-align: center;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    -webkit-writing-mode: horizontal-tb;
+    text-decoration: none;
+}
+
+.custom-btn:hover,
+.custom-btn:focus,
+.custom-btn:active {
+    text-decoration: none;
 }
 
 .full-width {
@@ -132,6 +152,19 @@ body {
 
 .custom-btn.red {
     background-color: rgba(255, 0, 0, 0.5);
+}
+
+.custom-btn.blue {
+    background-color: #164a9e;
+}
+
+.custom-btn.white {
+    background-color: #eaeaea;
+    color: black;
+}
+
+.custom-btn.sm {
+    padding: 4px;
 }
 
 .wrap {
@@ -254,4 +287,18 @@ body {
 
 .input-group .kv-container-from.form-control {
     margin-left: 28px;
+}
+
+.form-control {
+    height: 30px;
+    padding: 6px;
+    font-size: 15px;
+}
+
+.kv-container-from.form-control, .kv-container-to.form-control {
+    padding: 0;
+}
+
+.form-horizontal .form-group {
+    margin-bottom: 5px;
 }

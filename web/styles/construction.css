@@ -56,11 +56,11 @@
     text-decoration: none;
 }
 
-.advertising-construction-details .buttons-row .btn-primary {
+.advertising-construction-details .buttons-row .custom-btn.blue {
     width: 300px;
 }
 
-.advertising-construction-details .buttons-row .btn-default {
+.advertising-construction-details .buttons-row .custom-btn.white {
     width: 200px;
 }
 
@@ -71,5 +71,19 @@
 
 .advertising-construction-details .datepicker-row .input-group div.form-control {
     width: auto;
+    margin-left: 20px;
+}
+
+.advertising-construction-search .form-horizontal .control-label {
+    padding-left: 30px;
+    text-align: left;
+}
+
+.advertising-construction-search .range-prefix {
+    width: 15px;
+    text-align: right;
+}
+
+.advertising-construction-search .input-group .kv-container-from.form-control {
     margin-left: 20px;
 }

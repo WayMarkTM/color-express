@@ -16,7 +16,7 @@ use kartik\date\DatePicker;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="post-search">
+<div class="advertising-construction-search">
     <div class="row">
         <div class="col-md-12 bold">
             Фильтр рекламных конструкций:
@@ -67,7 +67,7 @@ use kartik\date\DatePicker;
 
     <div class="form-group">
         <div class="col-sm-12">
-            <?= Html::submitButton('Отобрать', ['class' => 'btn btn-default full-width']) ?>
+            <?= Html::submitButton('Отобрать', ['class' => 'custom-btn sm white full-width']) ?>
         </div>
     </div>
 

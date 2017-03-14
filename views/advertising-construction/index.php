@@ -117,7 +117,7 @@ $this->title = "Каталог рекламных конструкций";
                     <?php Pjax::begin(); ?>
                         <?= GridView::widget([
                             'dataProvider' => $dataProvider,
-                            'layout'=>'{items}<div class="grid-footer-panel"><button class="btn btn-primary" type="button">Купить</button><button class="btn btn-primary" type="button">Отложить на 5 дней</button>{pager}</div>',
+                            'layout'=>'{items}<div class="grid-footer-panel"><button class="custom-btn sm blue" type="button">Купить</button><button class="custom-btn sm blue" type="button">Отложить на 5 дней</button>{pager}</div>',
                             'columns' => [
                                 ['class' => 'yii\grid\CheckboxColumn'],
                                 'name',
