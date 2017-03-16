@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <p class="note-message">Свяжитесь с нами любым удобным для вас способом, и мы ответим на все интересующие вас вопросы!</p>
             </div>
         </div>
-        <div class="row section-row">
+        <div class="row block-row">
             <div class="col-sm-12">
                 <div class="info-block">
                     <h4 class="info-block-header"><i class="icon phone-icon"></i>Контакты для связи: </h4>
@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
         </div>
-        <div class="row section-row">
+        <div class="row block-row">
             <div class="col-sm-12">
                 <div class="info-block">
                     <h4 class="info-block-header"><i class="icon email-icon"></i>Email: </h4>
@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
         </div>
-        <div class="row section-row">
+        <div class="row block-row">
             <div class="col-sm-12">
                 <div class="info-block">
                     <h4 class="info-block-header"><i class="icon address-icon"></i>Наш адрес: </h4>

@@ -120,7 +120,6 @@ body {
     font-size: 18px;
     padding: 8px;
     cursor: pointer;
-    cursor: pointer;
     text-transform: none;
     overflow: visible;
     margin: 0;
@@ -164,7 +163,9 @@ body {
 }
 
 .custom-btn.sm {
-    padding: 4px;
+    padding: 4px 10px;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .wrap {
@@ -301,4 +302,25 @@ body {
 
 .form-horizontal .form-group {
     margin-bottom: 5px;
+}
+
+.table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > th, .table > caption + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > td, .table > thead:first-child > tr:first-child > td {
+    vertical-align: middle;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    vertical-align: middle;
+}
+
+.shopping-cart-total {
+    color: #c12928;
+}
+
+.shopping-cart-total .total-cost {
+    font-size: 18px;
+}
+
+h1, .h1, h2, .h2, h3, .h3 {
+    margin-top: 10px;
+    font-weight: bold;
 }
