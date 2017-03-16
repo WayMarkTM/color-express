@@ -16,6 +16,7 @@ use yii\widgets\Pjax;
 /* @var $submitCartModel app\models\AdvertisingConstructionSearch */
 /* @var $cartTotal integer */
 
+$this->title = 'Корзина';
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -56,7 +57,7 @@ use yii\widgets\Pjax;
                 ],
                 [
                     'attribute' => 'cost',
-                    'headerOptions' => ['width' => '100', 'class' => 'text-center'],
+                    'headerOptions' => ['width' => '120', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
                 ],
                 [

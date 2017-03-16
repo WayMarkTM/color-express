@@ -23,3 +23,19 @@
 .form-control:focus {
     box-shadow: inset 1px 1px 3px 0px rgba(102, 175, 233, .6);
 }
+
+::-webkit-input-placeholder {
+    font-style: italic;
+}
+
+::-moz-placeholder          {
+    font-style: italic;
+}/* Firefox 19+ */
+
+:-moz-placeholder           {
+    font-style: italic;
+}/* Firefox 18- */
+
+:-ms-input-placeholder      {
+    font-style: italic;
+}

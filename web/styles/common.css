@@ -23,6 +23,7 @@ body {
     background-image: url('../images/background.png');
     background-size: cover;
     background-repeat: none;
+    letter-spacing: 1px;
 }
 
 .section-row {
@@ -323,4 +324,30 @@ body {
 h1, .h1, h2, .h2, h3, .h3 {
     margin-top: 10px;
     font-weight: bold;
+}
+
+table th a {
+    color: #000000;
+}
+
+table td a {
+    color: #000000;
+    text-decoration: underline;
+}
+
+table td a:hover {
+    text-decoration: none;
+}
+
+.additional-link {
+    text-decoration: underline;
+    color: #818181;
+}
+
+.additional-link:hover {
+    text-decoration: none;
+}
+
+.additional-link .icon {
+    margin-right: 15px;
 }

@@ -14,18 +14,20 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ArrayDataProvider */
 
+
+$this->title = 'Мои заказы';
 ?>
 <div class="row">
     <div class="col-md-12">
         <h3 class="text-uppercase">Мои заказы</h3>
     </div>
 </div>
-<div class="row">
+<div class="row block-row">
     <div class="col-md-12">
         <?php Pjax::begin(); ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
-            'layout' => '{items}\n{pager}',
+            'layout' => '{items}{pager}',
             'columns' => [
                 [
                     'class' => 'yii\grid\SerialColumn',
@@ -45,6 +47,14 @@ use yii\widgets\Pjax;
                     'headerOptions' => ['class' => 'text-center']
                 ],
                 [
+                    'attribute' => 'type',
+                    'headerOptions' => ['class' => 'text-center'],
+                ],
+                [
+                    'attribute' => 'status',
+                    'headerOptions' => ['class' => 'text-center'],
+                ],
+                [
                     'label' => 'Даты использования',
                     'headerOptions' => ['class' => 'text-center', 'width' => '250'],
                     'contentOptions' =>['class' => 'text-center'],
@@ -54,24 +64,35 @@ use yii\widgets\Pjax;
                 ],
                 [
                     'attribute' => 'cost',
-                    'headerOptions' => ['width' => '100', 'class' => 'text-center'],
-                    'contentOptions' =>['class' => 'text-center'],
-                ],
-                [
-                    'attribute' => 'marketingType',
-                    'headerOptions' => ['class' => 'text-center', 'width' => '180'],
+                    'headerOptions' => ['width' => '120', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{removeFromCart}',
-                    'headerOptions' => ['width' => '180'],
+                    'template' => '{buy}{buyAgain}{cancel}',
+                    'header' => 'Управление',
+                    'headerOptions' => ['width' => '300', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
                     'buttons' => [
-                        'removeFromCart' => function ($url ,$model) {
-                            return Html::a('Удалить из корзины', 'shopping-cart/delete?id='.$model->id, [
-                                'title' => 'Удалить из корзины',
-                                'class' => 'custom-btn sm white'
+                        'buy' => function ($url ,$model) {
+                            return Html::a('Купить', '/', [
+                                'title' => 'Купить',
+                                'class' => 'custom-btn sm blue',
+                                'style' => 'width: 50%;'.($model->status != 'Резерв до' ? 'display:none' : '')
+                            ]);
+                        },
+                        'buyAgain' => function ($url, $model) {
+                            return Html::a('Купить повторно', '/', [
+                                'title' => 'Купить повторно',
+                                'class' => 'custom-btn sm blue',
+                                'style' => 'width: '.($model->status == 'Завершено' ? '100%' : '50%').';'.($model->status == 'Резерв до' ? 'display:none' : '')
+                            ]);
+                        },
+                        'cancel' => function ($url, $model) {
+                            return Html::a('Отменить', '/', [
+                                'title' => 'Отменить',
+                                'class' => 'custom-btn sm white',
+                                'style' => 'width:50%;'.($model->status == 'Завершено' ? 'display: none;' : '')
                             ]);
                         }
                     ]

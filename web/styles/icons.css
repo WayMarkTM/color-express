@@ -1,21 +1,34 @@
 .icon {
     display: inline-block;
+    vertical-align: middle;
 }
 
 .phone-icon {
-    background: url('/web/images/icons/phone-icon.png');
+    background: url('/web/images/icons/phone-icon.png') no-repeat;
     width: 20px;
     height: 20px;
 }
 
 .email-icon {
-    background: url('/web/images/icons/email-icon.png');
+    background: url('/web/images/icons/email-icon.png') no-repeat;
     width: 23px;
     height: 23px;
 }
 
 .address-icon {
-    background: url('/web/images/icons/address-icon.png');
+    background: url('/web/images/icons/address-icon.png') no-repeat;
     width: 22px;
     height: 22px;
+}
+
+.info-icon {
+    background: url('/web/images/icons/info-icon.png') no-repeat;
+    width: 24px;
+    height: 24px;
+}
+
+.edit-icon {
+    background: url('/web/images/icons/edit-icon.png') no-repeat;
+    width: 15px;
+    height: 15px;
 }
