@@ -119,16 +119,34 @@ $this->title = "Каталог рекламных конструкций";
                             'dataProvider' => $dataProvider,
                             'layout'=>'{items}<div class="grid-footer-panel"><button class="custom-btn sm blue" type="button">Купить</button><button class="custom-btn sm blue" type="button">Отложить на 5 дней</button>{pager}</div>',
                             'columns' => [
-                                ['class' => 'yii\grid\CheckboxColumn'],
-                                'name',
-                                'address',
-                                'size.size',
                                 [
-                                    'label' => 'Занятость'
+                                    'class' => 'yii\grid\CheckboxColumn',
+                                    'headerOptions' => ['class' => 'text-center'],
+                                    'contentOptions' =>['class' => 'text-center'],
+                                ],
+                                [
+                                    'attribute' => 'name',
+                                    'headerOptions' => ['class' => 'text-center'],
+                                ],
+                                [
+                                    'attribute' => 'address',
+                                    'headerOptions' => ['class' => 'text-center'],
+                                ],
+                                [
+                                    'attribute' => 'size.size',
+                                    'headerOptions' => ['class' => 'text-center'],
+                                    'contentOptions' =>['class' => 'text-center'],
+                                ],
+                                [
+                                    'label' => 'Занятость',
+                                    'headerOptions' => ['class' => 'text-center'],
+                                    'contentOptions' =>['class' => 'text-center'],
                                 ],
                                 [
                                     'class' => 'yii\grid\ActionColumn',
                                     'template' => '{details}',
+                                    'headerOptions' => ['class' => 'text-center'],
+                                    'contentOptions' =>['class' => 'text-center'],
                                     'buttons' => [
                                         'details' => function ($url ,$model) {
                                             return Html::a('Подробнее', 'advertising-construction/details?id='.$model->id, [
