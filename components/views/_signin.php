@@ -17,20 +17,26 @@ use yii\helpers\Html;
                     <?php
                     $form = ActiveForm::begin([
                         'id' => 'login-form',
-                        'options' => ['class' => 'modal-form form-horizontal'],
+                        'options' => ['class' => 'modal-form'],
                     ])
                     ?>
-                    <?= $form->field($auth_form, 'username') ?>
-                    <?= $form->field($auth_form, 'password')->passwordInput() ?>
-
+                    <?= $form->field($auth_form, 'username')->textInput([
+                        'placeholder' => 'Введите рабочий e-mail'
+                        ])
+                    ?>
+                    <?= $form->field($auth_form, 'password')->passwordInput([
+                        'placeholder' => 'Не менее 8 символов'
+                        ])
+                    ?>
                     <div class="form-group">
-                        <div class="col-sm-12">
-                            <div class="checkbox">
-                                <?= $form->field($auth_form, 'rememberMe')->checkbox() ?>
-                            </div>
-                        </div>
-                    </div>
+                        <?= Html::checkbox("LoginForm[rememberMe]", true,[
+                            'id' => 'loginform-rememberme',
+                            'class' => 'hide modal-checkbox',
+                            'label' => '<label for="loginform-rememberme">Сохранить пароль</label>']
+                        ); ?>
 
+                                <span class="pull-right" style="text-align:right;"><u>Забыли логин или пароль?</u></span>
+                    </div>
                     <div class="form-group">
                         <?= Html::submitButton('Войти', ['class' => 'modal-btn form-control btn text-uppercase']) ?>
                     </div>

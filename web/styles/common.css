@@ -225,11 +225,58 @@ body {
     display: table;
 }
 
+.modal-content {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.modal-content .close {
+    line-height: 0.6;
+    font-weight: 100;
+    font-size: 48px;
+    opacity: 1;
+}
+
 .modal-form {
-    padding: 20px 110px 40px 110px;
+    padding: 20px 90px 40px 90px;
 }
 
 .modal-btn, .modal-btn:hover {
     background-color: #164a9e;
     color: #fff;
 }
+
+.checkbox label {
+    padding-left: 0;
+}
+
+/* CheckBox Style Start*/
+.modal-checkbox[type="checkbox"]:not(:checked) + label,
+.modal-checkbox[type="checkbox"]:checked + label {
+    position: relative;
+    padding-left: 1.95em;
+    cursor: pointer;
+}
+
+.modal-checkbox[type="checkbox"]:not(:checked) + label:before,
+.modal-checkbox[type="checkbox"]:checked + label:before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 1.25em; height: 1.25em;
+}
+
+.modal-checkbox[type="checkbox"]:not(:checked) + label:before
+ {
+    border: 2px solid #ccc;
+    background-color: #ddd;
+}
+.modal-checkbox[type="checkbox"]:checked + label:before {
+    background-color: #164a9e;
+    transition: all .2s;
+}
+/* hover style just for information */
+label:hover:before {
+    border: 2px solid #4778d9!important;
+}
+/* CheckboxStyle End */

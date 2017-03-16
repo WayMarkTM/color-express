@@ -10,6 +10,7 @@ use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\components\AuthWidget;
+use app\components\SignupWidget;
 
 AppAsset::register($this);
 ?>
@@ -66,8 +67,8 @@ AppAsset::register($this);
 if(Yii::$app->user->isGuest) {
     AuthWidget::begin();
     AuthWidget::end();
-
-    echo $this->render('partial/_signup');
+    SignupWidget::begin();
+    SignupWidget::end();
 }
 ?>
 </body>

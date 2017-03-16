@@ -9,12 +9,13 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ * @property string $surname
  * @property string $username
  * @property string $password
  * @property string $salt
  * @property string $email
  * @property string $number
- * @property integer $is_agancy
+ * @property integer $is_agency
  * @property string $company
  * @property string $adress
  * @property string $pan
