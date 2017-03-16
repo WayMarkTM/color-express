@@ -2,9 +2,11 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\entities\AdvertisingConstructionSize;
 use Yii;
 use app\models\entities\AdvertisingConstruction;
 use app\models\AdvertisingConstructionSearch;
+use app\services\AdvertisingConstructionService;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -65,11 +67,17 @@ class AdvertisingConstructionController extends Controller
     {
         $model = new AdvertisingConstruction();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $service = new AdvertisingConstructionService();
+            $service->saveAdvertisingConstruction($model);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems();
+            $types = AdvertisingConstructionService::getAdvertisingConstructionTypeDropdownItems();
             return $this->render('create', [
                 'model' => $model,
+                'sizes' => $sizes,
+                'types' => $types
             ]);
         }
     }
@@ -84,11 +92,17 @@ class AdvertisingConstructionController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $service = new AdvertisingConstructionService();
+            $service->saveAdvertisingConstruction($model);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems();
+            $types = AdvertisingConstructionService::getAdvertisingConstructionTypeDropdownItems();
             return $this->render('update', [
                 'model' => $model,
+                'sizes' => $sizes,
+                'types' => $types
             ]);
         }
     }

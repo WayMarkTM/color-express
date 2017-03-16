@@ -39,7 +39,7 @@ class AdvertisingConstructionType extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Тип конструкции',
         ];
     }
 

@@ -39,7 +39,7 @@ class AdvertisingConstructionSize extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'size' => 'Size',
+            'size' => 'Размер',
         ];
     }
 

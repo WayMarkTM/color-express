@@ -59,6 +59,7 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
+                'index' => 'advertising-construction/index',
                 'clients' => 'site/clients',
                 'about' => 'site/about',
                 'vacancies' => 'site/vacancies',
@@ -77,6 +78,7 @@ $config = [
     ],
     'language' => 'ru-RU',
     'params' => $params,
+    'defaultRoute' => 'advertising-construction/index'
 ];
 
 if (YII_ENV_DEV) {
