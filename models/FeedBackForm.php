@@ -8,8 +8,16 @@
 
 namespace app\models;
 
+use yii\base\Model;
 
-class FeedBack
+
+class FeedBackForm extends Model
 {
+    public $name;
+    public $number;
+    public $email;
+    public $upload_resume;
+    public $message;
+
 
 }

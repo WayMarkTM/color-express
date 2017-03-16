@@ -47,6 +47,17 @@ AppAsset::register($this);
             ?>
         </div>
         <div class="sign-buttons-container">
+            <div class="contacts ">
+                <div class="row block-row">
+                    <span>outdoor@colorexpress.by</span>
+                </div>
+                <div class="row block-row">
+                    <span>+375 (29) 777 22 33</span>
+                </div>
+                <div class="row block-row">
+                    <span>+375 (29) 777 22 33</span>
+                </div>
+            </div>
             <? if(Yii::$app->user->isGuest): ?>
                 <a href="#" class="pull-left" data-toggle="modal" data-target="#signup">Регистрация</a>
                 <button class="custom-btn red pull-right" type="button" data-toggle="modal" data-target="#signin">Вход</button>

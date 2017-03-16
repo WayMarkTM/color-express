@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\FeedBackForm;
 use Yii;
 use app\models\entities\Vacancy;
 use yii\data\ActiveDataProvider;
@@ -39,8 +40,10 @@ class VacancyController extends Controller
             'query' => Vacancy::find(),
         ]);
 
+        $feedBackForm = new FeedBackForm();
+
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'feedBackForm' => $feedBackForm,
         ]);
     }
 

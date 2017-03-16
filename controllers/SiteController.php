@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\entities\OurClient;
 use app\models\entities\Vacancy;
+use app\models\FeedBackForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -145,9 +146,11 @@ class SiteController extends Controller
     public function actionVacancies()
     {
         $vacancies = Vacancy::find()->all();
+        $feedBackForm = new FeedBackForm();
         
         return $this->render('vacancies', [
-            'vacancies' => $vacancies
+            'vacancies' => $vacancies,
+            'feedBackForm' => $feedBackForm,
         ]);
     }
 
