@@ -8,6 +8,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\services\ContactUsSubmissionService;
@@ -35,7 +36,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    //'logout' => ['post'],
                 ],
             ],
         ];

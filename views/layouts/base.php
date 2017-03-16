@@ -6,8 +6,11 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\widgets\Menu;
+use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\components\AuthWidget;
+use app\components\SignupWidget;
 
 AppAsset::register($this);
 ?>
@@ -44,8 +47,13 @@ AppAsset::register($this);
             ?>
         </div>
         <div class="sign-buttons-container">
-            <a href="#" class="pull-left">Регистрация</a>
-            <button class="custom-btn red pull-right" type="button">Вход</button>
+            <? if(Yii::$app->user->isGuest): ?>
+                <a href="#" class="pull-left" data-toggle="modal" data-target="#signup">Регистрация</a>
+                <button class="custom-btn red pull-right" type="button" data-toggle="modal" data-target="#signin">Вход</button>
+
+            <? else: ?>
+                <a href="<?= Url::toRoute('site/logout')?>" class="custom-btn red pull-right" type="button">Выход</a>
+            <? endif; ?>
         </div>
     </div>
 
@@ -55,6 +63,14 @@ AppAsset::register($this);
 </div>
 
 <?php $this->endBody() ?>
+<?php
+if(Yii::$app->user->isGuest) {
+    AuthWidget::begin();
+    AuthWidget::end();
+    SignupWidget::begin();
+    SignupWidget::end();
+}
+?>
 </body>
 </html>
 <?php $this->endPage() ?>
