@@ -19,6 +19,91 @@ use yii\widgets\Pjax;
 $this->title = $company->company;
 ?>
 
+<ul class="nav nav-tabs" id="control-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#orders" aria-controls="orders" role="tab" data-toggle="tab">Заказы</a></li>
+    <li role="presentation"><a href="#documents" aria-controls="documents" role="tab" data-toggle="tab">Документы</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" role="tabpanel" id="orders">
+        <div class="row">
+            <div class="col-md-12">
+                <?php Pjax::begin(); ?>
+                <?= GridView::widget([
+                    'dataProvider' => $ordersDataProvider,
+                    'layout' => '{items}{pager}',
+                    'columns' => [
+                        [
+                            'class' => 'yii\grid\SerialColumn',
+                            'headerOptions' => ['width' => '30', 'class' => 'text-center'],
+                            'contentOptions' =>['class' => 'text-center'],
+                        ],
+                        [
+                            'attribute' => 'advertisingConstructionName',
+                            'format' => 'raw',
+                            'headerOptions' => ['class' => 'text-center'],
+                            'value' => function ($model) {
+                                return Html::a($model->advertisingConstructionName, ['advertising-construction/details?id='.$model->id]);
+                            }
+                        ],
+                        [
+                            'attribute' => 'address',
+                            'headerOptions' => ['class' => 'text-center']
+                        ],
+                        [
+                            'attribute' => 'type',
+                            'headerOptions' => ['class' => 'text-center'],
+                        ],
+                        [
+                            'attribute' => 'status',
+                            'headerOptions' => ['class' => 'text-center'],
+                        ],
+                        [
+                            'label' => 'Даты использования',
+                            'headerOptions' => ['class' => 'text-center', 'width' => '250'],
+                            'contentOptions' =>['class' => 'text-center'],
+                            'value' => function ($model) {
+                                return $model->dateFrom->format('d.m.Y').' - '.$model->dateTo->format('d.m.Y');
+                            }
+                        ],
+                        [
+                            'attribute' => 'cost',
+                            'headerOptions' => ['width' => '120', 'class' => 'text-center'],
+                            'contentOptions' =>['class' => 'text-center'],
+                        ],
+                        [
+                            'class' => 'yii\grid\ActionColumn',
+                            'template' => '{confirm}{cancel}',
+                            'header' => 'Управление',
+                            'headerOptions' => ['width' => '300', 'class' => 'text-center'],
+                            'contentOptions' =>['class' => 'text-center'],
+                            'buttons' => [
+                                'confirm' => function ($url ,$model) {
+                                    return Html::a('Подтвердить', '/', [
+                                        'title' => 'Подтвердить',
+                                        'class' => 'custom-btn sm blue',
+                                        'style' => 'width:50%;'.($model->status == 'Резерв до' ? '' : 'display: none;')
+                                    ]);
+                                },
+                                'cancel' => function ($url, $model) {
+                                    return Html::a('Отклонить', '/', [
+                                        'title' => 'Отклонить',
+                                        'class' => 'custom-btn sm white',
+                                        'style' => 'width:50%;'.($model->status != 'Резерв до' ? 'display: none;' : '')
+                                    ]);
+                                }
+                            ]
+                        ],
+                    ],
+                ]); ?>
+                <?php Pjax::end(); ?>
+            </div>
+        </div>
+    </div>
+    <div clasa="tab-pane" role="tabpanel" id="documents">
+
+    </div>
+</div>
 <hr/>
 <div class="row">
     <div class="col-md-4">
@@ -83,3 +168,11 @@ $this->title = $company->company;
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    jQuery('#control-tabs').find('a').click(function (e) {
+        e.preventDefault();
+        jQuery(this).tab('show')
+    });
+</script>
