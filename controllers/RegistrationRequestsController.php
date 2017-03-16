@@ -1,19 +1,19 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: e.chernyavsky
- * Date: 16.03.2017
- * Time: 20:56
+ * User: gromi
+ * Date: 3/17/2017
+ * Time: 2:16 AM
  */
 
 namespace app\controllers;
 
 
-use app\services\OrdersService;
+use app\services\RegistrationRequestsService;
 use yii\data\ArrayDataProvider;
 use yii\web\Controller;
 
-class OrdersController extends Controller
+class RegistrationRequestsController extends Controller
 {
     /**
      * @inheritdoc
@@ -28,12 +28,12 @@ class OrdersController extends Controller
     }
 
     public function actionIndex() {
-        $service = new OrdersService();
+        $service = new RegistrationRequestsService();
 
-        $orders = $service->getOrders();
+        $requests = $service->getRequests();
 
         $dataProvider = new ArrayDataProvider([
-            'allModels' => $orders,
+            'allModels' => $requests,
             'sort' => [
                 'attributes' => ['id', 'advertisingConstructionName', 'address', 'status', 'type', 'cost'],
             ],

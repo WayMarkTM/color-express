@@ -23,6 +23,7 @@ body {
     background-image: url('../images/background.png');
     background-size: cover;
     background-repeat: none;
+    letter-spacing: 1px;
 }
 
 .section-row {
@@ -35,7 +36,7 @@ body {
 
 .logo {
     background-image: url('../images/logo.png');
-    background-repeat: none;
+    background-repeat: no-repeat;
     width: 190px;
     height: 63px;
 }
@@ -94,7 +95,7 @@ body {
     bottom: 0;
     left: 0;
     padding: 0 30px 40px 30px;
-    width: 190px;
+    width: 225px;
 }
 
 .sign-buttons-container a {
@@ -102,7 +103,7 @@ body {
     font-size: 12px;
 }
 
-.sign-buttons-container buttom {
+.sign-buttons-container button {
     letter-spacing: 2px;
 }
 
@@ -157,9 +158,19 @@ body {
     background-color: #164a9e;
 }
 
+.custom-btn.blue:hover {
+    background-color: #164bc6;
+    color: white;
+}
+
 .custom-btn.white {
     background-color: #eaeaea;
     color: black;
+}
+
+.custom-btn.white:hover {
+    background-color: #dadada;
+    color: #2e2e2e;
 }
 
 .custom-btn.sm {
@@ -325,7 +336,6 @@ body {
 label:hover:before {
     border: 2px solid #4778d9!important;
 }
-/* CheckboxStyle End */}
 
 .input-value {
     padding-top: 7px;
@@ -381,6 +391,63 @@ h1, .h1, h2, .h2, h3, .h3 {
     font-weight: bold;
 }
 
+<<<<<<< HEAD
 .contacts {
     color: #fff;
+=======
+table th a {
+    color: #000000;
+}
+
+table td a {
+    color: #000000;
+    text-decoration: underline;
+}
+
+table td a:hover {
+    text-decoration: none;
+}
+
+.additional-link {
+    text-decoration: underline;
+    color: #818181;
+}
+
+.additional-link:hover {
+    text-decoration: none;
+}
+
+.additional-link .icon {
+    margin-right: 15px;
+}
+
+.nav-tabs {
+    border: 0;
+}
+
+.nav-tabs li {
+    text-align: center;
+}
+
+.nav-tabs > li > a {
+    border-radius: 0;
+    box-shadow: 1px 1px 4.95px 0.05px rgba(40, 45, 67, 0.15);
+    text-shadow: 1px 1px 4.95px rgba(40, 45, 67, 0.15);
+    width: 230px;
+    padding: 23px;
+    margin: 0;
+    border: 0;
+    color: black;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
+    border: 0;
+    background-color: #164a9e;
+    color: white;
+}
+
+#control-tabs {
+    margin-top: -23px;
+    margin-bottom: 23px;
+>>>>>>> 08cf831b1a781d44fb2d49c1590dfe711a71cada
 }
