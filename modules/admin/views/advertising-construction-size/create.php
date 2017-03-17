@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\entities\AdvertisingConstructionSize */
 
-$this->title = 'Create Advertising Construction Size';
-$this->params['breadcrumbs'][] = ['label' => 'Advertising Construction Sizes', 'url' => ['index']];
+$this->title = 'Создание размера рекламной конструкции';
+$this->params['breadcrumbs'][] = ['label' => 'Управление размерами рекламных конструкций', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="advertising-construction-size-create">

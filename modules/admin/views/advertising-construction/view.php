@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\entities\AdvertisingConstruction */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Advertising Constructions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Управление рекламными конструкциями', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="advertising-construction-view">
@@ -15,9 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'custom-btn blue']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
+            'class' => 'custom-btn red',
             'data' => [
                 'confirm' => 'Вы уверены, что хотите удалить эту рекламную конструкцию??',
                 'method' => 'post',

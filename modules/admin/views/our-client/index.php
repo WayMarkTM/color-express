@@ -6,16 +6,16 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Our Clients';
+$this->title = 'Управление нашими клиентами';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="our-client-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3>
+        <?= Html::encode($this->title) ?>
+        <?= Html::a('Добавить нашего клиента', ['create'], ['class' => 'custom-btn blue']) ?>
+    </h3>
 
-    <p>
-        <?= Html::a('Create Our Client', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [

@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\OurClientForm */
 
 $this->title = 'Добавить клиента';
-$this->params['breadcrumbs'][] = ['label' => 'Our Clients', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Управление нашими клиентами', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'name')->textInput(['autofocus' => true, 'placeholder' => 'Название компании *']) ?>
             <?= $form->field($model, 'imageFile')->fileInput() ?>
 
-            <button class="btn btn-primary">Создать</button>
+            <button class="custom-btn blue">Создать</button>
 
             <?php ActiveForm::end() ?>
         </div>

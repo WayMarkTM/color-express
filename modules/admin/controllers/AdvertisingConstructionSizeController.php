@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * AdvertisingConstructionSizeController implements the CRUD actions for AdvertisingConstructionSize model.
  */
-class AdvertisingConstructionSizeController extends Controller
+class AdvertisingConstructionSizeController extends BaseAdminController
 {
     /**
      * @inheritdoc
