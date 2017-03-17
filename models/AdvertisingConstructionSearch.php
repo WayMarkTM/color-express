@@ -16,6 +16,8 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
     public $toDate;
     public $showOnlyFreeConstructions;
 
+    public $address;
+
     /**
      * @inheritdoc
      */

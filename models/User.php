@@ -10,6 +10,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $password;
     public $authKey;
     public $accessToken;
+    public $role;
 
     private static $users = [
         '100' => [
@@ -18,6 +19,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             'password' => 'admin',
             'authKey' => 'test100key',
             'accessToken' => '100-token',
+            'role' => 'admin'
         ],
         '101' => [
             'id' => '101',
@@ -25,6 +27,15 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             'password' => 'demo',
             'authKey' => 'test101key',
             'accessToken' => '101-token',
+            'role' => 'client'
+        ],
+        '102' => [
+            'id' => '102',
+            'username' => 'employee',
+            'password' => 'employee',
+            'authKey' => 'test101key',
+            'accessToken' => '101-token',
+            'role' => 'employee'
         ],
     ];
 
@@ -101,5 +112,10 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public function validatePassword($password)
     {
         return $this->password === $password;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
     }
 }

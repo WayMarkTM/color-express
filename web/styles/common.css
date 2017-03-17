@@ -391,10 +391,10 @@ h1, .h1, h2, .h2, h3, .h3 {
     font-weight: bold;
 }
 
-<<<<<<< HEAD
 .contacts {
     color: #fff;
-=======
+}
+
 table th a {
     color: #000000;
 }
@@ -449,5 +449,4 @@ table td a:hover {
 #control-tabs {
     margin-top: -23px;
     margin-bottom: 23px;
->>>>>>> 08cf831b1a781d44fb2d49c1590dfe711a71cada
 }

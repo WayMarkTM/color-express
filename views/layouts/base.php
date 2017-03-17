@@ -11,6 +11,73 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\components\AuthWidget;
 use app\components\SignupWidget;
+use app\models\User;
+
+$menu = [
+    ['label' => 'Каталог рекламных конструкций', 'url' => ['advertising-construction/index']],
+    ['label' => 'Преимущества', 'url' => ['site/advantages']],
+    ['label' => 'О компании', 'url' => ['site/about']],
+    ['label' => 'Наши клиенты', 'url' => ['site/clients']],
+    ['label' => 'Вакансии', 'url' => ['site/vacancies']],
+    ['label' => 'Контакты', 'url' => ['site/contact']],
+];
+
+if(!Yii::$app->user->isGuest) {
+    $user_id = Yii::$app->user->getId();
+    $user = User::findIdentity($user_id);
+    if($user->getRole() == 'admin') {
+        $menu = [
+            [
+                'label' => 'Управление клиентами',
+                'url' => ['clients/index']
+            ],
+            [
+                'label' => 'Управление конструкциями',
+                'url' => ['advertising-construction/index']
+            ],
+            [
+                'label' => 'Новые заявки на регистрацию',
+                'url' => 'registration-requests/index'
+            ]
+        ];
+    } else if($user->getRole() == 'client') {
+        $menu = [
+            [
+                'label' => 'Оформить заказ',
+                'url' => ['advertising-construction/index']
+            ],
+            [
+                'label' => 'Корзина',
+                'url' => ['shopping-cart/index']
+            ],
+            [
+                'label' => 'Мои заказы',
+                'url' => ['orders/index']
+            ],
+            [
+                'label' => 'Документы',
+                'url' => 'site/index'
+            ]
+        ];
+    } else if($user->getRole() == 'employee') {
+        $menu = [
+            [
+                'label' => 'Управление клиентами',
+                'url' => ['clients/index']
+            ],
+            [
+                'label' => 'Управление конструкциями',
+                'url' => ['advertising-construction/index']
+            ],
+            [
+                'label' => 'Новые заявки на регистрацию',
+                'url' => 'registration-requests/index'
+            ]
+        ];
+    }
+
+}
+
 
 AppAsset::register($this);
 ?>
@@ -35,14 +102,7 @@ AppAsset::register($this);
         <div class="menu-container">
             <?php
             echo Menu::widget([
-                'items' => [
-                    ['label' => 'Каталог рекламных конструкций', 'url' => ['advertising-construction/index']],
-                    ['label' => 'Преимущества', 'url' => ['site/advantages']],
-                    ['label' => 'О компании', 'url' => ['site/about']],
-                    ['label' => 'Наши клиенты', 'url' => ['site/clients']],
-                    ['label' => 'Вакансии', 'url' => ['site/vacancies']],
-                    ['label' => 'Контакты', 'url' => ['site/contact']],
-                ]
+                'items' => $menu
             ]);
             ?>
         </div>

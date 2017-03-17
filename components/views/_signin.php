@@ -29,13 +29,18 @@ use yii\helpers\Html;
                         ])
                     ?>
                     <div class="form-group">
-                        <?= Html::checkbox("LoginForm[rememberMe]", true,[
-                            'id' => 'loginform-rememberme',
-                            'class' => 'hide modal-checkbox',
-                            'label' => '<label for="loginform-rememberme">Сохранить пароль</label>']
-                        ); ?>
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                <?= Html::checkbox("LoginForm[rememberMe]", true,[
+                                        'id' => 'loginform-rememberme',
+                                        'class' => 'hide modal-checkbox',
+                                        'label' => '<label for="loginform-rememberme">Сохранить пароль</label>']
+                                ); ?>
+                            </div>
+                            <div class="col-md-6">
                                 <span class="pull-right" style="text-align:right;"><u>Забыли логин или пароль?</u></span>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <?= Html::submitButton('Войти', ['class' => 'modal-btn form-control btn text-uppercase']) ?>
