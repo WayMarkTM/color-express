@@ -42,4 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <?php foreach ($model->advertisingConstructionImages as $image) {
+        echo '<img src="/'.$image->path.'"/>';
+    }?>
+
 </div>

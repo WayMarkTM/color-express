@@ -11,7 +11,7 @@ use Yii;
  * @property integer $file_id
  *
  * @property AdvertisingConstruction $advertisingConstruction
- * @property File $file
+ * @property string path
  */
 class AdvertisingConstructionImage extends \yii\db\ActiveRecord
 {
@@ -29,10 +29,10 @@ class AdvertisingConstructionImage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['advertising_construction_id', 'file_id'], 'required'],
-            [['advertising_construction_id', 'file_id'], 'integer'],
+            [['advertising_construction_id', 'path'], 'required'],
+            [['advertising_construction_id'], 'integer'],
+            [['path'], 'string'],
             [['advertising_construction_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstruction::className(), 'targetAttribute' => ['advertising_construction_id' => 'id']],
-            [['file_id'], 'exist', 'skipOnError' => true, 'targetClass' => File::className(), 'targetAttribute' => ['file_id' => 'id']],
         ];
     }
 
@@ -43,7 +43,7 @@ class AdvertisingConstructionImage extends \yii\db\ActiveRecord
     {
         return [
             'advertising_construction_id' => 'Advertising Construction ID',
-            'file_id' => 'File ID',
+            'path' => 'Path',
         ];
     }
 
@@ -53,13 +53,5 @@ class AdvertisingConstructionImage extends \yii\db\ActiveRecord
     public function getAdvertisingConstruction()
     {
         return $this->hasOne(AdvertisingConstruction::className(), ['id' => 'advertising_construction_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFile()
-    {
-        return $this->hasOne(File::className(), ['id' => 'file_id']);
     }
 }

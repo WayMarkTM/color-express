@@ -3,13 +3,16 @@
 namespace app\modules\admin\controllers;
 
 use app\models\entities\AdvertisingConstructionSize;
+use app\modules\admin\models\AdvertisingConstructionForm;
 use Yii;
 use app\models\entities\AdvertisingConstruction;
 use app\models\AdvertisingConstructionSearch;
 use app\services\AdvertisingConstructionService;
+use yii\base\Exception;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * AdvertisingConstructionController implements the CRUD actions for AdvertisingConstruction model.
@@ -62,15 +65,21 @@ class AdvertisingConstructionController extends BaseAdminController
      * Creates a new AdvertisingConstruction model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     * @throws Exception
      */
     public function actionCreate()
     {
-        $model = new AdvertisingConstruction();
+        $model = new AdvertisingConstructionForm();
 
         if ($model->load(Yii::$app->request->post())) {
-            $service = new AdvertisingConstructionService();
-            $service->saveAdvertisingConstruction($model);
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+            if ($model->upload()) {
+                $service = new AdvertisingConstructionService();
+                $id = $service->saveAdvertisingConstruction($model);
+                return $this->redirect(['view', 'id' => $id]);
+            }
+
+            throw new Exception('Something went wrong with image uploading');
         } else {
             $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems();
             $types = AdvertisingConstructionService::getAdvertisingConstructionTypeDropdownItems();
