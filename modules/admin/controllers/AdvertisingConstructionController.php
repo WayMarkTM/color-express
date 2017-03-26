@@ -41,7 +41,7 @@ class AdvertisingConstructionController extends BaseAdminController
     public function actionIndex()
     {
         $searchModel = new AdvertisingConstructionSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, false);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

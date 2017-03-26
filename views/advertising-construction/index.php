@@ -70,7 +70,7 @@ foreach($models as $model) {
 
         $marker->attachInfoWindow(
             new InfoWindow([
-                'content' => $model['name'].'<br/><img src="'.$model['advertisingConstructionImages'][0].'" />'
+                'content' => $model['name']
             ])
         );
 

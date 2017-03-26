@@ -9,13 +9,16 @@ use Yii;
  *
  * @property integer $id
  * @property integer $advertising_construction_id
+ * @property integer $marketing_type_id
  * @property integer $status_id
  * @property integer $user_id
+ * @property float $cost
  * @property string $from
  * @property string $to
  *
  * @property AdvertisingConstruction $advertisingConstruction
  * @property AdvertisingConstructionReservationStatus $status
+ * @property MarketingType $marketingType
  */
 class AdvertisingConstructionReservation extends \yii\db\ActiveRecord
 {
@@ -34,10 +37,12 @@ class AdvertisingConstructionReservation extends \yii\db\ActiveRecord
     {
         return [
             [['advertising_construction_id', 'status_id', 'user_id', 'from', 'to'], 'required'],
-            [['advertising_construction_id', 'status_id', 'user_id'], 'integer'],
+            [['advertising_construction_id', 'status_id', 'user_id', 'marketing_type_id'], 'integer'],
             [['from', 'to'], 'safe'],
+            [['cost'], 'number'],
             [['advertising_construction_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstruction::className(), 'targetAttribute' => ['advertising_construction_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstructionReservationStatus::className(), 'targetAttribute' => ['status_id' => 'id']],
+            [['marketing_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => MarketingType::className(), 'targetAttribute' => ['marketing_type_id' => 'id']],
         ];
     }
 
@@ -53,6 +58,8 @@ class AdvertisingConstructionReservation extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'from' => 'From',
             'to' => 'To',
+            'cost' => 'Стоимость',
+            'marketing_type_id' => 'Тип рекламы'
         ];
     }
 
@@ -70,5 +77,13 @@ class AdvertisingConstructionReservation extends \yii\db\ActiveRecord
     public function getStatus()
     {
         return $this->hasOne(AdvertisingConstructionReservationStatus::className(), ['id' => 'status_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMarketingType()
+    {
+        return $this->hasOne(MarketingType::className(), ['id' => 'marketing_type_id']);
     }
 }

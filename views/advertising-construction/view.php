@@ -6,10 +6,12 @@
  * Time: 15:09
  */
 
+use app\models\entities\MarketingType;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\Map;
 use dosamigos\google\maps\overlays\InfoWindow;
 use dosamigos\google\maps\overlays\Marker;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use kartik\date\DatePicker;
 use yii\widgets\ActiveForm;
@@ -17,6 +19,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\entities\AdvertisingConstruction */
 /* @var $reservationModel app\models\AdvertisingConstructionFastReservationForm */
+/* @var $marketing_types array app\models\entities\MarketingType */
 
 
 $coord = new LatLng(['lat' => $model->latitude, 'lng' => $model->longitude]);
@@ -144,7 +147,6 @@ $this->title = $model->name.' | Информация о рекламной ко�
                             <?php
                                 }
                             ?>
-<!--                            <a data-u="any" href="http://google.com" style="display:none">Image Gallery</a>-->
                         </div>
                         <!-- Thumbnail Navigator -->
                         <div data-u="thumbnavigator" class="jssort01" style="position:absolute;left:0px;bottom:0px;width:800px;height:100px;" data-autocenter="1">
@@ -178,6 +180,7 @@ $this->title = $model->name.' | Информация о рекламной ко�
                     Календарь
                 </div>
             </div>
+            <?php echo $form->field($model, 'id')->hiddenInput(['value'=> $model->id])->label(false); ?>
             <div class="row block-row datepicker-row">
                 <div class="col-md-6 input-value">
                     Вы можете изменить период для бронирования рекламной конструкции:
@@ -208,6 +211,17 @@ $this->title = $model->name.' | Информация о рекламной ко�
                     ?>
                 </div>
             </div>
+            <div class="row block-row">
+                <div class="col-md-6 input-value">
+                    Тип рекламы
+                </div>
+                <div class="col-md-6">
+                    <?= Html::dropDownList('marketing-type', null, ArrayHelper::map(MarketingType::find()->all(), 'id', 'name'), [
+                        'class' => 'form-control',
+                        'id' => 'marketing-type'
+                    ]) ?>
+                </div>
+            </div>
             <hr/>
             <div class="row">
                 <div class="col-md-12">
@@ -216,8 +230,8 @@ $this->title = $model->name.' | Информация о рекламной ко�
             </div>
             <div class="row buttons-row block-row">
                 <div class="col-md-12">
-                    <button type="button" class="custom-btn sm blue">Купить</button>
-                    <button type="button" class="custom-btn sm blue">Отложить на 5 дней</button>
+                    <button type="button" id="buy-btn" class="custom-btn sm blue">Купить</button>
+                    <button type="button" id="reserv-btn" class="custom-btn sm blue">Отложить на 5 дней</button>
                     <?= Html::a('Вернуться назад', ['/advertising-construction/index'], ['class'=>'custom-btn sm white']) ?>
                 </div>
             </div>
@@ -256,4 +270,53 @@ $this->title = $model->name.' | Информация о рекламной ко�
         </div>
     </div>
 </div>
+
+<?php
+$script = <<< JS
+$(document).ready(function () {
+    var buyBtn = $('#buy-btn'),
+        reservBtn = $('#reserv-btn'),
+        model = {
+            id: function () {
+                return $('#advertisingconstruction-id').val();
+            },
+            marketingType: function () {
+                return $('#marketing-type').val();
+            },
+            dateFrom: function () {
+                return $('#advertisingconstructionfastreservationform-fromdate').val();
+            },
+            dateTo: function () {
+                return $('#advertisingconstructionfastreservationform-todate').val();
+            }
+        };
+
+    buyBtn.on('click', buyConstruction);
+    reservBtn.on('click', reservConstruction);
+
+    function buyConstruction() {
+        var submitModel = {
+            advertising_construction_id: model.id(),
+            marketing_type: model.marketingType(),
+            from: model.dateFrom(),
+            to: model.dateTo()
+        };
+
+        colorApp.utilities.ajaxHelper.post({
+            url: GATEWAY_URLS.BUY_CONSTRUCTION,
+            data: submitModel
+        }).done(function () {
+            window.location.href = BASE_URL + 'shopping-cart';
+        });
+    }
+
+    function reservConstruction() {
+
+    }
+});
+JS;
+
+    $position = \yii\web\View::POS_READY;
+    $this->registerJs($script, $position);
+?>
 

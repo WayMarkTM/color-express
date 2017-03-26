@@ -33,6 +33,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
 
+    <?= $form->field($model, 'is_published')->checkBox(['selected' => $model->is_published]) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->id != null ? 'Создать' : 'Сохранить', ['class' => 'custom-btn blue']) ?>
     </div>

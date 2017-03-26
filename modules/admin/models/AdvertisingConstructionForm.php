@@ -26,6 +26,7 @@ class AdvertisingConstructionForm extends Model
     public $traffic_info;
     public $has_traffic_lights;
     public $images;
+    public $is_published;
 
     /**
      * @var UploadedFile[]
@@ -38,7 +39,7 @@ class AdvertisingConstructionForm extends Model
             [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
             [['nearest_locations', 'traffic_info'], 'string'],
             [['size_id', 'type_id'], 'integer'],
-            [['has_traffic_lights'], 'boolean'],
+            [['has_traffic_lights', 'is_published'], 'boolean'],
             [['price'], 'number'],
             [['name', 'address'], 'string', 'max' => 255],
             [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 10],
@@ -60,7 +61,8 @@ class AdvertisingConstructionForm extends Model
             'size_id' => 'Формат',
             'price' => 'Цена',
             'type_id' => 'Тип',
-            'imageFiles' => 'Фотографии'
+            'imageFiles' => 'Фотографии',
+            'is_published' => 'Показывать на внешнем сайте'
         ];
     }
 
@@ -78,6 +80,7 @@ class AdvertisingConstructionForm extends Model
         $model->nearest_locations = $this->nearest_locations;
         $model->traffic_info = $this->traffic_info;
         $model->has_traffic_lights = $this->has_traffic_lights;
+        $model->is_published = $this->is_published;
 
         return $model;
     }

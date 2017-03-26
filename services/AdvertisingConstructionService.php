@@ -12,6 +12,7 @@ use app\models\entities\AdvertisingConstruction;
 use app\models\entities\AdvertisingConstructionImage;
 use app\models\entities\AdvertisingConstructionSize;
 use app\models\entities\AdvertisingConstructionType;
+use app\models\entities\MarketingType;
 use app\modules\admin\models\AdvertisingConstructionForm;
 use Yii;
 use yii\base\Exception;
@@ -90,5 +91,9 @@ class AdvertisingConstructionService
 
     public static function getAdvertisingConstructionSizeDropdownItems() {
         return ArrayHelper::map(AdvertisingConstructionSize::find()->all(), 'id', 'size');
+    }
+
+    public static function getMarketingTypeDropdownItems() {
+        return ArrayHelper::map(MarketingType::find()->all(), 'id', 'name');
     }
 }

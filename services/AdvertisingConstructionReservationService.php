@@ -8,38 +8,87 @@
 
 namespace app\services;
 
-use app\models\ShoppingCartItem;
-use app\models\ShoppingCartModel;
+use app\models\constants\AdvertisingConstructionStatuses;
+use app\models\entities\AdvertisingConstruction;
+use app\models\entities\AdvertisingConstructionReservation;
+use app\models\entities\MarketingType;
+use Yii;
+use yii\db\Query;
 
 class AdvertisingConstructionReservationService
 {
+    /**
+     * @return Query List of Shopping Cart items.
+     */
     public function getShoppingCartItems() {
-        $model = new ShoppingCartModel();
-        $model->cartItems = array(
-            $this->getItem(1, 'РК_15х9_1558', 'Пр. Пушкина 58', new \DateTime('2016-01-11'), new \DateTime('2016-05-11'), 1000, 'Белорусская'),
-            $this->getItem(2, 'РК_15х9_1558', 'Ул. Лынькова 33', new \DateTime('2016-01-01'), new \DateTime('2016-03-02'), 1000, 'Белорусская'),
-            $this->getItem(3, 'РК_15х9_1558', 'Пр. Независимости 101', new \DateTime('2016-10-01'), new \DateTime('2016-11-01'), 1500, 'Иностранная'),
-            $this->getItem(4, 'РК_15х9_1558', 'Ул. Харьковская 99', new \DateTime('2016-12-25'), new \DateTime('2017-02-20'), 2000, 'Иностранная'),
-            $this->getItem(5, 'РК_15х9_1558', 'Пр. Пушкина 12', new \DateTime('2016-12-13'), new \DateTime('2017-01-13'), 1500, 'Белорусская'),
-            $this->getItem(6, 'РК_15х9_1558', 'Ул. Ольшеского 123', new \DateTime('2017-01-01'), new \DateTime('2017-02-28'), 1700, 'Иностранная'),
-            $this->getItem(7, 'РК_15х9_1558', 'Ул. Харьковская 12', new \DateTime('2017-01-01'), new \DateTime('2017-02-28'), 1500, 'Белорусская'),
-        );
-        $model->cartTotal = 10200;
+        $current_user_id = Yii::$app->user->getId();
 
-        return $model;
+        return $this->getReservationsQuery($current_user_id);
     }
 
-    // TODO: remove stub;
-    private function getItem($id, $name, $address, $dateFrom, $dateTo, $cost, $marketingType) {
-        $model = new ShoppingCartItem();
-        $model->id = $id;
-        $model->advertisingConstructionName = $name;
-        $model->address = $address;
-        $model->dateFrom = $dateFrom;
-        $model->dateTo = $dateTo;
-        $model->cost = $cost;
-        $model->marketingType = $marketingType;
+    /**
+     * @return number Total Shopping Cart cost
+     */
+    public function getCartTotal() {
+        $current_user_id = Yii::$app->user->getId();
 
-        return $model;
+        return $this->getReservationsQuery($current_user_id)
+            ->sum('cost');
+    }
+
+    /**
+     * @param int $current_user_id
+     *
+     * @return Query
+     */
+    private function getReservationsQuery($current_user_id) {
+        return AdvertisingConstructionReservation::find()
+            ->where(['=', 'user_id', $current_user_id])
+            ->where(['=', 'status_id', AdvertisingConstructionStatuses::IN_BASKET_ORDER]);
+    }
+
+    /**
+     * @param mixed $model
+     * @param integer $status
+     * @return AdvertisingConstructionReservation
+     */
+    public function createReservation($model, $status) {
+        $currentUserId = Yii::$app->user->getId();
+        // TODO: add validation on busy construction
+        $reservation = $this->getAdvertisingConstructionReservation($currentUserId, $model, $status);
+        $reservation->save();
+
+        return $reservation;
+    }
+
+    /**
+     * @param integer $userId
+     * @param mixed $model
+     * @param integer $statusId
+     * @return AdvertisingConstructionReservation
+     */
+    private function getAdvertisingConstructionReservation($userId, $model, $statusId) {
+        $reservation = new AdvertisingConstructionReservation();
+        $reservation->advertising_construction_id = intval($model['advertising_construction_id']);
+        $reservation->marketing_type_id = intval($model['marketing_type']);
+        $reservation->from = (new \DateTime($model['from']))->format('Y-m-d');
+        $reservation->to = (new \DateTime($model['to']))->format('Y-m-d');
+        $reservation->user_id = $userId;
+        $reservation->status_id = $statusId;
+        $reservation->cost = $this->getReservationCost(intval($model['advertising_construction_id']), intval($model['marketing_type']));
+
+        return $reservation;
+    }
+
+    /**
+     * @param int $constructionId
+     * @param int $marketingTypeId
+     * @return float Cost
+     */
+    private function getReservationCost($constructionId, $marketingTypeId) {
+        $construction = AdvertisingConstruction::findOne($constructionId);
+        $marketing_type = MarketingType::findOne($marketingTypeId);
+
+        return $construction->price * (100 + $marketing_type->charge) / 100;
     }
 }
