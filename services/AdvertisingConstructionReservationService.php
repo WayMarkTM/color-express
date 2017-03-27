@@ -75,6 +75,7 @@ class AdvertisingConstructionReservationService
         $reservation->to = (new \DateTime($model['to']))->format('Y-m-d');
         $reservation->user_id = $userId;
         $reservation->status_id = $statusId;
+        // TODO: add specific calculation for Agency
         $reservation->cost = $this->getReservationCost(intval($model['advertising_construction_id']), intval($model['marketing_type']));
 
         return $reservation;
