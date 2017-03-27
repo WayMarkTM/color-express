@@ -65,7 +65,7 @@ $this->title = 'Корзина';
                     'headerOptions' => ['class' => 'text-center', 'width' => '180'],
                     'contentOptions' =>['class' => 'text-center'],
                     'value' => function ($model) {
-                        return 'Не задано';
+                        return $model->marketingType->name;
                     }
                 ],
                 [
