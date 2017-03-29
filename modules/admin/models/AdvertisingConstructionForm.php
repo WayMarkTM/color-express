@@ -26,12 +26,18 @@ class AdvertisingConstructionForm extends Model
     public $traffic_info;
     public $has_traffic_lights;
     public $images;
+    public $document_path;
     public $is_published;
 
     /**
      * @var UploadedFile[]
      */
     public $imageFiles;
+
+    /**
+     * @var UploadedFile
+     */
+    public $documentFile;
 
     public function rules()
     {
@@ -62,7 +68,8 @@ class AdvertisingConstructionForm extends Model
             'price' => 'Цена',
             'type_id' => 'Тип',
             'imageFiles' => 'Фотографии',
-            'is_published' => 'Показывать на внешнем сайте'
+            'is_published' => 'Показывать на внешнем сайте',
+            'documentFile' => 'Документ с техническими требованиями к плакату'
         ];
     }
 
@@ -81,6 +88,7 @@ class AdvertisingConstructionForm extends Model
         $model->traffic_info = $this->traffic_info;
         $model->has_traffic_lights = $this->has_traffic_lights;
         $model->is_published = $this->is_published;
+        $model->requirements_document_path = $this->document_path;
 
         return $model;
     }
@@ -98,6 +106,11 @@ class AdvertisingConstructionForm extends Model
                 $file->saveAs($path);
                 array_push($this->images, $path);
             }
+
+            $documentPath = $root.'Documents/';
+            $uid = (new \DateTime())->format('Y-m-d');
+            $this->document_path = $documentPath.$uid.$this->documentFile->baseName.'.'.$this->documentFile->extension;
+            $this->documentFile->saveAs($this->document_path );
 
             return true;
         } else {

@@ -73,6 +73,7 @@ class AdvertisingConstructionController extends BaseAdminController
 
         if ($model->load(Yii::$app->request->post())) {
             $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+            $model->documentFile = UploadedFile::getInstance($model, 'documentFile');
             if ($model->upload()) {
                 $service = new AdvertisingConstructionService();
                 $id = $service->saveAdvertisingConstruction($model);

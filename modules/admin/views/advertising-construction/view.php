@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'size.size',
             'price',
             'type.name',
+            'requirements_document_path'
         ],
     ]) ?>
 

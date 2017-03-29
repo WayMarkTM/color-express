@@ -33,6 +33,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
 
+    <?= $form->field($model, 'documentFile')->fileInput(['accept' => 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document']) ?>
+
     <?= $form->field($model, 'is_published')->checkBox(['selected' => $model->is_published]) ?>
 
     <div class="form-group">
