@@ -31,7 +31,14 @@ class ShoppingCartController extends Controller
     }
 
     public function actionIndex() {
+        $submitCartModel = new SubmitCartForm();
         $service = new AdvertisingConstructionReservationService();
+
+        if ($submitCartModel->load(Yii::$app->request->post()) && $submitCartModel->validate()) {
+            if ($service->checkOutReservations($submitCartModel->thematic)) {
+                Yii::$app->session->setFlash('checkOutCompleted');
+            }
+        }
 
         $cartTotal = $service->getCartTotal();
 
@@ -44,7 +51,7 @@ class ShoppingCartController extends Controller
                 'pageSize' => 10,
             ],
         ]);
-        $submitCartModel = new SubmitCartForm();
+
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,

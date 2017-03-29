@@ -13,12 +13,13 @@ use app\models\entities\AdvertisingConstruction;
 use app\models\entities\AdvertisingConstructionReservation;
 use app\models\entities\MarketingType;
 use Yii;
+use yii\db\Exception;
 use yii\db\Query;
 
 class AdvertisingConstructionReservationService
 {
     /**
-     * @return Query List of Shopping Cart items.
+     * @return Query Query List of Shopping Cart items.
      */
     public function getShoppingCartItems() {
         $current_user_id = Yii::$app->user->getId();
@@ -32,8 +33,33 @@ class AdvertisingConstructionReservationService
     public function getCartTotal() {
         $current_user_id = Yii::$app->user->getId();
 
-        return $this->getReservationsQuery($current_user_id)
+        return 0 + $this->getReservationsQuery($current_user_id)
             ->sum('cost');
+    }
+
+    /**
+     * @param string $thematic
+     * @throws Exception
+     * @return Boolean
+     */
+    public function checkOutReservations($thematic) {
+        $reservations = $this->getShoppingCartItems()->all();
+
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            foreach ($reservations as $reservation) {
+                $reservation->thematic = $thematic;
+                $reservation->status_id = AdvertisingConstructionStatuses::IN_PROCESSING;
+                $reservation->save();
+            }
+
+            $transaction->commit();
+        } catch (Exception $exc) {
+            $transaction->rollBack();
+            throw $exc;
+        }
+
+        return true;
     }
 
     /**

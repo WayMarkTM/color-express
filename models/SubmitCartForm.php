@@ -15,6 +15,14 @@ class SubmitCartForm extends Model
 {
     public $thematic;
 
+    public function rules()
+    {
+        return [
+            [['thematic'], 'required'],
+            [['thematic'], 'string']
+        ];
+    }
+
     /**
      * @return array customized attribute labels
      */

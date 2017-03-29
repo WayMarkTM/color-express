@@ -25,6 +25,10 @@ $this->title = 'Корзина';
 </div>
 <div class="row">
     <div class="col-md-12">
+        <?php if (Yii::$app->session->hasFlash('contactFormSubmitted')) { ?>
+            Ваш заказ отправлен.
+        <?php } ?>
+
         <?php Pjax::begin(); ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
