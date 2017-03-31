@@ -17,4 +17,5 @@ class AdvertisingConstructionStatuses
     const RESERVED = 31;
     const APPROVED = 40;
     const DECLINED = 50;
+    const CANCELLED = 255;
 }

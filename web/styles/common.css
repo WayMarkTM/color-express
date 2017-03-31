@@ -84,6 +84,7 @@ body {
     color: white;
     text-decoration: none;
     letter-spacing: 2px;
+    transition: all .5s ease-in-out;
 }
 
 .menu-container ul li a:hover {

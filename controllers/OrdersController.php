@@ -10,6 +10,7 @@ namespace app\controllers;
 
 
 use app\services\OrdersService;
+use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\web\Controller;
 
@@ -30,15 +31,13 @@ class OrdersController extends Controller
     public function actionIndex() {
         $service = new OrdersService();
 
-        $orders = $service->getOrders();
-
-        $dataProvider = new ArrayDataProvider([
-            'allModels' => $orders,
+        $dataProvider = new ActiveDataProvider([
+            'query' => $service->getOrders(),
             'sort' => [
-                'attributes' => ['id', 'advertisingConstructionName', 'address', 'status', 'type', 'cost'],
+                'attributes' => ['id'],
             ],
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 15,
             ],
         ]);
 

@@ -35,31 +35,33 @@ $this->title = 'Мои заказы';
                     'contentOptions' =>['class' => 'text-center'],
                 ],
                 [
-                    'attribute' => 'advertisingConstructionName',
+                    'attribute' => 'advertisingConstruction.name',
                     'format' => 'raw',
                     'headerOptions' => ['class' => 'text-center'],
                     'value' => function ($model) {
-                        return Html::a($model->advertisingConstructionName, ['advertising-construction/details?id='.$model->id]);
+                        return Html::a($model->advertisingConstruction->name, ['advertising-construction/details?id='.$model->advertisingConstruction->id]);
                     }
                 ],
                 [
-                    'attribute' => 'address',
+                    'attribute' => 'advertisingConstruction.address',
                     'headerOptions' => ['class' => 'text-center']
                 ],
                 [
-                    'attribute' => 'type',
+                    'attribute' => 'advertisingConstruction.type.name',
                     'headerOptions' => ['class' => 'text-center'],
                 ],
                 [
-                    'attribute' => 'status',
+                    'attribute' => 'status.name',
                     'headerOptions' => ['class' => 'text-center'],
+                    'contentOptions' =>['class' => 'text-center'],
+                    'label' => 'Статус'
                 ],
                 [
                     'label' => 'Даты использования',
                     'headerOptions' => ['class' => 'text-center', 'width' => '250'],
                     'contentOptions' =>['class' => 'text-center'],
                     'value' => function ($model) {
-                        return $model->dateFrom->format('d.m.Y').' - '.$model->dateTo->format('d.m.Y');
+                        return $model->from.' - '.$model->to;
                     }
                 ],
                 [
