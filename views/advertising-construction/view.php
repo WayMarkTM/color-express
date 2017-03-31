@@ -311,7 +311,19 @@ $(document).ready(function () {
     }
 
     function reservConstruction() {
+        var submitModel = {
+            advertising_construction_id: model.id(),
+            marketing_type: model.marketingType(),
+            from: model.dateFrom(),
+            to: model.dateTo()
+        };
 
+        colorApp.utilities.ajaxHelper.post({
+            url: GATEWAY_URLS.RESERV_CONSTRUCTION,
+            data: submitModel
+        }).done(function () {
+            window.location.href = BASE_URL + 'shopping-cart';
+        });
     }
 });
 JS;

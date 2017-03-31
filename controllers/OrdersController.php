@@ -45,4 +45,12 @@ class OrdersController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+    public function actionCancel($id) {
+        $service = new OrdersService();
+
+        $service->cancelOrder($id);
+
+        return $this->redirect(['index']);
+    }
 }

@@ -11,6 +11,7 @@ namespace app\controllers;
 
 use app\services\ClientsService;
 use app\services\OrdersService;
+use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\web\Controller;
 
@@ -48,25 +49,38 @@ class ClientsController extends Controller
         ]);
     }
 
-    public function actionDetails($id) {
+    public function actionDetails($clientId) {
         $clientService = new ClientsService();
         $orderService = new OrdersService();
-        $company = $clientService->getClientDetails($id);
-        $orders = $orderService->getOrdersByClient($id);
-        $ordersDataProvider = new ArrayDataProvider([
-            'allModels' => $orders,
+        $company = $clientService->getClientDetails($clientId);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $orderService->getOrders(),
             'sort' => [
-                'attributes' => ['id', 'advertisingConstructionName', 'address', 'status', 'type', 'cost']
+                'attributes' => ['id'],
             ],
             'pagination' => [
-                'pageSize' => 10
-            ]
+                'pageSize' => 15,
+            ],
         ]);
 
         return $this->render('details', [
             'company' => $company,
-            'ordersDataProvider' => $ordersDataProvider
+            'ordersDataProvider' => $dataProvider
         ]);
+    }
+
+    public function actionDeclineOrder($clientId, $orderId) {
+        $service = new OrdersService();
+        $service->declineOrder($orderId);
+
+        return $this->redirect('details?clientId='.$clientId);
+    }
+
+    public function actionApproveOrder($clientId, $orderId) {
+        $service = new OrdersService();
+        $service->approveOrder($orderId);
+
+        return $this->redirect('details?clientId='.$clientId);
     }
 
 }

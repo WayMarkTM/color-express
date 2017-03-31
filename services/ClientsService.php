@@ -14,7 +14,7 @@ class ClientsService
 {
     public function getClients() {
         return array(
-            new ClientModel(1, 'ООО "Колорэкспресс"', 'Иван Иванович', '+375 (29) 222 22 22', 'mailmail@mail.ru', 'Заказчик', 'Александра'),
+            new ClientModel(100, 'ООО "Колорэкспресс"', 'Иван Иванович', '+375 (29) 222 22 22', 'mailmail@mail.ru', 'Заказчик', 'Александра'),
             new ClientModel(2, 'ООО "Колор экспо Минск"', 'Дмитрий Дмитриевич', '+375 (29) 222 22 22', 'mailmail@mail.ru', 'Агенство', 'Ирина'),
             new ClientModel(3, 'ООО "Колор экспо Минск"', 'Дмитрий Дмитриевич', '+375 (29) 222 22 22', 'mailmail@mail.ru', 'Агенство', 'Ирина'),
             new ClientModel(4, 'ООО "Колор экспо Минск"', 'Дмитрий Дмитриевич', '+375 (29) 222 22 22', 'mailmail@mail.ru', 'Агенство', 'Ирина'),
@@ -35,6 +35,6 @@ class ClientsService
 
     public function getClientDetails($id) {
         $clients = $this->getClients();
-        return $clients[$id - 1];
+        return $clients[0];
     }
 }

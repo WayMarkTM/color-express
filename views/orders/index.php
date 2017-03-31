@@ -6,6 +6,7 @@
  * Time: 7:37PM
  */
 
+use app\models\constants\AdvertisingConstructionStatuses;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -80,21 +81,21 @@ $this->title = 'Мои заказы';
                             return Html::a('Купить', '/', [
                                 'title' => 'Купить',
                                 'class' => 'custom-btn sm blue',
-                                'style' => 'width: 50%;'.($model->status != 'Резерв до' ? 'display:none' : '')
+                                'style' => 'width: 50%;'.($model->status_id != AdvertisingConstructionStatuses::RESERVED ? 'display:none' : '')
                             ]);
                         },
                         'buyAgain' => function ($url, $model) {
-                            return Html::a('Купить повторно', '/', [
+                            return Html::a('Купить повторно', ['advertising-construction/details?id='.$model->advertisingConstruction->id], [
                                 'title' => 'Купить повторно',
                                 'class' => 'custom-btn sm blue',
-                                'style' => 'width: '.($model->status == 'Завершено' ? '100%' : '50%').';'.($model->status == 'Резерв до' ? 'display:none' : '')
+                                'style' => 'width: '.($model->status_id == AdvertisingConstructionStatuses::APPROVED || $model->status_id == AdvertisingConstructionStatuses::DECLINED ? '100%' : '50%').';'.($model->status == AdvertisingConstructionStatuses::RESERVED ? 'display:none' : '')
                             ]);
                         },
                         'cancel' => function ($url, $model) {
-                            return Html::a('Отменить', '/', [
+                            return Html::a('Отменить', '/orders/cancel?id='.$model->id, [
                                 'title' => 'Отменить',
                                 'class' => 'custom-btn sm white',
-                                'style' => 'width:50%;'.($model->status == 'Завершено' ? 'display: none;' : '')
+                                'style' => 'width:50%;'.($model->status_id != AdvertisingConstructionStatuses::IN_PROCESSING ? 'display: none;' : '')
                             ]);
                         }
                     ]

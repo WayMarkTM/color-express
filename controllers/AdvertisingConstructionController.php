@@ -85,6 +85,25 @@ class AdvertisingConstructionController extends Controller
         return [];
     }
 
+    public function actionReservConstruction() {
+        $this->enableCsrfValidation = false;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        /* id, from, to */
+        $model = Yii::$app->request->post();
+        $service = new AdvertisingConstructionReservationService();
+
+        if (Yii::$app->request->isAjax) {
+            $service->createReservation($model, AdvertisingConstructionStatuses::IN_BASKET_RESERVED);
+
+            return [
+                'success' => true
+            ];
+        }
+
+        return [];
+    }
+
     /**
      * Finds the AdvertisingConstruction model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
