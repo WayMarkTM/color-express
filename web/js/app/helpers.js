@@ -33,21 +33,7 @@ colorApp.utilities.ajaxHelper = (function (jQuery) {
 
     return {
         post: function (options) {
-            var d = jQuery.Deferred();
-
-            ajax(options.url, options.data, "POST")
-                .done(function (response) {
-                    if (response) {
-                        d.resolve(response.data);
-                    } else {
-                        d.reject(response);
-                    }
-                })
-                .fail(function () {
-                    d.reject();
-                });
-
-            return d;
+            return ajax(options.url, options.data, "POST");
         }
     }
 })($);

@@ -305,8 +305,12 @@ $(document).ready(function () {
         colorApp.utilities.ajaxHelper.post({
             url: GATEWAY_URLS.BUY_CONSTRUCTION,
             data: submitModel
-        }).done(function () {
-            window.location.href = BASE_URL + 'shopping-cart';
+        }).done(function (result) {
+            if (result.isValid) {
+                window.location.href = BASE_URL + 'shopping-cart';
+            } else {
+                alert(result.message);
+            }
         });
     }
 
@@ -322,7 +326,11 @@ $(document).ready(function () {
             url: GATEWAY_URLS.RESERV_CONSTRUCTION,
             data: submitModel
         }).done(function () {
-            window.location.href = BASE_URL + 'shopping-cart';
+            if (result.isValid) {
+                window.location.href = BASE_URL + 'shopping-cart';
+            } else {
+                alert(result.message);
+            }
         });
     }
 });
