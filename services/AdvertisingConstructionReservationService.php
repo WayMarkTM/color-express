@@ -43,11 +43,9 @@ class AdvertisingConstructionReservationService
      * @return Boolean
      */
     public function checkOutReservations($thematic) {
-        $reservations = $this->getShoppingCartItems()->all();
-
         $transaction = Yii::$app->db->beginTransaction();
         try {
-            foreach ($reservations as $reservation) {
+            foreach ($this->getShoppingCartItems()->each() as $reservation) {
                 $reservation->thematic = $thematic;
                 $reservation->status_id = AdvertisingConstructionStatuses::IN_PROCESSING;
                 $reservation->save();
@@ -81,10 +79,40 @@ class AdvertisingConstructionReservationService
     public function createReservation($model, $status) {
         $currentUserId = Yii::$app->user->getId();
         // TODO: add validation on busy construction
+        if (!$this->isDateRangesValid($model)) {
+            return [
+                'isValid' => false,
+                'message' => 'Данные даты заняты для бронирования.'
+            ];
+        }
+
         $reservation = $this->getAdvertisingConstructionReservation($currentUserId, $model, $status);
         $reservation->save();
 
-        return $reservation;
+        return [
+            'isValid' => true,
+            'reservation' => $reservation
+        ];
+    }
+
+    /**
+     * @param mixed $model
+     * @return Boolean is model valid
+     */
+    function isDateRangesValid($model) {
+        $reservations = AdvertisingConstructionReservation::find()
+            ->where(['=', 'advertising_construction_id', $model['advertising_construction_id']])
+            ->andFilterWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)])
+            ->all();
+
+        $dateService = new DateService();
+        foreach ($reservations as $reservation) {
+            if ($dateService->intersects(new \DateTime($model['from']), new \DateTime($model['to']), new \DateTime($reservation->from), new \DateTime($reservation->to))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

@@ -43,7 +43,6 @@ class AdvertisingConstructionReservation extends \yii\db\ActiveRecord
             [['from', 'to'], 'safe'],
             [['cost'], 'number'],
             [['thematic'], 'string'],
-            [['created_at'], 'datetime'],
             [['advertising_construction_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstruction::className(), 'targetAttribute' => ['advertising_construction_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstructionReservationStatus::className(), 'targetAttribute' => ['status_id' => 'id']],
             [['marketing_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => MarketingType::className(), 'targetAttribute' => ['marketing_type_id' => 'id']],

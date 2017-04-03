@@ -75,11 +75,7 @@ class AdvertisingConstructionController extends Controller
         $service = new AdvertisingConstructionReservationService();
 
         if (Yii::$app->request->isAjax) {
-            $service->createReservation($model, AdvertisingConstructionStatuses::IN_BASKET_ORDER);
-
-            return [
-                'success' => true
-            ];
+            return $service->createReservation($model, AdvertisingConstructionStatuses::IN_BASKET_ORDER);
         }
 
         return [];
