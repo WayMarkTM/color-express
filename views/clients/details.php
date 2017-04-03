@@ -7,6 +7,7 @@
  */
 
 
+use app\models\constants\AdvertisingConstructionStatuses;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -39,31 +40,33 @@ $this->title = $company->company;
                             'contentOptions' =>['class' => 'text-center'],
                         ],
                         [
-                            'attribute' => 'advertisingConstructionName',
+                            'attribute' => 'advertisingConstruction.name',
                             'format' => 'raw',
                             'headerOptions' => ['class' => 'text-center'],
                             'value' => function ($model) {
-                                return Html::a($model->advertisingConstructionName, ['advertising-construction/details?id='.$model->id]);
+                                return Html::a($model->advertisingConstruction->name, ['advertising-construction/details?id='.$model->advertisingConstruction->id]);
                             }
                         ],
                         [
-                            'attribute' => 'address',
+                            'attribute' => 'advertisingConstruction.address',
                             'headerOptions' => ['class' => 'text-center']
                         ],
                         [
-                            'attribute' => 'type',
+                            'attribute' => 'advertisingConstruction.type.name',
                             'headerOptions' => ['class' => 'text-center'],
                         ],
                         [
-                            'attribute' => 'status',
+                            'label' => 'Статус',
+                            'attribute' => 'status.name',
                             'headerOptions' => ['class' => 'text-center'],
+                            'contentOptions' =>['class' => 'text-center'],
                         ],
                         [
                             'label' => 'Даты использования',
                             'headerOptions' => ['class' => 'text-center', 'width' => '250'],
                             'contentOptions' =>['class' => 'text-center'],
                             'value' => function ($model) {
-                                return $model->dateFrom->format('d.m.Y').' - '.$model->dateTo->format('d.m.Y');
+                                return $model->from.' - '.$model->to;
                             }
                         ],
                         [
@@ -79,17 +82,17 @@ $this->title = $company->company;
                             'contentOptions' =>['class' => 'text-center'],
                             'buttons' => [
                                 'confirm' => function ($url ,$model) {
-                                    return Html::a('Подтвердить', '/', [
+                                    return Html::a('Подтвердить', ['clients/approve-order?clientId='.$company->id.'&orderId='.$model->id], [
                                         'title' => 'Подтвердить',
                                         'class' => 'custom-btn sm blue',
-                                        'style' => 'width:50%;'.($model->status == 'Резерв до' ? '' : 'display: none;')
+                                        'style' => 'width:50%;'.($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING ? '' : 'display: none;')
                                     ]);
                                 },
                                 'cancel' => function ($url, $model) {
-                                    return Html::a('Отклонить', '/', [
+                                    return Html::a('Отклонить', ['clients/decline-order?clientId='.$company->id.'&orderId='.$model->id], [
                                         'title' => 'Отклонить',
                                         'class' => 'custom-btn sm white',
-                                        'style' => 'width:50%;'.($model->status != 'Резерв до' ? 'display: none;' : '')
+                                        'style' => 'width:50%;'.($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING ? '' : 'display: none;')
                                     ]);
                                 }
                             ]

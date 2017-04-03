@@ -12,12 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="advertising-construction-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3>
+        <?= Html::encode($this->title) ?>
+        <?= Html::a('Создать рекламную конструкцию', ['create'], ['class' => 'custom-btn blue']) ?>
+    </h3>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Создать рекламную конструкцию', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,

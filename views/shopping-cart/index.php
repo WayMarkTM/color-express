@@ -25,6 +25,10 @@ $this->title = 'Корзина';
 </div>
 <div class="row">
     <div class="col-md-12">
+        <?php if (Yii::$app->session->hasFlash('contactFormSubmitted')) { ?>
+            Ваш заказ отправлен.
+        <?php } ?>
+
         <?php Pjax::begin(); ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
@@ -36,15 +40,15 @@ $this->title = 'Корзина';
                     'contentOptions' =>['class' => 'text-center'],
                 ],
                 [
-                    'attribute' => 'advertisingConstructionName',
+                    'attribute' => 'advertisingConstruction.name',
                     'format' => 'raw',
                     'headerOptions' => ['class' => 'text-center'],
                     'value' => function ($model) {
-                        return Html::a($model->advertisingConstructionName, ['advertising-construction/details?id='.$model->id]);
+                        return Html::a($model->advertisingConstruction->name, ['advertising-construction/details?id='.$model->advertisingConstruction->id]);
                     }
                 ],
                 [
-                    'attribute' => 'address',
+                    'attribute' => 'advertisingConstruction.address',
                     'headerOptions' => ['class' => 'text-center']
                 ],
                 [
@@ -52,7 +56,7 @@ $this->title = 'Корзина';
                     'headerOptions' => ['class' => 'text-center', 'width' => '250'],
                     'contentOptions' =>['class' => 'text-center'],
                     'value' => function ($model) {
-                        return $model->dateFrom->format('d.m.Y').' - '.$model->dateTo->format('d.m.Y');
+                        return $model->from.' - '.$model->to;
                     }
                 ],
                 [
@@ -61,9 +65,12 @@ $this->title = 'Корзина';
                     'contentOptions' =>['class' => 'text-center'],
                 ],
                 [
-                    'attribute' => 'marketingType',
+                    'label' => 'Тип рекламы',
                     'headerOptions' => ['class' => 'text-center', 'width' => '180'],
                     'contentOptions' =>['class' => 'text-center'],
+                    'value' => function ($model) {
+                        return $model->marketingType->name;
+                    }
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',

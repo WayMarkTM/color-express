@@ -13,7 +13,7 @@ use yii\filters\VerbFilter;
 /**
  * VacancyController implements the CRUD actions for Vacancy model.
  */
-class VacancyController extends Controller
+class VacancyController extends BaseAdminController
 {
     /**
      * @inheritdoc
@@ -44,6 +44,7 @@ class VacancyController extends Controller
 
         return $this->render('index', [
             'feedBackForm' => $feedBackForm,
+            'dataProvider' => $dataProvider
         ]);
     }
 

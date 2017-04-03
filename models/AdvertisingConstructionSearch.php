@@ -43,12 +43,17 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
      * Creates data provider instance with search query applied
      *
      * @param array $params
+     * @param Boolean $showOnlyPublished
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $showOnlyPublished)
     {
         $query = AdvertisingConstruction::find();
+
+        if ($showOnlyPublished) {
+            $query = $query->where(['=', 'is_published', '1']);
+        }
 
         // add conditions that should always apply here
 

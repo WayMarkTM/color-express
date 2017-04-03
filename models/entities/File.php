@@ -52,14 +52,6 @@ class File extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAdvertisingConstructionImages()
-    {
-        return $this->hasMany(AdvertisingConstructionImage::className(), ['file_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getContactUsSubmissions()
     {
         return $this->hasMany(ContactUsSubmission::className(), ['cv_id' => 'id']);

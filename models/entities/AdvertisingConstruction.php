@@ -11,13 +11,15 @@ use Yii;
  * @property string $name
  * @property string $nearest_locations
  * @property string $traffic_info
- * @property integer $has_traffic_lights
+ * @property boolean $has_traffic_lights
+ * @property boolean $is_published
  * @property integer $address
  * @property integer $size_id
  * @property string $price
  * @property integer $type_id
  * @property string $latitude
  * @property string $longitude
+ * @property string $requirements_document_path
  *
  * @property AdvertisingConstructionSize $size
  * @property AdvertisingConstructionType $type
@@ -40,10 +42,10 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
-            [['nearest_locations', 'traffic_info', 'latitude', 'longitude'], 'string'],
+            [['name', 'address', 'size_id', 'price', 'type_id', 'requirements_document_path'], 'required'],
+            [['nearest_locations', 'traffic_info', 'latitude', 'longitude', 'requirements_document_path'], 'string'],
             [['size_id', 'type_id'], 'integer'],
-            [['has_traffic_lights'], 'boolean'],
+            [['has_traffic_lights', 'is_published'], 'boolean'],
             [['price'], 'number'],
             [['name', 'address'], 'string', 'max' => 255],
             [['size_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstructionSize::className(), 'targetAttribute' => ['size_id' => 'id']],
@@ -67,7 +69,9 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
             'price' => 'Цена',
             'type_id' => 'Тип',
             'latitude' => 'Широта',
-            'longitude' => 'Долгота'
+            'longitude' => 'Долгота',
+            'is_published' => 'Показывать на внешнем сайте',
+            'requirements_document_path' => 'Технические требования'
         ];
     }
 

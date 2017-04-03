@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\entities\AdvertisingConstructionSize */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Advertising Construction Sizes', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Управление размерами рекламных конструкций', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="advertising-construction-size-view">
@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
+        <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'custom-btn blue']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
+            'class' => 'custom-btn red',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены, что хотите удалить этот размер?',
                 'method' => 'post',
             ],
         ]) ?>

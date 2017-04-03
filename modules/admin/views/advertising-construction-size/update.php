@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\entities\AdvertisingConstructionSize */
 
-$this->title = 'Update Advertising Construction Size: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Advertising Construction Sizes', 'url' => ['index']];
+$this->title = 'Редактирование размера рекламных конструкций: ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Управление размерами рекламных конструкций', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Редактирование';
 ?>
 <div class="advertising-construction-size-update">
 

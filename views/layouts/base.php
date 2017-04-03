@@ -28,16 +28,28 @@ if(!Yii::$app->user->isGuest) {
     if($user->getRole() == 'admin') {
         $menu = [
             [
-                'label' => 'Управление клиентами',
-                'url' => ['clients/index']
-            ],
-            [
                 'label' => 'Управление конструкциями',
                 'url' => ['advertising-construction/index']
             ],
             [
-                'label' => 'Новые заявки на регистрацию',
-                'url' => 'registration-requests/index'
+                'label' => 'Управление размерами конструкций',
+                'url' => ['advertising-construction-size/index']
+            ],
+            [
+                'label' => 'Управление типами конструкций',
+                'url' => ['advertising-construction-type/index']
+            ],
+            [
+                'label' => 'Управление нашими клиентами',
+                'url' => ['our-client/index']
+            ],
+//            [
+//                'label' => 'Управление пользователями',
+//                'url' => ['user/index']
+//            ],
+            [
+                'label' => 'Управление вакансиями',
+                'url' => ['vacancy/index']
             ]
         ];
     } else if($user->getRole() == 'client') {
@@ -56,7 +68,7 @@ if(!Yii::$app->user->isGuest) {
             ],
             [
                 'label' => 'Документы',
-                'url' => 'site/index'
+                'url' => ['site/index']
             ]
         ];
     } else if($user->getRole() == 'employee') {
@@ -71,7 +83,7 @@ if(!Yii::$app->user->isGuest) {
             ],
             [
                 'label' => 'Новые заявки на регистрацию',
-                'url' => 'registration-requests/index'
+                'url' => ['registration-requests/index']
             ]
         ];
     }
@@ -89,6 +101,9 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <script type="text/javascript">
+        var BASE_URL = '<?php echo Url::home(true); ?>';
+    </script>
     <?php $this->head() ?>
 </head>
 <body>

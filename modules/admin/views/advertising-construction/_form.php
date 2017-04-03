@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 
 <div class="advertising-construction-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
@@ -31,8 +31,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'has_traffic_lights')->checkBox(['selected' => $model->has_traffic_lights]) ?>
 
+    <?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
+
+    <?= $form->field($model, 'documentFile')->fileInput(['accept' => 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document']) ?>
+
+    <?= $form->field($model, 'is_published')->checkBox(['selected' => $model->is_published]) ?>
+
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->id != null ? 'Создать' : 'Сохранить', ['class' => 'custom-btn blue']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

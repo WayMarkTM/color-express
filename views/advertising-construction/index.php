@@ -46,7 +46,7 @@ function json_encode_database_models(array $models, $attributeNames) {
     return json_encode(database_model_to_array($models, $attributeNames));
 }
 
-$modelAttributeNames = 'id, name, latitude, longitude';
+$modelAttributeNames = 'id, name, latitude, longitude, advertisingConstructionImages';
 $models =  database_model_to_array($dataProvider->getModels(), $modelAttributeNames);
 
 $coord = new LatLng(['lat' => 53.8905047, 'lng' => 27.5292012]);

@@ -16,7 +16,7 @@ use yii\web\UploadedFile;
 /**
  * OurClientController implements the CRUD actions for OurClient model.
  */
-class OurClientController extends Controller
+class OurClientController extends BaseAdminController
 {
     /**
      * @inheritdoc

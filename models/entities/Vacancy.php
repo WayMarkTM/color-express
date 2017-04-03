@@ -40,8 +40,8 @@ class Vacancy extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'content' => 'Content',
+            'title' => 'Заголовок',
+            'content' => 'Содержимое (с HTML разметкой)',
         ];
     }
 }

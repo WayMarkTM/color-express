@@ -6,17 +6,17 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Advertising Construction Sizes';
+$this->title = 'Управление размерами рекламных конструкций';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="advertising-construction-size-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3>
+        <?= Html::encode($this->title) ?>
+        <?= Html::a('Создать тип рекламной конструкции', ['create'], ['class' => 'custom-btn blue']) ?>
+    </h3>
 
-    <p>
-        <?= Html::a('Create Advertising Construction Size', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+    <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],

@@ -8,27 +8,81 @@
 
 namespace app\services;
 
+use app\models\entities\AdvertisingConstruction;
+use app\models\entities\AdvertisingConstructionImage;
 use app\models\entities\AdvertisingConstructionSize;
 use app\models\entities\AdvertisingConstructionType;
+use app\models\entities\MarketingType;
+use app\modules\admin\models\AdvertisingConstructionForm;
+use Yii;
+use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 
 
 class AdvertisingConstructionService
 {
     /**
-     * @param ..\models\entities\AdvertisingConstruction $viewModel
+     * @param AdvertisingConstructionForm $viewModel
+     * @return integer $id
      */
     public function saveAdvertisingConstruction($viewModel) {
+        $model = $viewModel->map();
         $geocodingService = new GoogleGeocodingService();
 
-        $coordinates = $geocodingService->geocode($viewModel->address);
+        $coordinates = $geocodingService->geocode($model->address);
 
         if ($coordinates) {
-            $viewModel->latitude = strval($coordinates['lat']);
-            $viewModel->longitude = strval($coordinates['long']);
+            $model->latitude = strval($coordinates['lat']);
+            $model->longitude = strval($coordinates['long']);
         }
 
-        $viewModel->save();
+        $images = $this->mapToImages($viewModel->images);
+
+        $id = $this->saveAdvertisingConstructionToDatabase($model, $images);
+
+        return $id;
+    }
+
+    /**
+     * @param AdvertisingConstruction $model
+     * @param array AdvertisingConstructionImage $images
+     * @return integer $id
+     * @throws Exception
+     * @throws \yii\db\Exception
+     */
+    private function saveAdvertisingConstructionToDatabase($model, $images) {
+        $transaction = Yii::$app->db->beginTransaction();
+
+        try {
+            $model->save();
+
+            foreach ($images as $image) {
+                $model->link('advertisingConstructionImages', $image);
+            }
+
+            $transaction->commit();
+
+            return $model->id;
+        } catch (Exception $e) {
+            $transaction->rollback();
+        }
+
+        throw new Exception('Failed to save Advertising Construction with related images');
+    }
+
+    /**
+     * @param array $images
+     * @return array AdvertisingConstructionImage
+     */
+    private function mapToImages($images) {
+        $advertisingConstructionImages = array();
+        foreach ($images as $image) {
+            $acImage = new AdvertisingConstructionImage();
+            $acImage->path = $image;
+            array_push($advertisingConstructionImages, $acImage);
+        }
+
+        return $advertisingConstructionImages;
     }
 
     public static function getAdvertisingConstructionTypeDropdownItems() {
@@ -37,5 +91,9 @@ class AdvertisingConstructionService
 
     public static function getAdvertisingConstructionSizeDropdownItems() {
         return ArrayHelper::map(AdvertisingConstructionSize::find()->all(), 'id', 'size');
+    }
+
+    public static function getMarketingTypeDropdownItems() {
+        return ArrayHelper::map(MarketingType::find()->all(), 'id', 'name');
     }
 }
