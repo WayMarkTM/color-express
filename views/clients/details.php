@@ -15,9 +15,9 @@ use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $ordersDataProvider yii\data\ArrayDataProvider */
-/* @var $company app\models\ClientModel */
+/* @var $user app\models\ClientModel */
 
-$this->title = $company->company;
+$this->title = $user->company;
 ?>
 
 <ul class="nav nav-tabs" id="control-tabs" role="tablist">
@@ -82,14 +82,14 @@ $this->title = $company->company;
                             'contentOptions' =>['class' => 'text-center'],
                             'buttons' => [
                                 'confirm' => function ($url ,$model) {
-                                    return Html::a('Подтвердить', ['clients/approve-order?clientId='.$company->id.'&orderId='.$model->id], [
+                                    return Html::a('Подтвердить', ['clients/approve-order?clientId='.$user->id.'&orderId='.$model->id], [
                                         'title' => 'Подтвердить',
                                         'class' => 'custom-btn sm blue',
                                         'style' => 'width:50%;'.($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING ? '' : 'display: none;')
                                     ]);
                                 },
                                 'cancel' => function ($url, $model) {
-                                    return Html::a('Отклонить', ['clients/decline-order?clientId='.$company->id.'&orderId='.$model->id], [
+                                    return Html::a('Отклонить', ['clients/decline-order?clientId='.$user->id.'&orderId='.$model->id], [
                                         'title' => 'Отклонить',
                                         'class' => 'custom-btn sm white',
                                         'style' => 'width:50%;'.($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING ? '' : 'display: none;')
@@ -113,7 +113,7 @@ $this->title = $company->company;
         <div class="row">
             <div class="col-sm-12">
                 <div class="info-block">
-                    <h4 class="important-content text-uppercase"><?php echo $company->company; ?></h4>
+                    <h4 class="important-content text-uppercase"><?php echo $user->company; ?></h4>
                 </div>
             </div>
         </div>
@@ -127,11 +127,9 @@ $this->title = $company->company;
         <div class="row block-row">
             <div class="col-sm-12">
                 <div class="info-block">
-                    <h4 class="info-block-header internal"><i class="icon phone-icon"></i><?php echo $company->name ?></h4>
+                    <h4 class="info-block-header internal"><i class="icon phone-icon"></i><?php echo $user->name ?></h4>
                     <div class="info-block-content internal">
-                        <p>+375 17 399-10-95/96/97</p>
-                        <p>+375 29 199-27-89</p>
-                        <p>+375 44 742-59-21</p>
+                        <p><?php echo $user->number; ?></p>
                     </div>
                 </div>
             </div>
@@ -141,7 +139,7 @@ $this->title = $company->company;
                 <div class="info-block">
                     <h4 class="info-block-header internal"><i class="icon email-icon"></i>Email:</h4>
                     <div class="info-block-content internal">
-                        <p><?php echo $company->email; ?></p>
+                        <p><?php echo $user->username; ?></p>
                     </div>
                 </div>
             </div>
@@ -153,7 +151,7 @@ $this->title = $company->company;
                 <div class="info-block">
                     <h4 class="info-block-header internal"><i class="icon address-icon"></i>Адрес:</h4>
                     <div class="info-block-content internal">
-                        <p>г. Минск, ул. Железнодорожная, 44</p>
+                        <p><?php echo $user->address; ?></p>
                     </div>
                 </div>
             </div>
@@ -163,7 +161,7 @@ $this->title = $company->company;
                 <div class="info-block">
                     <h4 class="info-block-header internal"><i class="icon info-icon"></i>Информация:</h4>
                     <div class="info-block-content internal">
-                        <p><?php echo $company->type; ?></p>
+                        <p><?php echo $user->getType(); ?></p>
                         <p>Договор №384 от 20.08.2014 г.</p>
                     </div>
                 </div>
@@ -172,10 +170,14 @@ $this->title = $company->company;
     </div>
 </div>
 
+<?php
+    $script = <<< JS
+jQuery('#control-tabs').find('a').click(function (e) {
+    e.preventDefault();
+    jQuery(this).tab('show')
+});
+JS;
 
-<script type="text/javascript">
-    jQuery('#control-tabs').find('a').click(function (e) {
-        e.preventDefault();
-        jQuery(this).tab('show')
-    });
-</script>
+$position = \yii\web\View::POS_READY;
+$this->registerJs($script, $position);
+?>
