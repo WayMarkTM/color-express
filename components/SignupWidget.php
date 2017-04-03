@@ -8,8 +8,10 @@
 
 namespace app\components;
 
+use Yii;
 use yii\base\Widget;
 use app\models\SignupForm;
+use app\services\UserService;
 
 class SignupWidget extends Widget
 {
@@ -25,8 +27,9 @@ class SignupWidget extends Widget
     {
         if (isset($_POST['SignupForm'])) {
             $this->signupForm->attributes = $_POST['SignupForm'];
-            $this->signupForm->login();
-            \Yii::$app->getResponse()->redirect(\Yii::$app->getRequest()->getUrl());
+            $userService = new UserService();
+            $userService->save($this->signupForm);
+            Yii::$app->getResponse()->redirect(\Yii::$app->getRequest()->getUrl());
         }
         return $this->render('_signup', [
             'model' => $this->signupForm

@@ -7,8 +7,9 @@
  */
 
 namespace app\models;
-use Yii;
+
 use yii\base\Model;
+use app\models\entities\User;
 
 class SignupForm extends Model
 {
@@ -17,12 +18,11 @@ class SignupForm extends Model
     public $sec_password;
     public $name;
     public $surname;
-    public $salt;
     public $email;
     public $number;
     public $is_agency;
     public $company;
-    public $adress;
+    public $address;
     public $pan;
     public $okpo;
     public $checking_account;
@@ -32,10 +32,28 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            // username and password are both required
-            [['username', 'password'], 'required'],
-            // password is validated by validatePassword()
-            //['password', 'validatePassword'],
+            [['username', 'name', 'is_agency',
+                'company', 'address', 'pan', 'okpo', 'number', 'is_agency',
+                'checking_account', 'bank', 'photo'], 'required', 'message' => 'Поле обязательное для заполнения'],
+            [['password', 'sec_password'], 'required', 'message' => 'Пароль слишком короткий'],
+            [['sec_password'], 'compare', 'compareAttribute' => 'password', 'message' => 'Пароли не совпадают'],
+            [['username', 'password', 'name', 'is_agency',
+                'company', 'address', 'pan', 'okpo', 'number',
+                'checking_account', 'bank', 'photo'], 'safe'],
+            ['password', 'string', 'min' => 8],
+            ['username', 'string', 'max' => 60],
+            ['username','email', 'message' => 'email не соответствует формату'],
+            [['name', 'surname'], 'string', 'max' => 30],
+            [['company'], 'string'],
+            [['number'], 'string', 'max' => 13],
+            ['okpo', 'string', 'length' => 8],
+            ['pan', 'string', 'length' => 9],
+            ['checking_account', 'string'],
+            ['bank', 'string'],
+            ['username', 'validateEmail'],
+            [['username', 'password', 'sec_password', 'name', 'is_agency',
+                'company', 'address', 'pan', 'okpo', 'number',
+                'checking_account', 'bank', 'photo'], 'safe'],
         ];
     }
 
@@ -57,5 +75,11 @@ class SignupForm extends Model
             'bank' => 'Банко',
             'photo' => 'Фото',
         ];
+    }
+
+    public function validateEmail($attribute, $params)
+    {
+        if(User::findByUsername($this->username))
+            $this->addError('username', 'Этот email уже зарегистрирован');
     }
 }

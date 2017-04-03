@@ -2,12 +2,16 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\LoginForm;
 use Yii;
 use app\models\entities\User;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
+use app\models\SignupForm;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -27,6 +31,24 @@ class UserController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actionValidateLogin()
+    {
+        $authForm = new LoginForm();
+        if (Yii::$app->request->isAjax && $authForm->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($authForm);
+        }
+    }
+
+    public function actionValidateSignup()
+    {
+        $signupForm = new SignupForm();
+        if (Yii::$app->request->isAjax && $signupForm->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($signupForm);
+        }
     }
 
     /**

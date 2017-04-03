@@ -14,6 +14,8 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\services\ContactUsSubmissionService;
 use app\queries\OurClientQuery;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class SiteController extends Controller
 {
@@ -90,6 +92,11 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }

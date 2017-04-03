@@ -1,6 +1,7 @@
 <?php
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $auth_form \app\models\LoginForm */
 ?>
@@ -18,13 +19,14 @@ use yii\helpers\Html;
                     $form = ActiveForm::begin([
                         'id' => 'login-form',
                         'options' => ['class' => 'modal-form'],
+                        'validationUrl' => Url::toRoute('admin/user/validate-login')
                     ])
                     ?>
                     <?= $form->field($auth_form, 'username')->textInput([
                         'placeholder' => 'Введите рабочий e-mail'
                         ])
                     ?>
-                    <?= $form->field($auth_form, 'password')->passwordInput([
+                    <?= $form->field($auth_form, 'password',['enableAjaxValidation' => true])->passwordInput([
                         'placeholder' => 'Не менее 8 символов'
                         ])
                     ?>
