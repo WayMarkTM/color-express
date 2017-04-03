@@ -34,7 +34,7 @@ class SignupForm extends Model
         return [
             [['username', 'name', 'is_agency',
                 'company', 'address', 'pan', 'okpo', 'number', 'is_agency',
-                'checking_account', 'bank', 'photo'], 'required', 'message' => 'Поле обязательное для заполнения'],
+                'checking_account', 'bank'], 'required', 'message' => 'Поле обязательное для заполнения'],
             [['password', 'sec_password'], 'required', 'message' => 'Пароль слишком короткий'],
             [['sec_password'], 'compare', 'compareAttribute' => 'password', 'message' => 'Пароли не совпадают'],
             [['username', 'password', 'name', 'is_agency',
