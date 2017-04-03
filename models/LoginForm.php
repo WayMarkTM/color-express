@@ -2,15 +2,11 @@
 
 namespace app\models;
 
+use app\models\entities\User;
 use Yii;
 use yii\base\Model;
 
-/**
- * LoginForm is the model behind the login form.
- *
- * @property User|null $user This property is read-only.
- *
- */
+
 class LoginForm extends Model
 {
     public $username;
@@ -26,11 +22,9 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            // username and password are both required
             [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
+            ['username', 'email', 'message' => 'email не соответствует формату'],
             ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
             ['password', 'validatePassword'],
         ];
     }
@@ -53,11 +47,12 @@ class LoginForm extends Model
      */
     public function validatePassword($attribute, $params)
     {
+        //$this->addError('password', 'Неверный логин или пароль.');
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError('password', 'Неверный логин или пароль.');
             }
         }
     }
@@ -81,9 +76,7 @@ class LoginForm extends Model
      */
     public function getUser()
     {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
-        }
+        $this->_user = User::findByUsername($this->username);
 
         return $this->_user;
     }

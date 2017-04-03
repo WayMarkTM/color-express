@@ -2,11 +2,13 @@
 
 namespace app\components;
 
+use Yii;
 use yii\base\Widget;
 use app\models\LoginForm;
 
 class AuthWidget extends Widget
 {
+    /* @var LoginForm*/
     public $authForm;
 
     public function init()
@@ -17,13 +19,11 @@ class AuthWidget extends Widget
 
     public function run()
     {
-        if (isset($_POST['LoginForm'])) {
-            $this->authForm->attributes = $_POST['LoginForm'];
-            $this->authForm->login();
-            \Yii::$app->getResponse()->redirect(\Yii::$app->getRequest()->getUrl());
+        if($this->authForm->load(Yii::$app->request->post()) && $this->authForm->login()) {
+            Yii::$app->getResponse()->redirect(\Yii::$app->getRequest()->getUrl());
         }
         return $this->render('_signin', [
-            'auth_form' => $this->authForm
+            'auth_form' => $this->authForm,
         ]);
     }
 

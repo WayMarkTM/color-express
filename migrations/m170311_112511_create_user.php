@@ -10,7 +10,7 @@ class m170311_112511_create_user extends Migration
     {
         $this->createTable($this->table, [
             'id' => $this->primaryKey(),
-            'username' => $this->string(15),
+            'username' => $this->string(15)->notNull()->unique(),
             'password' => $this->string(),
             'salt' => $this->string(),
             'name' => $this->string(50),
@@ -19,17 +19,20 @@ class m170311_112511_create_user extends Migration
             'number' => $this->string(20),
             'is_agency' => $this->boolean(),
             'company' => $this->string(50),
-            'adress' => $this->string(),
+            'address' => $this->string(),
             'pan' => $this->string(15),
             'okpo' => $this->string(15),
             'checking_account' => $this->string(20),
             'bank' => $this->string(50),
-            'photo' => $this->string(30)
+            'photo' => $this->string(30),
+            'manage_id' => $this->integer()
         ]);
+        $this->addForeignKey('fk_manage_id', $this->table, 'manage_id', $this->table, 'id');
     }
 
     public function safeDown()
     {
+        $this->dropForeignKey('fk_manage_id', $this->table);
         $this->dropTable($this->table);
     }
 }
