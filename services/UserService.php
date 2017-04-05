@@ -39,12 +39,19 @@ class UserService
         /* @param $clients User[] */
         $clients = User::find()->where(
             [
-                'manage_id' => Yii::$app->user->getId()
+                'OR',
+                [
+                    'manage_id' => Yii::$app->user->getId(),
+
+                ],
+                [
+                    'AND',
+                    ['NOT', ['is_agency' => null]],
+                    ['manage_id' => null]
+                ]
+
             ]
-        )->orWhere([
-            'manage_id' => null,
-            'is_agency' => 'not null',
-        ])->orderBy('id')->all();
+        )->orderBy('id')->all();
         foreach ($clients as $client) {
             $client_type = $client->is_agency ? 'Заказчик' : 'Агенство';
             $clientModels[] = new ClientModel($client->id, $client->company, $client->name, $client->number, $client->username, $client_type, $client->manage_id);
