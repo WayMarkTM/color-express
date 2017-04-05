@@ -9,9 +9,8 @@
 namespace app\controllers;
 
 
-use app\services\ClientsService;
+use app\services\UserService;
 use app\services\OrdersService;
-use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\web\Controller;
 
@@ -30,9 +29,9 @@ class ClientsController extends Controller
     }
 
     public function actionIndex() {
-        $service = new ClientsService();
+        $service = new UserService();
 
-        $clients = $service->getClients();
+        $clients = $service->getEmployeeClient();
 
         $dataProvider = new ArrayDataProvider([
             'allModels' => $clients,
@@ -49,38 +48,25 @@ class ClientsController extends Controller
         ]);
     }
 
-    public function actionDetails($clientId) {
+    public function actionDetails($id) {
         $clientService = new ClientsService();
         $orderService = new OrdersService();
-        $company = $clientService->getClientDetails($clientId);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $orderService->getOrders(),
+        $company = $clientService->getClientDetails($id);
+        $orders = $orderService->getOrdersByClient($id);
+        $ordersDataProvider = new ArrayDataProvider([
+            'allModels' => $orders,
             'sort' => [
-                'attributes' => ['id'],
+                'attributes' => ['id', 'advertisingConstructionName', 'address', 'status', 'type', 'cost']
             ],
             'pagination' => [
-                'pageSize' => 15,
-            ],
+                'pageSize' => 10
+            ]
         ]);
 
         return $this->render('details', [
             'company' => $company,
-            'ordersDataProvider' => $dataProvider
+            'ordersDataProvider' => $ordersDataProvider
         ]);
-    }
-
-    public function actionDeclineOrder($clientId, $orderId) {
-        $service = new OrdersService();
-        $service->declineOrder($orderId);
-
-        return $this->redirect('details?clientId='.$clientId);
-    }
-
-    public function actionApproveOrder($clientId, $orderId) {
-        $service = new OrdersService();
-        $service->approveOrder($orderId);
-
-        return $this->redirect('details?clientId='.$clientId);
     }
 
 }

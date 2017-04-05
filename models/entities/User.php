@@ -149,6 +149,6 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getRole()
     {
-        return 'admin';
+        return 'employee';
     }
 }

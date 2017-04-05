@@ -11,6 +11,7 @@ namespace app\services;
 use Yii;
 use app\models\entities\User;
 use app\models\SignupForm;
+use app\models\ClientModel;
 
 class UserService
 {
@@ -34,11 +35,22 @@ class UserService
 
     public function getEmployeeClient()
     {
-        return User::find()->where(
+        $clientModels= [];
+        /* @param $clients User[] */
+        $clients = User::find()->where(
             [
                 'manage_id' => Yii::$app->user->getId()
             ]
-        )->all();
+        )->orWhere([
+            'manage_id' => null,
+            'is_agency' => 'not null',
+        ])->orderBy('id')->all();
+        foreach ($clients as $client) {
+            $client_type = $client->is_agency ? 'Заказчик' : 'Агенство';
+            $clientModels[] = new ClientModel($client->id, $client->company, $client->name, $client->number, $client->username, $client_type, $client->manage_id);
+        }
+
+        return $clientModels;
     }
 
     public function getNewClients()
