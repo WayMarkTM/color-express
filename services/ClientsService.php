@@ -9,6 +9,7 @@
 namespace app\services;
 
 use app\models\ClientModel;
+use app\models\entities\User;
 
 class ClientsService
 {
@@ -35,7 +36,7 @@ class ClientsService
     }
 
     public function getClientDetails($id) {
-        $clients = $this->getClients();
-        return $clients[$id - 1];
+        $client = User::findOne($id);
+        return $client;
     }
 }

@@ -51,10 +51,9 @@ class ClientsController extends Controller
     public function actionDetails($id) {
         $clientService = new ClientsService();
         $orderService = new OrdersService();
-        $company = $clientService->getClientDetails($id);
-        $orders = $orderService->getOrdersByClient($id);
-        $ordersDataProvider = new ArrayDataProvider([
-            'allModels' => $orders,
+        $user = $clientService->getClientDetails($clientId);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $orderService->getOrders(),
             'sort' => [
                 'attributes' => ['id', 'advertisingConstructionName', 'address', 'status', 'type', 'cost']
             ],
@@ -64,7 +63,7 @@ class ClientsController extends Controller
         ]);
 
         return $this->render('details', [
-            'company' => $company,
+            'user' => $user,
             'ordersDataProvider' => $ordersDataProvider
         ]);
     }

@@ -151,4 +151,11 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return 'employee';
     }
+
+    /**
+     * @return string
+     */
+    public function getType() {
+        return $this->is_agency ? 'Агенство' : 'Заказчик';
+    }
 }
