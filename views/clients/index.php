@@ -10,6 +10,7 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ArrayDataProvider */
@@ -82,9 +83,12 @@ $this->title = 'Управление клиентами';
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{update}{delete}',
+                    'template' => '{update}{delete}{view}',
                     'headerOptions' => ['width' => '80', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
+                    'urlCreator' => function ($action, $model, $key, $index, $this) {
+                        return Url::toRoute([$action, 'id' => $model->id]);
+                    }
                 ],
             ],
         ]); ?>

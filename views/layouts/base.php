@@ -11,7 +11,7 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\components\AuthWidget;
 use app\components\SignupWidget;
-use app\models\entities\User;
+use app\models\User;
 
 $menu = [
     ['label' => 'Каталог рекламных конструкций', 'url' => ['advertising-construction/index']],

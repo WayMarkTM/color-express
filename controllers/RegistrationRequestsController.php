@@ -9,7 +9,7 @@
 namespace app\controllers;
 
 
-use app\services\RegistrationRequestsService;
+use app\services\UserService;
 use yii\data\ArrayDataProvider;
 use yii\web\Controller;
 
@@ -28,9 +28,9 @@ class RegistrationRequestsController extends Controller
     }
 
     public function actionIndex() {
-        $service = new RegistrationRequestsService();
+        $service = new UserService();
 
-        $requests = $service->getRequests();
+        $requests = $service->getNewClients();
 
         $dataProvider = new ArrayDataProvider([
             'allModels' => $requests,
@@ -45,5 +45,15 @@ class RegistrationRequestsController extends Controller
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionConfirmRegistration()
+    {
+        $id = \Yii::$app->request->get('id');
+        if(!empty($id)) {
+            $userService = new UserService();
+            $userService->setActiveUser($id);
+        }
+        $this->redirect('index');
     }
 }

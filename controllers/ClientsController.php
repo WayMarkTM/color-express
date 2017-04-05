@@ -68,4 +68,12 @@ class ClientsController extends Controller
         ]);
     }
 
+    public function actionDelete($id)
+    {
+        //add user can delete
+        $userService = new UserService();
+        $userService->deleteClient($id);
+        $this->redirect('index');
+    }
+
 }
