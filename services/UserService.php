@@ -75,7 +75,7 @@ class UserService
 
     }
 
-    public function getContNewClients()
+    public static function getContNewClients()
     {
         return self::getNewClientsTemplate()->count();
     }

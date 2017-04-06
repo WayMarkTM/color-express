@@ -11,15 +11,40 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\components\AuthWidget;
 use app\components\SignupWidget;
+use app\components\BadgeWidget;
 use app\models\User;
 
 $menu = [
-    ['label' => 'Каталог рекламных конструкций', 'url' => ['advertising-construction/index']],
-    ['label' => 'Преимущества', 'url' => ['site/advantages']],
-    ['label' => 'О компании', 'url' => ['site/about']],
-    ['label' => 'Наши клиенты', 'url' => ['site/clients']],
-    ['label' => 'Вакансии', 'url' => ['site/vacancies']],
-    ['label' => 'Контакты', 'url' => ['site/contact']],
+    [
+        'label' => 'Каталог рекламных конструкций',
+        'url' => ['advertising-construction/index'],
+        'visible' => Yii::$app->user->isGuest,
+    ],
+    [
+        'label' => 'Преимущества',
+        'url' => ['site/advantages'],
+        'visible' => Yii::$app->user->isGuest,
+    ],
+    [
+        'label' => 'О компании',
+        'url' => ['site/about'],
+        'visible' => Yii::$app->user->isGuest,
+    ],
+    [
+        'label' => 'Наши клиенты',
+        'url' => ['site/clients'],
+        'visible' => Yii::$app->user->isGuest,
+    ],
+    [
+        'label' => 'Вакансии',
+        'url' => ['site/vacancies'],
+        'visible' => Yii::$app->user->isGuest,
+    ],
+    [
+        'label' => 'Контакты',
+        'url' => ['site/contact'],
+        'visible' => Yii::$app->user->isGuest,
+    ],
 ];
 
 if(!Yii::$app->user->isGuest) {
@@ -83,8 +108,9 @@ if(!Yii::$app->user->isGuest) {
             ],
             [
                 'label' => 'Новые заявки на регистрацию',
-                'url' => ['registration-requests/index']
-            ]
+                'url' => ['registration-requests/index'],
+                'template' => '<a href="{url}">{label}</a>'.BadgeWidget::widget(['param' => BadgeWidget::$NEW_USER_COUNT]),
+            ],
         ];
     }
 

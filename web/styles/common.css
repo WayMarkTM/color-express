@@ -452,3 +452,13 @@ table td a:hover {
     margin-top: -23px;
     margin-bottom: 23px;
 }
+
+.badge {
+    background: #a5241d;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 8px;
+    color: #fff;
+    position: absolute;
+    border-radius: 0;
+}
