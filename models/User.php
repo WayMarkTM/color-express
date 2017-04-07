@@ -8,9 +8,9 @@
 
 namespace app\models;
 
-
+use Yii;
 use yii\web\IdentityInterface;
-
+use yii\base\NotSupportedException;
 
 class User extends \app\models\entities\User implements IdentityInterface
 {
@@ -127,7 +127,12 @@ class User extends \app\models\entities\User implements IdentityInterface
 
     public function getRole()
     {
-        return 'employee';
+        if( $this->name == 'client')
+            return 'client';
+        else if( $this->name == 'admin')
+            return 'admin';
+        else
+            return 'employee';
     }
 
     /**
