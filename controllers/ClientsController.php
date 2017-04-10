@@ -11,6 +11,7 @@ namespace app\controllers;
 
 use app\services\UserService;
 use app\services\OrdersService;
+use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\web\Controller;
 

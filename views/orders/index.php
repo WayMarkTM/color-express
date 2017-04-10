@@ -88,7 +88,7 @@ $this->title = 'Мои заказы';
                             return Html::a('Купить повторно', ['advertising-construction/details?id='.$model->advertisingConstruction->id], [
                                 'title' => 'Купить повторно',
                                 'class' => 'custom-btn sm blue',
-                                'style' => 'width: '.($model->status_id == AdvertisingConstructionStatuses::APPROVED || $model->status_id == AdvertisingConstructionStatuses::DECLINED ? '100%' : '50%').';'.($model->status == AdvertisingConstructionStatuses::RESERVED ? 'display:none' : '')
+                                'style' => 'width: '.($model->status_id == AdvertisingConstructionStatuses::APPROVED || $model->status_id == AdvertisingConstructionStatuses::DECLINED ? '100%' : '50%').';'.($model->status_id == AdvertisingConstructionStatuses::RESERVED ? 'display:none' : '')
                             ]);
                         },
                         'cancel' => function ($url, $model) {
