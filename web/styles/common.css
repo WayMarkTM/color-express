@@ -75,9 +75,10 @@ body {
     margin-bottom: 20px;
 }
 
-.menu-container ul li.active {
-    padding-left: 30px;
-    /* TODO: add > symbol*/
+.menu-container ul li.active:before {
+    content: "\27A4";
+    color: white;
+    margin-right: 10px;
 }
 
 .menu-container ul li a {
