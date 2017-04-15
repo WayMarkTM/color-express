@@ -9,9 +9,11 @@
 namespace app\controllers;
 
 
+use app\models\User;
 use app\services\ClientsService;
 use app\services\UserService;
 use app\services\OrdersService;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\web\Controller;
@@ -76,6 +78,13 @@ class ClientsController extends Controller
         $userService = new UserService();
         $userService->deleteClient($id);
         $this->redirect('index');
+    }
+
+    public function actionDocuments() {
+        $currentUserId = Yii::$app->user->getId();
+        return $this->render('documents', [
+            'currentUser' => User::findOne($currentUserId)
+        ]);
     }
 
 }

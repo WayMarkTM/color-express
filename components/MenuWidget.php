@@ -78,7 +78,7 @@ class MenuWidget extends Widget
             ],
             [
                 'label' => 'Документы',
-                'url' => ['site/index']
+                'url' => ['clients/documents']
             ]
         ];
     }
