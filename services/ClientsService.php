@@ -9,7 +9,7 @@
 namespace app\services;
 
 use app\models\ClientModel;
-use app\models\entities\User;
+use app\models\User;
 
 class ClientsService
 {
