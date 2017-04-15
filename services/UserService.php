@@ -9,9 +9,10 @@
 namespace app\services;
 
 use Yii;
-use app\models\entities\User;
+use app\models\User;
 use app\models\SignupForm;
 use app\models\ClientModel;
+use app\models\RegistrationRequestModel;
 
 class UserService
 {
@@ -39,15 +40,23 @@ class UserService
         /* @param $clients User[] */
         $clients = User::find()->where(
             [
-                'manage_id' => Yii::$app->user->getId()
+                'OR',
+                [
+                    'manage_id' => Yii::$app->user->getId(),
+
+                ],
+                [
+                    'AND',
+                    ['NOT', ['is_agency' => null]],
+                    ['manage_id' => null]
+                ]
+
             ]
-        )->orWhere([
-            'manage_id' => null,
-            'is_agency' => 'not null',
-        ])->orderBy('id')->all();
+        )->orderBy('id')->all();
         foreach ($clients as $client) {
             $client_type = $client->is_agency ? 'Заказчик' : 'Агенство';
-            $clientModels[] = new ClientModel($client->id, $client->company, $client->name, $client->number, $client->username, $client_type, $client->manage_id);
+            $manager = $client->manage ? $client->manage->name.' '.$client->manage->surname : '';
+            $clientModels[] = new ClientModel($client->id, $client->company, $client->name, $client->number, $client->username, $client_type, $manager);
         }
 
         return $clientModels;
@@ -55,10 +64,18 @@ class UserService
 
     public function getNewClients()
     {
-        return self::getNewClientsTemplate()->all();
+        $clientModels= [];
+        $newClients = self::getNewClientsTemplate()->orderBy('id')->all();
+        foreach ($newClients as $client) {
+            $client_type = $client->is_agency ? 'Заказчик' : 'Агенство';
+            $clientModels[] = new RegistrationRequestModel($client->id, $client->company, new \DateTime($client->created_at), $client_type);
+        }
+
+        return $clientModels;
+
     }
 
-    public function getContNewClients()
+    public static function getContNewClients()
     {
         return self::getNewClientsTemplate()->count();
     }
@@ -67,8 +84,35 @@ class UserService
     {
         return User::find()->where(
             [
-                'is_agency' => 'not null',
-                'manage_id' => 'null'
+                'AND',
+                [
+                    'NOT',
+                    [
+                        'is_agency' => null
+                    ]
+                ],
+                [
+                    'manage_id' => null
+                ]
             ]);
+    }
+
+    public function setActiveUser($id)
+    {
+        $user = User::findIdentity($id);
+        if($user && !$user->isActiveClient()) {
+            $user->manage_id = \Yii::$app->user->getId();
+            if($user->save()) {
+                //set email
+            }
+        }
+    }
+
+    public function deleteClient($id)
+    {
+        $user = User::findIdentity($id);
+        if($user && $user->isClient()) {
+            $user->delete();
+        }
     }
 }

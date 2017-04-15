@@ -75,9 +75,10 @@ body {
     margin-bottom: 20px;
 }
 
-.menu-container ul li.active {
-    padding-left: 30px;
-    /* TODO: add > symbol*/
+.menu-container ul li.active:before {
+    content: "\27A4";
+    color: white;
+    margin-right: 10px;
 }
 
 .menu-container ul li a {
@@ -451,4 +452,14 @@ table td a:hover {
 #control-tabs {
     margin-top: -23px;
     margin-bottom: 23px;
+}
+
+.badge {
+    background: #a5241d;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 8px;
+    color: #fff;
+    position: absolute;
+    border-radius: 0;
 }

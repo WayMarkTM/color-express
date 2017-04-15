@@ -25,7 +25,6 @@ $this->title = 'Новые заявки';
 </div>
 <div class="row block-row">
     <div class="col-md-12">
-        <?php Pjax::begin(); ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'layout' => '{items}{pager}',
@@ -69,7 +68,8 @@ $this->title = 'Новые заявки';
                     'contentOptions' =>['class' => 'text-center'],
                     'buttons' => [
                         'confirm' => function ($url ,$model) {
-                            return Html::a('Подтвердить регистрацию', '/', [
+                            $url = \yii\helpers\Url::toRoute(['confirm-registration', 'id' => $model->id]);
+                            return Html::a('Подтвердить регистрацию', $url, [
                                 'title' => 'Подтвердить регистрацию',
                                 'class' => 'custom-btn sm blue full-width',
                             ]);
@@ -78,6 +78,5 @@ $this->title = 'Новые заявки';
                 ],
             ],
         ]); ?>
-        <?php Pjax::end(); ?>
     </div>
 </div>

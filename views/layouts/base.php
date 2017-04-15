@@ -3,93 +3,13 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use app\components\MenuWidget;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
-use yii\widgets\Menu;
 use yii\helpers\Url;
-use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\components\AuthWidget;
 use app\components\SignupWidget;
-use app\models\entities\User;
-
-$menu = [
-    ['label' => 'Каталог рекламных конструкций', 'url' => ['advertising-construction/index']],
-    ['label' => 'Преимущества', 'url' => ['site/advantages']],
-    ['label' => 'О компании', 'url' => ['site/about']],
-    ['label' => 'Наши клиенты', 'url' => ['site/clients']],
-    ['label' => 'Вакансии', 'url' => ['site/vacancies']],
-    ['label' => 'Контакты', 'url' => ['site/contact']],
-];
-
-if(!Yii::$app->user->isGuest) {
-    $user_id = Yii::$app->user->getId();
-    $user = User::findIdentity($user_id);
-    if($user->getRole() == 'admin') {
-        $menu = [
-            [
-                'label' => 'Управление конструкциями',
-                'url' => ['advertising-construction/index']
-            ],
-            [
-                'label' => 'Управление размерами конструкций',
-                'url' => ['advertising-construction-size/index']
-            ],
-            [
-                'label' => 'Управление типами конструкций',
-                'url' => ['advertising-construction-type/index']
-            ],
-            [
-                'label' => 'Управление нашими клиентами',
-                'url' => ['our-client/index']
-            ],
-//            [
-//                'label' => 'Управление пользователями',
-//                'url' => ['user/index']
-//            ],
-            [
-                'label' => 'Управление вакансиями',
-                'url' => ['vacancy/index']
-            ]
-        ];
-    } else if($user->getRole() == 'client') {
-        $menu = [
-            [
-                'label' => 'Оформить заказ',
-                'url' => ['advertising-construction/index']
-            ],
-            [
-                'label' => 'Корзина',
-                'url' => ['shopping-cart/index']
-            ],
-            [
-                'label' => 'Мои заказы',
-                'url' => ['orders/index']
-            ],
-            [
-                'label' => 'Документы',
-                'url' => ['site/index']
-            ]
-        ];
-    } else if($user->getRole() == 'employee') {
-        $menu = [
-            [
-                'label' => 'Управление клиентами',
-                'url' => ['clients/index']
-            ],
-            [
-                'label' => 'Управление конструкциями',
-                'url' => ['advertising-construction/index']
-            ],
-            [
-                'label' => 'Новые заявки на регистрацию',
-                'url' => ['registration-requests/index']
-            ]
-        ];
-    }
-
-}
-
 
 AppAsset::register($this);
 ?>
@@ -114,13 +34,10 @@ AppAsset::register($this);
         <div class="logo-container">
             <div class="logo"></div>
         </div>
-        <div class="menu-container">
-            <?php
-            echo Menu::widget([
-                'items' => $menu
-            ]);
-            ?>
-        </div>
+        <?php
+            MenuWidget::begin();
+            MenuWidget::end();
+        ?>
         <div class="sign-buttons-container">
             <div class="contacts ">
                 <div class="row block-row">
