@@ -22,7 +22,7 @@ $this->title = $user->company;
 
 <ul class="nav nav-tabs" id="control-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#orders" aria-controls="orders" role="tab" data-toggle="tab">Заказы</a></li>
-    <li role="presentation"><a href="#documents" aria-controls="documents" role="tab" data-toggle="tab">Документы</a></li>
+    <li role="presentation"><a href="#documents-tab" aria-controls="documents" role="tab" data-toggle="tab">Документы</a></li>
 </ul>
 
 <div class="tab-content">
@@ -103,8 +103,10 @@ $this->title = $user->company;
             </div>
         </div>
     </div>
-    <div clasa="tab-pane" role="tabpanel" id="documents">
-
+    <div clasa="tab-pane" role="tabpanel" id="documents-tab">
+        <?= $this->render('_documents', [
+            'selectedUserId' => $user->id
+        ]) ?>
     </div>
 </div>
 <hr/>
@@ -172,9 +174,9 @@ $this->title = $user->company;
 
 <?php
     $script = <<< JS
-jQuery('#control-tabs').find('a').click(function (e) {
+$('#control-tabs').find('a').click(function (e) {
     e.preventDefault();
-    jQuery(this).tab('show')
+    $(this).tab('show')
 });
 JS;
 

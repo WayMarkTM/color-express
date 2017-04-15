@@ -1,0 +1,44 @@
+.table.documents-table > thead > tr > th,
+.table.documents-table > tbody > tr > th,
+.table.documents-table > tfoot > tr > th,
+.table.documents-table > thead > tr > td,
+.table.documents-table > tbody > tr > td,
+.table.documents-table > tfoot > tr > td {
+    vertical-align: top;
+}
+
+#years {
+    width: 60px;
+}
+
+#months {
+    width: 80px;
+}
+
+.table.documents-table > thead > tr > th {
+    text-align: center;
+}
+
+.item-year, .item-month {
+    padding: 3px 7px;
+    width: 100%;
+    text-align: center;
+}
+
+.item-year:hover, .item-month:hover {
+    background-color: #00b3ee;
+    cursor: pointer;
+}
+
+.item-year.active, .item-month.active {
+    font-weight: bold;
+}
+
+.item-month.not-available {
+    color: lightgray;
+}
+
+.item-month.not-available:hover {
+    background-color: white;
+    cursor: default;
+}

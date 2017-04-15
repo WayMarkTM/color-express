@@ -26,15 +26,17 @@ class AppAsset extends AssetBundle
         'styles/clients.css',
         'styles/icons.css',
         'styles/construction.css',
+        'styles/documents.css',
     ];
     public $js = [
 //        'js/jquery-3.2.0.min.js',
         'js/bootstrap.min.js',
         'js/app/helpers.js',
-        'js/app/urls.js'
+        'js/app/urls.js',
+        'js/lodash.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset'
     ];
 }

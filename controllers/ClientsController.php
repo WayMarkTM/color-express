@@ -9,8 +9,10 @@
 namespace app\controllers;
 
 
+use app\services\ClientsService;
 use app\services\UserService;
 use app\services\OrdersService;
+use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\web\Controller;
 
@@ -48,7 +50,7 @@ class ClientsController extends Controller
         ]);
     }
 
-    public function actionDetails($id) {
+    public function actionDetails($clientId) {
         $clientService = new ClientsService();
         $orderService = new OrdersService();
         $user = $clientService->getClientDetails($clientId);
@@ -64,7 +66,7 @@ class ClientsController extends Controller
 
         return $this->render('details', [
             'user' => $user,
-            'ordersDataProvider' => $ordersDataProvider
+            'ordersDataProvider' => $dataProvider
         ]);
     }
 

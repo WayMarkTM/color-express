@@ -34,6 +34,31 @@ colorApp.utilities.ajaxHelper = (function (jQuery) {
     return {
         post: function (options) {
             return ajax(options.url, options.data, "POST");
+        },
+        get: function (options) {
+            return ajax(options.url, null, "GET");
         }
     }
 })($);
+
+colorApp.namespace('colorApp.utilities.dateHelper');
+colorApp.utilities.dateHelper = (function () {
+    return {
+        getMonthsNames: function () {
+            return {
+                1: 'Январь',
+                2: 'Февраль',
+                3: 'Март',
+                4: 'Апрель',
+                5: 'Май',
+                6: 'Июнь',
+                7: 'Июль',
+                8: 'Август',
+                9: 'Сентябрь',
+                10: 'Октябрь',
+                11: 'Ноябрь',
+                12: 'Декабрь'
+            }
+        }
+    }
+})();
