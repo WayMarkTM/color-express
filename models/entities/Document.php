@@ -10,6 +10,8 @@ use Yii;
  * @property integer $id
  * @property string $path
  * @property integer $user_id
+ * @property integer $month
+ * @property integer $year
  * @property string $created_at
  *
  * @property User $user
@@ -30,8 +32,8 @@ class Document extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['path', 'user_id'], 'required'],
-            [['user_id'], 'integer'],
+            [['path', 'user_id', 'month', 'year'], 'required'],
+            [['user_id', 'month', 'year'], 'integer'],
             [['created_at'], 'safe'],
             [['path'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],

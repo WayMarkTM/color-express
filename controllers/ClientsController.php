@@ -11,6 +11,7 @@ namespace app\controllers;
 
 use app\models\User;
 use app\services\ClientsService;
+use app\services\DocumentService;
 use app\services\UserService;
 use app\services\OrdersService;
 use Yii;
@@ -20,6 +21,16 @@ use yii\web\Controller;
 
 class ClientsController extends Controller
 {
+    /**
+     * @var DocumentService
+     */
+    private $documentService;
+
+    public function init() {
+        $this->documentService = new DocumentService();
+        parent::init();
+    }
+
     /**
      * @inheritdoc
      */
@@ -69,6 +80,17 @@ class ClientsController extends Controller
         return $this->render('details', [
             'user' => $user,
             'ordersDataProvider' => $dataProvider
+        ]);
+    }
+
+    public function actionDetailsDocuments($clientId) {
+        $clientService = new ClientsService();
+        $user = $clientService->getClientDetails($clientId);
+        $documentsCalendar = $this->documentService->getDocumentsCalendar($clientId);
+
+        return $this->render('detailsDocuments', [
+            'user' => $user,
+            'documentsCalendar' => $documentsCalendar
         ]);
     }
 

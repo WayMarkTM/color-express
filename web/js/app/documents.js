@@ -1,4 +1,4 @@
-(function (selectedUserId) {
+(function (selectedUserId, documentCalendar) {
     "use strict";
 
     var documentModule = angular.module('documents', []);
@@ -15,13 +15,13 @@
         vm.selectYear = selectYear;
         vm.selectMonth = selectMonth;
         vm.isMonthAvailable = isMonthAvailable;
+        vm.isYearAvailable = isYearAvailable;
         vm.getDocumentLink = getDocumentLink;
 
         function init() {
             vm.isDocumentsLoading = false;
 
-            documentDataService.loadCalendar()
-                .then(initCalendar);
+            initCalendar(documentCalendar);
 
             $scope.$watch(function () { return vm.selectedYear; }, onSelectedYearChanged);
             $scope.$watch(function () { return vm.selectedMonthId; }, onSelectedMonthChanged);
@@ -54,11 +54,19 @@
         }
 
         function selectYear(year) {
+            if (!isYearAvailable(year)) {
+                return;
+            }
+
             vm.selectedYear = year;
         }
 
         function isMonthAvailable(month) {
             return !!vm.selectedYear && !!vm.calendar[vm.selectedYear][month.id];
+        }
+
+        function isYearAvailable(year) {
+            return vm.calendar[year] != false;
         }
 
         function selectMonth(month) {
@@ -144,4 +152,4 @@
     }];
 
     documentModule.constant('months', MONTHS);
-})(selectedUserId);
+})(selectedUserId, documentCalendar);

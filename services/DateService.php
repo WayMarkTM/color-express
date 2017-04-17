@@ -13,6 +13,9 @@ class DateService
 {
     public static $FULL_DATE_FORMAT = 'Y-m-d H:i-s';
 
+    public static $YEAR_FROM = 1900;
+    public static $YEAR_TO = 2200;
+
     public function intersects($from1, $to1, $from2, $to2) {
         return ($from1 >= $from2 && $from1 <= $to2) ||
                ($to1 <= $to2 && $to1 >= $from2);

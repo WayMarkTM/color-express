@@ -10,6 +10,7 @@
 use app\models\constants\AdvertisingConstructionStatuses;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
@@ -20,9 +21,9 @@ use yii\widgets\Pjax;
 $this->title = $user->company;
 ?>
 
-<ul class="nav nav-tabs" id="control-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#orders" aria-controls="orders" role="tab" data-toggle="tab">Заказы</a></li>
-    <li role="presentation"><a href="#documents-tab" aria-controls="documents" role="tab" data-toggle="tab">Документы</a></li>
+<ul class="nav nav-tabs" id="control-tabs">
+    <li role="presentation" class="active"><a href="#orders">Заказы</a></li>
+    <li role="presentation"><a href="<?php echo Url::toRoute('clients/details-documents?clientId='.$user->id); ?>">Документы</a></li>
 </ul>
 
 <div class="tab-content">
@@ -103,11 +104,6 @@ $this->title = $user->company;
             </div>
         </div>
     </div>
-    <div clasa="tab-pane" role="tabpanel" id="documents-tab">
-        <?= $this->render('_documents', [
-            'selectedUserId' => $user->id
-        ]) ?>
-    </div>
 </div>
 <hr/>
 <div class="row">
@@ -171,15 +167,3 @@ $this->title = $user->company;
         </div>
     </div>
 </div>
-
-<?php
-    $script = <<< JS
-$('#control-tabs').find('a').click(function (e) {
-    e.preventDefault();
-    $(this).tab('show')
-});
-JS;
-
-$position = \yii\web\View::POS_READY;
-$this->registerJs($script, $position);
-?>

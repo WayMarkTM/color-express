@@ -3,6 +3,7 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use app\components\AddDocumentWidget;
 use app\components\MenuWidget;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
@@ -72,6 +73,9 @@ if(Yii::$app->user->isGuest) {
     AuthWidget::end();
     SignupWidget::begin();
     SignupWidget::end();
+} else {
+    AddDocumentWidget::begin();
+    AddDocumentWidget::end();
 }
 ?>
 </body>
