@@ -34,11 +34,12 @@ class AddDocumentWidget extends Widget
             throw new UnauthorizedHttpException();
         }
 
-        if($this->documentForm->load(Yii::$app->request->post())) {
+        $post = Yii::$app->request->post();
+        if($this->documentForm->load($post)) {
             $this->documentForm->documentFile = UploadedFile::getInstance($this->documentForm, 'documentFile');
             if ($this->documentForm->upload($userId)) {
                 $service = new DocumentService();
-                $service->createDocument($this->documentForm, $userId);
+                $service->createDocument($this->documentForm, $userId, $post['AddDocumentForm']['subclientId']);
                 Yii::$app->getResponse()->redirect(\Yii::$app->getRequest()->getUrl());
             }
         }

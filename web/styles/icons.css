@@ -38,3 +38,9 @@
     width: 16px;
     height: 16px;
 }
+
+.add-subclient-icon {
+    background: url(/web/images/icons/add-subclient-icon.png) no-repeat;
+    width: 16px;
+    height: 16px;
+}

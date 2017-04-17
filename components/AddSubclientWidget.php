@@ -6,10 +6,11 @@
  * Time: 8:18 PM
  */
 
-namespace components;
+namespace app\components;
 
 
 use app\models\AddSubclientForm;
+use app\services\SubclientService;
 use Yii;
 use yii\base\Widget;
 use yii\web\UnauthorizedHttpException;
@@ -33,7 +34,8 @@ class AddSubclientWidget extends Widget
         }
 
         if($this->subclientForm->load(Yii::$app->request->post())) {
-            // TODO: add saving to database
+            $service = new SubclientService();
+            $service->createSubclient($this->subclientForm, $userId);
             Yii::$app->getResponse()->redirect(\Yii::$app->getRequest()->getUrl());
         }
 

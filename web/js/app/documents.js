@@ -1,4 +1,4 @@
-(function (selectedUserId, documentCalendar) {
+(function (selectedUserId, documentCalendar, subclients) {
     "use strict";
 
     var documentModule = angular.module('documents', []);
@@ -14,18 +14,44 @@
         vm.$onInit = init;
         vm.selectYear = selectYear;
         vm.selectMonth = selectMonth;
+        vm.selectSubclient = selectSubclient;
         vm.isMonthAvailable = isMonthAvailable;
         vm.isYearAvailable = isYearAvailable;
         vm.getDocumentLink = getDocumentLink;
+        vm.openAddDocumentModal = openAddDocumentModal;
+
 
         function init() {
             vm.isDocumentsLoading = false;
 
-            initCalendar(documentCalendar);
+            if (!!subclients && subclients.length > 0) {
+                initSubclients();
+                $scope.$watch(function () { return vm.selectedSubclientId; }, onSelectedSubclientChanged)
+            } else {
+                initCalendar(documentCalendar);
+            }
 
             $scope.$watch(function () { return vm.selectedYear; }, onSelectedYearChanged);
             $scope.$watch(function () { return vm.selectedMonthId; }, onSelectedMonthChanged);
 
+        }
+
+        function initSubclients() {
+            vm.subclients = subclients;
+        }
+
+        function onSelectedSubclientChanged(newVal, oldVal) {
+            if (newVal != oldVal) {
+                vm.calendar = null;
+                vm.selectedYear = null;
+            }
+        }
+
+        function selectSubclient(subclient) {
+            vm.selectedSubclientId = subclient.id;
+
+            documentDataService.loadSubclientCalendar(subclient.id)
+                .then(initCalendar);
         }
 
         function initCalendar(calendar) {
@@ -84,6 +110,14 @@
         function getDocumentLink(document) {
             return '/uploads/documents/' + selectedUserId + '/' + vm.selectedYear + '/' + vm.selectedMonthId + '/' + document.path;
         }
+
+        function openAddDocumentModal($event) {
+            if (!!vm.selectedSubclientId) {
+                $('#adddocumentform-subclientid').val(vm.selectedSubclientId);
+            }
+
+            $('#add-document').modal('show');
+        }
     }
 
     documentModule.service('documentDataService', documentDataService);
@@ -93,7 +127,8 @@
     function documentDataService($http) {
         return {
             loadCalendar: loadCalendar,
-            loadDocuments: loadDocuments
+            loadDocuments: loadDocuments,
+            loadSubclientCalendar: loadSubclientCalendar
         };
 
         function loadCalendar() {
@@ -109,6 +144,15 @@
             return $http.get(url)
                 .then(function (response) {
                     return response.data.documents;
+                });
+        }
+
+        function loadSubclientCalendar(subclientId) {
+            var url = GATEWAY_URLS.GET_SUBCLIENT_DOCUMENTS_CALENDAR + '?userId=' + selectedUserId + '&subclientId=' + subclientId;
+
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data.calendar;
                 });
         }
     }
@@ -152,4 +196,4 @@
     }];
 
     documentModule.constant('months', MONTHS);
-})(selectedUserId, documentCalendar);
+})(selectedUserId, documentCalendar, subclients);

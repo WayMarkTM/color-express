@@ -20,6 +20,7 @@ class AddDocumentForm extends Model
     public $month;
     public $year;
     public $path;
+    public $subclientId;
 
     /**
      * @var UploadedFile

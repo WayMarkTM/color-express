@@ -12,9 +12,11 @@ use Yii;
  * @property integer $user_id
  * @property integer $month
  * @property integer $year
+ * @property integer $subclient_id
  * @property string $created_at
  *
  * @property User $user
+ * @property Subclient $subclient
  */
 class Document extends \yii\db\ActiveRecord
 {
@@ -37,6 +39,7 @@ class Document extends \yii\db\ActiveRecord
             [['created_at'], 'safe'],
             [['path'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['subclient_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subclient::className(), 'targetAttribute' => ['subclient_id' => 'id']],
         ];
     }
 
@@ -59,5 +62,13 @@ class Document extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSubclient()
+    {
+        return $this->hasOne(Subclient::className(), ['id' => 'subclient_id']);
     }
 }

@@ -35,8 +35,12 @@ class ClientsService
         $clientModels = [];
     }
 
+
+    /**
+     * @param $id int
+     * @return User
+     */
     public function getClientDetails($id) {
-        $client = User::findOne($id);
-        return $client;
+        return User::findOne($id);
     }
 }

@@ -12,6 +12,7 @@ namespace app\controllers;
 use app\models\User;
 use app\services\ClientsService;
 use app\services\DocumentService;
+use app\services\SubclientService;
 use app\services\UserService;
 use app\services\OrdersService;
 use Yii;
@@ -25,9 +26,14 @@ class ClientsController extends Controller
      * @var DocumentService
      */
     private $documentService;
+    /**
+     * @var SubclientService
+     */
+    private $subclientService;
 
     public function init() {
         $this->documentService = new DocumentService();
+        $this->subclientService = new SubclientService();
         parent::init();
     }
 
@@ -84,13 +90,21 @@ class ClientsController extends Controller
     }
 
     public function actionDetailsDocuments($clientId) {
+        $subclients = array();
+        $documentsCalendar = array();
         $clientService = new ClientsService();
         $user = $clientService->getClientDetails($clientId);
-        $documentsCalendar = $this->documentService->getDocumentsCalendar($clientId);
+
+        if ($user->is_agency) {
+            $subclients = $this->subclientService->getSubclients($clientId);
+        } else {
+            $documentsCalendar = $this->documentService->getDocumentsCalendar($clientId);
+        }
 
         return $this->render('detailsDocuments', [
             'user' => $user,
-            'documentsCalendar' => $documentsCalendar
+            'documentsCalendar' => $documentsCalendar,
+            'subclients' => $subclients
         ]);
     }
 

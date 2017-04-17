@@ -16,10 +16,11 @@ class DocumentService
 {
     /**
      * @param integer $userId
+     * @param integer $subclientId
      * @return array
      */
-    public function getDocumentsCalendar($userId) {
-        $yearsAndMonths = $this->getUserDocumentsYearsAndMonths($userId);
+    public function getDocumentsCalendar($userId, $subclientId = null) {
+        $yearsAndMonths = $this->getUserDocumentsYearsAndMonths($userId, $subclientId);
         return $this->createCalendar($yearsAndMonths);
     }
 
@@ -40,23 +41,33 @@ class DocumentService
     /**
      * @param $viewModel AddDocumentForm
      * @param $userId integer
+     * @param $subclientId integer
      */
-    public function createDocument($viewModel, $userId) {
+    public function createDocument($viewModel, $userId, $subclientId) {
         $document = new Document();
         $document->month = $viewModel->month;
         $document->year = $viewModel->year;
         $document->path = $viewModel->path;
         $document->user_id = $userId;
+        $document->subclient_id = $subclientId;
         $document->save();
     }
 
     /**
      * @param integer $userId
+     * @param integer $subclientId
      * @return array|mixed
      */
-    private function getUserDocumentsYearsAndMonths($userId) {
-        return Document::find()
-            ->where(['=', 'user_id', $userId])
+    private function getUserDocumentsYearsAndMonths($userId, $subclientId) {
+        $query = Document::find()
+            ->where(['=', 'user_id', $userId]);
+
+        if ($subclientId != null) {
+            $query = $query
+                ->where(['=', 'subclient_id', $subclientId]);
+        }
+
+        return $query
             ->select(['year', 'month'])
             ->all();
     }

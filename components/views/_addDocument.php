@@ -32,6 +32,8 @@ use yii\widgets\ActiveForm;
                     ])
                     ?>
 
+                    <?= $form->field($documentForm, 'subclientId')->hiddenInput()->label(false) ?>
+
                     <?= $form->field($documentForm, 'month')->dropDownList($months, ['prompt' => 'Месяц'])->label('Период') ?>
 
                     <?= $form->field($documentForm, 'year')->textInput(['placeholder' => 'Год'])->label(false) ?>

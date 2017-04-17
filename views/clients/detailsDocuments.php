@@ -9,8 +9,9 @@
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $user app\models\ClientModel */
+/* @var $user app\models\User */
 /* @var $documentsCalendar array|mixed */
+/* @var $subclients array|Subclient */
 
 $this->title = $user->company;
 ?>
@@ -23,8 +24,10 @@ $this->title = $user->company;
 <div class="tab-content">
     <div class="tab-pane active" role="tabpanel" id="documents-tab">
         <?= $this->render('_documents', [
+            'isAgency' => $user->is_agency,
             'selectedUserId' => $user->id,
-            'documentsCalendar' => $documentsCalendar
+            'documentsCalendar' => $documentsCalendar,
+            'subclients' => $subclients
         ]) ?>
     </div>
 </div>

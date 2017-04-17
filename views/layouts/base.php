@@ -5,6 +5,7 @@
 
 use app\components\AddDocumentWidget;
 use app\components\MenuWidget;
+use app\components\AddSubclientWidget;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\helpers\Url;
@@ -76,6 +77,8 @@ if(Yii::$app->user->isGuest) {
 } else {
     AddDocumentWidget::begin();
     AddDocumentWidget::end();
+    AddSubclientWidget::begin();
+    AddSubclientWidget::end();
 }
 ?>
 </body>

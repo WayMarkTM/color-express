@@ -36,6 +36,14 @@ class DocumentsController extends Controller
         ];
     }
 
+    public function actionGetSubclientDocumentsCalendar($userId, $subclientId) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $calendar = $this->documentService->getDocumentsCalendar($userId, $subclientId);
+        return [
+            'calendar' => $calendar
+        ];
+    }
+
     public function actionGetDocuments($userId, $year, $month) {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $documents = $this->documentService->getDocuments($userId, $year, $month);
