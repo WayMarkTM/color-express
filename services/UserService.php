@@ -66,7 +66,7 @@ class UserService
             ]
         )->orderBy('id')->all();
         foreach ($clients as $client) {
-            $client_type = $client->is_agency ? 'Заказчик' : 'Агенство';
+            $client_type = $client->is_agency ? 'Агенство' : 'Заказчик';
             $manager = $client->manage ? $client->manage->name.' '.$client->manage->surname : '';
             $clientModels[] = new ClientModel($client->id, $client->company, $client->name, $client->number, $client->username, $client_type, $manager);
         }
