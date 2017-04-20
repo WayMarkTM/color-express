@@ -55,7 +55,7 @@ AppAsset::register($this);
                 <button class="custom-btn red pull-right" type="button" data-toggle="modal" data-target="#signin">Вход</button>
 
             <? else: ?>
-                <a href="<?= Url::toRoute('site/logout')?>" class="custom-btn red pull-right" type="button">Выход</a>
+                <a href="<?= Url::toRoute('site/logout')?>" class="custom-btn" type="button">Выход</a>
             <? endif; ?>
         </div>
     </div>

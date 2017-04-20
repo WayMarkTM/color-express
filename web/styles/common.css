@@ -63,6 +63,8 @@ body {
 
 .menu-container {
     padding: 60px 30px 0 30px;
+    overflow-y: auto;
+    height: calc(100% - 285px);
 }
 
 .menu-container ul {
@@ -73,6 +75,7 @@ body {
 .menu-container ul li {
     font-size: 21px;
     margin-bottom: 20px;
+    position: relative;
 }
 
 .menu-container ul li.active:before {
@@ -164,6 +167,16 @@ body {
     background-color: #164bc6;
     color: white;
 }
+
+.custom-btn.gray {
+    background-color: #c2c2c2;
+    color: black;
+}
+
+.custom-btn.gray:hover {
+    background-color: #e9e8e8;
+}
+
 
 .custom-btn.white {
     background-color: #eaeaea;

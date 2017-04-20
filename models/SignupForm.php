@@ -9,9 +9,12 @@
 namespace app\models;
 
 use yii\base\Model;
+use yii\validators\StringValidator;
 
 class SignupForm extends Model
 {
+    public $user_id;
+
     public $username;
     public $password;
     public $sec_password;
@@ -27,19 +30,19 @@ class SignupForm extends Model
     public $checking_account;
     public $bank;
     public $photo;
+    const SCENARIO_EmployeeEditClient = 'EmployeeEditClient';
+    const SCENARIO_EmployeeApplySignup = 'EmployeeApplySignup';
+    const SCENARIO_DEFAULT = 'default';
+    const DEFAULT_PASS = '%;%S!@:;';
 
     public function rules()
     {
         return [
             [['username', 'name', 'is_agency',
                 'company', 'address', 'pan', 'okpo', 'number', 'is_agency',
-                'checking_account', 'bank'], 'required', 'message' => 'Поле обязательное для заполнения'],
-            [['password', 'sec_password'], 'required', 'message' => 'Пароль слишком короткий'],
+                'checking_account', 'bank'], 'required', 'message' => 'Поле обязательное для заполнения', 'on' => [self::SCENARIO_DEFAULT, self::SCENARIO_EmployeeEditClient]],
+            [['password','sec_password'], 'string', 'min' => 8, 'tooShort' => 'Пароль слишком короткий'],
             [['sec_password'], 'compare', 'compareAttribute' => 'password', 'message' => 'Пароли не совпадают'],
-            [['username', 'password', 'name', 'is_agency',
-                'company', 'address', 'pan', 'okpo', 'number',
-                'checking_account', 'bank', 'photo'], 'safe'],
-            ['password', 'string', 'min' => 8],
             ['username', 'string', 'max' => 60],
             ['username','email', 'message' => 'email не соответствует формату'],
             [['name', 'surname'], 'string', 'max' => 30],
@@ -50,10 +53,18 @@ class SignupForm extends Model
             ['checking_account', 'string'],
             ['bank', 'string'],
             ['username', 'validateEmail'],
-            [['username', 'password', 'sec_password', 'name', 'is_agency',
-                'company', 'address', 'pan', 'okpo', 'number',
-                'checking_account', 'bank', 'photo'], 'safe'],
         ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_DEFAULT] = ['username', 'name', 'is_agency',
+            'company', 'address', 'pan', 'okpo', 'number', 'is_agency',
+            'checking_account', 'bank', 'user_id'];
+        $scenarios[self::SCENARIO_EmployeeEditClient] = $scenarios[self::SCENARIO_DEFAULT];
+        $scenarios[self::SCENARIO_EmployeeApplySignup] = $scenarios[self::SCENARIO_DEFAULT];
+        return $scenarios;
     }
 
     public function attributeLabels()
@@ -71,14 +82,20 @@ class SignupForm extends Model
             'pan' => 'УНП',
             'okpo' => 'ОКПО',
             'checking_account' => 'Р/С',
-            'bank' => 'Банко',
+            'bank' => 'Банк',
             'photo' => 'Фото',
         ];
     }
 
+    public function setUserId($id)
+    {
+        $this->user_id = $id;
+    }
+
     public function validateEmail($attribute, $params)
     {
-        if(User::findByUsername($this->username))
+        $user = User::findByUsername($this->username);
+        if($user && $user->id != $this->user_id)
             $this->addError('username', 'Этот email уже зарегистрирован');
     }
 }

@@ -9,6 +9,7 @@
 namespace app\controllers;
 
 
+use app\models\SignupForm;
 use app\models\User;
 use app\services\ClientsService;
 use app\services\UserService;
@@ -16,7 +17,9 @@ use app\services\OrdersService;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\helpers\Url;
 use yii\web\Controller;
+use yii\web\Response;
 
 class ClientsController extends Controller
 {
@@ -80,11 +83,36 @@ class ClientsController extends Controller
         $this->redirect('index');
     }
 
-    public function actionDocuments() {
+    public function actionDocuments()
+    {
         $currentUserId = Yii::$app->user->getId();
         return $this->render('documents', [
             'currentUser' => User::findOne($currentUserId)
         ]);
+    }
+
+    public function actionGetClientInfo($id, $scenario)
+    {
+        $userService = new UserService();
+        $signupForm = new SignupForm();
+        $signupForm->scenario = $scenario;
+        $signupForm = $userService->setUserToSignUpForm($signupForm, $id);
+        if (isset($_POST['SignupForm'])) {
+            $userService = new UserService();
+            if($signupForm->getAttributes() !== Yii::$app->request->post() &
+                $signupForm->load(Yii::$app->request->post())) {
+                $userService->save($signupForm, $id);
+            }
+            if($signupForm->scenario = SignupForm::SCENARIO_EmployeeApplySignup) {
+                $userService->setActiveUser($id);
+            }
+            $this->redirect(Yii::$app->request->referrer);
+        } else {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return $this->renderAjax('@app/views/layouts/_partial/_client_form', [
+                'model' => $signupForm
+            ]);
+        }
     }
 
 }

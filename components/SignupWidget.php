@@ -15,6 +15,7 @@ use app\services\UserService;
 
 class SignupWidget extends Widget
 {
+    /* @var $signupForm SignupForm*/
     public $signupForm;
 
     public function init()
@@ -26,7 +27,7 @@ class SignupWidget extends Widget
     public function run()
     {
         if (isset($_POST['SignupForm'])) {
-            $this->signupForm->attributes = $_POST['SignupForm'];
+            $this->signupForm->setAttributes($_POST['SignupForm'], false);
             $userService = new UserService();
             $userService->save($this->signupForm);
             Yii::$app->getResponse()->redirect(\Yii::$app->getRequest()->getUrl());

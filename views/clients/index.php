@@ -83,15 +83,25 @@ $this->title = 'Управление клиентами';
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{update}{delete}',
+                    'template' => '{update} &nbsp;&nbsp;&nbsp;{delete}',
                     'headerOptions' => ['width' => '80', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
                     'urlCreator' => function ($action, $model, $key, $index, $this) {
                         return Url::toRoute([$action, 'id' => $model->id]);
-                    }
+                    },
+                    'buttons' => [
+                        'update' => function ($url, $model, $key) {
+                            return  Html::a('','#', ['class' => 'glyphicon glyphicon-pencil client-editable', 'data-user-id' => $model->id]);
+                        }
+                    ]
                 ],
             ],
         ]); ?>
         <?php Pjax::end(); ?>
     </div>
 </div>
+<?= $this->render('@app/views/layouts/_partial/_modalClientData', [
+    'title' => 'Изменить данные компании',
+    'scenario' => \app\models\SignupForm::SCENARIO_EmployeeEditClient
+]);
+?>

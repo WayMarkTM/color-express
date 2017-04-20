@@ -17,14 +17,26 @@ use app\models\RegistrationRequestModel;
 class UserService
 {
     /* @param $signupForm SignupForm */
-    public function save($signupForm)
+    public function save($signupForm, $user_id = null)
     {
         if(!$signupForm->validate()) {
             return null;
         }
-        $user = new User();
+
+        $user = null;
+        if($user_id) {
+            $user = User::findIdentity($user_id);
+        }
+
+        if(!$user_id && !$user) {
+            $user = new User();
+        }
+
         $user->setAttributes($signupForm->getAttributes());
-        $user->setPassword($signupForm->password);
+
+        if($signupForm->password != $signupForm::DEFAULT_PASS ) {
+            $user->setPassword($signupForm->password);
+        }
 
         return $user->validate() && $user->save();
     }
@@ -115,4 +127,25 @@ class UserService
             $user->delete();
         }
     }
+
+    public function getClientById($id)
+    {
+        $user = User::findIdentity($id);
+
+        return $user;
+    }
+
+    /** @param $signupForm SignupForm */
+    public function setUserToSignUpForm($signupForm, $id)
+    {
+        $user = User::findIdentity($id);
+        if($user) {
+            $signupForm->setAttributes($user->getAttributes());
+            $signupForm->setUserId($user->id);
+            $signupForm->password = $signupForm::DEFAULT_PASS;
+            $signupForm->sec_password = $signupForm::DEFAULT_PASS;
+        }
+        return $signupForm;
+    }
+
 }

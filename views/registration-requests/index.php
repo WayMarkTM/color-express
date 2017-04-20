@@ -52,7 +52,7 @@ $this->title = 'Новые заявки';
                     'headerOptions' => ['class' => 'text-center', 'width' => '250'],
                     'contentOptions' =>['class' => 'text-center'],
                     'value' => function ($model) {
-                        return Html::a('Регистрационные данные', ['/'.$model->id]);
+                        return Html::a('Регистрационные данные', '#', ['class' => 'client-editable', 'data-user-id' => $model->id]);
                     }
                 ],
                 [
@@ -80,3 +80,9 @@ $this->title = 'Новые заявки';
         ]); ?>
     </div>
 </div>
+<?= $this->render('@app/views/layouts/_partial/_modalClientData', [
+    'title' => 'Регистрационные данные компании',
+    'scenario' => \app\models\SignupForm::SCENARIO_EmployeeApplySignup
+]);
+?>
+
