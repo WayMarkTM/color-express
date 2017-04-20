@@ -50,7 +50,7 @@ $this->title = 'Управление клиентами';
                     'format' => 'raw',
                     'headerOptions' => ['class' => 'text-center'],
                     'value' => function ($model) {
-                        return Html::a($model->company, '/clients/details?clientId='.$model->id);
+                        return Html::a($model->company, Url::to(['details', 'clientId' => $model->id]));
                     }
                 ],
                 [
