@@ -32,3 +32,15 @@
     width: 15px;
     height: 15px;
 }
+
+.add-document-icon {
+    background: url('/web/images/icons/add-document-icon.png') no-repeat;
+    width: 16px;
+    height: 16px;
+}
+
+.add-subclient-icon {
+    background: url(/web/images/icons/add-subclient-icon.png) no-repeat;
+    width: 16px;
+    height: 16px;
+}

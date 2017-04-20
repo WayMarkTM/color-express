@@ -12,6 +12,8 @@ namespace app\controllers;
 use app\models\SignupForm;
 use app\models\User;
 use app\services\ClientsService;
+use app\services\DocumentService;
+use app\services\SubclientService;
 use app\services\UserService;
 use app\services\OrdersService;
 use Yii;
@@ -23,6 +25,21 @@ use yii\web\Response;
 
 class ClientsController extends Controller
 {
+    /**
+     * @var DocumentService
+     */
+    private $documentService;
+    /**
+     * @var SubclientService
+     */
+    private $subclientService;
+
+    public function init() {
+        $this->documentService = new DocumentService();
+        $this->subclientService = new SubclientService();
+        parent::init();
+    }
+
     /**
      * @inheritdoc
      */
@@ -72,6 +89,25 @@ class ClientsController extends Controller
         return $this->render('details', [
             'user' => $user,
             'ordersDataProvider' => $dataProvider
+        ]);
+    }
+
+    public function actionDetailsDocuments($clientId) {
+        $subclients = array();
+        $documentsCalendar = array();
+        $clientService = new ClientsService();
+        $user = $clientService->getClientDetails($clientId);
+
+        if ($user->is_agency) {
+            $subclients = $this->subclientService->getSubclients($clientId);
+        } else {
+            $documentsCalendar = $this->documentService->getDocumentsCalendar($clientId);
+        }
+
+        return $this->render('detailsDocuments', [
+            'user' => $user,
+            'documentsCalendar' => $documentsCalendar,
+            'subclients' => $subclients
         ]);
     }
 

@@ -34,11 +34,13 @@
     font-weight: bold;
 }
 
-.item-month.not-available {
+.item-month.not-available,
+.item-year.not-available {
     color: lightgray;
 }
 
-.item-month.not-available:hover {
+.item-month.not-available:hover,
+.item-year.not-available:hover {
     background-color: white;
     cursor: default;
 }

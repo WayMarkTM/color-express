@@ -9,17 +9,19 @@
 namespace app\services;
 
 
+use app\models\AddDocumentForm;
 use app\models\entities\Document;
 
 class DocumentService
 {
     /**
      * @param integer $userId
+     * @param integer $subclientId
      * @return array
      */
-    public function getDocumentsCalendar($userId) {
-        $dates = $this->getUserDocumentsCreationDates($userId);
-        return $this->createCalendar($dates);
+    public function getDocumentsCalendar($userId, $subclientId = null) {
+        $yearsAndMonths = $this->getUserDocumentsYearsAndMonths($userId, $subclientId);
+        return $this->createCalendar($yearsAndMonths);
     }
 
     /**
@@ -29,38 +31,45 @@ class DocumentService
      * @return array|Document[]
      */
     public function getDocuments($userId, $year, $month) {
-        $start_date = new \DateTime($year.'-'.$month.'-01');
-        $end_date = (new \DateTime($year.'-'.($month+1).'-01'))->modify('-1 second');
-
         return Document::find()
             ->where(['=', 'user_id', $userId])
-            ->andFilterWhere(['>=', 'created_at', $start_date->format(DateService::$FULL_DATE_FORMAT)])
-            ->andFilterWhere(['<=', 'created_at', $end_date->format(DateService::$FULL_DATE_FORMAT)])
+            ->andFilterWhere(['=', 'year', $year])
+            ->andFilterWhere(['=', 'month', $month])
             ->all();
     }
 
     /**
-     * @param integer $userId
-     * @return array|\DateTime
+     * @param $viewModel AddDocumentForm
+     * @param $userId integer
+     * @param $subclientId integer
      */
-    private function getUserDocumentsCreationDates($userId) {
-        $entityDates = Document::find()
-            ->where(['=', 'user_id', $userId])
-            ->select(['created_at'])
-            ->all();
+    public function createDocument($viewModel, $userId, $subclientId) {
+        $document = new Document();
+        $document->month = $viewModel->month;
+        $document->year = $viewModel->year;
+        $document->path = $viewModel->path;
+        $document->user_id = $userId;
+        $document->subclient_id = $subclientId;
+        $document->save();
+    }
 
-        $dates = array();
+    /**
+     * @param integer $userId
+     * @param integer $subclientId
+     * @return array|mixed
+     */
+    private function getUserDocumentsYearsAndMonths($userId, $subclientId) {
+        $query = Document::find()
+            ->where(['=', 'user_id', $userId]);
 
-        /** @var Document $entityDate */
-        foreach($entityDates as $entityDate) {
-            array_push($dates, new \DateTime($entityDate->created_at));
+        if ($subclientId != null) {
+            $query = $query
+                ->where(['=', 'subclient_id', $subclientId]);
         }
 
-        usort($dates, function ($a, $b) {
-            return DateService::comparator($a, $b);
-        });
-
-        return $dates;
+        return $query
+            ->select(['year', 'month'])
+            ->all();
     }
 
     /**
@@ -69,15 +78,34 @@ class DocumentService
      */
     private function createCalendar($dates) {
         $result = [];
+        $minYear = 9999;
+        $maxYear = 1;
 
         foreach($dates as $date) {
-            $year = $date->format('Y');
-            $month = $date->format('n');
+            $year = $date['year'];
+            $month = $date['month'];
+
+            if ($year < $minYear) {
+                $minYear = $year;
+            }
+
+            if ($year > $maxYear) {
+                $maxYear = $year;
+            }
+
             if (count($result[$year][$month]) == 0) {
                 $result[$year][$month] = 0;
             }
 
             $result[$year][$month] += 1;
+        }
+
+        $years = range($minYear, $maxYear);
+
+        foreach($years as $year) {
+            if ($result[$year] == null) {
+                $result[$year] = false;
+            }
         }
 
         return $result;

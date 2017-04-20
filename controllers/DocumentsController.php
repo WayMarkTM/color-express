@@ -9,10 +9,12 @@
 namespace app\controllers;
 
 
+use app\models\AddDocumentForm;
 use app\services\DocumentService;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class DocumentsController extends Controller
 {
@@ -34,6 +36,14 @@ class DocumentsController extends Controller
         ];
     }
 
+    public function actionGetSubclientDocumentsCalendar($userId, $subclientId) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $calendar = $this->documentService->getDocumentsCalendar($userId, $subclientId);
+        return [
+            'calendar' => $calendar
+        ];
+    }
+
     public function actionGetDocuments($userId, $year, $month) {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $documents = $this->documentService->getDocuments($userId, $year, $month);
@@ -41,5 +51,13 @@ class DocumentsController extends Controller
         return [
             'documents' => $documents
         ];
+    }
+
+    public function actionUploadValidation() {
+        $documentForm = new AddDocumentForm();
+        if (Yii::$app->request->isAjax && $documentForm->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($documentForm);
+        }
     }
 }
