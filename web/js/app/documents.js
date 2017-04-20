@@ -19,6 +19,7 @@
         vm.isYearAvailable = isYearAvailable;
         vm.getDocumentLink = getDocumentLink;
         vm.openAddDocumentModal = openAddDocumentModal;
+        vm.openAddSubclientModal = openAddSubclientModal;
 
 
         function init() {
@@ -121,6 +122,14 @@
             }
 
             $('#add-document').modal('show');
+        }
+
+        function openAddSubclientModal($event) {
+            if (!!selectedUserId) {
+                $('#addsubclientform-userid').val(selectedUserId);
+            }
+
+            $('#add-subclient').modal('show');
         }
     }
 

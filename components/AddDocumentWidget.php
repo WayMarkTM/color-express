@@ -35,8 +35,8 @@ class AddDocumentWidget extends Widget
         }
 
         $post = Yii::$app->request->post();
-        $userId = $post['AddDocumentForm']['userId'];
         if($this->documentForm->load($post)) {
+            $userId = $post['AddDocumentForm']['userId'];
             $this->documentForm->documentFile = UploadedFile::getInstance($this->documentForm, 'documentFile');
             if ($this->documentForm->upload($userId)) {
                 $service = new DocumentService();

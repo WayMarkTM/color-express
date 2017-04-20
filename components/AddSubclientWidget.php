@@ -28,12 +28,14 @@ class AddSubclientWidget extends Widget
 
     public function run()
     {
-        $userId = Yii::$app->user->getId();
-        if ($userId == null) {
+        $currentUserId = Yii::$app->user->getId();
+        if ($currentUserId == null) {
             throw new UnauthorizedHttpException();
         }
 
-        if($this->subclientForm->load(Yii::$app->request->post())) {
+        $post = Yii::$app->request->post();
+        if($this->subclientForm->load($post)) {
+            $userId = $post['AddSubclientForm']['userId'];
             $service = new SubclientService();
             $service->createSubclient($this->subclientForm, $userId);
             Yii::$app->getResponse()->redirect(\Yii::$app->getRequest()->getUrl());

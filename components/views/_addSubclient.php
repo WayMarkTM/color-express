@@ -30,6 +30,7 @@ use yii\widgets\ActiveForm;
                     ])
                     ?>
 
+                    <?= $form->field($subclientForm, 'userId')->hiddenInput()->label(false) ?>
                     <?= $form->field($subclientForm, 'name')->textInput() ?>
 
                     <div class="form-group">

@@ -13,6 +13,7 @@ use yii\base\Model;
 class AddSubclientForm extends Model
 {
     public $name;
+    public $userId;
 
     public function rules()
     {

@@ -97,7 +97,7 @@ use yii\web\View;
         <?php if (!$isViewMode) { ?>
             <?php if ($isAgency) { ?>
                 <div class="col-sm-4">
-                    <a href="#" class="additional-link" data-toggle="modal" data-target="#add-subclient"><i class="icon add-subclient-icon"></i>Добавить субклиента</a>
+                    <a href="#" class="additional-link" ng-click="$ctrl.openAddSubclientModal($event)"><i class="icon add-subclient-icon"></i>Добавить субклиента</a>
                 </div>
             <?php } ?>
             <div class="col-sm-8" ng-if="!!$ctrl.selectedSubclientId || !$ctrl.subclients || $ctrl.subclients.length == 0">
