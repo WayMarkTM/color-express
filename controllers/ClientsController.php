@@ -77,7 +77,7 @@ class ClientsController extends Controller
         $orderService = new OrdersService();
         $user = $clientService->getClientDetails($clientId);
         $dataProvider = new ActiveDataProvider([
-            'query' => $orderService->getOrders(),
+            'query' => $orderService->getOrders($clientId),
             'sort' => [
                 'attributes' => ['id', 'advertisingConstructionName', 'address', 'status', 'type', 'cost']
             ],
@@ -122,8 +122,20 @@ class ClientsController extends Controller
     public function actionDocuments()
     {
         $currentUserId = Yii::$app->user->getId();
+        $user = User::findOne($currentUserId);
+        $subclients = array();
+        $documentsCalendar = array();
+
+        if ($user->is_agency) {
+            $subclients = $this->subclientService->getSubclients($currentUserId);
+        } else {
+            $documentsCalendar = $this->documentService->getDocumentsCalendar($currentUserId);
+        }
+
         return $this->render('documents', [
-            'currentUser' => User::findOne($currentUserId)
+            'currentUser' => $user,
+            'subclients' => $subclients,
+            'documentsCalendar' => $documentsCalendar
         ]);
     }
 

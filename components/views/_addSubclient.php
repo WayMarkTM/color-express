@@ -26,7 +26,6 @@ use yii\widgets\ActiveForm;
                     $form = ActiveForm::begin([
                         'id' => 'add-subclient-form',
                         'options' => ['class' => 'modal-form'],
-                        'enableAjaxValidation' => true,
                         'validationUrl' => Url::toRoute('subclient/create-validation')
                     ])
                     ?>
@@ -35,7 +34,7 @@ use yii\widgets\ActiveForm;
 
                     <div class="form-group">
                         <div class="col-sm-6">
-                            <?= Html::submitButton('Добавить', ['class' => 'custom-btn blue sm full-width text-uppercase']) ?>
+                            <?= Html::submitButton('Добавить', ['class' => 'modal-btn form-control btn text-uppercase']) ?>
                         </div>
                         <div class="col-sm-6">
                             <button type="button" class="custom-btn white sm full-width text-uppercase" data-dismiss="modal">Отмена</button>

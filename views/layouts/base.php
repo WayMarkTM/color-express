@@ -74,11 +74,6 @@ if(Yii::$app->user->isGuest) {
     AuthWidget::end();
     SignupWidget::begin();
     SignupWidget::end();
-} else {
-    AddDocumentWidget::begin();
-    AddDocumentWidget::end();
-    AddSubclientWidget::begin();
-    AddSubclientWidget::end();
 }
 ?>
 </body>

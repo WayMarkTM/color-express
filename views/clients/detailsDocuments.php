@@ -27,7 +27,8 @@ $this->title = $user->company;
             'isAgency' => $user->is_agency,
             'selectedUserId' => $user->id,
             'documentsCalendar' => $documentsCalendar,
-            'subclients' => $subclients
+            'subclients' => $subclients,
+            'isViewMode' => false
         ]) ?>
     </div>
 </div>

@@ -77,6 +77,10 @@ class DocumentService
      * @return array
      */
     private function createCalendar($dates) {
+        if (count($dates) == 0) {
+            return [];
+        }
+
         $result = [];
         $minYear = 9999;
         $maxYear = 1;

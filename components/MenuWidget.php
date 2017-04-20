@@ -48,11 +48,13 @@ class MenuWidget extends Widget
         return [
             [
                 'label' => 'Управление клиентами',
-                'url' => ['clients/index']
+                'url' => ['clients/index'],
+                'active' => strpos(Yii::$app->request->url, 'clients/') !== false
             ],
             [
                 'label' => 'Управление конструкциями',
-                'url' => ['advertising-construction/index']
+                'url' => ['advertising-construction/index'],
+                'active' => strpos(Yii::$app->request->url, 'advertising-construction/') !== false
             ],
             [
                 'label' => 'Новые заявки на регистрацию',

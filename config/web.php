@@ -16,7 +16,7 @@ $config = [
                         'key' => 'AIzaSyDyZunII9qkJ-3dGcSfizyp0ua5EuvaVLA',
                         'language' => 'id',
                         'version' => '3.1.18'
-                    ]
+                    ],
                 ]
             ]
         ],

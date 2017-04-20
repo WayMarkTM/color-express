@@ -1,12 +1,15 @@
 <?php
 
 /* @var $this yii\web\View */
+use app\components\AddDocumentWidget;
+use app\components\AddSubclientWidget;
 use yii\web\View;
 
 /* @var $isAgency bool */
 /* @var $selectedUserId integer */
 /* @var $documentsCalendar array */
 /* @var $subclients array|Subclient */
+/* @var $isViewMode bool */
 ?>
 
 <div class="documents-container" ng-app="documents" ng-controller="clientDocumentsCtrl as $ctrl">
@@ -91,17 +94,25 @@ use yii\web\View;
     </div>
 
     <div class="row">
-        <?php if ($isAgency) { ?>
-            <div class="col-sm-4">
-                <a href="#" class="additional-link" data-toggle="modal" data-target="#add-subclient"><i class="icon add-subclient-icon"></i>Добавить субклиента</a>
+        <?php if (!$isViewMode) { ?>
+            <?php if ($isAgency) { ?>
+                <div class="col-sm-4">
+                    <a href="#" class="additional-link" data-toggle="modal" data-target="#add-subclient"><i class="icon add-subclient-icon"></i>Добавить субклиента</a>
+                </div>
+            <?php } ?>
+            <div class="col-sm-8" ng-if="!!$ctrl.selectedSubclientId || !$ctrl.subclients || $ctrl.subclients.length == 0">
+                <a href="#" class="additional-link" ng-click="$ctrl.openAddDocumentModal($event)"><i class="icon add-document-icon"></i>Добавить документ</a>
             </div>
         <?php } ?>
-        <div class="col-sm-8" ng-if="!!$ctrl.selectedSubclientId || !$ctrl.subclients || $ctrl.subclients.length == 0">
-            <a href="#" class="additional-link" ng-click="$ctrl.openAddDocumentModal($event)"><i class="icon add-document-icon"></i>Добавить документ</a>
-        </div>
     </div>
 </div>
 
+<?php
+    AddDocumentWidget::begin();
+    AddDocumentWidget::end();
+    AddSubclientWidget::begin();
+    AddSubclientWidget::end();
+?>
 
 <?php
 function database_model_to_array(array $models, $attributeNames) {
@@ -132,6 +143,6 @@ $modelAttributeNames = 'id, name';
     $this->registerJs('var selectedUserId = '.$selectedUserId.';', $position);
     $this->registerJs('var documentCalendar = '.json_encode($documentsCalendar).';', $position);
     $this->registerJs('var subclients = '.json_encode_database_models($subclients, $modelAttributeNames).';', $position);
-    $this->registerJsFile('@web/js/angular.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-    $this->registerJsFile('@web/js/app/documents.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+    $this->registerJsFile('@web/js/angular.min.js'); //, ['depends' => [\yii\web\JqueryAsset::className()]]);
+    $this->registerJsFile('@web/js/app/documents.js'); //, ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>

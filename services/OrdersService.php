@@ -18,12 +18,15 @@ class OrdersService
 {
 
     /**
+     * @param integer $userId
      * @return Query
      */
-    public function getOrders() {
-        $current_user_id = Yii::$app->user->getId();
+    public function getOrders($userId = null) {
+        if ($userId == null) {
+            $userId = Yii::$app->user->getId();
+        }
 
-        return $this->getUserOrdersQuery($current_user_id);
+        return $this->getUserOrdersQuery($userId);
     }
 
     /**
@@ -72,7 +75,7 @@ class OrdersService
     private function getUserOrdersQuery($user_id) {
         return AdvertisingConstructionReservation::find()
             ->where(['=', 'user_id', $user_id])
-            ->where('(status_id = '.AdvertisingConstructionStatuses::IN_PROCESSING.
+            ->andWhere('(status_id = '.AdvertisingConstructionStatuses::IN_PROCESSING.
                 ' or status_id = '.AdvertisingConstructionStatuses::APPROVED.
                 ' or status_id = '.AdvertisingConstructionStatuses::DECLINED.')');
     }

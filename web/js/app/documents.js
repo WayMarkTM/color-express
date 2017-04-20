@@ -116,6 +116,10 @@
                 $('#adddocumentform-subclientid').val(vm.selectedSubclientId);
             }
 
+            if (!!selectedUserId) {
+                $('#adddocumentform-userid').val(selectedUserId);
+            }
+
             $('#add-document').modal('show');
         }
     }

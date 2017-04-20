@@ -27,12 +27,12 @@ use yii\widgets\ActiveForm;
                     $form = ActiveForm::begin([
                         'id' => 'add-document-form',
                         'options' => ['class' => 'modal-form'],
-                        'enableAjaxValidation' => true,
                         'validationUrl' => Url::toRoute('documents/upload-validation')
                     ])
                     ?>
 
                     <?= $form->field($documentForm, 'subclientId')->hiddenInput()->label(false) ?>
+                    <?= $form->field($documentForm, 'userId')->hiddenInput()->label(false) ?>
 
                     <?= $form->field($documentForm, 'month')->dropDownList($months, ['prompt' => 'Месяц'])->label('Период') ?>
 

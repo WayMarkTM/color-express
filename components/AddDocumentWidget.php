@@ -29,17 +29,18 @@ class AddDocumentWidget extends Widget
 
     public function run()
     {
-        $userId = Yii::$app->user->getId();
-        if ($userId == null) {
+        $currentUserId = Yii::$app->user->getId();
+        if ($currentUserId == null) {
             throw new UnauthorizedHttpException();
         }
 
         $post = Yii::$app->request->post();
+        $userId = $post['AddDocumentForm']['userId'];
         if($this->documentForm->load($post)) {
             $this->documentForm->documentFile = UploadedFile::getInstance($this->documentForm, 'documentFile');
             if ($this->documentForm->upload($userId)) {
                 $service = new DocumentService();
-                $service->createDocument($this->documentForm, $userId, $post['AddDocumentForm']['subclientId']);
+                    $service->createDocument($this->documentForm, $userId, $post['AddDocumentForm']['subclientId']);
                 Yii::$app->getResponse()->redirect(\Yii::$app->getRequest()->getUrl());
             }
         }
