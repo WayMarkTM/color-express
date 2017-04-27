@@ -163,4 +163,18 @@ class ClientsController extends Controller
         }
     }
 
+    public function actionDeclineOrder($clientId, $orderId) {
+        $service = new OrdersService();
+        $service->declineOrder($orderId);
+
+        return $this->redirect('details?clientId='.$clientId);
+    }
+
+    public function actionApproveOrder($clientId, $orderId) {
+        $service = new OrdersService();
+        $service->approveOrder($orderId);
+
+        return $this->redirect('details?clientId='.$clientId);
+    }
+
 }
