@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "site_settings".
  *
  * @property integer $id
+ * @property string $name
  * @property string $value
  */
 class SiteSettings extends \yii\db\ActiveRecord
@@ -26,8 +27,8 @@ class SiteSettings extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['value'], 'required'],
-            [['value'], 'string', 'max' => 255],
+            [['value', 'name'], 'required'],
+            [['value', 'name'], 'string', 'max' => 255],
         ];
     }
 
@@ -38,7 +39,8 @@ class SiteSettings extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'value' => 'Value',
+            'name' => 'Описание',
+            'value' => 'Значение'
         ];
     }
 }

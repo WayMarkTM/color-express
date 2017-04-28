@@ -106,6 +106,10 @@ class MenuWidget extends Widget
             [
                 'label' => 'Управление вакансиями',
                 'url' => ['vacancy/index']
+            ],
+            [
+                'label' => 'Настройки сайта',
+                'url' => ['site-settings/index']
             ]
         ];
     }

@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\entities\OurClient;
 use app\models\entities\Vacancy;
 use app\models\FeedBackForm;
+use app\services\SiteSettingsService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -135,8 +136,13 @@ class SiteController extends Controller
                 return $this->refresh();
             }
         }
+
+        $siteSettingsService = new SiteSettingsService();
+        $contactSettings = $siteSettingsService->getContactSettings();
+
         return $this->render('contact', [
             'model' => $model,
+            'contactSettings' => $contactSettings
         ]);
     }
 

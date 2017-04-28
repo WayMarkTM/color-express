@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\ContactForm */
+/* @var $contactSettings app\models\ContactSettings */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
@@ -20,7 +21,7 @@ use dosamigos\google\maps\services\DirectionsRequest;
 use dosamigos\google\maps\overlays\Polygon;
 use dosamigos\google\maps\layers\BicyclingLayer;
 
-$coord = new LatLng(['lat' => 53.8805047, 'lng' => 27.5192012]);
+$coord = new LatLng(['lat' => $contactSettings->latitude, 'lng' => $contactSettings->longitude]);
 
 $map = new Map([
     'center' => $coord,
@@ -31,19 +32,16 @@ $map = new Map([
 
 $marker = new Marker([
     'position' => $coord,
-    'title' => 'My Home Town',
+    'title' => 'Колорэкспресс',
 ]);
 
 $marker->attachInfoWindow(
     new InfoWindow([
-        'content' => '<p>This is my super cool content</p>'
+        'content' => '<p>'.$contactSettings->address.'</p>'
     ])
 );
 
 $map->addOverlay($marker);
-
-$this->title = 'Contact';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="row">
@@ -80,9 +78,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="info-block">
                     <h4 class="info-block-header"><i class="icon phone-icon"></i>Контакты для связи: </h4>
                     <div class="info-block-content">
-                        <p>+375 17 399-10-95/96/97</p>
-                        <p>+375 29 199-27-89</p>
-                        <p>+375 44 742-59-21</p>
+                        <?php foreach($contactSettings->phones as $phone) {
+                            echo '<p>'.$phone.'</p>';
+                        } ?>
                     </div>
                 </div>
             </div>
@@ -92,7 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="info-block">
                     <h4 class="info-block-header"><i class="icon email-icon"></i>Email: </h4>
                     <div class="info-block-content">
-                        <p>outdoor@colorexpress.by</p>
+                        <p><?php echo $contactSettings->email; ?></p>
                     </div>
                 </div>
             </div>
@@ -102,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="info-block">
                     <h4 class="info-block-header"><i class="icon address-icon"></i>Наш адрес: </h4>
                     <div class="info-block-content">
-                        <p>г. Минск, ул. Железнодорожная, 44</p>
+                        <p><?php echo $contactSettings->address; ?></p>
                     </div>
                 </div>
             </div>
