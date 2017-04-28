@@ -7,6 +7,7 @@ use app\components\AddDocumentWidget;
 use app\components\CompanyInfoWidget;
 use app\components\MenuWidget;
 use app\components\AddSubclientWidget;
+use app\components\StockWidget;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\helpers\Url;
@@ -69,6 +70,9 @@ if(Yii::$app->user->isGuest) {
     SignupWidget::begin();
     SignupWidget::end();
 }
+
+StockWidget::begin();
+StockWidget::end();
 ?>
 </body>
 </html>

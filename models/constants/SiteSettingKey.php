@@ -17,4 +17,6 @@ class SiteSettingKey
     const ADDRESS = 4;
     const ADDRESS_LAT = 5;
     const ADDRESS_LONG = 6;
+    const STOCK_FREQUENCY = 7;
+    const STOCK_CONTENT = 8;
 }

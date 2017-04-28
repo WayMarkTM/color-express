@@ -41,6 +41,18 @@ class m170428_133106_set_site_settings extends Migration
             'name' => 'Адрес - координата (Longitude)',
             'value' => '27.5192012'
         ]);
+
+        $this->insert('site_settings', [
+            'id' => 7,
+            'name' => 'Частота показа всплывающего окна "Акции" (в секундах)',
+            'value' => '86400'
+        ]);
+
+        $this->insert('site_settings', [
+            'id' => 8,
+            'name' => 'Содержимое блока "Акции" (формат HTML; если пустое - блок не показывается)',
+            'value' => '<p>Акции</p>'
+        ]);
     }
 
     public function down()

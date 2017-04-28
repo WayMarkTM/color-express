@@ -9,7 +9,7 @@ class m170428_131909_add_name_to_site_settings extends Migration
 
     public function up()
     {
-        $this->addColumn($this->table, 'name', Schema::TYPE_STRING);
+        $this->addColumn($this->table, 'name', Schema::TYPE_TEXT);
     }
 
     public function down()
