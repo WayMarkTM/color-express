@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "advertising_construction_image".
  *
  * @property integer $advertising_construction_id
- * @property integer $file_id
+ * @property integer $id
  *
  * @property AdvertisingConstruction $advertisingConstruction
  * @property string path

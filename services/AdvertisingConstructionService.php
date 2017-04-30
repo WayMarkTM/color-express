@@ -26,7 +26,7 @@ class AdvertisingConstructionService
      * @return integer $id
      */
     public function saveAdvertisingConstruction($viewModel) {
-        $model = $viewModel->map();
+        $model = $viewModel->map($viewModel->id);
         $geocodingService = new GoogleGeocodingService();
 
         $coordinates = $geocodingService->geocode($model->address);
@@ -68,6 +68,34 @@ class AdvertisingConstructionService
         }
 
         throw new Exception('Failed to save Advertising Construction with related images');
+    }
+
+    /**
+     * @param integer $imageId
+     */
+    public function deleteImage($imageId) {
+        AdvertisingConstructionImage::findOne($imageId)->delete();
+    }
+
+    /**
+     * @param integer $id
+     * @throws Exception
+     */
+    public function deleteConstruction($id) {
+        $transaction = Yii::$app->db->beginTransaction();
+
+        try {
+            $model = AdvertisingConstruction::findOne($id);
+            foreach ($model->advertisingConstructionImages as $image) {
+                $this->deleteImage($image->id);
+            }
+
+            $model->delete();
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw new Exception('Failed to save Advertising Construction with related images');
+        }
     }
 
     /**

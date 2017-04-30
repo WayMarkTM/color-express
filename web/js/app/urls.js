@@ -6,5 +6,6 @@ var GATEWAY_URLS = {
     RESERV_CONSTRUCTION: BASE_URL + 'advertising-construction/reserv-construction',
     GET_DOCUMENTS_CALENDAR: BASE_URL + 'documents/get-documents-calendar',
     GET_DOCUMENTS: BASE_URL + 'documents/get-documents',
-    GET_SUBCLIENT_DOCUMENTS_CALENDAR: BASE_URL + 'documents/get-subclient-documents-calendar'
+    GET_SUBCLIENT_DOCUMENTS_CALENDAR: BASE_URL + 'documents/get-subclient-documents-calendar',
+    DELETE_CONSTRUCTION_IMAGE: BASE_URL + 'admin/construction/delete-image'
 };

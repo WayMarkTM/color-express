@@ -9,6 +9,7 @@
 namespace app\modules\admin\models;
 
 use app\models\entities\AdvertisingConstruction;
+use app\models\entities\AdvertisingConstructionImage;
 use Yii;
 use yii\base\Model;
 use yii\helpers\FileHelper;
@@ -26,6 +27,7 @@ class AdvertisingConstructionForm extends Model
     public $traffic_info;
     public $has_traffic_lights;
     public $images;
+    public $uploaded_images;
     public $document_path;
     public $is_published;
 
@@ -74,10 +76,13 @@ class AdvertisingConstructionForm extends Model
     }
 
     /**
+     * @param integer $id
      * @return AdvertisingConstruction
      */
-    public function map() {
-        $model = new AdvertisingConstruction();
+    public function map($id = null) {
+        $model = $id == null ?
+            new AdvertisingConstruction() :
+            AdvertisingConstruction::findOne($id);
 
         $model->name = $this->name;
         $model->address = $this->address;
@@ -107,15 +112,48 @@ class AdvertisingConstructionForm extends Model
                 array_push($this->images, $path);
             }
 
-            $documentPath = $root.'Documents/';
-            $uid = (new \DateTime())->format('Y-m-d');
-            $this->document_path = $documentPath.$uid.$this->documentFile->baseName.'.'.$this->documentFile->extension;
-            $this->documentFile->saveAs($this->document_path );
+            if ($this->documentFile != null) {
+                $documentPath = $root . 'Documents/';
+                FileHelper::createDirectory($documentPath);
+                $uid = (new \DateTime())->format('Y-m-d');
+                $this->document_path = $documentPath . $uid . $this->documentFile->baseName . '.' . $this->documentFile->extension;
+                $this->documentFile->saveAs($this->document_path);
+            }
 
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * @param integer $id
+     * @return AdvertisingConstructionForm
+     */
+    public static function mapEntity($id) {
+        $entity = AdvertisingConstruction::findOne($id);
+
+        $model = new AdvertisingConstructionForm();
+
+        $model->id = $entity->id;
+        $model->name = $entity->name;
+        $model->address = $entity->address;
+        $model->size_id = $entity->size_id;
+        $model->price = $entity->price;
+        $model->type_id = $entity->type_id;
+        $model->nearest_locations = $entity->nearest_locations;
+        $model->traffic_info = $entity->traffic_info;
+        $model->has_traffic_lights = $entity->has_traffic_lights;
+        $model->is_published = $entity->is_published;
+        $model->document_path = $entity->requirements_document_path;
+
+        $model->uploaded_images = array();
+
+        foreach ($entity->advertisingConstructionImages as $entityImage) {
+            array_push($model->uploaded_images, $entityImage);
+        }
+
+        return $model;
     }
 
 //$root = Yii::$app->params['uploadFilesPath'];

@@ -89,7 +89,7 @@ class MenuWidget extends Widget
         return [
             [
                 'label' => 'Управление конструкциями',
-                'url' => ['advertising-construction/index']
+                'url' => ['construction/index']
             ],
             [
                 'label' => 'Управление размерами конструкций',

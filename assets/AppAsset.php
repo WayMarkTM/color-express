@@ -19,6 +19,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'styles/toastr.min.css',
         'styles/common.css',
         'styles/controls.css',
         'styles/info-block.css',
@@ -31,7 +32,8 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/app/helpers.js',
         'js/app/urls.js',
-        'js/lodash.min.js'
+        'js/lodash.min.js',
+        'js/toastr.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

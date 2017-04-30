@@ -39,12 +39,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'size.size',
             'price',
             'type.name',
-            'requirements_document_path'
+            'requirements_document_path',
+            'is_published'
         ],
     ]) ?>
 
-    <?php foreach ($model->advertisingConstructionImages as $image) {
-        echo '<img src="/'.$image->path.'"/>';
-    }?>
-
+    <?php
+    if (count($model->advertisingConstructionImages) > 0) { ?>
+        <div class="row block-row">
+            <label class="control-label col-sm-12">Загруженные изображения</label>
+        </div>
+    <?php
+        foreach ($model->advertisingConstructionImages as $image) { ?>
+            <div class="advertising-construction-image-preview">
+                <div class="image">
+                    <img src="/<?php echo $image->path; ?>"/>
+                </div>
+            </div>
+    <?php }
+        }?>
 </div>

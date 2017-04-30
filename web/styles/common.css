@@ -526,3 +526,18 @@ table td a:hover {
 }
 
 .stock-window .close:hover { background: #00d9ff; }
+
+.advertising-construction-image-preview {
+    display: inline-block;
+    width: 200px;
+    text-align: center;
+}
+
+.advertising-construction-image-preview .controls {
+    margin-top: 20px;
+}
+
+.advertising-construction-image-preview img {
+    max-width: 200px;
+    max-height: 200px;
+}
