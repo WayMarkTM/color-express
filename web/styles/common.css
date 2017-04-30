@@ -541,3 +541,21 @@ table td a:hover {
     max-width: 200px;
     max-height: 200px;
 }
+
+.vis-item.booked {
+    background-color: #c0c0c0;
+    border: 0;
+    border-radius: 0;
+}
+
+.vis-item.reserved {
+    background: repeating-linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0.2) 10px,
+        rgba(0, 0, 0, 0.3) 10px,
+        rgba(0, 0, 0, 0.3) 20px
+    );
+    border: 0;
+    border-radius: 0;
+}

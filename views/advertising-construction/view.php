@@ -52,6 +52,8 @@ if ($model->latitude && $model->longitude) {
 $this->title = $model->name.' | Информация о рекламной конструкции';
 ?>
 
+<link rel="stylesheet" href="/web/styles/vis.min.css" />
+<script src="/web/js/vis.min.js" type="text/javascript"></script>
 <script src="/web/js/jssor.slider.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     jssor_1_slider_init = function() {
@@ -177,7 +179,40 @@ $this->title = $model->name.' | Информация о рекламной ко�
             <hr/>
             <div class="row">
                 <div class="col-md-12">
-                    Календарь
+                    <div id="timeline"></div>
+
+                    <script type="text/javascript">
+                        var $timeline = document.getElementById('timeline');
+
+                        var items = new vis.DataSet([
+                            {id: 1, title: 'Бронь', start: '2017-04-20', end: '2017-04-22', className: 'booked'},
+                            {id: 3, title: 'Бронь', start: '2017-05-20', end: '2017-06-22', className: 'booked'},
+                            {id: 2, title: 'Резервация', start: '2017-06-23', end: '2017-07-22', className: 'reserved'},
+                            {id: 4, title: 'Резервация', start: '2017-07-23', end: '2017-08-26', className: 'reserved'}
+                        ]);
+
+                        // Configuration for the Timeline
+                        var options = {
+                            orientation: {
+                                axis: 'top'
+                            },
+                            rollingMode: true,
+                            selectable: false,
+                            stack: false,
+                            timeAxis: {
+                                scale: 'month'
+                            },
+                            tooltip: {
+                                followMouse: true,
+
+                            },
+                            zoomable: false,
+                            zoomMin: 27592000000
+                        };
+
+                        // Create a Timeline
+                        var timeline = new vis.Timeline($timeline, items, options);
+                    </script>
                 </div>
             </div>
             <?php echo $form->field($model, 'id')->hiddenInput(['value'=> $model->id])->label(false); ?>
