@@ -10,10 +10,12 @@ namespace app\controllers;
 
 
 use app\models\AddDocumentForm;
+use app\models\entities\Document;
 use app\services\DocumentService;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
+use yii\web\UnauthorizedHttpException;
 use yii\widgets\ActiveForm;
 
 class DocumentsController extends Controller
@@ -59,5 +61,16 @@ class DocumentsController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($documentForm);
         }
+    }
+
+    public function actionDeleteDocument($documentId) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $currentUserId = Yii::$app->user->getId();
+
+        if ($currentUserId == null) {
+            throw new UnauthorizedHttpException();
+        }
+
+        Document::findOne($documentId)->delete();
     }
 }

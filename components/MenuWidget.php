@@ -53,8 +53,8 @@ class MenuWidget extends Widget
             ],
             [
                 'label' => 'Управление конструкциями',
-                'url' => ['advertising-construction/index'],
-                'active' => strpos(Yii::$app->request->url, 'advertising-construction/') !== false
+                'url' => ['construction/index'],
+                'active' => strpos(Yii::$app->request->url, 'construction/') !== false
             ],
             [
                 'label' => 'Новые заявки на регистрацию',
@@ -68,7 +68,7 @@ class MenuWidget extends Widget
         return [
             [
                 'label' => 'Оформить заказ',
-                'url' => ['advertising-construction/index']
+                'url' => ['construction/index']
             ],
             [
                 'label' => 'Корзина',
@@ -118,7 +118,7 @@ class MenuWidget extends Widget
         return [
             [
                 'label' => 'Каталог рекламных конструкций',
-                'url' => ['advertising-construction/index'],
+                'url' => ['construction/index'],
                 'visible' => Yii::$app->user->isGuest,
             ],
             [

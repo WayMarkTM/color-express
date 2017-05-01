@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 use app\components\AddDocumentWidget;
 use app\components\AddSubclientWidget;
+use app\services\JsonService;
 use yii\web\View;
 
 /* @var $isAgency bool */
@@ -84,6 +85,9 @@ use yii\web\View;
                                  ng-if="$ctrl.documents.length > 0 && !$ctrl.isDocumentsLoading"
                                  ng-repeat="document in $ctrl.documents">
                                 <a href="{{$ctrl.getDocumentLink(document)}}">{{ document.path }}</a>
+                                <?php if (!$isViewMode) { ?>
+                                    <a href="" ng-click="$ctrl.deleteDocument($index, document)">X</a>
+                                <?php } ?>
                             </div>
                         </td>
                     </tr>
@@ -115,26 +119,6 @@ use yii\web\View;
 ?>
 
 <?php
-function database_model_to_array(array $models, $attributeNames) {
-    $attributeNames = explode(',', $attributeNames);
-
-    $rows = array(); //the rows to output
-    foreach ($models as $model) {
-        $row = array(); //you will be copying in model attribute values to this array
-        foreach ($attributeNames as $name) {
-            $name = trim($name); //in case of spaces around commas
-            $row[$name] = $model[$name]; //this function walks the relations
-        }
-        $rows[] = $row;
-    }
-
-    return $rows;
-}
-
-function json_encode_database_models(array $models, $attributeNames) {
-    return json_encode(database_model_to_array($models, $attributeNames));
-}
-
 $modelAttributeNames = 'id, name';
 ?>
 
@@ -142,7 +126,7 @@ $modelAttributeNames = 'id, name';
     $position = View::POS_BEGIN;
     $this->registerJs('var selectedUserId = '.$selectedUserId.';', $position);
     $this->registerJs('var documentCalendar = '.json_encode($documentsCalendar).';', $position);
-    $this->registerJs('var subclients = '.json_encode_database_models($subclients, $modelAttributeNames).';', $position);
+    $this->registerJs('var subclients = '. JsonService::json_encode_database_models($subclients, $modelAttributeNames).';', $position);
     $this->registerJsFile('@web/js/angular.min.js'); //, ['depends' => [\yii\web\JqueryAsset::className()]]);
     $this->registerJsFile('@web/js/app/documents.js'); //, ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>

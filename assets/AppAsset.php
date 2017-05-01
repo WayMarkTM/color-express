@@ -30,10 +30,11 @@ class AppAsset extends AssetBundle
         'styles/documents.css',
     ];
     public $js = [
-        'js/app/helpers.js',
-        'js/app/urls.js',
         'js/lodash.min.js',
-        'js/toastr.min.js'
+        'js/toastr.min.js',
+        'js/moment.with.locales.min.js',
+        'js/app/helpers.js',
+        'js/app/urls.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

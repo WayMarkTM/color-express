@@ -543,7 +543,7 @@ table td a:hover {
 }
 
 .vis-item.booked {
-    background-color: #c0c0c0;
+    background: #c0c0c0;
     border: 0;
     border-radius: 0;
 }
@@ -558,4 +558,46 @@ table td a:hover {
     );
     border: 0;
     border-radius: 0;
+}
+
+.status-panel {
+    width: 100%;
+}
+
+.status-panel .item {
+    width: auto;
+    display: inline;
+    margin-right: 30px;
+}
+
+.status-panel .item .indicator {
+    border: 1px solid gray;
+    width: 30px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.status-panel .item .text {
+    margin-left: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.status-panel .item .indicator.booked {
+    background-color: #c0c0c0;
+}
+
+.status-panel .item .indicator.free {
+    background-color: #fff;
+}
+
+.status-panel .item .indicator.reserved {
+    background: repeating-linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0.2) 10px,
+        rgba(0, 0, 0, 0.3) 10px,
+        rgba(0, 0, 0, 0.3) 20px
+    );
 }

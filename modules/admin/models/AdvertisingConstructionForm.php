@@ -100,7 +100,7 @@ class AdvertisingConstructionForm extends Model
 
     public function upload()
     {
-        $root = Yii::$app->params['uploadFilesPath'].'AdvertisingConstructions/';
+        $root = Yii::$app->params['uploadFilesPath'].'Construction/';
         FileHelper::createDirectory($root);
 
         if ($this->validate()) {

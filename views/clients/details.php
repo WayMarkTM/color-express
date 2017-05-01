@@ -45,7 +45,7 @@ $this->title = $user->company;
                             'format' => 'raw',
                             'headerOptions' => ['class' => 'text-center'],
                             'value' => function ($model) {
-                                return Html::a($model->advertisingConstruction->name, ['advertising-construction/details?id='.$model->advertisingConstruction->id]);
+                                return Html::a($model->advertisingConstruction->name, ['construction/details?id='.$model->advertisingConstruction->id]);
                             }
                         ],
                         [

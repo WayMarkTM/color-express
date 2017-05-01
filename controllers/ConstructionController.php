@@ -21,8 +21,18 @@ use yii\web\Response;
 use yii\web\Request;
 
 
-class AdvertisingConstructionController extends Controller
+class ConstructionController extends Controller
 {
+    /**
+    * @var AdvertisingConstructionReservationService
+    */
+    private $advertisingConstructionReservationService;
+
+    public function init() {
+        $this->advertisingConstructionReservationService = new AdvertisingConstructionReservationService();
+        parent::init();
+    }
+
     /**
      * @inheritdoc
      */
@@ -57,11 +67,16 @@ class AdvertisingConstructionController extends Controller
         $reservationModel->fromDate = date("d.m.Y");
         $reservationModel->toDate = date("d.m.Y");
 
+        $bookings = $this->advertisingConstructionReservationService->getConstructionBookings($id);
+        $reservations = $this->advertisingConstructionReservationService->getConstructionReservations($id);
+
         $marketing_types = AdvertisingConstructionService::getMarketingTypeDropdownItems();
 
         return $this->render('view', [
             'model' => $model,
             'reservationModel' => $reservationModel,
+            'bookings' => $bookings,
+            'reservations' => $reservations,
             'marketingTypes' => $marketing_types
         ]);
     }
@@ -72,10 +87,9 @@ class AdvertisingConstructionController extends Controller
 
         /* id, from, to */
         $model = Yii::$app->request->post();
-        $service = new AdvertisingConstructionReservationService();
 
         if (Yii::$app->request->isAjax) {
-            return $service->createReservation($model, AdvertisingConstructionStatuses::IN_BASKET_ORDER);
+            return $this->advertisingConstructionReservationService->createReservation($model, AdvertisingConstructionStatuses::IN_BASKET_ORDER);
         }
 
         return [];
@@ -87,14 +101,9 @@ class AdvertisingConstructionController extends Controller
 
         /* id, from, to */
         $model = Yii::$app->request->post();
-        $service = new AdvertisingConstructionReservationService();
 
         if (Yii::$app->request->isAjax) {
-            $service->createReservation($model, AdvertisingConstructionStatuses::IN_BASKET_RESERVED);
-
-            return [
-                'success' => true
-            ];
+            return $this->advertisingConstructionReservationService->createReservation($model, AdvertisingConstructionStatuses::IN_BASKET_RESERVED);
         }
 
         return [];

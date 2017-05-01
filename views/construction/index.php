@@ -6,6 +6,7 @@
  * Time: 12:10 AM
  */
 
+use app\services\JsonService;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\Map;
 use dosamigos\google\maps\overlays\InfoWindow;
@@ -19,35 +20,8 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $sizes array yii\data\AdvertisingConstructionSize*/
 
-/**
- * takes an array of models and their attributes names and outputs them as json. works with relations unlike CJSON::encode()
- * @param $models array an array of models, consider using $dataProvider->getData() here
- * @param $attributeNames string a comma delimited list of attribute names to output, for relations use relationName.attributeName
- * @return string json object
- */
-
-function database_model_to_array(array $models, $attributeNames) {
-    $attributeNames = explode(',', $attributeNames);
-
-    $rows = array(); //the rows to output
-    foreach ($models as $model) {
-        $row = array(); //you will be copying in model attribute values to this array
-        foreach ($attributeNames as $name) {
-            $name = trim($name); //in case of spaces around commas
-            $row[$name] = $model[$name]; //this function walks the relations
-        }
-        $rows[] = $row;
-    }
-
-    return $rows;
-}
-
-function json_encode_database_models(array $models, $attributeNames) {
-    return json_encode(database_model_to_array($models, $attributeNames));
-}
-
 $modelAttributeNames = 'id, name, latitude, longitude, advertisingConstructionImages';
-$models =  database_model_to_array($dataProvider->getModels(), $modelAttributeNames);
+$models =  JsonService::database_model_to_array($dataProvider->getModels(), $modelAttributeNames);
 
 $coord = new LatLng(['lat' => 53.8905047, 'lng' => 27.5292012]);
 
@@ -149,7 +123,7 @@ $this->title = "Каталог рекламных конструкций";
                                     'contentOptions' =>['class' => 'text-center'],
                                     'buttons' => [
                                         'details' => function ($url ,$model) {
-                                            return Html::a('Подробнее', 'advertising-construction/details?id='.$model->id, [
+                                            return Html::a('Подробнее', 'construction/details?id='.$model->id, [
                                                 'title' => 'Подробнее'
                                             ]);
                                         }

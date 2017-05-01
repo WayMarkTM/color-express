@@ -68,13 +68,13 @@ class AdvertisingConstructionReservationService
     private function getReservationsQuery($current_user_id) {
         return AdvertisingConstructionReservation::find()
             ->where(['=', 'user_id', $current_user_id])
-            ->where(['=', 'status_id', AdvertisingConstructionStatuses::IN_BASKET_ORDER]);
+            ->andWhere(['=', 'status_id', AdvertisingConstructionStatuses::IN_BASKET_ORDER]);
     }
 
     /**
      * @param mixed $model
      * @param integer $status
-     * @return AdvertisingConstructionReservation
+     * @return mixed
      */
     public function createReservation($model, $status) {
         $currentUserId = Yii::$app->user->getId();
@@ -93,6 +93,28 @@ class AdvertisingConstructionReservationService
             'isValid' => true,
             'reservation' => $reservation
         ];
+    }
+
+    /**
+     * @param integer $id
+     * @return array|AdvertisingConstructionReservation[]
+     */
+    public function getConstructionBookings($id) {
+        return AdvertisingConstructionReservation::find()
+            ->where(['=', 'advertising_construction_id', $id])
+            ->andWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)])
+            ->all();
+    }
+
+    /**
+     * @param integer $id
+     * @return array|AdvertisingConstructionReservation[]
+     */
+    public function getConstructionReservations($id) {
+        return AdvertisingConstructionReservation::find()
+            ->where(['=', 'advertising_construction_id', $id])
+            ->andWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED)])
+            ->all();
     }
 
     /**

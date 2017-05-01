@@ -7,6 +7,7 @@
  */
 
 use app\models\entities\MarketingType;
+use app\services\JsonService;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\Map;
 use dosamigos\google\maps\overlays\InfoWindow;
@@ -14,12 +15,15 @@ use dosamigos\google\maps\overlays\Marker;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use kartik\date\DatePicker;
+use yii\web\View;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\entities\AdvertisingConstruction */
 /* @var $reservationModel app\models\AdvertisingConstructionFastReservationForm */
 /* @var $marketing_types array app\models\entities\MarketingType */
+/* @var $bookings array app\models\entities\AdvertisingConstructionReservation */
+/* @var $reservations array app\models\entities\AdvertisingConstructionReservation */
 
 
 $coord = new LatLng(['lat' => $model->latitude, 'lng' => $model->longitude]);
@@ -53,7 +57,6 @@ $this->title = $model->name.' | Информация о рекламной ко�
 ?>
 
 <link rel="stylesheet" href="/web/styles/vis.min.css" />
-<script src="/web/js/vis.min.js" type="text/javascript"></script>
 <script src="/web/js/jssor.slider.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     jssor_1_slider_init = function() {
@@ -173,7 +176,17 @@ $this->title = $model->name.' | Информация о рекламной ко�
             <hr/>
             <div class="row">
                 <div class="col-md-12">
-                    Панель: Забронировано, свободно
+                    <div class="status-panel">
+                        <div class="item">
+                            <span class="indicator booked"></span><span class="text"> - Забронировано</span>
+                        </div>
+                        <div class="item">
+                            <span class="indicator reserved"></span><span class="text"> - Зарезервировано</span>
+                        </div>
+                        <div class="item">
+                            <span class="indicator free"></span><span class="text"> - Свободно</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <hr/>
@@ -181,38 +194,32 @@ $this->title = $model->name.' | Информация о рекламной ко�
                 <div class="col-md-12">
                     <div id="timeline"></div>
 
-                    <script type="text/javascript">
-                        var $timeline = document.getElementById('timeline');
+                    <?php
+                        $position = View::POS_BEGIN;
 
-                        var items = new vis.DataSet([
-                            {id: 1, title: 'Бронь', start: '2017-04-20', end: '2017-04-22', className: 'booked'},
-                            {id: 3, title: 'Бронь', start: '2017-05-20', end: '2017-06-22', className: 'booked'},
-                            {id: 2, title: 'Резервация', start: '2017-06-23', end: '2017-07-22', className: 'reserved'},
-                            {id: 4, title: 'Резервация', start: '2017-07-23', end: '2017-08-26', className: 'reserved'}
-                        ]);
+                        $jsonReservations = array();
+                        foreach ($bookings as $booking) {
+                            array_push($jsonReservations, [
+                                'id' => $booking->id,
+                                'from' => $booking->from,
+                                'to' => $booking->to,
+                                'type' => 'booking'
+                            ]);
+                        }
 
-                        // Configuration for the Timeline
-                        var options = {
-                            orientation: {
-                                axis: 'top'
-                            },
-                            rollingMode: true,
-                            selectable: false,
-                            stack: false,
-                            timeAxis: {
-                                scale: 'month'
-                            },
-                            tooltip: {
-                                followMouse: true,
+                        foreach($reservations as $reservation) {
+                            array_push($jsonReservations, [
+                                'id' => $reservation->id,
+                                'from' => $reservation->from,
+                                'to' => $reservation->to,
+                                'type' => 'reservation'
+                            ]);
+                        }
 
-                            },
-                            zoomable: false,
-                            zoomMin: 27592000000
-                        };
-
-                        // Create a Timeline
-                        var timeline = new vis.Timeline($timeline, items, options);
-                    </script>
+                        $this->registerJs('var reservations = '.json_encode($jsonReservations).';', $position);
+                        $this->registerJsFile('@web/js/vis.min.js');
+                        $this->registerJsFile('@web/js/app/construction-timeline.js');
+                    ?>
                 </div>
             </div>
             <?php echo $form->field($model, 'id')->hiddenInput(['value'=> $model->id])->label(false); ?>
@@ -267,7 +274,7 @@ $this->title = $model->name.' | Информация о рекламной ко�
                 <div class="col-md-12">
                     <button type="button" id="buy-btn" class="custom-btn sm blue">Купить</button>
                     <button type="button" id="reserv-btn" class="custom-btn sm blue">Отложить на 5 дней</button>
-                    <?= Html::a('Вернуться назад', ['/advertising-construction/index'], ['class'=>'custom-btn sm white']) ?>
+                    <?= Html::a('Вернуться назад', ['/construction/index'], ['class'=>'custom-btn sm white']) ?>
                 </div>
             </div>
             <?php ActiveForm::end(); ?>
@@ -344,7 +351,7 @@ $(document).ready(function () {
             if (result.isValid) {
                 window.location.href = BASE_URL + 'shopping-cart';
             } else {
-                alert(result.message);
+                toastr.error(result.message);
             }
         });
     }
@@ -360,11 +367,11 @@ $(document).ready(function () {
         colorApp.utilities.ajaxHelper.post({
             url: GATEWAY_URLS.RESERV_CONSTRUCTION,
             data: submitModel
-        }).done(function () {
+        }).done(function (result) {
             if (result.isValid) {
                 window.location.href = BASE_URL + 'shopping-cart';
             } else {
-                alert(result.message);
+                toastr.error(result.message);
             }
         });
     }

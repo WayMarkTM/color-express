@@ -62,3 +62,5 @@ colorApp.utilities.dateHelper = (function () {
         }
     }
 })();
+
+moment.locale('ru');

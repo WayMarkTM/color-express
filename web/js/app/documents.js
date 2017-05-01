@@ -20,6 +20,7 @@
         vm.getDocumentLink = getDocumentLink;
         vm.openAddDocumentModal = openAddDocumentModal;
         vm.openAddSubclientModal = openAddSubclientModal;
+        vm.deleteDocument = deleteDocument;
 
 
         function init() {
@@ -112,6 +113,16 @@
             return '/uploads/documents/' + selectedUserId + '/' + vm.selectedYear + '/' + vm.selectedMonthId + '/' + document.path;
         }
 
+        function deleteDocument($index, document) {
+            if (confirm('Вы уверены, что хотите удалить документ ' + document.path)) {
+                documentDataService.deleteDocument(document.id)
+                    .then(function () {
+                        vm.documents.splice($index, 1);
+                        toastr.success('Документ успешно удален');
+                    });
+            }
+        }
+
         function openAddDocumentModal($event) {
             if (!!vm.selectedSubclientId) {
                 $('#adddocumentform-subclientid').val(vm.selectedSubclientId);
@@ -141,7 +152,8 @@
         return {
             loadCalendar: loadCalendar,
             loadDocuments: loadDocuments,
-            loadSubclientCalendar: loadSubclientCalendar
+            loadSubclientCalendar: loadSubclientCalendar,
+            deleteDocument: deleteDocument
         };
 
         function loadCalendar() {
@@ -167,6 +179,12 @@
                 .then(function (response) {
                     return response.data.calendar;
                 });
+        }
+
+        function deleteDocument(documentId) {
+            var url = GATEWAY_URLS.DELETE_DOCUMENT + '?documentId=' + documentId;
+
+            return $http.get(url);
         }
     }
 
