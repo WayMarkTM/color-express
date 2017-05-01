@@ -34,9 +34,15 @@ class ClientsController extends Controller
      */
     private $subclientService;
 
+    /**
+     * @var ClientsService
+     */
+    private $clientsService;
+
     public function init() {
         $this->documentService = new DocumentService();
         $this->subclientService = new SubclientService();
+        $this->clientsService = new ClientsService();
         parent::init();
     }
 
@@ -73,9 +79,8 @@ class ClientsController extends Controller
     }
 
     public function actionDetails($clientId) {
-        $clientService = new ClientsService();
         $orderService = new OrdersService();
-        $user = $clientService->getClientDetails($clientId);
+        $user = $this->clientsService->getClientDetails($clientId);
         $dataProvider = new ActiveDataProvider([
             'query' => $orderService->getOrders($clientId),
             'sort' => [
@@ -95,8 +100,7 @@ class ClientsController extends Controller
     public function actionDetailsDocuments($clientId) {
         $subclients = array();
         $documentsCalendar = array();
-        $clientService = new ClientsService();
-        $user = $clientService->getClientDetails($clientId);
+        $user = $this->clientsService->getClientDetails($clientId);
 
         if ($user->is_agency) {
             $subclients = $this->subclientService->getSubclients($clientId);
@@ -177,4 +181,12 @@ class ClientsController extends Controller
         return $this->redirect('details?clientId='.$clientId);
     }
 
+    public function actionGetCurrentEmployeeClients() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $clients = $this->clientsService->getClients();
+
+        return [
+            'clients' => $clients
+        ];
+    }
 }

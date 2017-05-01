@@ -85,7 +85,7 @@ class ConstructionController extends Controller
         $this->enableCsrfValidation = false;
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        /* id, from, to */
+        /* id, from, to, user_id? */
         $model = Yii::$app->request->post();
 
         if (Yii::$app->request->isAjax) {
@@ -99,7 +99,7 @@ class ConstructionController extends Controller
         $this->enableCsrfValidation = false;
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        /* id, from, to */
+        /* id, from, to, user_id? */
         $model = Yii::$app->request->post();
 
         if (Yii::$app->request->isAjax) {

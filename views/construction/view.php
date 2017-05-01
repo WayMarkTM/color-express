@@ -6,8 +6,10 @@
  * Time: 15:09
  */
 
+use app\components\CompanySelectionWidget;
 use app\components\RequireAuthorizationWidget;
 use app\models\entities\MarketingType;
+use app\models\User;
 use app\services\JsonService;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\Map;
@@ -23,8 +25,8 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\entities\AdvertisingConstruction */
 /* @var $reservationModel app\models\AdvertisingConstructionFastReservationForm */
 /* @var $marketing_types array app\models\entities\MarketingType */
-/* @var $bookings array app\models\entities\AdvertisingConstructionReservation */
-/* @var $reservations array app\models\entities\AdvertisingConstructionReservation */
+/* @var $bookings array|app\models\entities\AdvertisingConstructionReservation */
+/* @var $reservations array|app\models\entities\AdvertisingConstructionReservation */
 
 
 $coord = new LatLng(['lat' => $model->latitude, 'lng' => $model->longitude]);
@@ -59,9 +61,13 @@ $this->title = $model->name.' | Информация о рекламной ко�
 if (Yii::$app->user->isGuest) {
     RequireAuthorizationWidget::begin();
     RequireAuthorizationWidget::end();
+} else {
+    CompanySelectionWidget::begin();
+    CompanySelectionWidget::end();
 }
 
 $position = View::POS_BEGIN;
+$this->registerJs('var isEmployee;', $position);
 $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $position);
 ?>
 
@@ -280,8 +286,8 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
             </div>
             <div class="row buttons-row block-row">
                 <div class="col-md-12">
-                    <button type="button" id="buy-btn" class="custom-btn sm blue">Купить</button>
-                    <button type="button" id="reserv-btn" class="custom-btn sm blue">Отложить на 5 дней</button>
+                    <button type="button" id="buy-btn" class="custom-btn sm blue" data-action-type="buyConstruction">Купить</button>
+                    <button type="button" id="reserv-btn" class="custom-btn sm blue" data-action-type="reservConstruction">Отложить на 5 дней</button>
                     <?= Html::a('Вернуться назад', ['/construction/index'], ['class'=>'custom-btn sm white']) ?>
                 </div>
             </div>
@@ -353,6 +359,9 @@ $(document).ready(function () {
             showRequireAuthorizationModal();
             return;
         }
+        
+        $('#company-selection').modal('show');
+        return;
         
         var submitModel = {
             advertising_construction_id: model.id(),

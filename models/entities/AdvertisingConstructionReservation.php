@@ -12,6 +12,7 @@ use Yii;
  * @property integer $marketing_type_id
  * @property integer $status_id
  * @property integer $user_id
+ * @property integer $employee_id
  * @property float $cost
  * @property string $from
  * @property string $to
@@ -21,6 +22,7 @@ use Yii;
  * @property AdvertisingConstruction $advertisingConstruction
  * @property AdvertisingConstructionReservationStatus $status
  * @property MarketingType $marketingType
+ * @property User $employee
  */
 class AdvertisingConstructionReservation extends \yii\db\ActiveRecord
 {
@@ -88,5 +90,13 @@ class AdvertisingConstructionReservation extends \yii\db\ActiveRecord
     public function getMarketingType()
     {
         return $this->hasOne(MarketingType::className(), ['id' => 'marketing_type_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployee()
+    {
+        return $this->hasOne(User::className(), ['id' => 'employee_id']);
     }
 }

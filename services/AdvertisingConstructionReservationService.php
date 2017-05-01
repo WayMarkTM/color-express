@@ -77,7 +77,12 @@ class AdvertisingConstructionReservationService
      * @return mixed
      */
     public function createReservation($model, $status) {
-        $currentUserId = Yii::$app->user->getId();
+        $userId = $model['user_id'];
+        $managerId = $userId != null ? Yii::$app->user->getId() : null;
+        if ($userId == null) {
+            $userId = Yii::$app->user->getId();
+        }
+
         // TODO: add validation on busy construction
         if (!$this->isDateRangesValid($model)) {
             return [
@@ -86,7 +91,7 @@ class AdvertisingConstructionReservationService
             ];
         }
 
-        $reservation = $this->getAdvertisingConstructionReservation($currentUserId, $model, $status);
+        $reservation = $this->getAdvertisingConstructionReservation($userId, $model, $status, $managerId);
         $reservation->save();
 
         return [
@@ -143,14 +148,15 @@ class AdvertisingConstructionReservationService
      * @param integer $statusId
      * @return AdvertisingConstructionReservation
      */
-    private function getAdvertisingConstructionReservation($userId, $model, $statusId) {
+    private function getAdvertisingConstructionReservation($userId, $model, $statusId, $managerId = null) {
         $reservation = new AdvertisingConstructionReservation();
         $reservation->advertising_construction_id = intval($model['advertising_construction_id']);
-        $reservation->marketing_type_id = intval($model['marketing_type']);
+        $reservation->marketing_type_id = $model['marketing_type'] != null ? intval($model['marketing_type']) : null;
         $reservation->from = (new \DateTime($model['from']))->format('Y-m-d');
         $reservation->to = (new \DateTime($model['to']))->format('Y-m-d');
         $reservation->user_id = $userId;
         $reservation->status_id = $statusId;
+        $reservation->employee_id = $managerId;
         // TODO: add specific calculation for Agency
         $reservation->cost = $this->getReservationCost(intval($model['advertising_construction_id']), intval($model['marketing_type']));
 

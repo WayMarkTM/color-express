@@ -12,7 +12,7 @@ use Yii;
 use yii\web\IdentityInterface;
 use yii\base\NotSupportedException;
 
-class User extends \app\models\entities\User implements IdentityInterface
+class User extends entities\User implements IdentityInterface
 {
     public function rules()
     {

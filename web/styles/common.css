@@ -601,3 +601,9 @@ table td a:hover {
         rgba(0, 0, 0, 0.3) 20px
     );
 }
+
+table .selectable:hover,
+table .selected {
+    cursor: pointer;
+    background-color: #f0f0f0;
+}
