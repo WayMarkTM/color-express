@@ -607,3 +607,7 @@ table .selected {
     cursor: pointer;
     background-color: #f0f0f0;
 }
+
+.vis-timeline {
+    overflow: visible !important;
+}

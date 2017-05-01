@@ -13,9 +13,24 @@
     var items = [];
 
     var mapReservation = function (reservation, groupId) {
+        var title = reservation.company + '<br/><br/>';
+        if (!!reservation.manager) {
+            title += '- менеджер ' + reservation.manager + '<br/><br/>';
+        }
+
+        if (!!reservation.thematic) {
+            title += '- ' + reservation.thematic + '<br/>';
+        }
+
+        if (!!reservation.marketing_type) {
+            title += '- ' + reservation.marketing_type + '<br/><br/>'
+        }
+
+        title += reservation.from + ' - ' + reservation.to;
+
         return {
             id: reservation.id,
-            title: reservation.from + ' - ' + reservation.to,
+            title: title,
             start: reservation.from,
             end: reservation.to,
             group: groupId,
@@ -62,6 +77,7 @@
             scale: 'month'
         },
         tooltip: {
+            overflowMethod: 'flip',
             followMouse: true,
 
         },
