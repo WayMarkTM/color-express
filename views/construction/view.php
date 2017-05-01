@@ -6,6 +6,7 @@
  * Time: 15:09
  */
 
+use app\components\RequireAuthorizationWidget;
 use app\models\entities\MarketingType;
 use app\services\JsonService;
 use dosamigos\google\maps\LatLng;
@@ -54,6 +55,14 @@ if ($model->latitude && $model->longitude) {
 }
 
 $this->title = $model->name.' | Информация о рекламной конструкции';
+
+if (Yii::$app->user->isGuest) {
+    RequireAuthorizationWidget::begin();
+    RequireAuthorizationWidget::end();
+}
+
+$position = View::POS_BEGIN;
+$this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $position);
 ?>
 
 <link rel="stylesheet" href="/web/styles/vis.min.css" />
@@ -196,7 +205,6 @@ $this->title = $model->name.' | Информация о рекламной ко�
 
                     <?php
                         $position = View::POS_BEGIN;
-
                         $jsonReservations = array();
                         foreach ($bookings as $booking) {
                             array_push($jsonReservations, [
@@ -336,7 +344,16 @@ $(document).ready(function () {
     buyBtn.on('click', buyConstruction);
     reservBtn.on('click', reservConstruction);
 
+    function showRequireAuthorizationModal() {
+        $('#requireAuthorization').modal('show');
+    }
+    
     function buyConstruction() {
+        if (!!isGuest) {
+            showRequireAuthorizationModal();
+            return;
+        }
+        
         var submitModel = {
             advertising_construction_id: model.id(),
             marketing_type: model.marketingType(),
@@ -357,6 +374,11 @@ $(document).ready(function () {
     }
 
     function reservConstruction() {
+        if (!!isGuest) {
+            showRequireAuthorizationModal();
+            return;
+        }
+        
         var submitModel = {
             advertising_construction_id: model.id(),
             marketing_type: model.marketingType(),
