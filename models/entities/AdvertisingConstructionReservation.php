@@ -23,6 +23,7 @@ use Yii;
  * @property AdvertisingConstructionReservationStatus $status
  * @property MarketingType $marketingType
  * @property User $employee
+ * @property User $user
  */
 class AdvertisingConstructionReservation extends \yii\db\ActiveRecord
 {
@@ -98,5 +99,13 @@ class AdvertisingConstructionReservation extends \yii\db\ActiveRecord
     public function getEmployee()
     {
         return $this->hasOne(User::className(), ['id' => 'employee_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

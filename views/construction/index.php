@@ -91,7 +91,7 @@ $this->title = "Каталог рекламных конструкций";
                     <?php Pjax::begin(); ?>
                         <?= GridView::widget([
                             'dataProvider' => $dataProvider,
-                            'layout'=>'{items}<div class="grid-footer-panel"><button class="custom-btn sm blue" type="button">Купить</button><button class="custom-btn sm blue" type="button">Отложить на 5 дней</button>{pager}</div>',
+                            'layout'=>'{items}<div class="grid-footer-panel"><button class="custom-btn sm blue" type="button">Купить</button><button class="custom-btn sm blue" type="button">Отложить на 5 дней</button><button id="summary" class="custom-btn sm blue" type="button">Сводка</button>{pager}</div>',
                             'columns' => [
                                 [
                                     'class' => 'yii\grid\CheckboxColumn',
@@ -137,3 +137,10 @@ $this->title = "Каталог рекламных конструкций";
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $('#summary').on('click', function () {
+        var queryString = window.location.href.slice(window.location.href.indexOf('?') + 1)
+        window.location.href = '/construction/summary?' + queryString;
+    });
+</script>

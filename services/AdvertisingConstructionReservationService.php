@@ -123,6 +123,53 @@ class AdvertisingConstructionReservationService
     }
 
     /**
+     * @param array|AdvertisingConstruction[] $constructions
+     * @return array
+     */
+    public function getBookingsAndReservationForConstructions($constructions) {
+        $result = array();
+        foreach ($constructions as $construction) {
+            $bookings = $this->getConstructionBookings($construction->id);
+            $bookingsResult = array();
+            foreach($bookings as $booking) {
+                array_push($bookingsResult, $this->mapReservationForSummary($booking, 'booking'));
+            }
+
+            $reservations = $this->getConstructionReservations($construction->id);
+            $reservationsResult = array();
+            foreach($reservations as $reservation) {
+                array_push($reservationsResult, $this->mapReservationForSummary($reservation, 'reservation'));
+            }
+
+            array_push($result, [
+                'id' => $construction->id,
+                'address' => $construction->address,
+                'bookings' => $bookingsResult,
+                'reservations' => $reservationsResult
+            ]);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param AdvertisingConstructionReservation $reservation
+     * @return array
+     */
+    private function mapReservationForSummary($reservation, $type) {
+        return [
+            'id' => $reservation->id,
+            'from' => $reservation->from,
+            'to' => $reservation->to,
+            'thematic' => $reservation->thematic,
+            'marketing_type' => $reservation->marketingType != null ? $reservation->marketingType->name : '',
+            'manager' => $reservation->employee != null ? $reservation->employee->name : '',
+            'company' => $reservation->user != null ? $reservation->user->company : '',
+            'type' => $type
+        ];
+    }
+
+    /**
      * @param mixed $model
      * @return Boolean is model valid
      */

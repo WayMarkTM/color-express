@@ -87,4 +87,28 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
 
         return $dataProvider;
     }
+
+    public function searchItems($params, $showOnlyPublished) {
+        $query = AdvertisingConstruction::find();
+
+        $this->load($params);
+
+        if ($showOnlyPublished) {
+            $query = $query->where(['=', 'is_published', '1']);
+        }
+
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'has_traffic_lights' => $this->has_traffic_lights,
+            'size_id' => $this->size_id,
+            'price' => $this->price,
+            'type_id' => $this->type_id,
+        ])->andFilterWhere(['like', 'address', $this->address]);
+
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'nearest_locations', $this->nearest_locations])
+            ->andFilterWhere(['like', 'traffic_info', $this->traffic_info]);
+
+        return $query->all();
+    }
 }

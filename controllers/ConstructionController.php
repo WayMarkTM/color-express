@@ -109,6 +109,16 @@ class ConstructionController extends Controller
         return [];
     }
 
+    public function actionSummary() {
+        $searchModel = new AdvertisingConstructionSearch();
+        $constructions = $searchModel->searchItems(Yii::$app->request->queryParams, true);
+        $timelinesItems = $this->advertisingConstructionReservationService->getBookingsAndReservationForConstructions($constructions);
+
+        return $this->render('summary', [
+            'timelinesItems' => $timelinesItems
+        ]);
+    }
+
     /**
      * Finds the AdvertisingConstruction model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
