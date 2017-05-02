@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\entities\AdvertisingConstructionType;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -88,10 +89,14 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
         return $dataProvider;
     }
 
-    public function searchItems($params, $showOnlyPublished) {
+    public function searchItems($params, $showOnlyPublished, $setDefaultTypeId = false) {
         $query = AdvertisingConstruction::find();
 
         $this->load($params);
+
+        if ($setDefaultTypeId && ($this->type_id == 0 || $this->type_id == null)) {
+            $this->type_id = AdvertisingConstructionType::find()->one()->id;
+        }
 
         if ($showOnlyPublished) {
             $query = $query->where(['=', 'is_published', '1']);

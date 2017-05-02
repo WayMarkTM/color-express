@@ -239,13 +239,13 @@ body {
     position: relative;
 }
 
-.horizontal-menu .menu .menu-item::before {
-    content: " ";
-    display: inline-block;
-    height: 100%;
-    /*width: 1%;*/
-    vertical-align: middle;
-}
+/*.horizontal-menu .menu .menu-item::before {*/
+    /*content: " ";*/
+    /*display: inline-block;*/
+    /*height: 100%;*/
+    /*!*width: 1%;*!*/
+    /*vertical-align: middle;*/
+/*}*/
 
 .horizontal-menu .menu .menu-item a {
     font-size: 14px;
@@ -634,4 +634,9 @@ table .selected {
 
 .employee .row:last-child {
     margin-top: 20px;
+}
+
+.info-window-image-preview {
+    max-width: 350px;
+    max-height: 250px;
 }
