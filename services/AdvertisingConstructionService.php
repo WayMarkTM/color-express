@@ -113,6 +113,9 @@ class AdvertisingConstructionService
         return $advertisingConstructionImages;
     }
 
+    /**
+     * @return array
+     */
     public static function getAdvertisingConstructionTypeDropdownItems() {
         return ArrayHelper::map(AdvertisingConstructionType::find()->all(), 'id', 'name');
     }

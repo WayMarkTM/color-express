@@ -48,15 +48,18 @@ class ConstructionController extends Controller
     public function actionIndex()
     {
         $searchModel = new AdvertisingConstructionSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, true);
+        $constructions = $searchModel->searchItems(Yii::$app->request->queryParams, true, true);
+
         $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems();
+        $types = AdvertisingConstructionService::getAdvertisingConstructionTypeDropdownItems();
 
         $this->layout = 'base.php';
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'sizes' => $sizes
+            'constructions' => $constructions,
+            'sizes' => $sizes,
+            'types' => $types,
         ]);
     }
 

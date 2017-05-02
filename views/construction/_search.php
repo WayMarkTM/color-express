@@ -33,6 +33,7 @@ use kartik\date\DatePicker;
         ]
     ]); ?>
 
+    <?= $form->field($model, 'type_id')->hiddenInput()->label('') ?>
     <?= $form->field($model, 'size_id')->dropDownList($sizes)->label('По размеру:') ?>
     <?= $form->field($model, 'address')->textInput()->label('По адресу:') ?>
     <?php
