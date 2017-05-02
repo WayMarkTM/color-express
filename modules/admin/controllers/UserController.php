@@ -67,9 +67,13 @@ class UserController extends BaseAdminController
         $employee->setScenario(SignupForm::SCENARIO_CREATE_EMPLOYEE);
 
         if(Yii::$app->request->isPost) {
-
             if($employee->load(Yii::$app->request->post())) {
-                $userService->save($employee);
+                $employee = $userService->save($employee);
+                if($employee) {
+                    $userRole = Yii::$app->authManager->getRole('employee');
+                    Yii::$app->authManager->assign($userRole, $employee->getId());
+                }
+
                 $this->refresh();
             }
         }

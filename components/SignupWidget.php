@@ -29,7 +29,11 @@ class SignupWidget extends Widget
         if (isset($_POST['SignupForm'])) {
             $this->signupForm->setAttributes($_POST['SignupForm'], false);
             $userService = new UserService();
-            $userService->save($this->signupForm);
+            $user = $userService->save($this->signupForm);
+            if($user) {
+                $userRole = Yii::$app->authManager->getRole('client');
+                Yii::$app->authManager->assign($userRole, $user->getId());
+            }
             Yii::$app->getResponse()->redirect(\Yii::$app->getRequest()->getUrl());
         }
         return $this->render('_signup', [

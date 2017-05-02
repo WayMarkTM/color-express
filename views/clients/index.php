@@ -72,16 +72,6 @@ $this->title = 'Управление клиентами';
                     'headerOptions' => ['class' => 'text-center', 'width' => '100'],
                     'contentOptions' =>['class' => 'text-center'],
                 ],
-                /*[
-                    'attribute' => 'responsiblePerson',
-                    'format' => 'raw',
-                    'headerOptions' => ['width' => '150', 'class' => 'text-center'],
-                    'contentOptions' =>['class' => 'text-center'],
-                    'value' => function ($model) {
-                        //return '<select class="form-control"><option value="'.$model->responsiblePerson.'">'.$model->responsiblePerson.'</option></select>';
-                        return Html::dropDownList("Employes", $model->responsiblePerson, $model->employes, [ 'class' => 'form-control' ]);
-                    }
-                ],*/
                 [
                     'attribute' => 'responsiblePerson',
                     'format' => 'raw',

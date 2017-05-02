@@ -46,7 +46,9 @@ class UserService
             $user->setPassword($signupForm->password);
         }
 
-        return $user->validate() && $user->save();
+        if($user->validate() && $user->save())
+            return $user;
+        return false;
     }
 
     public function login($user)
