@@ -8,11 +8,14 @@
 
 namespace app\services;
 
+use app\models\EmployeeModel;
 use Yii;
 use app\models\User;
 use app\models\SignupForm;
 use app\models\ClientModel;
 use app\models\RegistrationRequestModel;
+use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 
 class UserService
 {
@@ -33,6 +36,11 @@ class UserService
         }
 
         $user->setAttributes($signupForm->getAttributes());
+
+        if(isset($signupForm->photo)) {
+            $user->imageFile = UploadedFile::getInstance($signupForm, 'photo');
+            $user->upload();
+        }
 
         if($signupForm->password != $signupForm::DEFAULT_PASS ) {
             $user->setPassword($signupForm->password);
@@ -65,10 +73,10 @@ class UserService
 
             ]
         )->orderBy('id')->all();
+        $employes = $this->employeeDropDown();
         foreach ($clients as $client) {
             $client_type = $client->is_agency ? 'Агенство' : 'Заказчик';
-            $manager = $client->manage ? $client->manage->name.' '.$client->manage->surname : '';
-            $clientModels[] = new ClientModel($client->id, $client->company, $client->name, $client->number, $client->username, $client_type, $manager);
+            $clientModels[] = new ClientModel($client->id, $client->company, $client->name, $client->number, $client->username, $client_type, $client->manage, $employes);
         }
 
         return $clientModels;
@@ -78,13 +86,13 @@ class UserService
     {
         $clientModels= [];
         $newClients = self::getNewClientsTemplate()->orderBy('id')->all();
+
         foreach ($newClients as $client) {
             $client_type = $client->is_agency ? 'Заказчик' : 'Агенство';
             $clientModels[] = new RegistrationRequestModel($client->id, $client->company, new \DateTime($client->created_at), $client_type);
         }
 
         return $clientModels;
-
     }
 
     public static function getContNewClients()
@@ -146,6 +154,36 @@ class UserService
             $signupForm->sec_password = $signupForm::DEFAULT_PASS;
         }
         return $signupForm;
+    }
+
+    private function getEmployes()
+    {
+        return User::find()->where(['is_agency' => null])->all();
+    }
+
+    public function getEmployeeList()
+    {
+        /* @param $users User[] */
+        $users = $this->getEmployes();
+        $emplyes = [];
+
+        foreach($users as $user) {
+            $emplyes[] = new EmployeeModel($user->id, $user->name, $user->surname, $user->lastname, $user->username, $user->password, $user->number, $user->photo);
+        }
+
+        return $emplyes;
+    }
+
+    private function employeeDropDown()
+    {
+        $users = $this->getEmployes();
+        $emplyes = [];
+        /* @var User[] $users */
+        foreach($users as $user) {
+            $emplyes[$user->id] = $user->getDisplayName();
+        }
+
+        return $emplyes;
     }
 
 }

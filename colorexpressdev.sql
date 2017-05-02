@@ -250,7 +250,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `number` varchar(20) DEFAULT NULL,
   `is_agency` tinyint(1) DEFAULT NULL,
   `company` varchar(50) DEFAULT NULL,
-  `adress` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
   `pan` varchar(15) DEFAULT NULL,
   `okpo` varchar(15) DEFAULT NULL,
   `checking_account` varchar(20) DEFAULT NULL,

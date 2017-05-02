@@ -2,14 +2,18 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\EmployeeModel;
 use app\models\LoginForm;
+use app\services\UserService;
 use Yii;
-use app\models\entities\User;
+use app\models\User;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 use app\models\SignupForm;
 
@@ -57,12 +61,32 @@ class UserController extends BaseAdminController
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => User::find(),
-        ]);
+        $userService = new UserService();
+
+        $employee = new SignupForm();
+        $employee->setScenario(SignupForm::SCENARIO_CREATE_EMPLOYEE);
+
+        if(Yii::$app->request->isPost) {
+
+            if($employee->load(Yii::$app->request->post())) {
+                $userService->save($employee);
+                $this->refresh();
+            }
+        }
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $userService->getEmployeeList(),
+            'sort' => [
+                'attributes' => ['name', 'surname', 'lastname', 'phone', 'username'],
+            ],
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);;
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'employee' => $employee,
         ]);
     }
 

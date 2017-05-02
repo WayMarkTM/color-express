@@ -14,7 +14,7 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ArrayDataProvider */
-
+/* @var $employeeList [] */
 
 $this->title = 'Управление клиентами';
 ?>
@@ -78,7 +78,8 @@ $this->title = 'Управление клиентами';
                     'headerOptions' => ['width' => '150', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
                     'value' => function ($model) {
-                        return '<select class="form-control"><option value="'.$model->responsiblePerson.'">'.$model->responsiblePerson.'</option></select>';
+                        //return '<select class="form-control"><option value="'.$model->responsiblePerson.'">'.$model->responsiblePerson.'</option></select>';
+                        return Html::dropDownList("Employes", $model->responsiblePerson, $model->employes, [ 'class' => 'form-control' ]);
                     }
                 ],
                 [

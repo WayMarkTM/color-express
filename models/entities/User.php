@@ -13,6 +13,7 @@ use Yii;
  * @property string $salt
  * @property string $name
  * @property string $surname
+ * @property string $lastname
  * @property string $email
  * @property string $number
  * @property integer $is_agency
@@ -46,14 +47,12 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['username'], 'required'],
-            [['is_agency', 'manage_id'], 'integer'],
+            [['is_agency', 'manage_id'], 'integer', 'skipOnEmpty' => true],
             [['created_at'], 'safe'],
             [['username', 'password', 'salt', 'address'], 'string', 'max' => 255],
             [['name', 'surname', 'company', 'bank'], 'string', 'max' => 50],
             [['email', 'number', 'checking_account'], 'string', 'max' => 20],
             [['pan', 'okpo'], 'string', 'max' => 15],
-            [['photo'], 'string', 'max' => 30],
-            [['username'], 'unique'],
             [['username'], 'unique'],
             [['manage_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['manage_id' => 'id']],
         ];

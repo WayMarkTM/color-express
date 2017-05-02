@@ -20,6 +20,7 @@ class ClientModel extends Model
     public $type;
     public $responsiblePerson;
     public $company_id;
+    public $employes;
 
     /**
      * ClientModel constructor.
@@ -30,8 +31,9 @@ class ClientModel extends Model
      * @param string $email
      * @param string $type
      * @param string $responsiblePerson
+     * @param [] $employes
      */
-    function __construct($id, $company, $name, $phone, $email, $type, $responsiblePerson) {
+    function __construct($id, $company, $name, $phone, $email, $type, $responsiblePerson, $employes) {
         parent::__construct();
 
         $this->id = $id;
@@ -41,6 +43,7 @@ class ClientModel extends Model
         $this->email = $email;
         $this->type = $type;
         $this->responsiblePerson = $responsiblePerson;
+        $this->employes = $employes;
     }
 
     /**

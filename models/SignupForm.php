@@ -20,6 +20,7 @@ class SignupForm extends Model
     public $sec_password;
     public $name;
     public $surname;
+    public $lastname;
     public $email;
     public $number;
     public $is_agency;
@@ -33,6 +34,7 @@ class SignupForm extends Model
     const SCENARIO_EmployeeEditClient = 'EmployeeEditClient';
     const SCENARIO_EmployeeApplySignup = 'EmployeeApplySignup';
     const SCENARIO_DEFAULT = 'default';
+    const SCENARIO_CREATE_EMPLOYEE = 'CreateEmployee';
     const DEFAULT_PASS = '%;%S!@:;';
 
     public function rules()
@@ -45,7 +47,7 @@ class SignupForm extends Model
             [['sec_password'], 'compare', 'compareAttribute' => 'password', 'message' => 'Пароли не совпадают'],
             ['username', 'string', 'max' => 60],
             ['username','email', 'message' => 'email не соответствует формату'],
-            [['name', 'surname'], 'string', 'max' => 30],
+            [['name', 'surname', 'lastname'], 'string', 'max' => 30],
             [['company'], 'string'],
             [['number'], 'string', 'max' => 13],
             ['okpo', 'string', 'length' => 8],
@@ -53,6 +55,8 @@ class SignupForm extends Model
             ['checking_account', 'string'],
             ['bank', 'string'],
             ['username', 'validateEmail'],
+            [['photo'],  'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['username', 'name', 'lastname', 'surname', 'password', 'number'], 'required', 'on' => self::SCENARIO_CREATE_EMPLOYEE],
         ];
     }
 
@@ -64,6 +68,7 @@ class SignupForm extends Model
             'checking_account', 'bank', 'user_id'];
         $scenarios[self::SCENARIO_EmployeeEditClient] = $scenarios[self::SCENARIO_DEFAULT];
         $scenarios[self::SCENARIO_EmployeeApplySignup] = $scenarios[self::SCENARIO_DEFAULT];
+        $scenarios[self::SCENARIO_CREATE_EMPLOYEE] = ['username', 'name', 'lastname', 'surname', 'photo', 'password', 'number'];
         return $scenarios;
     }
 

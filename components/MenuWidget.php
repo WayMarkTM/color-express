@@ -93,23 +93,27 @@ class MenuWidget extends Widget
             ],
             [
                 'label' => 'Управление размерами конструкций',
-                'url' => ['advertising-construction-size/index']
+                'url' => ['/admin/advertising-construction-size/index']
             ],
             [
                 'label' => 'Управление типами конструкций',
-                'url' => ['advertising-construction-type/index']
+                'url' => ['/admin/advertising-construction-type/index']
             ],
             [
                 'label' => 'Управление нашими клиентами',
-                'url' => ['our-client/index']
+                'url' => ['/admin/our-client/index']
+            ],
+            [
+                'label' => 'Управление сотрудниками',
+                'url' => ['/admin/user/index']
             ],
             [
                 'label' => 'Управление вакансиями',
-                'url' => ['vacancy/index']
+                'url' => ['/admin/vacancy/index']
             ],
             [
                 'label' => 'Настройки сайта',
-                'url' => ['site-settings/index']
+                'url' => ['/admin/site-settings/index']
             ]
         ];
     }
