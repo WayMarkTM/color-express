@@ -72,7 +72,7 @@ $this->title = 'Управление клиентами';
                     'headerOptions' => ['class' => 'text-center', 'width' => '100'],
                     'contentOptions' =>['class' => 'text-center'],
                 ],
-                [
+                /*[
                     'attribute' => 'responsiblePerson',
                     'format' => 'raw',
                     'headerOptions' => ['width' => '150', 'class' => 'text-center'],
@@ -81,6 +81,20 @@ $this->title = 'Управление клиентами';
                         //return '<select class="form-control"><option value="'.$model->responsiblePerson.'">'.$model->responsiblePerson.'</option></select>';
                         return Html::dropDownList("Employes", $model->responsiblePerson, $model->employes, [ 'class' => 'form-control' ]);
                     }
+                ],*/
+                [
+                    'attribute' => 'responsiblePerson',
+                    'format' => 'raw',
+                    'headerOptions' => ['width' => '150', 'class' => 'text-center'],
+                    'contentOptions' =>['class' => 'text-center'],
+                    'value' => function ($model) {
+                        //return '<select class="form-control"><option value="'.$model->responsiblePerson.'">'.$model->responsiblePerson.'</option></select>';
+                        return Html::dropDownList("Employes", $model->responsiblePerson, $model->employes, [
+                            'class' => 'form-control',
+                            'onchange' => 'updateManager(this)',
+                            'data-user-id' => $model->id,
+                        ]);
+                    },
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',
@@ -101,6 +115,13 @@ $this->title = 'Управление клиентами';
         <?php Pjax::end(); ?>
     </div>
 </div>
+
+<script type="text/javascript">
+    function updateManager(user) {
+        debugger;
+        document.location.href='<?=Url::to(['update-manager'])?>?id=' + $(user).data('user-id') + '&manager_id=' +  user.value;
+    }
+</script>
 <?= $this->render('@app/views/layouts/_partial/_modalClientData', [
     'title' => 'Изменить данные компании',
     'scenario' => \app\models\SignupForm::SCENARIO_EmployeeEditClient

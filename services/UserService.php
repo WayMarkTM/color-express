@@ -186,4 +186,13 @@ class UserService
         return $emplyes;
     }
 
+    public function updateManager($id, $manager_id)
+    {
+        $user = User::findIdentity($id);
+        $user->manage_id = $manager_id;
+        $user->save();
+
+
+    }
+
 }

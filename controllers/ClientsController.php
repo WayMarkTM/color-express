@@ -192,4 +192,10 @@ class ClientsController extends Controller
             'clients' => $clients
         ];
     }
+
+    public function actionUpdateManager($id, $manager_id) {
+        $userService = new UserService();
+        $userService->updateManager($id, $manager_id);
+        $this->redirect('index');
+    }
 }

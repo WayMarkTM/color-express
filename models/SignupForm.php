@@ -80,6 +80,7 @@ class SignupForm extends Model
             'sec_password' => 'Повторите пароль',
             'name' => 'Имя',
             'surname' => 'Фамилия',
+            'lastname' => 'Отчество',
             'number' => 'Телефон',
             'is_agency' => 'Тип заказчика',
             'company' => 'Название компании',
