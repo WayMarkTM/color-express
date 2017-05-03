@@ -48,17 +48,17 @@ class MenuWidget extends Widget
         return [
             [
                 'label' => 'Управление клиентами',
-                'url' => ['clients/index'],
+                'url' => ['/clients/index'],
                 'active' => strpos(Yii::$app->request->url, 'clients/') !== false
             ],
             [
                 'label' => 'Управление конструкциями',
-                'url' => ['construction/index'],
+                'url' => ['/construction/index'],
                 'active' => strpos(Yii::$app->request->url, 'construction/') !== false
             ],
             [
                 'label' => 'Новые заявки на регистрацию',
-                'url' => ['registration-requests/index'],
+                'url' => ['/registration-requests/index'],
                 'template' => '<a href="{url}">{label}</a>'.BadgeWidget::widget(['param' => BadgeWidget::$NEW_USER_COUNT]),
             ],
         ];
@@ -68,19 +68,19 @@ class MenuWidget extends Widget
         return [
             [
                 'label' => 'Оформить заказ',
-                'url' => ['construction/index']
+                'url' => ['/construction/index']
             ],
             [
                 'label' => 'Корзина',
-                'url' => ['shopping-cart/index']
+                'url' => ['/shopping-cart/index']
             ],
             [
                 'label' => 'Мои заказы',
-                'url' => ['orders/index']
+                'url' => ['/orders/index']
             ],
             [
                 'label' => 'Документы',
-                'url' => ['clients/documents']
+                'url' => ['/clients/documents']
             ]
         ];
     }
@@ -89,7 +89,7 @@ class MenuWidget extends Widget
         return [
             [
                 'label' => 'Управление конструкциями',
-                'url' => ['construction/index']
+                'url' => ['/admin/construction/index']
             ],
             [
                 'label' => 'Управление размерами конструкций',
@@ -122,32 +122,32 @@ class MenuWidget extends Widget
         return [
             [
                 'label' => 'Каталог рекламных конструкций',
-                'url' => ['construction/index'],
+                'url' => ['/construction/index'],
                 'visible' => Yii::$app->user->isGuest,
             ],
             [
                 'label' => 'Преимущества',
-                'url' => ['site/advantages'],
+                'url' => ['/site/advantages'],
                 'visible' => Yii::$app->user->isGuest,
             ],
             [
                 'label' => 'О компании',
-                'url' => ['site/about'],
+                'url' => ['/site/about'],
                 'visible' => Yii::$app->user->isGuest,
             ],
             [
                 'label' => 'Наши клиенты',
-                'url' => ['site/clients'],
+                'url' => ['/site/clients'],
                 'visible' => Yii::$app->user->isGuest,
             ],
             [
                 'label' => 'Вакансии',
-                'url' => ['site/vacancies'],
+                'url' => ['/site/vacancies'],
                 'visible' => Yii::$app->user->isGuest,
             ],
             [
                 'label' => 'Контакты',
-                'url' => ['site/contact'],
+                'url' => ['/site/contact'],
                 'visible' => Yii::$app->user->isGuest,
             ],
             [

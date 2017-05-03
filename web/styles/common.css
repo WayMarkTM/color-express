@@ -637,6 +637,6 @@ table .selected {
 }
 
 .info-window-image-preview {
-    max-width: 350px;
+    max-width: 350px !important;
     max-height: 250px;
 }

@@ -17,7 +17,7 @@ class RoleController extends Controller
 
     public function actionCreateRoles()
     {
-        /*$role = Yii::$app->authManager->createRole('admin');
+        $role = Yii::$app->authManager->createRole('admin');
         $role->description = 'Админ';
         Yii::$app->authManager->add($role);
 
@@ -27,7 +27,7 @@ class RoleController extends Controller
 
         $role = Yii::$app->authManager->createRole('client');
         $role->description = 'Клиент';
-        Yii::$app->authManager->add($role);*/
+        Yii::$app->authManager->add($role);
 
         $role_guest = Yii::$app->authManager->createRole('guest');// не авторизирован
         $role_guest->description='Не авторизированный пользователь';

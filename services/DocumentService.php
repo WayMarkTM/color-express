@@ -50,6 +50,7 @@ class DocumentService
         $document->path = $viewModel->path;
         $document->user_id = $userId;
         $document->subclient_id = $subclientId;
+        $document->filename = $viewModel->filename;
         $document->save();
     }
 
