@@ -73,11 +73,8 @@ class ClientsController extends Controller
             ],
         ]);
 
-        $employeeList = $service->getEmployeeList();
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            'employeeList' => $employeeList,
         ]);
     }
 
