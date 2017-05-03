@@ -165,12 +165,14 @@ class UserService
 
     public function getEmployeeList()
     {
-        /* @param $users User[] */
+        /* @var User[] $users */
         $users = $this->getEmployes();
         $emplyes = [];
 
         foreach($users as $user) {
-            $emplyes[] = new EmployeeModel($user->id, $user->name, $user->surname, $user->lastname, $user->username, $user->password, $user->number, $user->photo);
+            if($user->getRole() == 'employee') {
+                $emplyes[] = new EmployeeModel($user->id, $user->name, $user->surname, $user->lastname, $user->username, $user->password, $user->number, $user->photo);
+            }
         }
 
         return $emplyes;
@@ -193,8 +195,6 @@ class UserService
         $user = User::findIdentity($id);
         $user->manage_id = $manager_id;
         $user->save();
-
-
     }
 
 }
