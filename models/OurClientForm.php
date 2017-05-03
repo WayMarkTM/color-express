@@ -45,7 +45,7 @@ class OurClientForm extends Model
         $root = Yii::$app->params['uploadFilesPath'];
         FileHelper::createDirectory($root);
 
-        $this->path = $root.$this->imageFile->baseName.'.'. $this->imageFile->extension;
+        $this->path = $root.Yii::$app->security->generateRandomString().'.'. $this->imageFile->extension;
         $this->imageFile->saveAs($this->path);
         return true;
     }

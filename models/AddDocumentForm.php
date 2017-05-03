@@ -22,6 +22,7 @@ class AddDocumentForm extends Model
     public $path;
     public $subclientId;
     public $userId;
+    public $filename;
 
     /**
      * @var UploadedFile
@@ -51,8 +52,8 @@ class AddDocumentForm extends Model
     {
         $root = Yii::$app->params['uploadFilesPath'].'/documents/'.$userId.'/'.$this->year.'/'.$this->month.'/';
         FileHelper::createDirectory($root);
-
-        $this->path = $this->documentFile->baseName.'.'. $this->documentFile->extension;
+        $this->filename = $this->documentFile->name;
+        $this->path = Yii::$app->security->generateRandomString().'.'. $this->documentFile->extension;
         $path = $root.$this->path;
         $this->documentFile->saveAs($path);
         return true;

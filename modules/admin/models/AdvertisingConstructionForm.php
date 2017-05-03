@@ -106,8 +106,7 @@ class AdvertisingConstructionForm extends Model
         if ($this->validate()) {
             $this->images = array();
             foreach ($this->imageFiles as $file) {
-                $uid = (new \DateTime())->format('Y-m-d');
-                $path = $root.$uid.$file->baseName.'.'. $file->extension;
+                $path = $root.Yii::$app->security->generateRandomString().'.'. $file->extension;
                 $file->saveAs($path);
                 array_push($this->images, $path);
             }
@@ -115,8 +114,7 @@ class AdvertisingConstructionForm extends Model
             if ($this->documentFile != null) {
                 $documentPath = $root . 'Documents/';
                 FileHelper::createDirectory($documentPath);
-                $uid = (new \DateTime())->format('Y-m-d');
-                $this->document_path = $documentPath . $uid . $this->documentFile->baseName . '.' . $this->documentFile->extension;
+                $this->document_path = $documentPath . Yii::$app->security->generateRandomString() .  '.' . $this->documentFile->extension;
                 $this->documentFile->saveAs($this->document_path);
             }
 

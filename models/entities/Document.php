@@ -14,6 +14,7 @@ use Yii;
  * @property integer $year
  * @property integer $subclient_id
  * @property string $created_at
+ * @property string $filename
  *
  * @property User $user
  * @property Subclient $subclient
@@ -36,7 +37,7 @@ class Document extends \yii\db\ActiveRecord
         return [
             [['path', 'user_id', 'month', 'year'], 'required'],
             [['user_id', 'month', 'year'], 'integer'],
-            [['created_at'], 'safe'],
+            [['created_at', 'filename'], 'safe'],
             [['path'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['subclient_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subclient::className(), 'targetAttribute' => ['subclient_id' => 'id']],

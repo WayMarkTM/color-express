@@ -114,7 +114,7 @@
         }
 
         function deleteDocument($index, document) {
-            if (confirm('Вы уверены, что хотите удалить документ ' + document.path)) {
+            if (confirm('Вы уверены, что хотите удалить документ ' + document.filename)) {
                 documentDataService.deleteDocument(document.id)
                     .then(function () {
                         vm.documents.splice($index, 1);
