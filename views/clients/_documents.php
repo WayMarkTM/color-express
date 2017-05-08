@@ -84,7 +84,7 @@ use yii\web\View;
                             <div class="item-document"
                                  ng-if="$ctrl.documents.length > 0 && !$ctrl.isDocumentsLoading"
                                  ng-repeat="document in $ctrl.documents">
-                                <a href="{{$ctrl.getDocumentLink(document)}}">{{ document.path }}</a>
+                                <a href="{{$ctrl.getDocumentLink(document)}}">{{ document.filename }}</a>
                                 <?php if (!$isViewMode) { ?>
                                     <a href="" ng-click="$ctrl.deleteDocument($index, document)">X</a>
                                 <?php } ?>

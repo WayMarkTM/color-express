@@ -134,13 +134,10 @@ class User extends entities\User implements IdentityInterface
 
     public function getRole()
     {
-        if( $this->name == 'client')
-            return 'client';
-        else if( $this->name == 'Yan')
-            return 'admin';
-      //  else
-      //      return 'employee';
-        return Yii::$app->authManager->getRolesByUser($this->getId());
+        $roles = Yii::$app->authManager->getRolesByUser($this->getId());
+        $role = current($roles);
+        
+        return $role->name;
     }
 
     /**

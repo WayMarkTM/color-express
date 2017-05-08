@@ -125,7 +125,7 @@ $this->title = "Каталог рекламных конструкций";
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="construction in $ctrl.constructions">
+                            <tr ng-repeat="construction in $ctrl.constructions" ng-if="$ctrl.constructions.length > 0">
                                 <td class="text-center">
                                     <input type="checkbox" ng-model="construction.isSelected" name="selectedConstruction_{{$index}}" />
                                 </td>
@@ -136,6 +136,11 @@ $this->title = "Каталог рекламных конструкций";
                                 <td class="text-center">(не задано)</td>
                                 <td class="text-center">
                                     <a href="/construction/details?id={{ construction.id}}">Подробнее</a>
+                                </td>
+                            </tr>
+                            <tr ng-if="!$ctrl.constructions || $ctrl.constructions.length == 0">
+                                <td colspan="7">
+                                    Ничего не найдено.
                                 </td>
                             </tr>
                         </tbody>

@@ -309,12 +309,17 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
                         <p><span class="bold">Формат:</span> <?php echo $model->size->size; ?> м.</p>
                         <p><span class="bold">Тип:</span> <?php echo $model->type->name; ?></p>
                     </div>
+                    <?php if ($model->nearest_locations) { ?>
                     <div class="details-row">
                         <p><span class="bold">Рядом расположены:</span> <?php echo $model->nearest_locations; ?></p>
                     </div>
+                    <?php }
+                        if ($model->traffic_info) {
+                    ?>
                     <div class="details-row">
                         <p><span class="bold">Трафик:</span> <?php echo $model->traffic_info; ?></p>
                     </div>
+                    <?php } ?>
                     <div class="details-row">
                         <p><span class="bold">Светофоры:</span> <?php echo $model->has_traffic_lights ? 'есть' : 'нет'; ?></p>
                     </div>
