@@ -28,6 +28,22 @@ use yii\widgets\ActiveForm;
 /* @var $bookings array|app\models\entities\AdvertisingConstructionReservation */
 /* @var $reservations array|app\models\entities\AdvertisingConstructionReservation */
 
+$this->title = $model->name.' | Информация о рекламной конструкции';
+
+if (Yii::$app->user->isGuest) {
+    RequireAuthorizationWidget::begin();
+    RequireAuthorizationWidget::end();
+    $isEmployee = false;
+} else {
+    $role = User::findIdentity(Yii::$app->user->getId())->getRole();
+    $isEmployee = $role == 'employee';
+    CompanySelectionWidget::begin();
+    CompanySelectionWidget::end();
+}
+
+$position = View::POS_BEGIN;
+$this->registerJs('var isEmployee ='.json_encode($isEmployee), $position);
+$this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $position);
 
 $coord = new LatLng(['lat' => $model->latitude, 'lng' => $model->longitude]);
 
@@ -55,24 +71,35 @@ if ($model->latitude && $model->longitude) {
 
     $map->addOverlay($marker);
 }
-
-$this->title = $model->name.' | Информация о рекламной конструкции';
-
-if (Yii::$app->user->isGuest) {
-    RequireAuthorizationWidget::begin();
-    RequireAuthorizationWidget::end();
-    $isEmployee = false;
-} else {
-    $role = User::findIdentity(Yii::$app->user->getId())->getRole();
-    $isEmployee = $role == 'employee';
-    CompanySelectionWidget::begin();
-    CompanySelectionWidget::end();
-}
-
-$position = View::POS_BEGIN;
-$this->registerJs('var isEmployee ='.json_encode($isEmployee), $position);
-$this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $position);
 ?>
+
+<script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script type="text/javascript">
+    ymaps.ready(init);
+
+    function init () {
+        var map = new ymaps.Map('map', {
+                center: [<?php echo $model->latitude; ?>, <?php echo $model->longitude; ?>],
+                zoom: 16
+            }, {
+                searchControlProvider: 'yandex#search'
+            }),
+            myGeoObject = new ymaps.GeoObject({
+                geometry: {
+                    type: "Point",
+                    coordinates: [<?php echo $model->latitude; ?>, <?php echo $model->longitude; ?>]
+                },
+                properties: {
+                    balloonContent: '<?php echo $model->name; ?>'
+                }
+            }, {
+                preset:'islands#icon',
+                iconColor: '#a5260a'
+            });
+
+        map.geoObjects.add(myGeoObject);
+    }
+</script>
 
 <link rel="stylesheet" href="/web/styles/vis.min.css" />
 <script src="/web/js/jssor.slider.min.js" type="text/javascript"></script>
@@ -271,17 +298,6 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
                     ?>
                 </div>
             </div>
-            <div class="row block-row">
-                <div class="col-md-6 input-value">
-                    Тип рекламы
-                </div>
-                <div class="col-md-6">
-                    <?= Html::dropDownList('marketing-type', null, ArrayHelper::map(MarketingType::find()->all(), 'id', 'name'), [
-                        'class' => 'form-control',
-                        'id' => 'marketing-type'
-                    ]) ?>
-                </div>
-            </div>
             <hr/>
             <div class="row">
                 <div class="col-md-12">
@@ -302,7 +318,7 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
         <div class="col-md-4">
             <div class="row">
                 <div class="col-md-12">
-                    <?php echo $map->display(); ?>
+                    <div id="map" style="height: 450px; width: 100%"></div>
                 </div>
             </div>
             <div class="row">

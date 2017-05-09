@@ -13,6 +13,7 @@ use kartik\date\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model app\models\AdvertisingConstructionSearch */
 /* @var $sizes array app\models\entities\AdvertisingConstructionSize */
+/* @var $addresses array */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -34,8 +35,8 @@ use kartik\date\DatePicker;
     ]); ?>
 
     <?= $form->field($model, 'type_id')->hiddenInput()->label('') ?>
-    <?= $form->field($model, 'size_id')->dropDownList($sizes)->label('По размеру:') ?>
-    <?= $form->field($model, 'address')->textInput()->label('По адресу:') ?>
+    <?= $form->field($model, 'size_id')->dropDownList($sizes, ['prompt' => 'Выберите размер'])->label('По размеру:') ?>
+    <?= $form->field($model, 'address')->dropDownList($addresses, ['prompt' => 'Выберите адрес'])->label('По адресу:') ?>
     <?php
     $rangeLayout = '<div class="form-group"><label class="col-sm-3 control-label">По датам: </label>'.
         '<div class="col-sm-6">'.
