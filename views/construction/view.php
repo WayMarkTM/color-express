@@ -61,13 +61,16 @@ $this->title = $model->name.' | Информация о рекламной ко�
 if (Yii::$app->user->isGuest) {
     RequireAuthorizationWidget::begin();
     RequireAuthorizationWidget::end();
+    $isEmployee = false;
 } else {
+    $role = User::findIdentity(Yii::$app->user->getId())->getRole();
+    $isEmployee = $role == 'employee';
     CompanySelectionWidget::begin();
     CompanySelectionWidget::end();
 }
 
 $position = View::POS_BEGIN;
-$this->registerJs('var isEmployee;', $position);
+$this->registerJs('var isEmployee ='.json_encode($isEmployee), $position);
 $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $position);
 ?>
 
@@ -233,6 +236,7 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
                         $this->registerJs('var reservations = '.json_encode($jsonReservations).';', $position);
                         $this->registerJsFile('@web/js/vis.min.js');
                         $this->registerJsFile('@web/js/app/construction-timeline.js');
+                        $this->registerJs('(function () {buildConstructionTimeline(reservations, "timeline");})();', View::POS_END);
                     ?>
                 </div>
             </div>
@@ -287,7 +291,9 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
             <div class="row buttons-row block-row">
                 <div class="col-md-12">
                     <button type="button" id="buy-btn" class="custom-btn sm blue" data-action-type="buyConstruction">Купить</button>
-                    <button type="button" id="reserv-btn" class="custom-btn sm blue" data-action-type="reservConstruction">Отложить на 5 дней</button>
+                    <?php if (!$isEmployee) { ?>
+                        <button type="button" id="reserv-btn" class="custom-btn sm blue" data-action-type="reservConstruction">Отложить на 5 дней</button>
+                    <?php } ?>
                     <?= Html::a('Вернуться назад', ['/construction/index'], ['class'=>'custom-btn sm white']) ?>
                 </div>
             </div>
@@ -365,8 +371,10 @@ $(document).ready(function () {
             return;
         }
         
-        $('#company-selection').modal('show');
-        return;
+        if (isEmployee) {
+            $('#company-selection').modal('show');
+            return;
+        }
         
         var submitModel = {
             advertising_construction_id: model.id(),

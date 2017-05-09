@@ -84,6 +84,17 @@ class ConstructionController extends Controller
         ]);
     }
 
+    public function actionGetConstructionReservations($constructionId) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $bookings = $this->advertisingConstructionReservationService->getConstructionBookingsJson($constructionId);
+        $reservations = $this->advertisingConstructionReservationService->getConstructionReservationsJson($constructionId);
+
+        return [
+            'reservations' => array_merge($bookings, $reservations)
+        ];
+    }
+
     public function actionBuyConstruction() {
         $this->enableCsrfValidation = false;
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -120,6 +131,23 @@ class ConstructionController extends Controller
         return $this->render('summary', [
             'timelinesItems' => $timelinesItems
         ]);
+    }
+
+    public function actionValidateConstructionDateRange() {
+        $this->enableCsrfValidation = false;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = Yii::$app->request->post();
+
+        if (!$this->advertisingConstructionReservationService->isDateRangesValid($model)) {
+            return [
+                'isValid' => false,
+                'message' => 'Данные даты заняты для бронирования.'
+            ];
+        }
+
+        return [
+            'isValid' => true
+        ];
     }
 
     /**

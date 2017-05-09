@@ -9,11 +9,19 @@
 namespace app\models;
 
 
+use app\models\entities\AdvertisingConstructionReservation;
 use yii\base\Model;
 
+/**
+ * Class SubmitCartForm
+ * @package app\models
+ * @var $reservations array|AdvertisingConstructionReservation
+ * @var $thematic string
+ */
 class SubmitCartForm extends Model
 {
     public $thematic;
+    public $reservations;
 
     public function rules()
     {

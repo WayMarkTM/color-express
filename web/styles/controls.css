@@ -2,7 +2,8 @@
     box-shadow: inset 1px 1px 3px 0px #ce8483;
 }
 
-.has-error .form-control {
+.has-error .form-control,
+input.has-error {
     box-shadow: inset 1px 1px 3px 0px #a94442;
 }
 
@@ -39,3 +40,9 @@
 :-ms-input-placeholder      {
     font-style: italic;
 }
+
+.input-group-btn,
+div[uib-datepicker-popup-wrap] {
+    display:inline;
+}
+

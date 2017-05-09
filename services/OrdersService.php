@@ -75,9 +75,7 @@ class OrdersService
     private function getUserOrdersQuery($user_id) {
         return AdvertisingConstructionReservation::find()
             ->where(['=', 'user_id', $user_id])
-            ->andWhere('(status_id = '.AdvertisingConstructionStatuses::IN_PROCESSING.
-                ' or status_id = '.AdvertisingConstructionStatuses::APPROVED.
-                ' or status_id = '.AdvertisingConstructionStatuses::DECLINED.')');
+            ->andWhere(['in', 'status_id', [AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED, AdvertisingConstructionStatuses::DECLINED]]);
     }
 
 }

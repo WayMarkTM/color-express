@@ -55,14 +55,23 @@ $this->title = 'Мои заказы';
                     'attribute' => 'status.name',
                     'headerOptions' => ['class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
-                    'label' => 'Статус'
+                    'label' => 'Статус',
+                    'value' => function ($model) {
+                        $result = $model->status->name;
+
+                        if ($model->status_id == AdvertisingConstructionStatuses::RESERVED) {
+                            $result .= ' '.(new DateTime($model->created_at))->format('d.m');
+                        }
+
+                        return $result;
+                    }
                 ],
                 [
                     'label' => 'Даты использования',
                     'headerOptions' => ['class' => 'text-center', 'width' => '250'],
                     'contentOptions' =>['class' => 'text-center'],
                     'value' => function ($model) {
-                        return $model->from.' - '.$model->to;
+                        return (new DateTime($model->from))->format('d.m.Y').' - '.(new DateTime($model->to))->format('d.m.Y');
                     }
                 ],
                 [
@@ -95,7 +104,7 @@ $this->title = 'Мои заказы';
                             return Html::a('Отменить', '/orders/cancel?id='.$model->id, [
                                 'title' => 'Отменить',
                                 'class' => 'custom-btn sm white',
-                                'style' => 'width:50%;'.($model->status_id != AdvertisingConstructionStatuses::IN_PROCESSING ? 'display: none;' : '')
+                                'style' => 'width:50%;'.($model->status_id != AdvertisingConstructionStatuses::IN_PROCESSING && $model->status_id != AdvertisingConstructionStatuses::RESERVED ? 'display: none;' : '')
                             ]);
                         }
                     ]

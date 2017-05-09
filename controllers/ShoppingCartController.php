@@ -9,12 +9,14 @@
 namespace app\controllers;
 
 use app\models\entities\AdvertisingConstructionReservation;
+use app\models\entities\MarketingType;
 use app\models\SubmitCartForm;
 use app\services\AdvertisingConstructionReservationService;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class ShoppingCartController extends Controller
 {
@@ -30,40 +32,44 @@ class ShoppingCartController extends Controller
         ];
     }
 
+    /**
+     * @var AdvertisingConstructionReservationService
+     */
+    private $advertisingConstructionReservationService;
+
+    public function init() {
+        $this->advertisingConstructionReservationService = new AdvertisingConstructionReservationService();
+        parent::init();
+    }
+
     public function actionIndex() {
-        $submitCartModel = new SubmitCartForm();
-        $service = new AdvertisingConstructionReservationService();
-
-        if ($submitCartModel->load(Yii::$app->request->post()) && $submitCartModel->validate()) {
-            if ($service->checkOutReservations($submitCartModel->thematic)) {
-                Yii::$app->session->setFlash('checkOutCompleted');
-            }
-        }
-
-        $cartTotal = $service->getCartTotal();
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $service->getShoppingCartItems(),
-            'sort' => [
-                'attributes' => ['id'],
-            ],
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
-
+        $marketingTypes = MarketingType::find()->all();
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'submitCartModel' => $submitCartModel,
-            'cartTotal' => $cartTotal
+            'cartItems' => $this->advertisingConstructionReservationService->getShoppingCartItems()->all(),
+            'marketingTypes' => $marketingTypes
         ]);
     }
 
+    public function actionCheckout() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = Yii::$app->request->post();
+
+        $result = $this->advertisingConstructionReservationService->checkOutReservations($model['thematic'], $model['reservations']);
+
+        return [
+            'isValid' => $result
+        ];
+    }
+
     public function actionDelete($id) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return [
+            'success' => true
+        ];
     }
 
     protected function findModel($id)

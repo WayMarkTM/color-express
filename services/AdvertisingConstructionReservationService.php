@@ -39,25 +39,51 @@ class AdvertisingConstructionReservationService
 
     /**
      * @param string $thematic
+     * @param array $reservations
      * @throws Exception
      * @return Boolean
      */
-    public function checkOutReservations($thematic) {
-        $transaction = Yii::$app->db->beginTransaction();
-        try {
-            foreach ($this->getShoppingCartItems()->each() as $reservation) {
-                $reservation->thematic = $thematic;
-                $reservation->status_id = AdvertisingConstructionStatuses::IN_PROCESSING;
-                $reservation->save();
-            }
-
-            $transaction->commit();
-        } catch (Exception $exc) {
-            $transaction->rollBack();
-            throw $exc;
+    public function checkOutReservations($thematic, $reservations) {
+        $result = true;
+        foreach ($reservations as $reservation) {
+            if (!$this->checkOutReservation($reservation, $thematic)) {
+                $result = false;
+            };
         }
 
-        return true;
+        return $result;
+    }
+
+    /**
+     * @param $reservation mixed
+     * @param $thematic string
+     * @return bool True whether all reservations are checked out.
+     */
+    private function checkOutReservation($reservation, $thematic) {
+        try {
+            if (!$this->isDateRangesValid($reservation)) {
+                return false;
+            }
+
+            $dbReservation = AdvertisingConstructionReservation::findOne($reservation['id']);
+            $dbReservation->marketing_type_id = $reservation['marketing_type_id'];
+            $dbReservation->from = $reservation['from'];
+            $dbReservation->to = $reservation['to'];
+            $dbReservation->thematic = $thematic;
+            $dbReservation->cost = $this->getReservationCost($dbReservation->advertising_construction_id, $dbReservation->marketing_type_id);
+
+            if ($reservation['status_id'] == AdvertisingConstructionStatuses::IN_BASKET_RESERVED) {
+                $dbReservation->status_id = AdvertisingConstructionStatuses::RESERVED;
+            } else {
+                $dbReservation->status_id =  AdvertisingConstructionStatuses::IN_PROCESSING;
+            }
+
+            $dbReservation->save();
+
+            return true;
+        } catch (\Exception $exception) {
+            return false;
+        }
     }
 
     /**
@@ -68,7 +94,7 @@ class AdvertisingConstructionReservationService
     private function getReservationsQuery($current_user_id) {
         return AdvertisingConstructionReservation::find()
             ->where(['=', 'user_id', $current_user_id])
-            ->andWhere(['=', 'status_id', AdvertisingConstructionStatuses::IN_BASKET_ORDER]);
+            ->andWhere(['in', 'status_id', [AdvertisingConstructionStatuses::IN_BASKET_ORDER, AdvertisingConstructionStatuses::IN_BASKET_RESERVED]]);
     }
 
     /**
@@ -112,6 +138,34 @@ class AdvertisingConstructionReservationService
     }
 
     /**
+     * @param $id integer
+     * @return array
+     */
+    public function getConstructionBookingsJson($id) {
+        $bookings = $this->getConstructionBookings($id);
+        $json = array();
+        foreach ($bookings as $booking) {
+            array_push($json, $this->getReservationJsonModel($booking, 'booking'));
+        }
+
+        return $json;
+    }
+
+    /**
+     * @param $reservation AdvertisingConstructionReservation
+     * @param $type string
+     * @return array
+     */
+    private function getReservationJsonModel($reservation, $type) {
+        return [
+            'id' => $reservation->id,
+            'from' => $reservation->from,
+            'to' => $reservation->to,
+            'type' => $type
+        ];
+    }
+
+    /**
      * @param integer $id
      * @return array|AdvertisingConstructionReservation[]
      */
@@ -121,6 +175,21 @@ class AdvertisingConstructionReservationService
             ->andWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED)])
             ->all();
     }
+
+    /**
+     * @param $id integer
+     * @return array
+     */
+    public function getConstructionReservationsJson($id) {
+        $reservations = $this->getConstructionReservations($id);
+        $json = array();
+        foreach ($reservations as $reservation) {
+            array_push($json, $this->getReservationJsonModel($reservation, 'reservation'));
+        }
+
+        return $json;
+    }
+
 
     /**
      * @param array|AdvertisingConstruction[] $constructions
@@ -173,7 +242,7 @@ class AdvertisingConstructionReservationService
      * @param mixed $model
      * @return Boolean is model valid
      */
-    function isDateRangesValid($model) {
+    public function isDateRangesValid($model) {
         $reservations = AdvertisingConstructionReservation::find()
             ->where(['=', 'advertising_construction_id', $model['advertising_construction_id']])
             ->andFilterWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)])
