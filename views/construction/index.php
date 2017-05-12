@@ -113,7 +113,7 @@ $this->title = "Каталог рекламных конструкций";
                                 <td class="text-center">{{ construction.price }}</td>
                                 <td class="text-center">(не задано)</td>
                                 <td class="text-center">
-                                    <a href="/construction/details?id={{ construction.id}}">Подробнее</a>
+                                    <a href="/construction/details?id={{ construction.id}}&q={{$ctrl.queryString}}">Подробнее</a>
                                 </td>
                             </tr>
                             <tr ng-if="!$ctrl.constructions || $ctrl.constructions.length == 0">

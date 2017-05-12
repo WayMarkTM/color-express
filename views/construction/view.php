@@ -311,7 +311,7 @@ if ($model->latitude && $model->longitude) {
                     <?php if (!$isEmployee) { ?>
                         <button type="button" id="reserv-btn" class="custom-btn sm blue" data-action-type="reservConstruction">Отложить на 5 дней</button>
                     <?php } ?>
-                    <?= Html::a('Вернуться назад', ['/construction/index'], ['class'=>'custom-btn sm white']) ?>
+                    <button type="button" class="custom-btn sm white" id="goBack">Вернуться назад</button>
                 </div>
             </div>
             <?php ActiveForm::end(); ?>
@@ -359,6 +359,7 @@ $script = <<< JS
 $(document).ready(function () {
     var buyBtn = $('#buy-btn'),
         reservBtn = $('#reserv-btn'),
+        goBackBtn = $('#goBack'),
         model = {
             id: function () {
                 return $('#advertisingconstruction-id').val();
@@ -376,6 +377,28 @@ $(document).ready(function () {
 
     buyBtn.on('click', buyConstruction);
     reservBtn.on('click', reservConstruction);
+    goBackBtn.on('click', goBack);
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    function goBack() {
+        var q = window.location.href.split('&q=');
+        var url = '/construction/index';
+        console.log(q);
+        if (q.length > 1) {
+             url = url + '?' + q[1];
+        }
+
+        window.location.href = url;
+    }
 
     function showRequireAuthorizationModal() {
         $('#requireAuthorization').modal('show');

@@ -6,9 +6,9 @@
     constructionsModule
         .controller('constructionsCtrl', constructionsCtrl);
 
-    constructionsCtrl.$inject = [];
+    constructionsCtrl.$inject = ['$window'];
 
-    function constructionsCtrl() {
+    function constructionsCtrl($window) {
         var vm = this;
 
         vm.$onInit = init;
@@ -22,6 +22,7 @@
         function init() {
             vm.constructions = constructions;
             vm.constructionTypes = [];
+            vm.queryString = window.location.href.slice(window.location.href.indexOf('?') + 1);
             vm.selectedConstructionType = selectedConstructionType;
             _.forEach(constructionTypes, function (type, key) {
                 vm.constructionTypes.push({
@@ -59,8 +60,7 @@
         }
 
         function showSummary() {
-            var queryString = window.location.href.slice(window.location.href.indexOf('?') + 1)
-            window.location.href = '/construction/summary?' + queryString;
+            window.location.href = '/construction/summary?' + vm.queryString;
         }
 
         function getSelectedConstructions() {
