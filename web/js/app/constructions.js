@@ -1,7 +1,16 @@
 (function (constructions, constructionTypes, selectedConstructionType) {
     "use strict";
 
-    var constructionsModule = angular.module('constructions', ['yaMap']);
+    var constructionsModule = angular.module('constructions', ['yaMap', 'ui.bootstrap']);
+
+    constructionsModule
+        .filter('startFrom', function() {
+            return function(input, start) {
+                start = +start;
+                return input.slice(start);
+            }
+        });
+
 
     constructionsModule
         .controller('constructionsCtrl', constructionsCtrl);
@@ -22,6 +31,8 @@
         function init() {
             vm.constructions = constructions;
             vm.constructionTypes = [];
+            vm.currentPage = 1;
+            vm.ITEMS_PER_PAGE = 7;
             vm.queryString = window.location.href.slice(window.location.href.indexOf('?') + 1);
             vm.selectedConstructionType = selectedConstructionType;
             _.forEach(constructionTypes, function (type, key) {
@@ -49,6 +60,9 @@
 
         function selectConstruction(construction) {
             vm.selectedConstruction = construction;
+
+            var index = _.findIndex(vm.constructions, { 'id': construction.id });
+            vm.currentPage = Math.ceil(index/vm.ITEMS_PER_PAGE);
         }
 
         function selectConstructionType(id) {
