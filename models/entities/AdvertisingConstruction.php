@@ -42,7 +42,7 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'address', 'size_id', 'price', 'type_id', 'requirements_document_path'], 'required'],
+            [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
             [['nearest_locations', 'traffic_info', 'latitude', 'longitude', 'requirements_document_path'], 'string'],
             [['size_id', 'type_id'], 'integer'],
             [['has_traffic_lights', 'is_published'], 'boolean'],

@@ -58,7 +58,7 @@ use yii\widgets\ActiveForm;
         if ($model->document_path) { ?>
             <div class="form-group">
                 <p>Внимание! При загрузке нового документа, старый будет удален.</p>
-                <a href="<?php echo $model->document_path; ?>">Текущий документ с техническими требованиями</a>
+                <a href="/<?php echo $model->document_path; ?>">Текущий документ с техническими требованиями</a>
             </div>
         <?php }
     } ?>
