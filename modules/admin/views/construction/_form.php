@@ -33,8 +33,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nearest_locations')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'traffic_info')->textarea(['rows' => 6]) ?>
-
     <?= $form->field($model, 'has_traffic_lights')->checkBox(['selected' => $model->has_traffic_lights]) ?>
 
     <?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>

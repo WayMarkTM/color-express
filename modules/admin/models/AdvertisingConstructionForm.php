@@ -8,6 +8,8 @@
 
 namespace app\modules\admin\models;
 
+use app\models\constants\AdvertisingConstructionSizes;
+use app\models\constants\AdvertisingConstructionTypes;
 use app\models\entities\AdvertisingConstruction;
 use app\models\entities\AdvertisingConstructionImage;
 use Yii;
@@ -24,7 +26,6 @@ class AdvertisingConstructionForm extends Model
     public $price;
     public $type_id;
     public $nearest_locations;
-    public $traffic_info;
     public $has_traffic_lights;
     public $images;
     public $uploaded_images;
@@ -48,7 +49,7 @@ class AdvertisingConstructionForm extends Model
     {
         return [
             [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
-            [['nearest_locations', 'traffic_info', 'latitude', 'longitude'], 'string'],
+            [['nearest_locations', 'latitude', 'longitude'], 'string'],
             [['size_id', 'type_id'], 'integer'],
             [['has_traffic_lights', 'is_published', 'use_manual_coordinates'], 'boolean'],
             [['price'], 'number'],
@@ -66,7 +67,6 @@ class AdvertisingConstructionForm extends Model
             'id' => 'ID',
             'name' => 'Название',
             'nearest_locations' => 'Рядом расположены',
-            'traffic_info' => 'Трафик',
             'has_traffic_lights' => 'Светофоры',
             'address' => 'Адрес',
             'size_id' => 'Формат',
@@ -96,7 +96,6 @@ class AdvertisingConstructionForm extends Model
         $model->price = $this->price;
         $model->type_id = $this->type_id;
         $model->nearest_locations = $this->nearest_locations;
-        $model->traffic_info = $this->traffic_info;
         $model->has_traffic_lights = $this->has_traffic_lights;
         $model->is_published = $this->is_published;
         $model->requirements_document_path = $this->document_path;
@@ -150,7 +149,6 @@ class AdvertisingConstructionForm extends Model
         $model->price = $entity->price;
         $model->type_id = $entity->type_id;
         $model->nearest_locations = $entity->nearest_locations;
-        $model->traffic_info = $entity->traffic_info;
         $model->has_traffic_lights = $entity->has_traffic_lights;
         $model->is_published = $entity->is_published;
         $model->document_path = $entity->requirements_document_path;
@@ -164,6 +162,41 @@ class AdvertisingConstructionForm extends Model
         }
 
         return $model;
+    }
+
+    public static function getLightsType($typeId, $sizeId) {
+        $external = 'внешняя';
+        $internal = 'внутренняя';
+
+        if ($typeId == AdvertisingConstructionTypes::BRANDMAWER) {
+            return $external;
+        }
+
+        if ($typeId == AdvertisingConstructionTypes::WALL_LIGHT_BOX || $typeId == AdvertisingConstructionTypes::OVERROOF_LIGHT_BOX || $typeId == AdvertisingConstructionTypes::METRO) {
+            return $internal;
+        }
+
+        if ($typeId == AdvertisingConstructionTypes::ADVERTISING_CONSTRUCTION_ON_ROAD) {
+            if ($sizeId == AdvertisingConstructionSizes::_1_8__12) {
+                return $external;
+            }
+
+            if ($sizeId == AdvertisingConstructionSizes::_1_8__36) {
+                return $internal;
+            }
+        }
+
+        if ($typeId == AdvertisingConstructionTypes::SHIELD_ADVERTISING_CONSTRUCTION) {
+            if ($sizeId == AdvertisingConstructionSizes::_4_8) {
+                return $internal;
+            }
+
+            if ($sizeId == AdvertisingConstructionSizes::_3_9 || $sizeId == AdvertisingConstructionSizes::_3_12) {
+                return $external;
+            }
+        }
+
+        return null;
     }
 
 //$root = Yii::$app->params['uploadFilesPath'];

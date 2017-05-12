@@ -10,6 +10,7 @@ use app\components\CompanySelectionWidget;
 use app\components\RequireAuthorizationWidget;
 use app\models\entities\MarketingType;
 use app\models\User;
+use app\modules\admin\models\AdvertisingConstructionForm;
 use app\services\JsonService;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\Map;
@@ -335,11 +336,10 @@ if ($model->latitude && $model->longitude) {
                     <div class="details-row">
                         <p><span class="bold">Рядом расположены:</span> <?php echo $model->nearest_locations; ?></p>
                     </div>
-                    <?php }
-                        if ($model->traffic_info) {
-                    ?>
+                    <?php } ?>
+                    <?php if (AdvertisingConstructionForm::getLightsType($model->type_id, $model->size_id) != null) { ?>
                     <div class="details-row">
-                        <p><span class="bold">Трафик:</span> <?php echo $model->traffic_info; ?></p>
+                        <p><span class="bold">Тип подсветки:</span> <?php echo AdvertisingConstructionForm::getLightsType($model->type_id, $model->size_id); ?></p>
                     </div>
                     <?php } ?>
                     <div class="details-row">

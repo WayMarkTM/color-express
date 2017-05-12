@@ -54,6 +54,7 @@
             vm.selectedConstructionType = id;
             $('#advertisingconstructionsearch-type_id').val(id);
             $('#advertisingconstructionsearch-address').val("");
+            $('#advertisingconstructionsearch-size_id').val("");
             $('#w0').submit();
         }
 
