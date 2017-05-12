@@ -23,17 +23,22 @@ class AdvertisingConstructionService
 {
     /**
      * @param AdvertisingConstructionForm $viewModel
-     * @return integer $id
+     * @return int $id
      */
     public function saveAdvertisingConstruction($viewModel) {
         $model = $viewModel->map($viewModel->id);
-        $geocodingService = new GoogleGeocodingService();
+        
+        if ($viewModel->use_manual_coordinates) {
+            $model->latitude = $viewModel->latitude;
+            $model->longitude = $viewModel->longitude;
+        } else {
+            $geocodingService = new GoogleGeocodingService();
+            $coordinates = $geocodingService->geocode($model->address);
 
-        $coordinates = $geocodingService->geocode($model->address);
-
-        if ($coordinates) {
-            $model->latitude = strval($coordinates['lat']);
-            $model->longitude = strval($coordinates['long']);
+            if ($coordinates) {
+                $model->latitude = strval($coordinates['lat']);
+                $model->longitude = strval($coordinates['long']);
+            }
         }
 
         $images = $this->mapToImages($viewModel->images);

@@ -30,6 +30,9 @@ class AdvertisingConstructionForm extends Model
     public $uploaded_images;
     public $document_path;
     public $is_published;
+    public $latitude;
+    public $longitude;
+    public $use_manual_coordinates;
 
     /**
      * @var UploadedFile[]
@@ -45,9 +48,9 @@ class AdvertisingConstructionForm extends Model
     {
         return [
             [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
-            [['nearest_locations', 'traffic_info'], 'string'],
+            [['nearest_locations', 'traffic_info', 'latitude', 'longitude'], 'string'],
             [['size_id', 'type_id'], 'integer'],
-            [['has_traffic_lights', 'is_published'], 'boolean'],
+            [['has_traffic_lights', 'is_published', 'use_manual_coordinates'], 'boolean'],
             [['price'], 'number'],
             [['name', 'address'], 'string', 'max' => 255],
             [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 10],
@@ -71,7 +74,10 @@ class AdvertisingConstructionForm extends Model
             'type_id' => 'Тип',
             'imageFiles' => 'Фотографии',
             'is_published' => 'Показывать на внешнем сайте',
-            'documentFile' => 'Документ с техническими требованиями к плакату'
+            'documentFile' => 'Документ с техническими требованиями к плакату',
+            'latitude' => 'Широта',
+            'longitude' => 'Долгота',
+            'use_manual_coordinates' => 'Использовать ручной ввод координат (в противном случае используется сторонний API для получения координат по адресу)'
         ];
     }
 
@@ -133,6 +139,10 @@ class AdvertisingConstructionForm extends Model
 
         $model = new AdvertisingConstructionForm();
 
+        if ($entity == null) {
+            return $model;
+        }
+
         $model->id = $entity->id;
         $model->name = $entity->name;
         $model->address = $entity->address;
@@ -144,6 +154,8 @@ class AdvertisingConstructionForm extends Model
         $model->has_traffic_lights = $entity->has_traffic_lights;
         $model->is_published = $entity->is_published;
         $model->document_path = $entity->requirements_document_path;
+        $model->latitude = $entity->latitude;
+        $model->longitude = $entity->longitude;
 
         $model->uploaded_images = array();
 

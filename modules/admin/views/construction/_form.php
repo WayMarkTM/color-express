@@ -19,6 +19,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'address')->textInput() ?>
 
+    <?= $form->field($model, 'use_manual_coordinates')->checkBox(['selected' => $model->use_manual_coordinates]) ?>
+
+    <?= $form->field($model, 'latitude')->textInput() ?>
+
+    <?= $form->field($model, 'longitude')->textInput() ?>
+
     <?= $form->field($model, 'size_id')->dropDownList($sizes, ['prompt' => 'Выберите размер конструкции']) ?>
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
