@@ -42,6 +42,8 @@ $marker->attachInfoWindow(
 );
 
 $map->addOverlay($marker);
+
+$this->title = "Контакты";
 ?>
 
 <div class="row">
@@ -76,7 +78,7 @@ $map->addOverlay($marker);
         <div class="row block-row">
             <div class="col-sm-12">
                 <div class="info-block">
-                    <h4 class="info-block-header"><i class="icon phone-icon"></i>Контакты для связи: </h4>
+                    <h4 class="info-block-header"><i class="icon phone-icon"></i>Контакты для связи с ООО "Колорэкспресс": </h4>
                     <div class="info-block-content">
                         <?php foreach($contactSettings->phones as $phone) {
                             echo '<p>'.$phone.'</p>';

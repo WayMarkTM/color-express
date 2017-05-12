@@ -13,7 +13,7 @@ if(User::findByUsername("user"))
 else
     echo "2";
 
-$this->title = 'Login';
+$this->title = 'Вход';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">

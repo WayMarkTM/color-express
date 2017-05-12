@@ -27,7 +27,7 @@ class AdvertisingConstructionService
      */
     public function saveAdvertisingConstruction($viewModel) {
         $model = $viewModel->map($viewModel->id);
-        
+
         if ($viewModel->use_manual_coordinates) {
             $model->latitude = $viewModel->latitude;
             $model->longitude = $viewModel->longitude;
