@@ -8,5 +8,9 @@ var GATEWAY_URLS = {
     GET_DOCUMENTS: BASE_URL + 'documents/get-documents',
     GET_SUBCLIENT_DOCUMENTS_CALENDAR: BASE_URL + 'documents/get-subclient-documents-calendar',
     DELETE_DOCUMENT: BASE_URL + 'documents/delete-document',
-    DELETE_CONSTRUCTION_IMAGE: BASE_URL + 'admin/construction/delete-image'
+    DELETE_CONSTRUCTION_IMAGE: BASE_URL + 'admin/construction/delete-image',
+    DELETE_SHOPPING_CART_ITEM: BASE_URL + 'shopping-cart/delete',
+    GET_CONSTRUCTION_RESERVATIONS: BASE_URL + 'construction/get-construction-reservations',
+    VALIDATE_CONSTRUCTION_DATE_RANGE: BASE_URL + 'construction/validate-construction-date-range',
+    CHECKOUT: BASE_URL + 'shopping-cart/checkout'
 };

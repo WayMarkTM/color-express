@@ -8,105 +8,120 @@
 
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\web\View;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ArrayDataProvider */
-/* @var $submitCartModel app\models\AdvertisingConstructionSearch */
-/* @var $cartTotal integer */
+/* @var $cartItems array|app\models\entities\AdvertisingConstructionReservation */
+/* @var $marketingTypes array|app\models\entities\MarketingType*/
 
 $this->title = 'Корзина';
-?>
-<div class="row">
-    <div class="col-md-12">
-        <h3 class="text-uppercase">Корзина</h3>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <?php if (Yii::$app->session->hasFlash('contactFormSubmitted')) { ?>
-            Ваш заказ отправлен.
-        <?php } ?>
 
-        <?php Pjax::begin(); ?>
-        <?= GridView::widget([
-            'dataProvider' => $dataProvider,
-            'layout' => '{items}',
-            'columns' => [
-                [
-                    'class' => 'yii\grid\SerialColumn',
-                    'headerOptions' => ['width' => '30', 'class' => 'text-center'],
-                    'contentOptions' =>['class' => 'text-center'],
-                ],
-                [
-                    'attribute' => 'advertisingConstruction.name',
-                    'format' => 'raw',
-                    'headerOptions' => ['class' => 'text-center'],
-                    'value' => function ($model) {
-                        return Html::a($model->advertisingConstruction->name, ['construction/details?id='.$model->advertisingConstruction->id]);
-                    }
-                ],
-                [
-                    'attribute' => 'advertisingConstruction.address',
-                    'headerOptions' => ['class' => 'text-center']
-                ],
-                [
-                    'label' => 'Даты использования',
-                    'headerOptions' => ['class' => 'text-center', 'width' => '250'],
-                    'contentOptions' =>['class' => 'text-center'],
-                    'value' => function ($model) {
-                        return $model->from.' - '.$model->to;
-                    }
-                ],
-                [
-                    'attribute' => 'cost',
-                    'headerOptions' => ['width' => '120', 'class' => 'text-center'],
-                    'contentOptions' =>['class' => 'text-center'],
-                ],
-                [
-                    'label' => 'Тип рекламы',
-                    'headerOptions' => ['class' => 'text-center', 'width' => '180'],
-                    'contentOptions' =>['class' => 'text-center'],
-                    'value' => function ($model) {
-                        return $model->marketingType->name;
-                    }
-                ],
-                [
-                    'class' => 'yii\grid\ActionColumn',
-                    'template' => '{removeFromCart}',
-                    'headerOptions' => ['width' => '180'],
-                    'contentOptions' =>['class' => 'text-center'],
-                    'buttons' => [
-                        'removeFromCart' => function ($url ,$model) {
-                            return Html::a('Удалить из корзины', 'shopping-cart/delete?id='.$model->id, [
-                                'title' => 'Удалить из корзины',
-                                'class' => 'custom-btn sm white'
-                            ]);
-                        }
-                    ]
-                ],
-            ],
-        ]); ?>
-        <?php Pjax::end(); ?>
-    </div>
-</div>
-<?php $form = ActiveForm::begin(['options' => ['class' => 'form-inline']]) ?>
-    <div class="row block-row">
-        <div class="col-md-4">
-            <span class="shopping-cart-total">Итого: <span class="total-cost"><?php echo $cartTotal; ?></span> бел. руб. с НДС</span>
-        </div>
-        <div class="col-md-8">
-            <div class="pull-right">
-                <?= $form->field($submitCartModel, 'thematic')->textInput(['placeholder' => 'Например: телефоны', 'style' => 'width: 300px; margin-left: 15px'])->label('Укажите, пожалуйста, тематику сюжета:') ?>
+$jsonCartItems = array();
+foreach ($cartItems as $item) {
+    array_push($jsonCartItems, [
+        'id' => $item->id,
+        'advertising_construction_id' => $item->advertisingConstruction->id,
+        'name' => $item->advertisingConstruction->name,
+        'address' => $item->advertisingConstruction->address,
+        'from' => $item->from,
+        'to' => $item->to,
+        'created_at' => $item->created_at,
+        'status_id' => $item->status_id,
+        'price' => $item->cost,
+        'cost' => $item->cost
+    ]);
+}
+
+$mtAttributes = 'id,name,charge';
+$jsonMarketingTypes = \app\services\JsonService::json_encode_database_models($marketingTypes, $mtAttributes);
+
+$position = View::POS_BEGIN;
+$this->registerJs('var cartItems = '.json_encode($jsonCartItems).';', $position);
+$this->registerJs('var marketingTypes = '.$jsonMarketingTypes.';', $position);
+$this->registerJsFile('@web/js/angular.min.js');
+$this->registerJsFile('@web/js/angular-locale_ru-ru.js');
+$this->registerJsFile('@web/js/ui-bootstrap-tpls-2.5.0.min.js');
+$this->registerJsFile('@web/js/vis.min.js');
+$this->registerJsFile('@web/js/app/construction-timeline.js');
+$this->registerJsFile('@web/js/app/shopping-cart.js');
+?>
+
+<link rel="stylesheet" href="/web/styles/vis.min.css" />
+<div class="shopping-cart-container" ng-app="shoppingCart" ng-controller="shoppingCartCtrl as $ctrl">
+    <form name="$ctrl.form" class="form-inline" ng-submit="$ctrl.submit()" novalidate>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-uppercase">Корзина</h3>
             </div>
         </div>
-    </div>
-    <hr/>
-    <div class="row block-row">
-        <div class="col-md-4 col-md-offset-4">
-            <?= Html::submitButton('Подтвердить', ['class' => 'custom-btn blue full-width']) ?>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="text-center" width="30">#</th>
+                        <th class="text-center">Название</th>
+                        <th class="text-center">Адрес</th>
+                        <th class="text-center" width="250">Даты использования</th>
+                        <th class="text-center" width="120">Стоимость</th>
+                        <th class="text-center" width="180">Тип рекламы</th>
+                        <th width="180">&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in $ctrl.cartItems">
+                            <td class="text-center">{{ $index + 1 }}</td>
+                            <td><a href="/construction/details?id={{item.advertising_construction_id}}">{{ item.name }}</a> <span ng-if="item.status_id == 11">(резерв до {{ $ctrl.getReservationTillDate(item.created_at) }})</span></td>
+                            <td>{{ item.address }}</td>
+                            <td class="text-center">{{ item.from }} - {{ item.to }} <a href="" ng-click="$ctrl.editPeriod(item)" class="additional-link"><i class="icon edit-icon"></i></a></td>
+                            <td class="text-center">{{ item.cost }}</td>
+                            <td class="text-center">
+                                <select class="form-control" ng-model="item.marketing_type_id" ng-change="$ctrl.onItemMarketingTypeChanged(item)">
+                                    <option ng-repeat="mt in $ctrl.marketingTypes" value="{{ mt.id }}">{{ mt.name }}</option>
+                                </select>
+                            </td>
+                            <td class="text-center">
+                                <a href="" class="custom-btn sm white" ng-click="$ctrl.removeItem(item)">
+                                    Удалить из корзины
+                                </a>
+                            </td>
+                        </tr>
+                        <tr ng-if="!$ctrl.cartItems || $ctrl.cartItems.length == 0">
+                            <td colspan="7">
+                                Отсутствуют элементы в корзине.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-
-<?php ActiveForm::end() ?>
+        <div ng-if="$ctrl.cartItems.length > 0">
+            <div class="row block-row">
+                <div class="col-md-4">
+                    <span class="shopping-cart-total">Итого: <span class="total-cost">{{ $ctrl.getTotalCost() }}</span> бел. руб. с НДС</span>
+                </div>
+                <div class="col-md-8">
+                    <div class="pull-right">
+                        <label class="control-label">Укажите, пожалуйста, тематику сюжета:</label>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Например: телефоны"
+                               style="width: 300px; margin-left: 15px;"
+                               required
+                               name="thematic"
+                               ng-class="{ 'has-error' : $ctrl.form.$submitted && $ctrl.form.thematic.$error.required }"
+                               ng-model="$ctrl.thematic"/>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row block-row">
+                <div class="col-md-4 col-md-offset-4">
+                    <button type="submit" class="custom-btn blue full-width">Подтвердить</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

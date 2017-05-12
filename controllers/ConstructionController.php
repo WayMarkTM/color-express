@@ -15,6 +15,7 @@ use app\models\constants\AdvertisingConstructionStatuses;
 use app\services\AdvertisingConstructionReservationService;
 use app\services\AdvertisingConstructionService;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -48,18 +49,24 @@ class ConstructionController extends Controller
     public function actionIndex()
     {
         $searchModel = new AdvertisingConstructionSearch();
-        $constructions = $searchModel->searchItems(Yii::$app->request->queryParams, true, true);
+        $searchResults = $searchModel->searchItems(Yii::$app->request->queryParams, true, true);
 
         $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems();
         $types = AdvertisingConstructionService::getAdvertisingConstructionTypeDropdownItems();
+        $addresses = ArrayHelper::map(AdvertisingConstruction::find()
+            ->where(['=', 'type_id', $searchModel->type_id])
+            ->andWhere(['=', 'is_published', '1'])
+            ->select('address')
+            ->all(), 'address', 'address');
 
         $this->layout = 'base.php';
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'constructions' => $constructions,
+            'constructions' => $searchResults,
             'sizes' => $sizes,
             'types' => $types,
+            'addresses' => $addresses,
         ]);
     }
 
@@ -82,6 +89,17 @@ class ConstructionController extends Controller
             'reservations' => $reservations,
             'marketingTypes' => $marketing_types
         ]);
+    }
+
+    public function actionGetConstructionReservations($constructionId) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $bookings = $this->advertisingConstructionReservationService->getConstructionBookingsJson($constructionId);
+        $reservations = $this->advertisingConstructionReservationService->getConstructionReservationsJson($constructionId);
+
+        return [
+            'reservations' => array_merge($bookings, $reservations)
+        ];
     }
 
     public function actionBuyConstruction() {
@@ -114,12 +132,29 @@ class ConstructionController extends Controller
 
     public function actionSummary() {
         $searchModel = new AdvertisingConstructionSearch();
-        $constructions = $searchModel->searchItems(Yii::$app->request->queryParams, true);
-        $timelinesItems = $this->advertisingConstructionReservationService->getBookingsAndReservationForConstructions($constructions);
+        $searchResults = $searchModel->searchItems(Yii::$app->request->queryParams, true);
+        $timelinesItems = $this->advertisingConstructionReservationService->getBookingsAndReservationForConstructions($searchResults);
 
         return $this->render('summary', [
             'timelinesItems' => $timelinesItems
         ]);
+    }
+
+    public function actionValidateConstructionDateRange() {
+        $this->enableCsrfValidation = false;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = Yii::$app->request->post();
+
+        if (!$this->advertisingConstructionReservationService->isDateRangesValid($model)) {
+            return [
+                'isValid' => false,
+                'message' => 'Данные даты заняты для бронирования.'
+            ];
+        }
+
+        return [
+            'isValid' => true
+        ];
     }
 
     /**

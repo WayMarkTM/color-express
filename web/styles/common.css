@@ -201,7 +201,7 @@ body {
 
 .page-wrapper {
     background-color: rgba(255, 255, 255, 0.5);
-    height: 100%;
+    min-height: 100%;
     padding: 22px 22px 22px 272px;
 }
 
@@ -321,6 +321,11 @@ body {
 
 .checkbox label {
     padding-left: 0;
+}
+
+.table .modal-checkbox[type="checkbox"]:not(:checked) + label:before, .modal-checkbox[type="checkbox"]:checked + label:before {
+    left: 5px !important;
+    top: -9px !important;
 }
 
 /* CheckBox Style Start*/
@@ -639,4 +644,8 @@ table .selected {
 .info-window-image-preview {
     max-width: 350px !important;
     max-height: 250px;
+}
+
+.selected-row {
+    background-color: #efefef;
 }

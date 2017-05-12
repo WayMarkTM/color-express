@@ -17,8 +17,7 @@ class DateService
     public static $YEAR_TO = 2200;
 
     public function intersects($from1, $to1, $from2, $to2) {
-        return ($from1 >= $from2 && $from1 <= $to2) ||
-               ($to1 <= $to2 && $to1 >= $from2);
+        return $from1 <= $to2 && $from2 <= $to1;
     }
 
     public static function comparator($a, $b) {

@@ -13,6 +13,7 @@ use yii\helpers\Html;
 /* @var $clients array app\models\entities\OurClient */
 /* @var $feedBackForm app\models\FeedBackForm */
 
+$this->title = "Вакансии";
 ?>
 
 <div class="row">

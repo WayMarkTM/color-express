@@ -7,10 +7,6 @@
  */
 
 use app\services\JsonService;
-use dosamigos\google\maps\LatLng;
-use dosamigos\google\maps\Map;
-use dosamigos\google\maps\overlays\InfoWindow;
-use dosamigos\google\maps\overlays\Marker;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
@@ -19,41 +15,8 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\AdvertisingConstructionSearch */
 /* @var $constructions array|app\models\entities\AdvertisingConstruction */
 /* @var $sizes array */
+/* @var $addresses array */
 /* @var $types array */
-
-$coord = new LatLng(['lat' => 53.8905047, 'lng' => 27.5292012]);
-
-$map = new Map([
-    'center' => $coord,
-    'zoom' => 11,
-    'width' => '100%',
-    'height' => '450'
-]);
-
-foreach($constructions as $model) {
-    if ($model['latitude'] && $model['longitude']) {
-        $marker = new Marker([
-            'position' => new LatLng([
-                'lat' => $model->latitude,
-                'lng' => $model->longitude
-            ]),
-            'title' => $model->name
-        ]);
-
-        $infoWindowContent = $model->name;
-        if (count($model->advertisingConstructionImages) > 0) {
-            $infoWindowContent .= '<br/><br/><img class="info-window-image-preview" src="/' . $model->advertisingConstructionImages[0]->path . '"/>';
-        }
-
-        $marker->attachInfoWindow(
-            new InfoWindow([
-                'content' => $infoWindowContent
-            ])
-        );
-
-        $map->addOverlay($marker);
-    }
-}
 
 $mappedConstructions = array();
 foreach ($constructions as $construction) {
@@ -63,8 +26,10 @@ foreach ($constructions as $construction) {
         'price' => $construction->price,
         'size' => $construction->size->size,
         'name' => $construction->name,
-        'previewImage' => count($model->advertisingConstructionImages) > 0 ?
-            $model->advertisingConstructionImages[0]->path :
+        'long' => $construction->longitude,
+        'lat' => $construction->latitude,
+        'previewImage' => count($construction->advertisingConstructionImages) > 0 ?
+            $construction->advertisingConstructionImages[0]->path :
             '',
         'isSelected' => false
     ]);
@@ -74,6 +39,7 @@ $this->registerJs('var constructions = '.json_encode($mappedConstructions).';', 
 $this->registerJs('var constructionTypes = '.json_encode($types).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var selectedConstructionType = '.json_encode($searchModel->type_id).';', \yii\web\View::POS_BEGIN);
 $this->registerJsFile('@web/js/angular.min.js');
+$this->registerJsFile('@web/js/ya-map-2.1.min.js');
 $this->registerJsFile('@web/js/app/constructions.js');
 
 $this->title = "Каталог рекламных конструкций";
@@ -100,7 +66,14 @@ $this->title = "Каталог рекламных конструкций";
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="map" id="mapCanvas"><?php echo $map->display(); ?></div>
+                <ya-map ya-zoom="11" ya-center="[27.5292012,53.8905047]">
+                    <ya-geo-object ng-repeat="construction in $ctrl.constructions"
+                                   ya-source="construction.yaPoint"
+                                   ya-controls="smallMapDefaultSet"
+                                   ya-event-balloonopen="$ctrl.selectConstruction(construction)"
+                                   ya-show-balloon="construction.id == $ctrl.selectedConstruction.id"
+                                   ya-options="{preset:'islands#icon',iconColor: '#a5260a'}"></ya-geo-object>
+                </ya-map>
             </div>
         </div>
         <div class="content">
@@ -108,7 +81,8 @@ $this->title = "Каталог рекламных конструкций";
                 <div class="col-md-4">
                     <?= $this->render('_search', [
                         'model' => $searchModel,
-                        'sizes' => $sizes
+                        'sizes' => $sizes,
+                        'addresses' => $addresses
                     ]) ?>
                 </div>
                 <div class="col-md-8">
@@ -125,9 +99,13 @@ $this->title = "Каталог рекламных конструкций";
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="construction in $ctrl.constructions" ng-if="$ctrl.constructions.length > 0">
+                            <tr ng-repeat="construction in $ctrl.constructions"
+                                ng-click="$ctrl.selectConstruction(construction)"
+                                ng-class="{'selected-row': $ctrl.selectedConstruction.id == construction.id}"
+                                ng-if="$ctrl.constructions.length > 0">
                                 <td class="text-center">
-                                    <input type="checkbox" ng-model="construction.isSelected" name="selectedConstruction_{{$index}}" />
+                                    <input type="checkbox" id="construction_{{construction.id}}" class="modal-checkbox hide" ng-model="construction.isSelected" name="selectedConstruction_{{$index}}" />
+                                    <label for="construction_{{construction.id}}"></label>
                                 </td>
                                 <td>{{ construction.name }}</td>
                                 <td>{{ construction.address }}</td>

@@ -1,13 +1,13 @@
 /**
  * Created by e.chernyavsky on 01.05.2017.
  */
-(function (reservations) {
+function buildConstructionTimeline(reservations, elementId, zoomMin) {
     var RESERVATION_TYPES = {
         BOOKING: 'booking',
         RESERVATION: 'reservation'
     };
 
-    var $timeline = document.getElementById('timeline');
+    var $timeline = document.getElementById(elementId);
 
     var items = reservations.map(function (reservation) {
         return {
@@ -20,6 +20,8 @@
                 'reserved'
         };
     });
+
+    zoomMin = zoomMin || 27592000000;
 
     var dataSet = new vis.DataSet(items);
 
@@ -44,8 +46,8 @@
 
         },
         zoomable: false,
-        zoomMin: 27592000000
+        zoomMin: zoomMin
     };
 
     var timeline = new vis.Timeline($timeline, dataSet, options);
-})(reservations);
+};

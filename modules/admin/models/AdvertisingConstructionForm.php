@@ -8,6 +8,8 @@
 
 namespace app\modules\admin\models;
 
+use app\models\constants\AdvertisingConstructionSizes;
+use app\models\constants\AdvertisingConstructionTypes;
 use app\models\entities\AdvertisingConstruction;
 use app\models\entities\AdvertisingConstructionImage;
 use Yii;
@@ -24,12 +26,14 @@ class AdvertisingConstructionForm extends Model
     public $price;
     public $type_id;
     public $nearest_locations;
-    public $traffic_info;
     public $has_traffic_lights;
     public $images;
     public $uploaded_images;
     public $document_path;
     public $is_published;
+    public $latitude;
+    public $longitude;
+    public $use_manual_coordinates;
 
     /**
      * @var UploadedFile[]
@@ -45,9 +49,9 @@ class AdvertisingConstructionForm extends Model
     {
         return [
             [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
-            [['nearest_locations', 'traffic_info'], 'string'],
+            [['nearest_locations', 'latitude', 'longitude'], 'string'],
             [['size_id', 'type_id'], 'integer'],
-            [['has_traffic_lights', 'is_published'], 'boolean'],
+            [['has_traffic_lights', 'is_published', 'use_manual_coordinates'], 'boolean'],
             [['price'], 'number'],
             [['name', 'address'], 'string', 'max' => 255],
             [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 10],
@@ -63,7 +67,6 @@ class AdvertisingConstructionForm extends Model
             'id' => 'ID',
             'name' => 'Название',
             'nearest_locations' => 'Рядом расположены',
-            'traffic_info' => 'Трафик',
             'has_traffic_lights' => 'Светофоры',
             'address' => 'Адрес',
             'size_id' => 'Формат',
@@ -71,7 +74,10 @@ class AdvertisingConstructionForm extends Model
             'type_id' => 'Тип',
             'imageFiles' => 'Фотографии',
             'is_published' => 'Показывать на внешнем сайте',
-            'documentFile' => 'Документ с техническими требованиями к плакату'
+            'documentFile' => 'Документ с техническими требованиями к плакату',
+            'latitude' => 'Широта',
+            'longitude' => 'Долгота',
+            'use_manual_coordinates' => 'Использовать ручной ввод координат (в противном случае используется сторонний API для получения координат по адресу)'
         ];
     }
 
@@ -90,7 +96,6 @@ class AdvertisingConstructionForm extends Model
         $model->price = $this->price;
         $model->type_id = $this->type_id;
         $model->nearest_locations = $this->nearest_locations;
-        $model->traffic_info = $this->traffic_info;
         $model->has_traffic_lights = $this->has_traffic_lights;
         $model->is_published = $this->is_published;
         $model->requirements_document_path = $this->document_path;
@@ -133,6 +138,10 @@ class AdvertisingConstructionForm extends Model
 
         $model = new AdvertisingConstructionForm();
 
+        if ($entity == null) {
+            return $model;
+        }
+
         $model->id = $entity->id;
         $model->name = $entity->name;
         $model->address = $entity->address;
@@ -140,10 +149,11 @@ class AdvertisingConstructionForm extends Model
         $model->price = $entity->price;
         $model->type_id = $entity->type_id;
         $model->nearest_locations = $entity->nearest_locations;
-        $model->traffic_info = $entity->traffic_info;
         $model->has_traffic_lights = $entity->has_traffic_lights;
         $model->is_published = $entity->is_published;
         $model->document_path = $entity->requirements_document_path;
+        $model->latitude = $entity->latitude;
+        $model->longitude = $entity->longitude;
 
         $model->uploaded_images = array();
 
@@ -152,6 +162,41 @@ class AdvertisingConstructionForm extends Model
         }
 
         return $model;
+    }
+
+    public static function getLightsType($typeId, $sizeId) {
+        $external = 'внешняя';
+        $internal = 'внутренняя';
+
+        if ($typeId == AdvertisingConstructionTypes::BRANDMAWER) {
+            return $external;
+        }
+
+        if ($typeId == AdvertisingConstructionTypes::WALL_LIGHT_BOX || $typeId == AdvertisingConstructionTypes::OVERROOF_LIGHT_BOX || $typeId == AdvertisingConstructionTypes::METRO) {
+            return $internal;
+        }
+
+        if ($typeId == AdvertisingConstructionTypes::ADVERTISING_CONSTRUCTION_ON_ROAD) {
+            if ($sizeId == AdvertisingConstructionSizes::_1_8__12) {
+                return $external;
+            }
+
+            if ($sizeId == AdvertisingConstructionSizes::_1_8__36) {
+                return $internal;
+            }
+        }
+
+        if ($typeId == AdvertisingConstructionTypes::SHIELD_ADVERTISING_CONSTRUCTION) {
+            if ($sizeId == AdvertisingConstructionSizes::_4_8) {
+                return $internal;
+            }
+
+            if ($sizeId == AdvertisingConstructionSizes::_3_9 || $sizeId == AdvertisingConstructionSizes::_3_12) {
+                return $external;
+            }
+        }
+
+        return null;
     }
 
 //$root = Yii::$app->params['uploadFilesPath'];

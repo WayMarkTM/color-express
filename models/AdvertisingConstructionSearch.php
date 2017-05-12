@@ -7,6 +7,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\entities\AdvertisingConstruction;
+use yii\helpers\ArrayHelper;
 
 /**
  * AdvertisingConstructionSearch represents the model behind the search form about `app\models\entities\AdvertisingConstruction`.
@@ -115,5 +116,9 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
             ->andFilterWhere(['like', 'traffic_info', $this->traffic_info]);
 
         return $query->all();
+    }
+
+    private function getAddressList($dbAddresses) {
+        return array_combine($dbAddresses, $dbAddresses);
     }
 }

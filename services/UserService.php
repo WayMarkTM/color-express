@@ -160,12 +160,15 @@ class UserService
 
     private function getEmployes()
     {
-        return User::find()->where(['is_agency' => null])->all();
+        return User::find()
+            ->innerJoin(['roles' => 'auth_assignment'], 'roles.user_id=user.id')
+            ->where(['AND', ['is_agency' => null, 'roles.item_name' => 'employee']])
+            ->all();
     }
 
     public function getEmployeeList()
     {
-        /* @param $users User[] */
+        /* @var User[] $users */
         $users = $this->getEmployes();
         $emplyes = [];
 
@@ -180,6 +183,7 @@ class UserService
     {
         $users = $this->getEmployes();
         $emplyes = [];
+        $emplyes[] = '';
         /* @var User[] $users */
         foreach($users as $user) {
             $emplyes[$user->id] = $user->getDisplayName();
@@ -193,8 +197,6 @@ class UserService
         $user = User::findIdentity($id);
         $user->manage_id = $manager_id;
         $user->save();
-
-
     }
 
 }

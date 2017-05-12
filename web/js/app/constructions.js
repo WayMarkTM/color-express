@@ -1,7 +1,7 @@
 (function (constructions, constructionTypes, selectedConstructionType) {
     "use strict";
 
-    var constructionsModule = angular.module('constructions', []);
+    var constructionsModule = angular.module('constructions', ['yaMap']);
 
     constructionsModule
         .controller('constructionsCtrl', constructionsCtrl);
@@ -17,6 +17,7 @@
         vm.reservConstructions = reservConstructions;
         vm.showSummary = showSummary;
         vm.selectConstructionType = selectConstructionType;
+        vm.selectConstruction = selectConstruction;
 
         function init() {
             vm.constructions = constructions;
@@ -29,11 +30,31 @@
                 });
             });
 
+            _.forEach(vm.constructions, function (construction) {
+                construction.yaPoint = {
+                    geometry: {
+                        type: "Point",
+                        coordinates: [construction.long, construction.lat]
+                    },
+                    properties: {
+                        balloonContentHeader: construction.name,
+                        balloonContent: (!!construction.previewImage ?
+                            '<img class="info-window-image-preview" src="/' + construction.previewImage + '"/>'
+                            : '')
+                    }
+                };
+            })
+        }
+
+        function selectConstruction(construction) {
+            vm.selectedConstruction = construction;
         }
 
         function selectConstructionType(id) {
             vm.selectedConstructionType = id;
             $('#advertisingconstructionsearch-type_id').val(id);
+            $('#advertisingconstructionsearch-address').val("");
+            $('#advertisingconstructionsearch-size_id').val("");
             $('#w0').submit();
         }
 

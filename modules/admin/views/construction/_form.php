@@ -19,6 +19,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'address')->textInput() ?>
 
+    <?= $form->field($model, 'use_manual_coordinates')->checkBox(['selected' => $model->use_manual_coordinates]) ?>
+
+    <?= $form->field($model, 'latitude')->textInput() ?>
+
+    <?= $form->field($model, 'longitude')->textInput() ?>
+
     <?= $form->field($model, 'size_id')->dropDownList($sizes, ['prompt' => 'Выберите размер конструкции']) ?>
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
@@ -26,8 +32,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'type_id')->dropDownList($types, ['prompt' => 'Выберите тип конструкции']) ?>
 
     <?= $form->field($model, 'nearest_locations')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'traffic_info')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'has_traffic_lights')->checkBox(['selected' => $model->has_traffic_lights]) ?>
 

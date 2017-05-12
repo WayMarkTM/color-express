@@ -10,6 +10,7 @@ use app\components\CompanySelectionWidget;
 use app\components\RequireAuthorizationWidget;
 use app\models\entities\MarketingType;
 use app\models\User;
+use app\modules\admin\models\AdvertisingConstructionForm;
 use app\services\JsonService;
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\Map;
@@ -28,6 +29,22 @@ use yii\widgets\ActiveForm;
 /* @var $bookings array|app\models\entities\AdvertisingConstructionReservation */
 /* @var $reservations array|app\models\entities\AdvertisingConstructionReservation */
 
+$this->title = $model->name.' | Информация о рекламной конструкции';
+
+if (Yii::$app->user->isGuest) {
+    RequireAuthorizationWidget::begin();
+    RequireAuthorizationWidget::end();
+    $isEmployee = false;
+} else {
+    $role = User::findIdentity(Yii::$app->user->getId())->getRole();
+    $isEmployee = $role == 'employee';
+    CompanySelectionWidget::begin();
+    CompanySelectionWidget::end();
+}
+
+$position = View::POS_BEGIN;
+$this->registerJs('var isEmployee ='.json_encode($isEmployee), $position);
+$this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $position);
 
 $coord = new LatLng(['lat' => $model->latitude, 'lng' => $model->longitude]);
 
@@ -55,21 +72,35 @@ if ($model->latitude && $model->longitude) {
 
     $map->addOverlay($marker);
 }
-
-$this->title = $model->name.' | Информация о рекламной конструкции';
-
-if (Yii::$app->user->isGuest) {
-    RequireAuthorizationWidget::begin();
-    RequireAuthorizationWidget::end();
-} else {
-    CompanySelectionWidget::begin();
-    CompanySelectionWidget::end();
-}
-
-$position = View::POS_BEGIN;
-$this->registerJs('var isEmployee;', $position);
-$this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $position);
 ?>
+
+<script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script type="text/javascript">
+    ymaps.ready(init);
+
+    function init () {
+        var map = new ymaps.Map('map', {
+                center: [<?php echo $model->latitude; ?>, <?php echo $model->longitude; ?>],
+                zoom: 16
+            }, {
+                searchControlProvider: 'yandex#search'
+            }),
+            myGeoObject = new ymaps.GeoObject({
+                geometry: {
+                    type: "Point",
+                    coordinates: [<?php echo $model->latitude; ?>, <?php echo $model->longitude; ?>]
+                },
+                properties: {
+                    balloonContent: '<?php echo $model->name; ?>'
+                }
+            }, {
+                preset:'islands#icon',
+                iconColor: '#a5260a'
+            });
+
+        map.geoObjects.add(myGeoObject);
+    }
+</script>
 
 <link rel="stylesheet" href="/web/styles/vis.min.css" />
 <script src="/web/js/jssor.slider.min.js" type="text/javascript"></script>
@@ -233,6 +264,7 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
                         $this->registerJs('var reservations = '.json_encode($jsonReservations).';', $position);
                         $this->registerJsFile('@web/js/vis.min.js');
                         $this->registerJsFile('@web/js/app/construction-timeline.js');
+                        $this->registerJs('(function () {buildConstructionTimeline(reservations, "timeline");})();', View::POS_END);
                     ?>
                 </div>
             </div>
@@ -267,17 +299,6 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
                     ?>
                 </div>
             </div>
-            <div class="row block-row">
-                <div class="col-md-6 input-value">
-                    Тип рекламы
-                </div>
-                <div class="col-md-6">
-                    <?= Html::dropDownList('marketing-type', null, ArrayHelper::map(MarketingType::find()->all(), 'id', 'name'), [
-                        'class' => 'form-control',
-                        'id' => 'marketing-type'
-                    ]) ?>
-                </div>
-            </div>
             <hr/>
             <div class="row">
                 <div class="col-md-12">
@@ -287,7 +308,9 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
             <div class="row buttons-row block-row">
                 <div class="col-md-12">
                     <button type="button" id="buy-btn" class="custom-btn sm blue" data-action-type="buyConstruction">Купить</button>
-                    <button type="button" id="reserv-btn" class="custom-btn sm blue" data-action-type="reservConstruction">Отложить на 5 дней</button>
+                    <?php if (!$isEmployee) { ?>
+                        <button type="button" id="reserv-btn" class="custom-btn sm blue" data-action-type="reservConstruction">Отложить на 5 дней</button>
+                    <?php } ?>
                     <?= Html::a('Вернуться назад', ['/construction/index'], ['class'=>'custom-btn sm white']) ?>
                 </div>
             </div>
@@ -296,7 +319,7 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
         <div class="col-md-4">
             <div class="row">
                 <div class="col-md-12">
-                    <?php echo $map->display(); ?>
+                    <div id="map" style="height: 450px; width: 100%"></div>
                 </div>
             </div>
             <div class="row">
@@ -313,11 +336,10 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
                     <div class="details-row">
                         <p><span class="bold">Рядом расположены:</span> <?php echo $model->nearest_locations; ?></p>
                     </div>
-                    <?php }
-                        if ($model->traffic_info) {
-                    ?>
+                    <?php } ?>
+                    <?php if (AdvertisingConstructionForm::getLightsType($model->type_id, $model->size_id) != null) { ?>
                     <div class="details-row">
-                        <p><span class="bold">Трафик:</span> <?php echo $model->traffic_info; ?></p>
+                        <p><span class="bold">Тип подсветки:</span> <?php echo AdvertisingConstructionForm::getLightsType($model->type_id, $model->size_id); ?></p>
                     </div>
                     <?php } ?>
                     <div class="details-row">
@@ -365,8 +387,10 @@ $(document).ready(function () {
             return;
         }
         
-        $('#company-selection').modal('show');
-        return;
+        if (isEmployee) {
+            $('#company-selection').modal('show');
+            return;
+        }
         
         var submitModel = {
             advertising_construction_id: model.id(),

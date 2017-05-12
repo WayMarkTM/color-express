@@ -12,6 +12,9 @@
 
 <div class="contacts ">
     <div class="row block-row">
+        <span>ООО "Колорэкспресс"</span>
+    </div>
+    <div class="row block-row">
         <span><?php echo $model->email; ?></span>
     </div>
     <?php foreach ($model->phones as $phone) { ?>
