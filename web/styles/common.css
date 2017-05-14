@@ -329,7 +329,7 @@ body {
     padding-left: 0;
 }
 
-.table .modal-checkbox[type="checkbox"]:not(:checked) + label:before, .modal-checkbox[type="checkbox"]:checked + label:before {
+.table .modal-checkbox[type="checkbox"]:not(:checked) + label:before, .table .modal-checkbox[type="checkbox"]:checked + label:before {
     left: 5px !important;
     top: -9px !important;
 }
