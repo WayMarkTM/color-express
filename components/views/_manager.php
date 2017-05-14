@@ -15,6 +15,6 @@
         <div class="block-row"><span><?= $manager->username ?></span></div>
         <div class="block-row"><span><?= $manager->number ?></span></div>
     <?php else: ?>
-        <span>Менеджер ещё не назначен</span>
+        <span>Менеджер не назначен</span>
     <?php endif; ?>
 </div>
