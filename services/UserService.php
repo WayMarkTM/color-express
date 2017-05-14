@@ -60,10 +60,21 @@ class UserService
     {
         $clientModels= [];
         /* @param $clients User[] */
-        $clients = User::find()
-            ->where(['=', 'manage_id', Yii::$app->user->getId()])
-            ->orderBy('id')
-            ->all();
+        $clients = User::find()->where(
+            [
+                'OR',
+                [
+                    'manage_id' => Yii::$app->user->getId(),
+
+                ],
+                [
+                    'AND',
+                    ['NOT', ['is_agency' => null]],
+                    ['manage_id' => null]
+                ]
+
+            ]
+        )->orderBy('id')->all();
         $employes = $this->employeeDropDown();
         foreach ($clients as $client) {
             $client_type = $client->is_agency ? 'Агенство' : 'Заказчик';
@@ -186,6 +197,14 @@ class UserService
         $user = User::findIdentity($id);
         $user->manage_id = $manager_id;
         $user->save();
+    }
+
+    public function getManager($client_id)
+    {
+        $user = User::findIdentity($client_id);
+        if(empty($user->manage_id))
+            return false;
+        return $user->manage;
     }
 
 }

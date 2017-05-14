@@ -671,3 +671,18 @@ table .selected {
 .selected-row {
     background-color: #efefef;
 }
+
+.menu-client {
+    height: calc(100% - 470px);
+}
+
+.manager-container {
+    color: #fff;
+    text-align: left;
+    padding: 30px;
+}
+
+.manager-container img {
+    width: 100px;
+    height: 100px;
+}
