@@ -14,6 +14,7 @@ use yii\helpers\Url;
 use app\assets\AppAsset;
 use app\components\AuthWidget;
 use app\components\SignupWidget;
+use app\components\ManagerWidget;
 
 AppAsset::register($this);
 ?>
@@ -41,11 +42,18 @@ AppAsset::register($this);
         <?php
             MenuWidget::begin();
             MenuWidget::end();
+
+        if(Yii::$app->user->can('client')) {
+                ManagerWidget::begin();
+                ManagerWidget::end();
+            }
         ?>
         <div class="sign-buttons-container">
             <?php
-                CompanyInfoWidget::begin();
-                CompanyInfoWidget::end();
+                if(Yii::$app->user->isGuest) {
+                    CompanyInfoWidget::begin();
+                    CompanyInfoWidget::end();
+                }
             ?>
             <? if(Yii::$app->user->isGuest): ?>
                 <a href="#" class="pull-left" data-toggle="modal" data-target="#signup">Регистрация</a>
