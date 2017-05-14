@@ -32,11 +32,11 @@ class UserController extends BaseAdminController
         [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'update', 'delete', 'view', 'create', 'delete'],
+                'only' => ['index', 'update', 'delete', 'view', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'update', 'delete', 'view', 'create', 'delete'],
+                        'actions' => ['index', 'update', 'delete', 'view', 'delete'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -120,27 +120,6 @@ class UserController extends BaseAdminController
     }
 
     /**
-     * Creates a new User model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new User();
-
-        if ($model->load(Yii::$app->request->post())) {
-            $model->imageFile = UploadedFile::getInstance($model, 'photo');
-            $model->upload();
-            if($model->save())
-                return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
      * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -148,7 +127,29 @@ class UserController extends BaseAdminController
      */
     public function actionUpdate($id)
     {
-        /* @var $model User */
+        $userService = new UserService();
+
+        $employee = new SignupForm();
+        $employee->setScenario(SignupForm::SCENARIO_CREATE_EMPLOYEE);
+
+        if($id) {
+            $employee = $userService->setUserToSignUpForm($employee, $id);
+            $employee->setUserId($id);
+        }
+
+        if(Yii::$app->request->isPost) {
+            if($employee->getAttributes() !== Yii::$app->request->post() &
+                $employee->load(Yii::$app->request->post())) {
+                $userService->save($employee, $id);
+                $this->refresh();
+            }
+        }
+        return $this->render('update', [
+            'model' => $employee,
+        ]);
+
+        /*
+        /* @var $model User
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
@@ -160,7 +161,7 @@ class UserController extends BaseAdminController
             return $this->render('update', [
                 'model' => $model,
             ]);
-        }
+        } */
     }
 
     /**

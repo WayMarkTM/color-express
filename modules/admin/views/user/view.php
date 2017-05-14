@@ -35,15 +35,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'name',
             'surname',
-            'email:email',
-            'number',
-            'is_agency',
-            'company',
-            'address',
-            'pan',
-            'okpo',
-            'checking_account',
-            'bank',
+            'lastname',
+            'username:email',
+            'number'
         ],
     ]) ?>
 

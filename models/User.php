@@ -180,11 +180,13 @@ class User extends entities\User implements IdentityInterface
 
     public function upload()
     {
-        $root = Yii::$app->params['uploadFilesPath'] . 'employee/';
-        FileHelper::createDirectory($root);
+        if($this->imageFile) {
+            $root = Yii::$app->params['uploadFilesPath'] . 'employee/';
+            FileHelper::createDirectory($root);
 
-        $this->photo = $root . Yii::$app->security->generateRandomString().'.'. $this->imageFile->extension;
-        return $this->imageFile->saveAs($this->photo);
+            $this->photo = $root . Yii::$app->security->generateRandomString() . '.' . $this->imageFile->extension;
+            return $this->imageFile->saveAs($this->photo);
+        }
     }
 
 }

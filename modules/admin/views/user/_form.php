@@ -19,30 +19,18 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'lastname')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'password')->passwordInput() ?>
 
     <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'is_agency')->textInput() ?>
-
-    <?= $form->field($model, 'company')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'pan')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'okpo')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'checking_account')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'bank')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'photo')->fileInput([
         'accept' => 'image/*'
     ])->label() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton('Обновить', ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
