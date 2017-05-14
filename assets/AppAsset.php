@@ -34,7 +34,8 @@ class AppAsset extends AssetBundle
         'js/toastr.min.js',
         'js/moment.with.locales.min.js',
         'js/app/helpers.js',
-        'js/app/urls.js'
+        'js/app/urls.js',
+        'js/angular.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

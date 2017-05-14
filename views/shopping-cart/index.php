@@ -40,7 +40,6 @@ $jsonMarketingTypes = \app\services\JsonService::json_encode_database_models($ma
 $position = View::POS_BEGIN;
 $this->registerJs('var cartItems = '.json_encode($jsonCartItems).';', $position);
 $this->registerJs('var marketingTypes = '.$jsonMarketingTypes.';', $position);
-$this->registerJsFile('@web/js/angular.min.js');
 $this->registerJsFile('@web/js/angular-locale_ru-ru.js');
 $this->registerJsFile('@web/js/ui-bootstrap-tpls-2.5.0.min.js');
 $this->registerJsFile('@web/js/vis.min.js');

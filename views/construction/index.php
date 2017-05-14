@@ -6,6 +6,9 @@
  * Time: 12:10 AM
  */
 
+use app\components\CompanySelectionWidget;
+use app\components\RequireAuthorizationWidget;
+use app\models\User;
 use app\services\JsonService;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -38,7 +41,20 @@ foreach ($constructions as $construction) {
 $this->registerJs('var constructions = '.json_encode($mappedConstructions).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var constructionTypes = '.json_encode($types).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var selectedConstructionType = '.json_encode($searchModel->type_id).';', \yii\web\View::POS_BEGIN);
-$this->registerJsFile('@web/js/angular.min.js');
+$this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', \yii\web\View::POS_BEGIN);
+
+if (Yii::$app->user->isGuest) {
+    RequireAuthorizationWidget::begin();
+    RequireAuthorizationWidget::end();
+    $isEmployee = false;
+} else {
+    $role = User::findIdentity(Yii::$app->user->getId())->getRole();
+    $isEmployee = $role == 'employee';
+//    CompanySelectionWidget::begin();
+//    CompanySelectionWidget::end();
+}
+
+$this->registerJs('var isEmployee = '.json_encode($isEmployee).';', \yii\web\View::POS_BEGIN);
 $this->registerJsFile('@web/js/ui-bootstrap-tpls-2.5.0.min.js');
 $this->registerJsFile('@web/js/ya-map-2.1.min.js');
 $this->registerJsFile('@web/js/app/constructions.js');
@@ -138,8 +154,8 @@ $this->title = "Каталог рекламных конструкций";
                             last-text="&raquo;"></ul>
 
                         <button class="custom-btn sm blue" type="button" ng-click="$ctrl.buyConstructions()">Купить</button>
-                        <button class="custom-btn sm blue" type="button" ng-click="$ctrl.reservConstructions()">Отложить на 5 дней</button>
-                        <button class="custom-btn sm blue" type="button" ng-click="$ctrl.showSummary()">Сводка</button>
+                        <button class="custom-btn sm blue" type="button" ng-click="$ctrl.reservConstructions()" ng-if="!$ctrl.isEmployee">Отложить на 5 дней</button>
+                        <button class="custom-btn sm blue" type="button" ng-click="$ctrl.showSummary()" ng-if="$ctrl.isEmployee">Сводка</button>
                     </div>
                 </div>
             </div>

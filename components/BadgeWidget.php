@@ -8,6 +8,7 @@
 
 namespace app\components;
 
+use app\services\AdvertisingConstructionReservationService;
 use Yii;
 use yii\base\Widget;
 use app\services\UserService;
@@ -15,6 +16,7 @@ use app\services\UserService;
 class BadgeWidget extends Widget
 {
     public static $NEW_USER_COUNT = 1;
+    public static $SHOPPING_CART_ITEMS_COUNT = 2;
     public $param;
 
     public function run()
@@ -23,6 +25,10 @@ class BadgeWidget extends Widget
         switch($this->param) {
             case self::$NEW_USER_COUNT:
                 $count = UserService::getContNewClients();
+                break;
+            case self::$SHOPPING_CART_ITEMS_COUNT:
+                $advertisingConstructionReservationService = new AdvertisingConstructionReservationService();
+                $count = $advertisingConstructionReservationService->getCountShoppingCartItems();
                 break;
             default:
                 $count = 0;

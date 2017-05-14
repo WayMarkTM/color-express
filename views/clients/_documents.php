@@ -127,6 +127,5 @@ $modelAttributeNames = 'id, name';
     $this->registerJs('var selectedUserId = '.$selectedUserId.';', $position);
     $this->registerJs('var documentCalendar = '.json_encode($documentsCalendar).';', $position);
     $this->registerJs('var subclients = '. JsonService::json_encode_database_models($subclients, $modelAttributeNames).';', $position);
-    $this->registerJsFile('@web/js/angular.min.js'); //, ['depends' => [\yii\web\JqueryAsset::className()]]);
     $this->registerJsFile('@web/js/app/documents.js'); //, ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>

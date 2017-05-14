@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Май 11 2017 г., 09:46
+-- Время создания: Май 14 2017 г., 14:17
 -- Версия сервера: 5.6.33-0ubuntu0.14.04.1
 -- Версия PHP: 5.6.30-7+deb.sury.org~trusty+1
 
@@ -43,56 +43,55 @@ CREATE TABLE IF NOT EXISTS `advertising_construction` (
   PRIMARY KEY (`id`),
   KEY `idx-advertising_construction_size` (`size_id`),
   KEY `idx-advertising_construction_type` (`type_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=54 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
 
 --
 -- Дамп данных таблицы `advertising_construction`
 --
 
 INSERT INTO `advertising_construction` (`id`, `name`, `nearest_locations`, `traffic_info`, `has_traffic_lights`, `address`, `size_id`, `price`, `type_id`, `latitude`, `longitude`, `is_published`, `requirements_document_path`) VALUES
-(2, '16,05х6', 'Ботанический сад, Парк Челюскинцев, Площадь Калинина, Академия Искусств\r\n', 'Сильный', 1, 'Независимости пр.,80', 9, '81', 2, '53.9223958', '27.6078567', 1, NULL),
-(3, '13,5х5,15', 'Белагропромбанк, Белинвестбанк, ст.м Пушкинская, БЦ "Стильсервис"\r\n', 'Сильный', 1, 'Пушкина пр., 81', 10, '64', 2, '53.9210863', '27.4985325', 1, NULL),
-(4, '16,2х6,5', 'ст.м. Академия наук, Национальная академия наук Беларуси, БГУИР, Академическая книга, кинотеатр "Октябрь", Дворец водного спорта, м-н "Оранжевый верблюд"\r\n', 'Сильный', 1, 'Независимости пр.,72', 9, '355', 2, '53.9219961', '27.6016796', 1, NULL),
-(5, '3х6', 'McDonalds (макдрайв), Чиннабон, Торговый дом "На Немиге", ТРЦ "Немига", офисные здания, Лукоил, кинотеатр «Беларусь»,  улицы  Интернациональная  и Революционная с обилием кафе и бутиков', 'Сильный', 1, 'ул. Городской Вал. 8', 7, '42', 5, '53.9002326', '27.5518495', 1, NULL),
-(6, '3х6', 'Национальный Банк Республики Беларусь, БГУ, Национальный художественный музей', 'низкий', 1, 'ул. К.Маркса, 30', 7, '132', 5, '53.517385', '49.406843', 1, NULL),
-(7, '2,45х4,9', '«Планета Суши», фирменный магазин «Луч», магазин звезда', 'Сильный', 1, 'пр.Независимости, 18', 7, '31', 3, '53.8994504', '27.5574902', 1, NULL),
-(8, '3х6', 'магазин "Лакомка", Центральная книгарня, ГУМ\r\n\r\n', 'Сильный', 1, 'пр.Независимости, 19', 7, '33', 3, '53.8998944', '27.5568679', 1, NULL),
-(9, '3х6', 'магазин "Лакомка", Центральная книгарня, ГУМ\r\n\r\n', 'Сильный', 1, 'пр.Независимости, 19 ', 7, '33', 3, '53.8998944', '27.5568679', 1, NULL),
-(10, '3х6', 'магазин "Лакомка", Центральная книгарня, ГУМ', 'Сильный', 1, 'пр.Независимости, 21 ', 7, '41', 3, '53.9004887', '27.5579783', 1, NULL),
-(11, '3х4,5', 'городская ратуша, 5* г-ца "Европа", главный офис компании "Белтелеком", консерватория, Посольство Франции\r\n\r\n', 'Средний', 1, 'Ленина, 2 ', 6, '37', 3, '58.6165399', '49.6800408', 1, NULL),
-(12, '3х4,5', 'городская ратуша, 5* г-ца "Европа", главный офис компании "Белтелеком", консерватория, Посольство Франции', 'Средний', 1, 'Ленина, 2 ', 6, '37', 3, '58.6165399', '49.6800408', 1, NULL),
-(13, '3х4,5', '', '', 0, 'Ленина,8 ', 6, '29', 3, '56.836228', '60.58609', 0, NULL),
-(14, '3х4,5', 'ГУМ, 5* гостиница "Европа", пл.Свободы, ст.м. Октябрьская, McDonalds\r\n\r\n\r\n\r\n', 'Средний', 1, 'Ленина,8 ', 6, '29', 3, '56.836228', '60.58609', 1, NULL),
-(15, '3х4,5', 'ГУМ, 5* гостиница "Европа", пл.Свободы, ст.м. Октябрьская, McDonalds\r\n\r\n', 'Средние', 1, 'Ленина,8 ', 6, '29', 3, '56.836228', '60.58609', 1, NULL),
+(2, '16,05х6', 'Ботанический сад, Парк Челюскинцев, Площадь Калинина, Академия Искусств\r\n', 'Сильный', 1, 'Независимости пр.,80', 9, '81', 2, '53.9223958', '27.6078567', 1, 'uploads/Construction/Documents/CF9gOF678b0jPVUdw2eNyCOHeHn0SPKF.doc'),
+(3, '13,5х5,15', 'Белагропромбанк, Белинвестбанк, ст.м Пушкинская, БЦ "Стильсервис"\r\n', 'Сильный', 1, 'Пушкина пр., 81', 10, '64', 2, '53.9210863', '27.4985325', 1, 'uploads/Construction/Documents/Ft5BdHB2dkuwXHr-Lj9gO8B9JziD0lov.doc'),
+(4, '16,2х6,5', 'ст.м. Академия наук, Национальная академия наук Беларуси, БГУИР, Академическая книга, кинотеатр "Октябрь", Дворец водного спорта, м-н "Оранжевый верблюд"\r\n', 'Сильный', 1, 'Независимости пр.,72', 9, '355', 2, '53.9219961', '27.6016796', 1, 'uploads/Construction/Documents/TnJNyN3wFqnrC2feNUQlojLLJh3yz6rh.doc'),
+(5, '3х6', 'McDonalds (макдрайв), Чиннабон, Торговый дом "На Немиге", ТРЦ "Немига", офисные здания, Лукоил, кинотеатр «Беларусь»,  улицы  Интернациональная  и Революционная с обилием кафе и бутиков', 'Сильный', 1, 'ул. Городской Вал. 8', 7, '42', 5, '53.9002326', '27.5518495', 1, 'uploads/Construction/Documents/akfjfhv0zYbYYhV9E3TSeLbPt_Fx_7KY.doc'),
+(6, '3х6', 'Национальный Банк Республики Беларусь, БГУ, Национальный художественный музей', 'низкий', 1, 'ул. К.Маркса, 30', 7, '132', 5, '53.517385', '49.406843', 1, 'uploads/Construction/Documents/avQVW4t_3LovpPiKqJOYQxnLutYtaLgQ.doc'),
+(7, '2,45х4,9', '«Планета Суши», фирменный магазин «Луч», магазин звезда', 'Сильный', 1, 'пр.Независимости, 18', 7, '31', 3, '53.8994504', '27.5574902', 1, 'uploads/Construction/Documents/UK62frzYoF-Y83S23wWZQ7R8rEfAMwnz.doc'),
+(8, '3х6', 'магазин "Лакомка", Центральная книгарня, ГУМ\r\n\r\n', 'Сильный', 1, 'пр.Независимости, 19', 7, '33', 3, '53.8998944', '27.5568679', 1, 'uploads/Construction/Documents/9upmMFxM17pGPqEX6D-aIzcVKZfcQ2im.doc'),
+(9, '3х6', 'магазин "Лакомка", Центральная книгарня, ГУМ\r\n\r\n', 'Сильный', 1, 'пр.Независимости, 19 ', 7, '33', 3, '53.8998944', '27.5568679', 1, 'uploads/Construction/Documents/l0de9i7fIrHq7z_LyD5JyEOfvnzuPZCt.doc'),
+(10, '3х6', 'магазин "Лакомка", Центральная книгарня, ГУМ', 'Сильный', 1, 'пр.Независимости, 21 ', 7, '41', 3, '53.9004887', '27.5579783', 1, 'uploads/Construction/Documents/bgp9QAeo2QgsWTC2ZzEQhWt6HU1GFBGF.doc'),
+(11, '3х4,5', 'городская ратуша, 5* г-ца "Европа", главный офис компании "Белтелеком", консерватория, Посольство Франции\r\n\r\n', 'Средний', 1, 'Ленина, 2 ', 6, '37', 3, '58.6165399', '49.6800408', 1, 'uploads/Construction/Documents/xDMoqo-R_u0tnKNB8e8mtpzUKA-KcY6L.doc'),
+(12, '3х4,5', 'городская ратуша, 5* г-ца "Европа", главный офис компании "Белтелеком", консерватория, Посольство Франции', 'Средний', 1, 'Ленина, 2 ', 6, '37', 3, '58.6165399', '49.6800408', 1, 'uploads/Construction/Documents/AiO8gO9dTr-6J_BHPOeP8beHhGnAdKl0.doc'),
+(14, '3х4,5', 'ГУМ, 5* гостиница "Европа", пл.Свободы, ст.м. Октябрьская, McDonalds\r\n\r\n\r\n\r\n', 'Средний', 1, 'Ленина,8 ', 6, '29', 3, '58.6146831', '49.6808926', 1, 'uploads/Construction/Documents/hNmLECrdwlTNAyDBizMgVyygl7BlspBl.doc'),
+(15, '3х4,5', 'ГУМ, 5* гостиница "Европа", пл.Свободы, ст.м. Октябрьская, McDonalds\r\n\r\n', 'Средний', 1, 'Ленина,8 ', 6, '29', 3, '58.6146831', '49.6808926', 1, 'uploads/Construction/Documents/rbSbrzX-y9_nJtegW5gHPQOVU86DVu3w.doc'),
 (16, '3х4,5', 'пл. Я.Коласа, Суши-бар «Манга», гимназия №23, ЗАГС Советского района, Электросила', 'Сильный', 1, 'Независимости, 46', 6, '29', 3, '53.9132898', '27.5811282', 1, NULL),
-(17, '3х4,5', 'ст.м. площадь Победы, пл. Победы, парк им Горького, Fresh cafe и др. кафе\r\n', 'Сильный', 1, 'пр.Независимости, 42', 6, '29', 3, '53.909791', '27.5773036', 1, NULL),
-(18, '3х4,5', 'ст.м. площадь Победы, пл. Победы, парк им Горького, Fresh cafe и др. кафе\r\n', 'Сильный', 1, 'пр.Независимости, 42 ', 6, '29', 3, '53.909791', '27.5773036', 1, NULL),
-(19, '3х4,5', 'ст.м. площадь Победы, магазин "Океан", Fresh cafe, ул. Козлова\r\n', 'Средний', 1, 'ул.Козлова, 2', 6, '29', 3, '53.9096725', '27.5788164', 1, NULL),
-(20, '3х4,5', 'кафе «Проспект 44», Беларусбанк, м-н «Марко», салон красоты «ЭтуальSPA»\r\n\r\n', 'Сильный', 1, 'пр.Независимости, 44 ', 6, '29', 3, '53.9116444', '27.5794637', 1, NULL),
-(21, '3х4,5', 'кафе «Проспект 44», Беларусбанк, м-н «Марко», салон красоты «ЭтуальSPA»\r\n\r\n', 'Сильный', 1, 'пр.Независимости, 44 ', 6, '29', 3, '53.9116444', '27.5794637', 1, NULL),
-(22, '3х4,5', 'ЦУМ, магазин "Столичный", Белорусская государственная филармония, ст.м.Я.Колоса.\r\n\r\n', 'Сильный', 1, 'пр.Независимости, 52', 6, '40', 3, '53.9157755', '27.5846422', 1, NULL),
-(23, '3х4,5', 'ЦУМ, магазин "Столичный", Белорусская государственная филармония, ст.м.Я.Колоса.', 'Сильный', 1, 'пр.Независимости, 52 ', 6, '40', 3, '53.9157755', '27.5846422', 1, NULL),
-(24, '3х4,5', 'сквер, торговый дом "На Немиге", ТЦ «Немига», McDonalds, магазин Адмдас, кафе Чинабон, кафе Бистро Де Люкс\r\n', 'Средний', 1, 'Городской вал, 12', 6, '29', 3, '57.621217', '39.849601', 1, NULL),
-(25, '3х4,5', 'городская ратуша, 5* г-ца "Европа", главный офис компании "Белтелеком", консерватория, Посольство Франции\r\n\r\n', 'Средний', 1, 'пл.Свободы, 5 верхний', 6, '37', 3, '53.9027263', '27.5555509', 1, NULL),
-(26, '3х4,5', 'городская ратуша, 5* г-ца "Европа", главный офис компании "Белтелеком", консерватория, Посольство Франции\r\n\r\n', 'Средний', 1, 'пл.Свободы, 5, нижний', 6, '37', 3, '56.3183956', '44.0152578', 1, NULL),
-(27, '3х4,5', 'ст.м. Московская, БГАТУ, Аптека №2, мед центр Роден, ул. Макаенка, Белтелерадиокомпания\r\n', 'Сильный', 1, 'пр.Независимости,92', 6, '29', 3, '53.9275091', '27.6273953', 1, NULL),
-(28, '3х4,5', 'Центральная книгарня, \r\nк-р Центральный, ресторан Васильки, Юридический колледж БГУ, пл. Независимости, ТЦ Столица\r\n\r\n', 'Сильный', 1, 'пр.Независимости,16 ', 6, '29', 3, '53.8982508', '27.5550923', 1, NULL),
-(29, '3х4,5', 'Центральная книгарня, \r\nк-р Центральный, ресторан Васильки, Юридический колледж БГУ, пл. Независимости, ТЦ Столица\r\n\r\n', 'Сильный', 1, 'пр.Независимости,16', 6, '29', 3, '53.8982508', '27.5550923', 1, NULL),
-(30, '3х4,5', 'м-н "Техника в быту", кинотеатр "Беларусь", ст.м. Фрунзенская. МонКафе, нацилнальная школа красоты\r\n\r\n', 'Сильный', 1, 'ул.Кальварийская, 2 ', 6, '29', 3, '53.9057777', '27.5402275', 1, NULL),
-(31, '3х4,5', 'м-н "Техника в быту", кинотеатр "Беларусь", ст.м. Фрунзенская. МонКафе, нацилнальная школа красоты\r\n\r\n', 'Сильный', 1, 'ул.Кальварийская, 2 ', 6, '29', 3, '53.9057777', '27.5402275', 1, NULL),
-(32, '3х4,5', 'Центральная книгарня, \r\nк-р Центральный, ресторан Васильки, Юридический колледж БГУ, пл. Независимости, ТЦ Столица\r\n', 'Сильный', 1, 'ул.Кальварийская, 5 ', 6, '29', 3, '53.90537', '27.5367728', 1, NULL),
-(33, '3х4,5', 'м-н «Спортмастер», м-н «Спорттовары»,м-н «Музыка», ночной клуб «НЛО»\r\n\r\n', 'Сильный', 1, 'ул.Я.Коласа,30 верхний', 6, '32', 3, '53.9263364', '27.594738', 1, NULL),
-(34, '3х4,5', 'м-н «Спортмастер», м-н «Спорттовары»,м-н «Музыка», ночной клуб «НЛО»\r\n\r\n', 'Сильный', 1, 'ул.Я.Коласа, 30 нижний', 6, '32', 3, NULL, NULL, 1, NULL),
-(35, '3х4,5', 'пл. Бангалор, парк Дружбы народов\r\n\r\n', 'Сильный', 1, 'ул.Орловская, 4', 6, '29', 3, '53.9323234', '27.5646946', 1, NULL),
-(36, '3х4,5', 'пл. Бангалор, парк Дружбы народов', 'Сильный', 1, 'ул.Орловская, 3', 6, '29', 3, '53.9318859', '27.5648421', 1, NULL),
-(37, '3х4,5', 'парк Я.Купалы, гостиница «Журавинка», Белгосцирк, Турецкие авиалинии,  Большой театр Оперы и балета.\r\n\r\n', 'Средний', 1, 'ул.Я.Купалы, 23 ', 6, '32', 3, '53.9061027', '27.5661029', 1, NULL),
-(38, '3х4,5', 'парк Я.Купалы, гостиница «Журавинка», Белгосцирк, Турецкие авиалинии,  Большой театр Оперы и балета.\r\n\r\n', 'Средний', 1, 'ул.Я.Купалы, 23 ', 6, '32', 3, '53.9061027', '27.5661029', 1, NULL),
-(39, '3х4,5', 'Ювелирный магазин «Магия Золота», туристическая компания «Гулливер», магазин «Санта Фиш», кафе "Gurmans", оптика «Золушка»\r\n', 'Средний', 1, 'ул.К. Маркса, 23 ', 6, '29', 3, '56.8238706', '53.2073937', 1, NULL),
-(40, '3х4,5', 'ресторан «McDonalds», Корпус БГУ, ж/д вокзал., ст.м. «Площадь Ленина».\r\n', 'Высокий', 1, 'ул.Ленинградская, 7 ', 6, '40', 3, '48.480222', '135.0971632', 1, NULL),
-(41, '8х4', 'пл.Я.Коласа, суши-бар "Манга", гимназия №23, Керамин', 'Сильный', 1, 'пр.Независимости, 47', 2, '61', 3, '53.9139288', '27.5805867', 1, NULL),
-(42, '8х4', 'пл.Я.Коласа, суши-бар "Манга", гимназия №23, Керамин', 'Высокий', 1, 'пр.Независимости, 47 ', 2, '61', 3, '53.9139288', '27.5805867', 1, NULL),
-(43, '2x1,3', 'ГУМ, 5* гостиница "Европа", пл.Свободы, ст.м. Октябрьская, McDonalds', 'Высокий', 1, 'пр.Независимости-ул. Ленина, №1', 8, '7', 6, NULL, NULL, 1, NULL),
-(44, '2x1,3', 'ГУМ, 5* гостиница "Европа", пл.Свободы, ст.м. Октябрьская, McDonalds\r\n', 'Сильный', 1, 'пр.Независимости-ул. Ленина, №2', 8, '7', 6, NULL, NULL, 1, NULL),
+(17, '3х4,5', 'ст.м. площадь Победы, пл. Победы, парк им Горького, Fresh cafe и др. кафе\r\n', 'Сильный', 1, 'пр.Независимости, 42', 6, '29', 3, '53.909791', '27.5773036', 1, 'uploads/Construction/Documents/egh1ZUI-ULom4uQ-TDOMOy6kyLdnlu8J.doc'),
+(18, '3х4,5', 'ст.м. площадь Победы, пл. Победы, парк им Горького, Fresh cafe и др. кафе\r\n', 'Сильный', 1, 'пр.Независимости, 42 ', 6, '29', 3, '53.909791', '27.5773036', 1, 'uploads/Construction/Documents/znyRCvFCQ3PxahZCobajG1U2-PCNaV11.doc'),
+(19, '3х4,5', 'ст.м. площадь Победы, магазин "Океан", Fresh cafe, ул. Козлова\r\n', 'Средний', 1, 'ул.Козлова, 2', 6, '29', 3, '53.9096725', '27.5788164', 1, 'uploads/Construction/Documents/jOFLrLwdXmmUF8yc9aidXlSnoaCU06_-.doc'),
+(20, '3х4,5', 'кафе «Проспект 44», Беларусбанк, м-н «Марко», салон красоты «ЭтуальSPA»\r\n\r\n', 'Сильный', 1, 'пр.Независимости, 44 ', 6, '29', 3, '53.9116444', '27.5794637', 1, 'uploads/Construction/Documents/zUa3eyHZOL9voDN9s05SoZv6pGeVv4nO.doc'),
+(21, '3х4,5', 'кафе «Проспект 44», Беларусбанк, м-н «Марко», салон красоты «ЭтуальSPA»\r\n\r\n', 'Сильный', 1, 'пр.Независимости, 44 ', 6, '29', 3, '53.9116444', '27.5794637', 1, 'uploads/Construction/Documents/2ovvZ3R1L4AM44L0sFMADHeqAWsZOW8s.doc'),
+(22, '3х4,5', 'ЦУМ, магазин "Столичный", Белорусская государственная филармония, ст.м.Я.Колоса.\r\n\r\n', 'Сильный', 1, 'пр.Независимости, 52', 6, '40', 3, '53.9157755', '27.5846422', 1, 'uploads/Construction/Documents/Rzuunr9SdAw6gETn1yf15sld_HURRxGn.doc'),
+(23, '3х4,5', 'ЦУМ, магазин "Столичный", Белорусская государственная филармония, ст.м.Я.Колоса.', 'Сильный', 1, 'пр.Независимости, 52 ', 6, '40', 3, '53.9157755', '27.5846422', 1, 'uploads/Construction/Documents/BBZe8IUNBSBcI_rte-1La5NR6Lf_xkgT.doc'),
+(24, '3х4,5', 'сквер, торговый дом "На Немиге", ТЦ «Немига», McDonalds, магазин Адмдас, кафе Чинабон, кафе Бистро Де Люкс\r\n', 'Средний', 1, 'Городской вал, 12', 6, '29', 3, '57.621217', '39.849601', 1, 'uploads/Construction/Documents/tUKH3dJpyIVnSu4f6SULHtE-C4yyscLN.doc'),
+(25, '3х4,5', 'городская ратуша, 5* г-ца "Европа", главный офис компании "Белтелеком", консерватория, Посольство Франции\r\n\r\n', 'Средний', 1, 'пл.Свободы, 5 верхний', 6, '37', 3, '53.9027263', '27.5555509', 1, 'uploads/Construction/Documents/E4ZRAVj6VlXSiDNh_77cMVE7Pj9PFh1E.doc'),
+(26, '3х4,5', 'городская ратуша, 5* г-ца "Европа", главный офис компании "Белтелеком", консерватория, Посольство Франции\r\n\r\n', 'Средний', 1, 'пл.Свободы, 5, нижний', 6, '37', 3, '56.3183956', '44.0152578', 1, 'uploads/Construction/Documents/lJRe-p3w36MOXx6gXm9XJwPXxIpVqnWd.doc'),
+(27, '3х4,5', 'ст.м. Московская, БГАТУ, Аптека №2, мед центр Роден, ул. Макаенка, Белтелерадиокомпания\r\n', 'Сильный', 1, 'пр.Независимости,92', 6, '29', 3, '53.9275091', '27.6273953', 1, 'uploads/Construction/Documents/j0HNKFYtF1HIcwrAdDpUmtsSvzWY9S1z.doc'),
+(28, '3х4,5', 'Центральная книгарня, \r\nк-р Центральный, ресторан Васильки, Юридический колледж БГУ, пл. Независимости, ТЦ Столица\r\n\r\n', 'Сильный', 1, 'пр.Независимости,16 ', 6, '29', 3, '53.8982508', '27.5550923', 1, 'uploads/Construction/Documents/awBcE3HuFI07U7uvLx4GcEjqid1v6FI8.doc'),
+(29, '3х4,5', 'Центральная книгарня, \r\nк-р Центральный, ресторан Васильки, Юридический колледж БГУ, пл. Независимости, ТЦ Столица\r\n\r\n', 'Сильный', 1, 'пр.Независимости,16', 6, '29', 3, '53.8982508', '27.5550923', 1, 'uploads/Construction/Documents/bIJqg4Mr3khODp3fH2LQ1y_7xZwzY7eH.doc'),
+(30, '3х4,5', 'м-н "Техника в быту", кинотеатр "Беларусь", ст.м. Фрунзенская. МонКафе, нацилнальная школа красоты\r\n\r\n', 'Сильный', 1, 'ул.Кальварийская, 2 ', 6, '29', 3, '53.9057777', '27.5402275', 1, 'uploads/Construction/Documents/XdXhBOTGJX7ZHr0fYSuQwwl7kyCf9rKN.doc'),
+(31, '3х4,5', 'м-н "Техника в быту", кинотеатр "Беларусь", ст.м. Фрунзенская. МонКафе, нацилнальная школа красоты\r\n\r\n', 'Сильный', 1, 'ул.Кальварийская, 2 ', 6, '29', 3, '53.9057777', '27.5402275', 1, 'uploads/Construction/Documents/5ae_aN5GPqmQ_27scU8-ZZQlbyfN63wG.doc'),
+(32, '3х4,5', 'Центральная книгарня, \r\nк-р Центральный, ресторан Васильки, Юридический колледж БГУ, пл. Независимости, ТЦ Столица\r\n', 'Сильный', 1, 'ул.Кальварийская, 5 ', 6, '29', 3, '53.90537', '27.5367728', 1, 'uploads/Construction/Documents/Jv6tvQRyf7qMkzV3lN1Gakc0srVJFvzU.doc'),
+(33, '3х4,5', 'м-н «Спортмастер», м-н «Спорттовары»,м-н «Музыка», ночной клуб «НЛО»\r\n\r\n', 'Сильный', 1, 'ул.Я.Коласа,30 верхний', 6, '32', 3, '53.9263364', '27.594738', 1, 'uploads/Construction/Documents/O4fplJGCPDwqTsULIAbNvzcgJn9ubZgG.doc'),
+(34, '3х4,5', 'м-н «Спортмастер», м-н «Спорттовары»,м-н «Музыка», ночной клуб «НЛО»\r\n\r\n', 'Сильный', 1, 'ул.Я.Коласа, 30 нижний', 6, '32', 3, NULL, NULL, 1, 'uploads/Construction/Documents/paF-fFKY_6zcKyJMEJs4m1mKqJcMnGad.doc'),
+(35, '3х4,5', 'пл. Бангалор, парк Дружбы народов\r\n\r\n', 'Сильный', 1, 'ул.Орловская, 4', 6, '29', 3, '58.596223', '49.690738', 1, 'uploads/Construction/Documents/FtGx8SFgoI02NWbflDdE8YXbTmQ0445B.doc'),
+(36, '3х4,5', 'пл. Бангалор, парк Дружбы народов', 'Сильный', 1, 'ул.Орловская, 3', 6, '29', 3, '53.9318859', '27.5648421', 1, 'uploads/Construction/Documents/rLdhj8mnZ6it1dsB3khMjxl2FmWm0A9O.doc'),
+(37, '3х4,5', 'парк Я.Купалы, гостиница «Журавинка», Белгосцирк, Турецкие авиалинии,  Большой театр Оперы и балета.\r\n\r\n', 'Средний', 1, 'ул.Я.Купалы, 23 ', 6, '32', 3, '53.9061027', '27.5661029', 1, 'uploads/Construction/Documents/QSuHE3bij5dm1kSi_j0YfNYahmbNrQmE.doc'),
+(38, '3х4,5', 'парк Я.Купалы, гостиница «Журавинка», Белгосцирк, Турецкие авиалинии,  Большой театр Оперы и балета.\r\n\r\n', 'Средний', 1, 'ул.Я.Купалы, 23 ', 6, '32', 3, '53.9061027', '27.5661029', 1, 'uploads/Construction/Documents/c2aWD79vCrFc7_yVGKcitP9hpAEktSFK.doc'),
+(39, '3х4,5', 'Ювелирный магазин «Магия Золота», туристическая компания «Гулливер», магазин «Санта Фиш», кафе "Gurmans", оптика «Золушка»\r\n', 'Средний', 1, 'ул.К. Маркса, 23 ', 6, '29', 3, '56.8238706', '53.2073937', 1, 'uploads/Construction/Documents/vosvMx90ssXDzWc4j5FZO6FiKGyfVCE5.doc'),
+(40, '3х4,5', 'ресторан «McDonalds», Корпус БГУ, ж/д вокзал., ст.м. «Площадь Ленина».\r\n', 'Высокий', 1, 'ул.Ленинградская, 7 ', 6, '40', 3, '48.480222', '135.0971632', 1, 'uploads/Construction/Documents/1VxYGzgI66bZZLiFuGXNd_xxkfvh4Mcr.doc'),
+(41, '8х4', 'пл.Я.Коласа, суши-бар "Манга", гимназия №23, Керамин', 'Сильный', 1, 'пр.Независимости, 47', 2, '61', 3, '53.9139288', '27.5805867', 1, 'uploads/Construction/Documents/jNaRBSbJwsN6zSqmix6NtjmJR4lET7kF.doc'),
+(42, '8х4', 'пл.Я.Коласа, суши-бар "Манга", гимназия №23, Керамин', 'Высокий', 1, 'пр.Независимости, 47 ', 2, '61', 3, '53.9139288', '27.5805867', 1, 'uploads/Construction/Documents/vk6Jb1h7g5ir8q7R0jN23HF834vZnYGV.doc'),
+(43, '2x1,3', 'ГУМ, 5* гостиница "Европа", пл.Свободы, ст.м. Октябрьская, McDonalds', 'Высокий', 1, 'пр.Независимости-ул. Ленина, №1', 8, '7', 6, NULL, NULL, 1, 'uploads/Construction/Documents/XsZkp2IYwB_MjrzNkK0aFlwKFX8u7yuQ.doc'),
+(44, '2x1,3', 'ГУМ, 5* гостиница "Европа", пл.Свободы, ст.м. Октябрьская, McDonalds\r\n', 'Сильный', 1, 'пр.Независимости-ул. Ленина, №2', 8, '7', 6, NULL, NULL, 1, 'uploads/Construction/Documents/GY1EUXH9Nk6nosF970Di5PvZHQ7Sajuu.doc'),
 (45, '2x1,3', 'ГУМ, 5* гостиница "Европа", пл.Свободы, ст.м. Октябрьская, McDonalds', 'Сильный', 1, 'пр.Независимости-ул. Ленина, №3', 8, '11', 6, NULL, NULL, 1, NULL),
 (47, '2x1,3', 'ГУМ, 5* гостиница "Европа", пл.Свободы, ст.м. Октябрьская, McDonalds', 'Сильный', 0, 'пр.Независимости-ул. Ленина, №4', 8, '7', 6, NULL, NULL, 1, NULL),
 (48, '2x1,3', 'ГУМ, 5* гостиница "Европа", пл.Свободы, ст.м. Октябрьская, McDonalds', 'Сильный', 0, 'пр.Независимости-ул. Ленина, №5', 8, '8', 6, NULL, NULL, 1, NULL),
@@ -114,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `advertising_construction_image` (
   `path` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk-advertising_construction_image_construction` (`advertising_construction_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=53 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=100 ;
 
 --
 -- Дамп данных таблицы `advertising_construction_image`
@@ -161,8 +160,6 @@ INSERT INTO `advertising_construction_image` (`id`, `advertising_construction_id
 (39, 40, 'uploads/Construction/L7TkNHttIH_19krL0LkCmvvlbF149qlt.jpg'),
 (40, 41, 'uploads/Construction/LesXpfrExs6pR9WKGykAR1yIHc6KQt5F.jpg'),
 (41, 42, 'uploads/Construction/NdDm86V3sFytH57oe5vyaD_4HnSimZIB.jpg'),
-(42, 43, 'uploads/Construction/5dFmYtARm6sRexFbEWpDbcufyqtE6YGg.png'),
-(43, 44, 'uploads/Construction/889z0JGlZWkaT3fPe22Fxjl4eI2vOoV6.png'),
 (44, 45, 'uploads/Construction/22CUqfE-XgCtAsWGJohRbDMRa8UX0snd.jpg'),
 (46, 47, 'uploads/Construction/3W2Do4BoI2ORGPNipdVuk5RIqFta4R_x.png'),
 (47, 48, 'uploads/Construction/2p-GOap46oKT9hnPgZG2_STZG7gwMRbO.png'),
@@ -170,7 +167,50 @@ INSERT INTO `advertising_construction_image` (`id`, `advertising_construction_id
 (49, 50, 'uploads/Construction/2K72drEHk8NwkoBSxbi-pIrW2eq0fPYh.jpg'),
 (50, 51, 'uploads/Construction/gcWkTFeyq_Iu-ty6GCzHQsR_AsHfXBYX.jpg'),
 (51, 52, 'uploads/Construction/qWOJFIFLm8ly5c9K15bX-biGFwtAceN2.png'),
-(52, 53, 'uploads/Construction/_-k-q3y5t7WqIuD82FcWIpx1pcbw2sR9.jpg');
+(52, 53, 'uploads/Construction/_-k-q3y5t7WqIuD82FcWIpx1pcbw2sR9.jpg'),
+(55, 2, 'uploads/Construction/BWOgWcLF5EvqeZ6v-Czk9i-7g5BkJTdm.jpg'),
+(56, 3, 'uploads/Construction/Cx2W8JVUVX8chGWjNiQVmtRlNRuVozHX.jpg'),
+(57, 4, 'uploads/Construction/qc48-2kxYYHMMzLkTyYdV5BiVrRM0LfJ.jpg'),
+(58, 5, 'uploads/Construction/vx56g7-2bqBwD3FaZdFwoUAVxmAo0sHe.jpg'),
+(59, 6, 'uploads/Construction/kdclP2o3QgsDzmbJQhfwUQOrzC-H0NBy.jpg'),
+(60, 7, 'uploads/Construction/MFKOtzidAb8Y98Xaq747msNaqZFMtvmC.jpg'),
+(61, 8, 'uploads/Construction/FnPD_RxJy6IvuB7fn7EdbmrXxHq1jNny.jpg'),
+(62, 9, 'uploads/Construction/bfAbfUIW2Eny0Hfr_DXTNADnc7A7lwK4.jpg'),
+(63, 10, 'uploads/Construction/8s1ylmaQNmJT4bVQhf8J0_tVxWAuQdgs.jpg'),
+(64, 11, 'uploads/Construction/f6aCyXPAsntthf6Jnvbtk-IXgz0MNu1j.jpg'),
+(65, 12, 'uploads/Construction/Jt_Ii4h7t2xT4DcnH5hPiIk_ARYE-RnT.jpg'),
+(67, 14, 'uploads/Construction/-neQ32jdEPgep920UVAa8FIZFQAIMSxd.jpg'),
+(68, 15, 'uploads/Construction/iLlxMwhFELCnOUrHZ62AGlDj-GiJI_VF.jpg'),
+(69, 17, 'uploads/Construction/bY0dP4TTJMRcejFXWCRiCKxE3rgkqEBG.jpg'),
+(70, 18, 'uploads/Construction/HO5doE80oqEZ2Z1z-vzWsvfi3Je9fePr.jpg'),
+(71, 19, 'uploads/Construction/kbKAH3XWKerUY0kY2U_hqikyWpBcG3Xv.jpg'),
+(72, 20, 'uploads/Construction/kp81a3nGl46GU5Czb4cOn4v7DdcU8dbf.jpg'),
+(73, 21, 'uploads/Construction/Fx2IVAeR8A8A4V-qLOkGJue2pHGDVb1N.jpg'),
+(74, 22, 'uploads/Construction/ht7FHudiMLDCtEYefMxcqLT-jDA8YZiQ.jpg'),
+(75, 23, 'uploads/Construction/WnQ9iW5wShKRUXu6A8TlDfCXUZ1FUlMS.jpg'),
+(76, 24, 'uploads/Construction/oqZYIR7j3ty2e3XeE6G67pGdrijFotGY.jpg'),
+(77, 25, 'uploads/Construction/j_mikGZTA6I7yAp4ZUduiq9ea-rtKlqv.jpg'),
+(78, 26, 'uploads/Construction/D-yYjtPCwc1p9wpBYW25ymPzHPkJ3yDG.jpg'),
+(79, 27, 'uploads/Construction/fb7LLEdxI3ZktP6njajuN5fj4uydv8gy.jpg'),
+(80, 28, 'uploads/Construction/7-YiviK8Wx3NmxisDU0_rEg9A4nideKo.jpg'),
+(81, 29, 'uploads/Construction/fmFtXBQB8ksc039TVFkhjcAJ3Wqw0osw.jpg'),
+(82, 30, 'uploads/Construction/3Q5tnCcA0xORtdR95K9h3FZHNZpKweIb.jpg'),
+(83, 31, 'uploads/Construction/xB6PUqf5peOkZbLEvS-gY4w4KB1xQXNv.jpg'),
+(84, 32, 'uploads/Construction/UN1DFnkzGprRu2BFkJ10Bl7Eq52C94Xg.jpg'),
+(85, 33, 'uploads/Construction/IwVUIcdHboShowQiv4J4cXNegAGbw83_.jpg'),
+(86, 34, 'uploads/Construction/GeWnbJN7Krw9oVI_nBu-9IdNvYzq4Uoc.jpg'),
+(87, 35, 'uploads/Construction/ZB7RBzzjfPRVF0CGWRU4J2_POTyX42U3.jpg'),
+(88, 36, 'uploads/Construction/lmMxUnMcG7U4dEZqFcSN6LzEX4FSOt9P.jpg'),
+(89, 37, 'uploads/Construction/mqPLH1ZeeLMJHfsMB2YsnX8_PfX3Z_rR.jpg'),
+(90, 38, 'uploads/Construction/QpGjeW5UiDJx8Y5i0Up185lWG0TZW7ll.jpg'),
+(91, 39, 'uploads/Construction/epLFNcR5PXmFvgID_MKamLxDWDpynrYH.jpg'),
+(92, 40, 'uploads/Construction/2-05Nc_I0yTb88-V6qKn60VD0zvBEP7x.jpg'),
+(93, 41, 'uploads/Construction/vj7FSyMwkcCJmPHfnhh3OBhC2mX8cXlU.jpg'),
+(94, 42, 'uploads/Construction/fWZSqJPs1lwAj7kAiCnlEclZMBVDhqJY.jpg'),
+(96, 43, 'uploads/Construction/ITNBB-wI-7RmQu7iuvsXILqMQXLSMdfa.jpg'),
+(97, 43, 'uploads/Construction/g8ReVV7eeOANOzUdSLuVme0LJvD-Rcs-.jpg'),
+(98, 44, 'uploads/Construction/hmhUpVTK5H_vyupakXYD7na-9HFY-DHF.png'),
+(99, 44, 'uploads/Construction/MaSCoCTq306PudDViLkPWwV9fdt1i4sM.jpg');
 
 -- --------------------------------------------------------
 
@@ -196,7 +236,20 @@ CREATE TABLE IF NOT EXISTS `advertising_construction_reservation` (
   KEY `idx-advertising_construction_reservation_status` (`status_id`),
   KEY `fk_advertising_construction_reservation_marketing_type` (`marketing_type_id`),
   KEY `fk_advertising_construction_reservation_employee` (`employee_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Дамп данных таблицы `advertising_construction_reservation`
+--
+
+INSERT INTO `advertising_construction_reservation` (`id`, `advertising_construction_id`, `status_id`, `user_id`, `from`, `to`, `cost`, `marketing_type_id`, `thematic`, `created_at`, `employee_id`) VALUES
+(1, 2, 50, 13, '2017-05-11', '2017-05-13', '81', 1, 'тематика', '2017-05-11 11:34:29', NULL),
+(2, 3, 50, 13, '2017-05-11', '2017-05-12', '64', 1, 'тематика', '2017-05-11 11:35:09', NULL),
+(3, 2, 255, 13, '2017-05-11', '2017-07-03', '85', 2, 'навигатор', '2017-05-11 12:44:06', NULL),
+(4, 2, 255, 13, '2017-08-01', '2017-08-31', '81', 1, 'гаджеты', '2017-05-11 12:46:18', NULL),
+(5, 9, 255, 13, '2017-05-11', '2017-05-11', '33', 1, 'te', '2017-05-11 12:55:31', NULL),
+(6, 10, 10, 13, '2017-05-11', '2017-05-11', '41', NULL, NULL, '2017-05-11 13:06:17', 3),
+(7, 11, 10, 13, '2017-05-11', '2017-05-11', '37', NULL, NULL, '2017-05-11 13:06:50', 3);
 
 -- --------------------------------------------------------
 
@@ -297,6 +350,15 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('client', '10', 1494410309),
 ('client', '11', 1494410904),
 ('client', '12', 1494411203),
+('client', '13', 1494491536),
+('client', '14', 1494576144),
+('client', '15', 1494576233),
+('client', '16', 1494576344),
+('client', '17', 1494576569),
+('client', '18', 1494576831),
+('client', '19', 1494577024),
+('client', '20', 1494577256),
+('client', '21', 1494759643),
 ('client', '4', 1494062431),
 ('client', '5', 1494062488),
 ('client', '6', 1494063164),
@@ -490,7 +552,9 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 ('m170501_154544_added_user_lastname', 1493850775),
 ('m170502_143904_photo_more_length', 1493850775),
 ('m170503_183141_create_admin', 1493850776),
-('m170503_205639_add_filename_to_document', 1493850777);
+('m170503_205639_add_filename_to_document', 1493850777),
+('m170511_063613_change_size_of_checking_account', 1494486100),
+('m170512_083830_extend_bank_field_length', 1494580534);
 
 -- --------------------------------------------------------
 
@@ -559,15 +623,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   `salt` varchar(255) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `surname` varchar(50) DEFAULT NULL,
-  `email` varchar(20) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `number` varchar(20) DEFAULT NULL,
   `is_agency` tinyint(1) DEFAULT NULL,
-  `company` varchar(50) DEFAULT NULL,
+  `company` varchar(255) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `pan` varchar(15) DEFAULT NULL,
   `okpo` varchar(15) DEFAULT NULL,
-  `checking_account` varchar(20) DEFAULT NULL,
-  `bank` varchar(50) DEFAULT NULL,
+  `checking_account` varchar(28) DEFAULT NULL,
+  `bank` varchar(1000) DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
   `manage_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -576,7 +640,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `username_2` (`username`),
   KEY `fk_manage_id` (`manage_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 --
 -- Дамп данных таблицы `user`
@@ -586,15 +650,11 @@ INSERT INTO `user` (`id`, `username`, `password`, `salt`, `name`, `surname`, `em
 (1, 'color_admin@gmail.com', '$2y$13$QWV6ToJ56.RE1lDBB6.z.OGyV9AsCXIjCEG/5nqDofvWiTRAdy16q', 'dnUJSHXWK849sxpRr1ZD_Bt1gyLaBx6P', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-05-04 01:32:56', NULL),
 (2, 'siamashka@colorexpress.by', '$2y$13$qlFfqmk5OSO.Slg/rPo/MeRhNAPr63WOH7zp.eut5ezwSbI2NTyK6', 'Xq5y22NeOxtW_rbN_bhVKJhLc9bfMbIS', 'Виктория', 'Семашко ', NULL, '+375291992789', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'uploads/employee/bDb_svSp3gkx5aENlsknYuTqIdzAtCR2.jpg', NULL, '2017-05-04 10:27:04', 'Викторовна'),
 (3, 'karpuk@colorexpress.by', '$2y$13$dtB/zx.mEmMXoMz2hgXT7.E8P7z.RpFfwAUsahAtgw/MQHv/OvGVG', 'QY06O7zk_dqY_RssWHye0ocKuKtR26ld', 'Мария', 'Карпук  ', NULL, '+375291992789', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'uploads/employee/uCsE9lDULA0EcH5lReBAU3OR0RMuOrLF.jpg', NULL, '2017-05-04 10:55:05', 'Юрьевна'),
-(4, 'test@test.test', '$2y$13$VR6t0r9Va1kAM.nzqcQ8hegTQ8BWZFvf1UVOznl4Dlr7qw1L8Nc5a', '8V9LwjaR_fBc0mhnvG4cTuQOOZKTOXIr', 'Тест', NULL, NULL, '+375297698610', 0, 'Тестовая компания', 'машерова', '123123123', '12312312', '123123123123', 'куеуек', NULL, 3, '2017-05-06 12:20:31', NULL),
-(5, 'login@gmai.com', '$2y$13$pf5aH3bHP3dBshFZ7rrrVe02JXOsTJD6taYGNCqoyS8q9JrVKrdtu', '6s2bT6v5jR4yS77xePUWhWQY906DTcx9', 'имя', NULL, NULL, '+375336683035', 0, 'название', 'flhtc', '123123123', '12312331', '123123123', '123123123', NULL, 3, '2017-05-06 12:21:28', NULL),
-(6, 'JM@gmail.com', '$2y$13$I48IDe6whA3xdtq8orZ1yeRYNV63.VX1TnWi97vP9AhH9fV/Y0SZG', 'FrOvpxJzgFcj2_gXUwCLMTZGFJ34c8-z', 'тест 1', NULL, NULL, '+375336683035', 0, 'тест 1', 'qr', '111111111', '11111111', '123123', '123123', NULL, 3, '2017-05-06 12:32:44', NULL),
-(7, 'tettuser_@gmail.com', '$2y$13$ORbLY3A6igc5.J8KZlQBhezh1z3qbf/6XPpFwwN4.cz8/xyP0eKC.', '0p0M7HYFWH78lZVv0zptoOxZRCpQswf9', 'Имя тестового клиента', NULL, NULL, '+375336683035', 0, 'тестовая компания', 'адрес тестовой компании', '123123123', '12312323', '132123123', 'банк', NULL, 3, '2017-05-06 13:55:52', NULL),
-(8, 'test_user2@gmail.com', '$2y$13$Xp2vprWyAKCKp74ZZWHTYuboAnfmnD8wn774NsHhoURo0sr/IpRnW', 'OxLW1mRzBDSF_qU8medUbDSJFWyjqoNU', 'тест 2', NULL, NULL, '+375336683035', 1, 'тестовая компания 2', 'flhtc', '123456789', '12345678', '123456789', 'банк', NULL, 3, '2017-05-06 13:57:15', NULL),
-(9, 'in@gmai.com', '$2y$13$scvMrKuqYbYpiJp1DmQ.GuP39iUEuUGlwdS1cSmXOVdpNsWjPuOEq', 'SUhhV8DbaqIeZRpAHqYrkXJdAv1T-MRF', 'Имя', NULL, NULL, '+375336683035', 0, 'тестовая компания 3', 'адрес', '123123123', '12312312', '123123123', 'банк', NULL, NULL, '2017-05-10 12:54:12', NULL),
-(10, 'layreniya@mail.ru', '$2y$13$SODiz3xXYUEclOQsVEd.beeV2DIzj.C1Fiv7766L5GoKE5E6oQH0O', 'j69a3nig-IwNXVPBjLPYHprCBVQAogqi', 'Ирина', NULL, NULL, '+375291666263', 1, 'Лимпопо', 'Московская ул. ', '236589756', '96325698', '32123123123123123', 'беларусбанк', NULL, NULL, '2017-05-10 12:58:29', NULL),
-(11, 'l@gmail.com', '$2y$13$mfZRpMxRY3fKVm.xFBXHuuA0KG02DfLBUpfO0XvaRbKppXaKLZNXO', 'Tzw4XthnLFJPJirdFL4BOckq0rywnMPU', '123', NULL, NULL, '+375336683035', 0, '123', 'адрес', '123123123', '12312312', '123123123', '123123123', NULL, NULL, '2017-05-10 13:08:24', NULL),
-(12, '13oops13@gmail.com', '$2y$13$unFybG2zgTuGOmnslxWaw.4mmxA20KvL9dIdEqJEo.FImI6mrhdiS', 'SukrExPGoj6djdlEy3LcVY3xG5ZGrIoS', 'ert', NULL, NULL, '+375445828295', 0, 'ert', 'wer', '123123123', '12312312', '123123213', '123132', NULL, NULL, '2017-05-10 13:13:23', NULL);
+(13, 'login@gmail.com', '$2y$13$A7YmBcdLZEJ8RM63MNQ5De0UJ51rLhmb6tmZe/X1wg6ITuAf/uuN.', 'diX6mGTW395Znygj3S6ggwhDiXbeW0zG', 'Vlad', NULL, NULL, '+375336683035', 0, 'Haishuncorp', 'Minsk', '123123132', '12312312', '123123123123123123', 'Bank_name', NULL, 3, '2017-05-11 11:32:16', NULL),
+(18, '5066663@gmail.com', '$2y$13$b6xc4cA50WHlJD1CrcOl1OrdV.UjDt4239zOshB13fQ45KxBNiuoa', 'Kg7l9FdAWw3OG7xIcAOeUY0ZR1OkYhU2', 'Дарья Долматова', NULL, NULL, '+375295066663', 1, 'ООО "АТЕНАИС"', 'г. Минск, ул. Кирова, 8/3-3, комн. 102', '190806910', '37713918', '3012015313012', 'ОАО "Приорбанк", код 749, 1233121', NULL, 3, '2017-05-12 11:13:51', NULL),
+(19, 'dolmatova@shangri-la.by', '$2y$13$7wT3BHhn1J0.acHVwdqQ7.vbOPp5CBBCa5yPLE2b035gLsLgv5J/a', 'd2g8ZR95qgTeYciKMF0KB_ie4YsndnzJ', 'Дарья Долматова', NULL, NULL, '+375295066663', 1, 'ООО "АТЕНАИС"', 'г. Минск, ул. Кирова, 8/3-3, комн. 102', '190806910', '37713918', '3012015313012', 'ОАО "Приорбанк", код 749,', NULL, 3, '2017-05-12 11:17:04', NULL),
+(20, '123123123@gmail.com', '$2y$13$i4zkjbElBh1Svl1cPF6OOu3S6pq0E31Xe1/yvMJVOji3dluEBB/1u', 'M1k7uBBmlyIp8APRcUdGxM6FTo1gcIv-', '13', NULL, NULL, '123123', 0, '123', '123123', '123123123', '12312323', '123212312312', '1111111111111111111111111111111111111111111111', NULL, 3, '2017-05-12 11:20:56', NULL),
+(21, 'a1media@telecom.by', '$2y$13$ZFGtNbT/cSpN6u0CuSRnBONGbBvxfnzUyVICf99egLAwdQx77hboK', 'lE4vuwKYpfKtvQGspJuoiy6Z_8CoSY4q', 'Александр Суходольский', NULL, NULL, '+375296313818', 0, 'ЧРУП "А1-медиа"', '"Юридический адрес: 220035, г. Минск, ул. Тимирязева, 65 А – 229  Почтовый адрес: 220020, г. Минск, Л.Украинки, 14-7"', '191002921', '00000000', '3012115360001', 'ОАО "Технобанк", код 182, г. Минск, Кропоткина, 44', NULL, NULL, '2017-05-14 14:00:43', NULL);
 
 -- --------------------------------------------------------
 

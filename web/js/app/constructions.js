@@ -1,7 +1,18 @@
-(function (constructions, constructionTypes, selectedConstructionType) {
+(function (constructions, constructionTypes, selectedConstructionType, isGuest, isEmployee) {
     "use strict";
 
-    var constructionsModule = angular.module('constructions', ['yaMap', 'ui.bootstrap']);
+    var constructionsModule = angular
+        .module('constructions', ['yaMap', 'ui.bootstrap']);
+
+    constructionsModule
+        .config(appconfig);
+
+    appconfig.$inject = ['$httpProvider'];
+
+    function appconfig($httpProvider){
+        $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+        $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name="csrf-token"]').attr('content');
+    }
 
     constructionsModule
         .filter('startFrom', function() {
@@ -15,9 +26,9 @@
     constructionsModule
         .controller('constructionsCtrl', constructionsCtrl);
 
-    constructionsCtrl.$inject = ['$window'];
+    constructionsCtrl.$inject = ['$window', 'constructionsDataService'];
 
-    function constructionsCtrl($window) {
+    function constructionsCtrl($window, constructionsDataService) {
         var vm = this;
 
         vm.$onInit = init;
@@ -29,6 +40,7 @@
         vm.selectConstruction = selectConstruction;
 
         function init() {
+            vm.isEmployee = isEmployee;
             vm.constructions = constructions;
             vm.constructionTypes = [];
             vm.currentPage = 1;
@@ -73,6 +85,14 @@
             $('#w0').submit();
         }
 
+        function getDateFrom() {
+            return $('#advertisingconstructionsearch-fromdate').val();
+        }
+
+        function getDateTo() {
+            return $('#advertisingconstructionsearch-todate').val();
+        }
+
         function showSummary() {
             window.location.href = '/construction/summary?' + vm.queryString;
         }
@@ -83,13 +103,69 @@
             });
         }
 
+        function showRequireAuthorizationModal() {
+            $('#requireAuthorization').modal('show');
+        }
+
         function buyConstructions() {
-            alert(getSelectedConstructions().map(function(it) { return it.id; }));
+            if (!!isGuest) {
+                showRequireAuthorizationModal();
+                return;
+            }
+
+            if (isEmployee) {
+                $('#company-selection').modal('show');
+                return;
+            }
+
+            var model = {
+                from: getDateFrom(),
+                to: getDateTo(),
+                ids: getSelectedConstructions().map(function (it) { return it.id; })
+            };
+
+            constructionsDataService.buyConstructions(model)
+                .then(onConstructionReservationCreated);
         }
 
         function reservConstructions() {
+            if (!!isGuest) {
+                showRequireAuthorizationModal();
+                return;
+            }
 
+            var model = {
+                from: getDateFrom(),
+                to: getDateTo(),
+                ids: getSelectedConstructions().map(function (it) { return it.id; })
+            };
+
+            constructionsDataService.reservConstructions(model)
+                .then(onConstructionReservationCreated);
         }
 
+        function onConstructionReservationCreated() {
+            window.location.href = '/shopping-cart/';
+        }
     }
-})(constructions, constructionTypes, selectedConstructionType);
+
+    constructionsModule
+        .service('constructionsDataService', constructionsDataService);
+
+    constructionsDataService.$inject = ['$http'];
+
+    function constructionsDataService($http) {
+        return {
+            buyConstructions: buyConstructions,
+            reservConstructions: reservConstructions
+        };
+
+        function buyConstructions(model) {
+            return $http.post(GATEWAY_URLS.BUY_CONSTRUCTIONS, model);
+        }
+
+        function reservConstructions(model) {
+            return $http.post(GATEWAY_URLS.RESERV_CONSTRUCTIONS, model);
+        }
+    }
+})(constructions, constructionTypes, selectedConstructionType, isGuest, isEmployee);

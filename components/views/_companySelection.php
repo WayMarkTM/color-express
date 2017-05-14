@@ -18,7 +18,6 @@ $jsonReservations = JsonService::json_encode_database_models($clients, $attribut
 
 $position = View::POS_BEGIN;
 $this->registerJs('var companies = '.$jsonReservations.';', $position);
-$this->registerJsFile('@web/js/angular.min.js');
 $this->registerJsFile('@web/js/app/company-selection.js');
 ?>
 
