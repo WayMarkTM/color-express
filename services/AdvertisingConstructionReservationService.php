@@ -126,6 +126,28 @@ class AdvertisingConstructionReservationService
         ];
     }
 
+    public function createMultipleReservations($model, $status) {
+        $userId = $model['user_id'];
+        $managerId = $userId != null ? Yii::$app->user->getId() : null;
+        if ($userId == null) {
+            $userId = Yii::$app->user->getId();
+        }
+
+        foreach ($model['ids'] as $id) {
+            $reservation = $this->getAdvertisingConstructionReservation($userId, [
+                'from' => $model['from'] != null ? $model['from'] : (new \DateTime())->format('Y-m-d'),
+                'to' => $model['to'] != null ? $model['to'] : (new \DateTime())->format('Y-m-d'),
+                'advertising_construction_id' => $id
+            ], $status, $managerId);
+
+            $reservation->save();
+        }
+
+        return [
+            'isValid' => true
+        ];
+    }
+
     /**
      * @param integer $id
      * @return array|AdvertisingConstructionReservation[]
@@ -256,6 +278,13 @@ class AdvertisingConstructionReservationService
         }
 
         return true;
+    }
+
+    /**
+     * @return int Count of current user's shopping cart items.
+     */
+    public function getCountShoppingCartItems() {
+        return $this->getShoppingCartItems()->count();
     }
 
     /**

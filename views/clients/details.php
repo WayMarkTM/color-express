@@ -16,7 +16,7 @@ use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $ordersDataProvider yii\data\ArrayDataProvider */
-/* @var $user app\models\ClientModel */
+/* @var $user app\models\User */
 
 $this->title = $user->company;
 ?>
@@ -83,14 +83,14 @@ $this->title = $user->company;
                             'contentOptions' =>['class' => 'text-center'],
                             'buttons' => [
                                 'confirm' => function ($url ,$model) {
-                                    return Html::a('Подтвердить', ['clients/approve-order?clientId='.$user->id.'&orderId='.$model->id], [
+                                    return Html::a('Подтвердить', ['clients/approve-order?clientId='.$model->user_id.'&orderId='.$model->id], [
                                         'title' => 'Подтвердить',
                                         'class' => 'custom-btn sm blue',
                                         'style' => 'width:50%;'.($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING ? '' : 'display: none;')
                                     ]);
                                 },
                                 'cancel' => function ($url, $model) {
-                                    return Html::a('Отклонить', ['clients/decline-order?clientId='.$user->id.'&orderId='.$model->id], [
+                                    return Html::a('Отклонить', ['clients/decline-order?clientId='.$model->user_id.'&orderId='.$model->id], [
                                         'title' => 'Отклонить',
                                         'class' => 'custom-btn sm white',
                                         'style' => 'width:50%;'.($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING ? '' : 'display: none;')

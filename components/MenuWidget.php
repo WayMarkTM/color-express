@@ -72,7 +72,8 @@ class MenuWidget extends Widget
             ],
             [
                 'label' => 'Корзина',
-                'url' => ['/shopping-cart/index']
+                'url' => ['/shopping-cart/index'],
+                'template' => '<a href="{url}">{label}</a>'.BadgeWidget::widget(['param' => BadgeWidget::$SHOPPING_CART_ITEMS_COUNT]),
             ],
             [
                 'label' => 'Мои заказы',

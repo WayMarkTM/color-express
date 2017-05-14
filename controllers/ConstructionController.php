@@ -17,6 +17,8 @@ use app\services\AdvertisingConstructionService;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
+use yii\web\MethodNotAllowedHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\Request;
@@ -113,7 +115,21 @@ class ConstructionController extends Controller
             return $this->advertisingConstructionReservationService->createReservation($model, AdvertisingConstructionStatuses::IN_BASKET_ORDER);
         }
 
-        return [];
+        return new MethodNotAllowedHttpException();
+    }
+
+    public function actionBuyConstructions() {
+        $this->enableCsrfValidation = false;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        /* ids, from, to */
+        $model = Yii::$app->request->post();
+
+        if (Yii::$app->request->isAjax) {
+            return $this->advertisingConstructionReservationService->createMultipleReservations($model, AdvertisingConstructionStatuses::IN_BASKET_ORDER);
+        }
+
+        return new MethodNotAllowedHttpException();
     }
 
     public function actionReservConstruction() {
@@ -127,7 +143,21 @@ class ConstructionController extends Controller
             return $this->advertisingConstructionReservationService->createReservation($model, AdvertisingConstructionStatuses::IN_BASKET_RESERVED);
         }
 
-        return [];
+        return new MethodNotAllowedHttpException();
+    }
+
+    public function actionReservConstructions() {
+        $this->enableCsrfValidation = false;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        /* ids, from, to */
+        $model = Yii::$app->request->post();
+
+        if (Yii::$app->request->isAjax) {
+            return $this->advertisingConstructionReservationService->createMultipleReservations($model, AdvertisingConstructionStatuses::IN_BASKET_RESERVED);
+        }
+
+        return new MethodNotAllowedHttpException();
     }
 
     public function actionSummary() {
