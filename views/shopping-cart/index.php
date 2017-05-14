@@ -6,6 +6,7 @@
  * Time: 7:37PM
  */
 
+use app\models\User;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\web\View;
@@ -30,8 +31,14 @@ foreach ($cartItems as $item) {
         'created_at' => $item->created_at,
         'status_id' => $item->status_id,
         'price' => $item->cost,
-        'cost' => $item->cost
+        'cost' => $item->cost,
+        'company' => $item->user->company
     ]);
+}
+
+$isEmployee = false;
+if (User::findIdentity(Yii::$app->user->getId())->getRole() == 'employee') {
+    $isEmployee = true;
 }
 
 $mtAttributes = 'id,name,charge';
@@ -39,6 +46,7 @@ $jsonMarketingTypes = \app\services\JsonService::json_encode_database_models($ma
 
 $position = View::POS_BEGIN;
 $this->registerJs('var cartItems = '.json_encode($jsonCartItems).';', $position);
+$this->registerJs('var isEmployee = '.json_encode($isEmployee).';', $position);
 $this->registerJs('var marketingTypes = '.$jsonMarketingTypes.';', $position);
 $this->registerJsFile('@web/js/angular-locale_ru-ru.js');
 $this->registerJsFile('@web/js/ui-bootstrap-tpls-2.5.0.min.js');
@@ -66,6 +74,7 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
                         <th class="text-center" width="250">Даты использования</th>
                         <th class="text-center" width="120">Стоимость</th>
                         <th class="text-center" width="180">Тип рекламы</th>
+                        <th class="text-center" ng-if="$ctrl.isEmployee">Компания</th>
                         <th width="180">&nbsp;</th>
                     </tr>
                     </thead>
@@ -81,6 +90,7 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
                                     <option ng-repeat="mt in $ctrl.marketingTypes" value="{{ mt.id }}">{{ mt.name }}</option>
                                 </select>
                             </td>
+                            <td ng-if="$ctrl.isEmployee">{{ item.company }}</td>
                             <td class="text-center">
                                 <a href="" class="custom-btn sm white" ng-click="$ctrl.removeItem(item)">
                                     Удалить из корзины

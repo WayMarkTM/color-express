@@ -12,6 +12,7 @@ use app\models\constants\AdvertisingConstructionStatuses;
 use app\models\entities\AdvertisingConstruction;
 use app\models\entities\AdvertisingConstructionReservation;
 use app\models\entities\MarketingType;
+use app\models\User;
 use Yii;
 use yii\db\Exception;
 use yii\db\Query;
@@ -24,7 +25,12 @@ class AdvertisingConstructionReservationService
     public function getShoppingCartItems() {
         $current_user_id = Yii::$app->user->getId();
 
-        return $this->getReservationsQuery($current_user_id);
+        $role = User::findIdentity($current_user_id)->getRole();
+        if ($role != 'employee') {
+            return $this->getReservationsQuery($current_user_id);
+        } else {
+            return $this->getEmployeeReservationsQuery($current_user_id);
+        }
     }
 
     /**
@@ -41,13 +47,14 @@ class AdvertisingConstructionReservationService
      * @param string $thematic
      * @param array $reservations
      * @throws Exception
-     * @return Boolean
+     * @return array|string Array of errors
      */
     public function checkOutReservations($thematic, $reservations) {
-        $result = true;
+        $result = array();
         foreach ($reservations as $reservation) {
-            if (!$this->checkOutReservation($reservation, $thematic)) {
-                $result = false;
+            $res = $this->checkOutReservation($reservation, $thematic) ;
+            if ($res != 'success') {
+                array_push($result, $res);
             };
         }
 
@@ -62,7 +69,8 @@ class AdvertisingConstructionReservationService
     private function checkOutReservation($reservation, $thematic) {
         try {
             if (!$this->isDateRangesValid($reservation)) {
-                return false;
+                $construction = AdvertisingConstruction::findOne($reservation['advertising_construction_id']);
+                return 'Конструкция '.$construction->name.' ('.$construction->address.') забронирована на даты c '.$reservation['from'].' по '.$reservation['to'];
             }
 
             $dbReservation = AdvertisingConstructionReservation::findOne($reservation['id']);
@@ -80,9 +88,9 @@ class AdvertisingConstructionReservationService
 
             $dbReservation->save();
 
-            return true;
+            return 'success';
         } catch (\Exception $exception) {
-            return false;
+            return $exception->getMessage();
         }
     }
 
@@ -94,6 +102,17 @@ class AdvertisingConstructionReservationService
     private function getReservationsQuery($current_user_id) {
         return AdvertisingConstructionReservation::find()
             ->where(['=', 'user_id', $current_user_id])
+            ->andWhere(['in', 'status_id', [AdvertisingConstructionStatuses::IN_BASKET_ORDER, AdvertisingConstructionStatuses::IN_BASKET_RESERVED]]);
+    }
+
+    /**
+     * @param integer $employeeId
+     *
+     * @return Query
+     */
+    private function getEmployeeReservationsQuery($employeeId) {
+        return AdvertisingConstructionReservation::find()
+            ->where(['=', 'employee_id', $employeeId])
             ->andWhere(['in', 'status_id', [AdvertisingConstructionStatuses::IN_BASKET_ORDER, AdvertisingConstructionStatuses::IN_BASKET_RESERVED]]);
     }
 

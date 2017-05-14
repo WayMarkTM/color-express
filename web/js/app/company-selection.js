@@ -88,7 +88,7 @@
                 .then(function (response) {
                     var result = response.data;
                     if (result.isValid) {
-                        toastr.success('Конструкция успешно ' + (vm.actionType == 'reservConstruction' ? 'зарезервирована' : 'забронирована') + '.');
+                        window.location.href = '/shopping-cart/';
                         hideModal();
                     } else {
                         toastr.error(result.message);
