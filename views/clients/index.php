@@ -91,7 +91,7 @@ $this->title = 'Управление клиентами';
                     'template' => '{update} &nbsp;&nbsp;&nbsp;{delete}',
                     'headerOptions' => ['width' => '80', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
-                    'urlCreator' => function ($action, $model, $key, $index, $this) {
+                    'urlCreator' => function ($action, $model, $key, $index) {
                         return Url::toRoute([$action, 'id' => $model->id]);
                     },
                     'buttons' => [

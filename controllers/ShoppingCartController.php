@@ -75,7 +75,8 @@ class ShoppingCartController extends Controller
         $result = $this->advertisingConstructionReservationService->checkOutReservations($model['thematic'], $model['reservations']);
 
         return [
-            'isValid' => $result
+            'isValid' => count($result) == 0,
+            'messages' => $result
         ];
     }
 

@@ -58,9 +58,17 @@ $this->title = $user->company;
                         ],
                         [
                             'label' => 'Статус',
-                            'attribute' => 'status.name',
                             'headerOptions' => ['class' => 'text-center'],
                             'contentOptions' =>['class' => 'text-center'],
+                            'value' => function ($model) {
+                                $result = $model->status->name;
+
+                                if ($model->status_id == AdvertisingConstructionStatuses::RESERVED) {
+                                    $result .= ' '.(new DateTime($model->created_at))->format('d.m');
+                                }
+
+                                return $result;
+                            }
                         ],
                         [
                             'label' => 'Даты использования',

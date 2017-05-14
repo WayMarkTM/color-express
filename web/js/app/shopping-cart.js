@@ -1,7 +1,7 @@
 /**
  * Created by e.chernyavsky on 08.05.2017.
  */
-(function (cartItems, marketingTypes) {
+(function (cartItems, marketingTypes, isEmployee) {
     "use strict";
 
     Date.prototype.addDays = function(days) {
@@ -25,9 +25,9 @@
     shoppingCartModule
         .controller('shoppingCartCtrl', shoppingCartCtrl);
 
-    shoppingCartCtrl.$inject = ['shoppingCartDataService', '$uibModal'];
+    shoppingCartCtrl.$inject = ['shoppingCartDataService', '$uibModal', '$timeout'];
 
-    function shoppingCartCtrl(shoppingCartDataService, $uibModal) {
+    function shoppingCartCtrl(shoppingCartDataService, $uibModal, $timeout) {
         var vm = this;
 
         vm.$onInit = init;
@@ -40,6 +40,7 @@
 
         function init() {
             vm.cartItems = cartItems;
+            vm.isEmployee = isEmployee;
             vm.marketingTypes = marketingTypes;
 
             _.forEach(vm.cartItems, function (item) {
@@ -82,7 +83,10 @@
                     if (response.data.isValid) {
                         window.location.href = '/construction/index';
                     } else {
-                        window.location.reload();
+                        toastr.error(response.data.messages.join('\n'));
+                        $timeout(function () {
+                            window.location.reload();
+                        }, 2000);
                     }
                 });
         }
@@ -227,4 +231,4 @@
             });
         }
     }
-})(cartItems, marketingTypes);
+})(cartItems, marketingTypes, isEmployee);
