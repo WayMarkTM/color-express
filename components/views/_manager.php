@@ -11,7 +11,7 @@
     <?php if($manager): ?>
         <div class="block-row"><span>Ваш менеджер:</span></div>
         <div class="block-row"><span><?= $manager->name?></span></div>
-        <div class="block-row"><img src="<?= $manager->photo ?>"></div>
+        <div class="block-row"><img src="/<?= $manager->photo ?>"></div>
         <div class="block-row"><span><?= $manager->username ?></span></div>
         <div class="block-row"><span><?= $manager->number ?></span></div>
     <?php else: ?>
