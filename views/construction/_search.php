@@ -47,9 +47,9 @@ use kartik\date\DatePicker;
 
     echo DatePicker::widget([
         'type' => DatePicker::TYPE_RANGE,
-        'name' => 'from',
+        'name' => 'fromDate',
         'attribute' => 'fromDate',
-        'name2' => 'to',
+        'name2' => 'toDate',
         'attribute2' => 'toDate',
         'layout' => $rangeLayout,
         'form' => $form,
@@ -63,7 +63,8 @@ use kartik\date\DatePicker;
     ?>
 
     <?= $form->field($model, 'showOnlyFreeConstructions')->checkbox([
-        'label' => 'Показать только свободные конструкции'
+        'label' => 'Показать только свободные конструкции',
+        'selected' => $model->showOnlyFreeConstructions
     ]) ?>
 
 

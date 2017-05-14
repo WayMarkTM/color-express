@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\models\entities\AdvertisingConstructionType;
+use app\services\AdvertisingConstructionReservationService;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -94,6 +95,9 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
         $query = AdvertisingConstruction::find();
 
         $this->load($params);
+        $this->fromDate = $params['fromDate'];
+        $this->toDate = $params['toDate'];
+        $this->showOnlyFreeConstructions = $params['showOnlyFreeConstructions'];
 
         if ($setDefaultTypeId && ($this->type_id == 0 || $this->type_id == null)) {
             $this->type_id = AdvertisingConstructionType::find()->one()->id;
@@ -115,7 +119,26 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
             ->andFilterWhere(['like', 'nearest_locations', $this->nearest_locations])
             ->andFilterWhere(['like', 'traffic_info', $this->traffic_info]);
 
-        return $query->all();
+        if (empty($this->fromDate) || empty($this->toDate)) {
+            return $query->all();
+        }
+
+        return $this->filterByDates($query->all());
+    }
+
+    private function filterByDates($constructions) {
+        $service = new AdvertisingConstructionReservationService();
+        if ($this->showOnlyFreeConstructions) {
+
+        } else {
+            foreach ($constructions as $construction) {
+                $construction->isBusy = !$service->isDateRangesValid([
+                    'advertising_construction_id' => $construction->id,
+                    'from' => $this->fromDate,
+                    'to' => $this->toDate
+                ]);
+            }
+        }
     }
 
     private function getAddressList($dbAddresses) {
