@@ -101,9 +101,9 @@ $this->title = 'Мои заказы';
                             ]);
                         },
                         'cancel' => function ($url, $model) {
-                            return Html::a('Отменить', '/orders/cancel?id='.$model->id, [
+                            return Html::a('Отменить', '#', [
                                 'title' => 'Отменить',
-                                'class' => 'custom-btn sm white',
+                                'class' => 'custom-btn sm white cancel-order-button',
                                 'style' => 'width:50%;'.($model->status_id != AdvertisingConstructionStatuses::IN_PROCESSING && $model->status_id != AdvertisingConstructionStatuses::RESERVED ? 'display: none;' : '')
                             ]);
                         }
@@ -114,3 +114,9 @@ $this->title = 'Мои заказы';
         <?php Pjax::end(); ?>
     </div>
 </div>
+
+<script type="text/javascript">
+    $('.cancel-order-button').on('click', function () {
+        toastr.warning('Свяжитесь, пожалуйста, с Вашим менеджером.');
+    })
+</script>
