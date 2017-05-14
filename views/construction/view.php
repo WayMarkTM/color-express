@@ -12,10 +12,6 @@ use app\models\entities\MarketingType;
 use app\models\User;
 use app\modules\admin\models\AdvertisingConstructionForm;
 use app\services\JsonService;
-use dosamigos\google\maps\LatLng;
-use dosamigos\google\maps\Map;
-use dosamigos\google\maps\overlays\InfoWindow;
-use dosamigos\google\maps\overlays\Marker;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use kartik\date\DatePicker;
@@ -45,33 +41,6 @@ if (Yii::$app->user->isGuest) {
 $position = View::POS_BEGIN;
 $this->registerJs('var isEmployee ='.json_encode($isEmployee), $position);
 $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $position);
-
-$coord = new LatLng(['lat' => $model->latitude, 'lng' => $model->longitude]);
-
-$map = new Map([
-    'center' => $coord,
-    'zoom' => 16,
-    'width' => '100%',
-    'height' => '450'
-]);
-
-if ($model->latitude && $model->longitude) {
-    $marker = new Marker([
-        'position' => new LatLng([
-            'lat' => $model->latitude,
-            'lng' => $model->longitude
-        ]),
-        'title' => $model->name
-    ]);
-
-    $marker->attachInfoWindow(
-        new InfoWindow([
-            'content' => $model->name
-        ])
-    );
-
-    $map->addOverlay($marker);
-}
 ?>
 
 <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
@@ -156,19 +125,20 @@ if ($model->latitude && $model->longitude) {
         /*responsive code begin*/
         /*remove responsive code if you don't want the slider scales while window resizing*/
         function ScaleSlider() {
-            var refSize = jssor_1_slider.$Elmt.parentNode.clientWidth;
-            if (refSize) {
-                refSize = Math.min(refSize, 800);
-                jssor_1_slider.$ScaleWidth(refSize);
+            var parentWidth = $('#jssor_1').parent().width();
+            if (parentWidth) {
+                jssor_1_slider.$ScaleWidth(parentWidth);
             }
-            else {
+            else
                 window.setTimeout(ScaleSlider, 30);
-            }
         }
+        //Scale slider after document ready
         ScaleSlider();
-        $Jssor$.$AddEvent(window, "load", ScaleSlider);
-        $Jssor$.$AddEvent(window, "resize", ScaleSlider);
-        $Jssor$.$AddEvent(window, "orientationchange", ScaleSlider);
+
+        //Scale slider while window load/resize/orientationchange.
+        $(window).bind("load", ScaleSlider);
+        $(window).bind("resize", ScaleSlider);
+        $(window).bind("orientationchange", ScaleSlider);
         /*responsive code end*/
     };
 </script>
@@ -181,13 +151,13 @@ if ($model->latitude && $model->longitude) {
             <?php $form = ActiveForm::begin(); ?>
             <div class="row">
                 <div class="col-md-12">
-                    <div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:800px;height:556px;overflow:hidden;visibility:hidden;background-color:#24262e;">
+                    <div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:800px;height:360px;overflow:hidden;visibility:hidden;background-color:#24262e;">
                         <!-- Loading Screen -->
                         <div data-u="loading" style="position:absolute;top:0px;left:0px;background-color:rgba(0,0,0,0.7);">
                             <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
                             <div style="position:absolute;display:block;background:url('/web/images/gallery/loading.gif') no-repeat center center;top:0px;left:0px;width:100%;height:100%;"></div>
                         </div>
-                        <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:800px;height:556px;overflow:hidden;">
+                        <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:800px;height:360px;overflow:hidden;">
                             <?php
                                 foreach ($model->advertisingConstructionImages as $image) {
                             ?>
@@ -213,8 +183,8 @@ if ($model->latitude && $model->longitude) {
                             <!-- Thumbnail Item Skin End -->
                         </div>
                         <!-- Arrow Navigator -->
-                        <span data-u="arrowleft" class="jssora05l" style="top:248px;left:8px;width:40px;height:40px;"></span>
-                        <span data-u="arrowright" class="jssora05r" style="top:248px;right:8px;width:40px;height:40px;"></span>
+                        <span data-u="arrowleft" class="jssora05l" style="top:150px;left:8px;width:40px;height:40px;"></span>
+                        <span data-u="arrowright" class="jssora05r" style="top:150px;right:8px;width:40px;height:40px;"></span>
                     </div>
                     <script type="text/javascript">jssor_1_slider_init();</script>
                 </div>

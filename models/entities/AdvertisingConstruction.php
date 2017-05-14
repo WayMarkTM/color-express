@@ -20,6 +20,7 @@ use Yii;
  * @property string $latitude
  * @property string $longitude
  * @property string $requirements_document_path
+ * @property boolean $isBusy
  *
  * @property AdvertisingConstructionSize $size
  * @property AdvertisingConstructionType $type
@@ -28,6 +29,8 @@ use Yii;
  */
 class AdvertisingConstruction extends \yii\db\ActiveRecord
 {
+    public $isBusy;
+
     /**
      * @inheritdoc
      */

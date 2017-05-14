@@ -31,6 +31,7 @@ foreach ($constructions as $construction) {
         'name' => $construction->name,
         'long' => $construction->longitude,
         'lat' => $construction->latitude,
+        'isBusy' => $construction->isBusy,
         'previewImage' => count($construction->advertisingConstructionImages) > 0 ?
             $construction->advertisingConstructionImages[0]->path :
             '',
@@ -128,7 +129,7 @@ $this->title = "Каталог рекламных конструкций";
                                 <td>{{ construction.address }}</td>
                                 <td class="text-center">{{ construction.size }}</td>
                                 <td class="text-center">{{ construction.price }}</td>
-                                <td class="text-center">(не задано)</td>
+                                <td class="text-center">{{ construction.isBusy ? 'занята' : 'свободна' }}</td>
                                 <td class="text-center">
                                     <a href="/construction/details?id={{ construction.id}}&q={{$ctrl.queryString}}">Подробнее</a>
                                 </td>
