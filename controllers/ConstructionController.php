@@ -37,16 +37,16 @@ class ConstructionController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['buy-construction', 'summury', 'reserv-construction'], //only be applied to
+                'only' => ['buy-construction', 'summary', 'reserv-construction', 'buy-constructions', 'reserv-constructions'], //only be applied to
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['summury'],
+                        'actions' => ['summary'],
                         'roles' => ['employee'],
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['buy-construction', 'reserv-contruction'],
+                        'actions' => ['buy-construction', 'reserv-construction', 'buy-constructions', 'reserv-constructions'],
                         'roles' => ['@'],
                     ],
                 ],
