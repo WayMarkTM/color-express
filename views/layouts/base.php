@@ -48,7 +48,7 @@ AppAsset::register($this);
             MenuWidget::begin();
             MenuWidget::end();
 
-        if(Yii::$app->user->can('client')) {
+        if(Yii::$app->user->can('client') && !Yii::$app->user->can('admin')) {
                 echo ManagerWidget::widget();
             }
         ?>

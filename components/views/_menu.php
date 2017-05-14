@@ -11,7 +11,7 @@ use yii\widgets\Menu;
 
 ?>
 
-<div class="menu-container <?= Yii::$app->user->can('client') ? 'menu-client' : '' ?>">
+<div class="menu-container <?= Yii::$app->user->can('client')&& !Yii::$app->user->can('admin') ? 'menu-client' : '' ?>">
     <?php
     echo Menu::widget([
         'items' => $items
