@@ -46,3 +46,11 @@ div[uib-datepicker-popup-wrap] {
     display:inline;
 }
 
+.pagination > li > a, .pagination > li > span {
+    color: #164a9e;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: #164a9e;
+    border-color: #164a9e;
+}

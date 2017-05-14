@@ -39,6 +39,7 @@ $this->registerJs('var constructions = '.json_encode($mappedConstructions).';', 
 $this->registerJs('var constructionTypes = '.json_encode($types).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var selectedConstructionType = '.json_encode($searchModel->type_id).';', \yii\web\View::POS_BEGIN);
 $this->registerJsFile('@web/js/angular.min.js');
+$this->registerJsFile('@web/js/ui-bootstrap-tpls-2.5.0.min.js');
 $this->registerJsFile('@web/js/ya-map-2.1.min.js');
 $this->registerJsFile('@web/js/app/constructions.js');
 
@@ -99,7 +100,7 @@ $this->title = "Каталог рекламных конструкций";
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="construction in $ctrl.constructions"
+                            <tr ng-repeat="construction in $ctrl.constructions | startFrom: ($ctrl.currentPage-1)*$ctrl.ITEMS_PER_PAGE | limitTo: $ctrl.ITEMS_PER_PAGE"
                                 ng-click="$ctrl.selectConstruction(construction)"
                                 ng-class="{'selected-row': $ctrl.selectedConstruction.id == construction.id}"
                                 ng-if="$ctrl.constructions.length > 0">
@@ -113,7 +114,7 @@ $this->title = "Каталог рекламных конструкций";
                                 <td class="text-center">{{ construction.price }}</td>
                                 <td class="text-center">(не задано)</td>
                                 <td class="text-center">
-                                    <a href="/construction/details?id={{ construction.id}}">Подробнее</a>
+                                    <a href="/construction/details?id={{ construction.id}}&q={{$ctrl.queryString}}">Подробнее</a>
                                 </td>
                             </tr>
                             <tr ng-if="!$ctrl.constructions || $ctrl.constructions.length == 0">
@@ -124,10 +125,21 @@ $this->title = "Каталог рекламных конструкций";
                         </tbody>
                     </table>
                     <div class="grid-footer-panel">
+                        <ul uib-pagination
+                            boundary-links="true"
+                            direction-links="false"
+                            total-items="$ctrl.constructions.length"
+                            items-per-page="$ctrl.ITEMS_PER_PAGE"
+                            ng-model="$ctrl.currentPage"
+                            class="pagination-sm"
+                            previous-text="&lsaquo;"
+                            next-text="&rsaquo;"
+                            first-text="&laquo;"
+                            last-text="&raquo;"></ul>
+
                         <button class="custom-btn sm blue" type="button" ng-click="$ctrl.buyConstructions()">Купить</button>
                         <button class="custom-btn sm blue" type="button" ng-click="$ctrl.reservConstructions()">Отложить на 5 дней</button>
                         <button class="custom-btn sm blue" type="button" ng-click="$ctrl.showSummary()">Сводка</button>
-
                     </div>
                 </div>
             </div>
