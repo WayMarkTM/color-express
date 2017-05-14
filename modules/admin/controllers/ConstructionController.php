@@ -8,6 +8,7 @@ use app\models\entities\AdvertisingConstruction;
 use app\models\AdvertisingConstructionSearch;
 use app\services\AdvertisingConstructionService;
 use yii\base\Exception;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
@@ -34,6 +35,16 @@ class ConstructionController extends BaseAdminController
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

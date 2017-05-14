@@ -19,6 +19,7 @@ use app\services\OrdersService;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
@@ -38,6 +39,28 @@ class ClientsController extends Controller
      * @var ClientsService
      */
     private $clientsService;
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'details', 'delete', 'update-manager', 'decline-order', 'approve-order', 'details-documents', 'get-client-info', 'update-manager', 'get-current-employee-clients', 'document'], //only be applied to
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'details', 'delete', 'update-manager', 'decline-order', 'approve-order', 'details-documents', 'get-client-info', 'update-manager', 'get-current-employee-clients'],
+                        'roles' => ['employee'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['document'],
+                        'roles' => ['client'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     public function init() {
         $this->documentService = new DocumentService();

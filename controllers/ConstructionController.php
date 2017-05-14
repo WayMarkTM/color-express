@@ -15,6 +15,7 @@ use app\models\constants\AdvertisingConstructionStatuses;
 use app\services\AdvertisingConstructionReservationService;
 use app\services\AdvertisingConstructionService;
 use Yii;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
@@ -30,6 +31,28 @@ class ConstructionController extends Controller
     * @var AdvertisingConstructionReservationService
     */
     private $advertisingConstructionReservationService;
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['buy-construction', 'summury', 'reserv-construction'], //only be applied to
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['summury'],
+                        'roles' => ['employee'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['buy-construction', 'reserv-contruction'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     public function init() {
         $this->advertisingConstructionReservationService = new AdvertisingConstructionReservationService();

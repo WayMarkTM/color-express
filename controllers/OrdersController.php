@@ -12,10 +12,28 @@ namespace app\controllers;
 use app\services\OrdersService;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 
 class OrdersController extends Controller
 {
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index'], //only be applied to
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index'],
+                        'roles' => ['client'],
+                    ],
+                ],
+            ],
+        ];
+    }
     /**
      * @inheritdoc
      */

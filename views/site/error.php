@@ -7,6 +7,21 @@
 
 use yii\helpers\Html;
 
+if ($exception->statusCode >= 500 )
+    $name = 'Ошибка сервера (#'.$exception->statusCode.')';
+elseif ($exception->statusCode == 400)
+    $name = 'Неверный запрос (#'.$exception->statusCode.')';
+elseif ($exception->statusCode == 401)
+    $name = 'Вы не авторизованы (#'.$exception->statusCode.')';
+elseif ($exception->statusCode == 403)
+    $name = 'Запрещено (#'.$exception->statusCode.')';
+elseif ($exception->statusCode == 404)
+    $name = 'Страница не найдена(#'.$exception->statusCode.')';
+elseif ($exception->statusCode == 405)
+    $name = 'Метод не поддерживается (#'.$exception->statusCode.')';
+elseif ($exception->statusCode > 405 || $exception->statusCode == 402)
+    $name = 'Ошибка (#'.$exception->statusCode.')';
+
 $this->title = $name;
 ?>
 <div class="site-error">
@@ -16,12 +31,5 @@ $this->title = $name;
     <div class="alert alert-danger">
         <?= nl2br(Html::encode($message)) ?>
     </div>
-
-    <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
 
 </div>
