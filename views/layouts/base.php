@@ -15,6 +15,7 @@ use app\assets\AppAsset;
 use app\components\AuthWidget;
 use app\components\SignupWidget;
 use app\components\ManagerWidget;
+use app\components\WelcomeWidget;
 
 AppAsset::register($this);
 ?>
@@ -40,12 +41,15 @@ AppAsset::register($this);
             <div class="logo"></div>
         </div>
         <?php
+            if(!Yii::$app->user->isGuest) {
+                echo WelcomeWidget::widget();
+            }
+
             MenuWidget::begin();
             MenuWidget::end();
 
         if(Yii::$app->user->can('client')) {
-                ManagerWidget::begin();
-                ManagerWidget::end();
+                echo ManagerWidget::widget();
             }
         ?>
         <div class="sign-buttons-container">

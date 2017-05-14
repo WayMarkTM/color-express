@@ -31,7 +31,8 @@ body {
 }
 
 .logo-container {
-    padding: 20px 30px;    
+    padding: 20px 30px;
+    margin-bottom: 60px;
 }
 
 .logo {
@@ -62,9 +63,9 @@ body {
 }
 
 .menu-container {
-    padding: 60px 30px 0 30px;
+    padding: 0 30px 0 30px;
     overflow-y: auto;
-    height: calc(100% - 285px);
+    height: calc(100% - 360px);
 }
 
 .menu-container ul {
@@ -673,7 +674,7 @@ table .selected {
 }
 
 .menu-client {
-    height: calc(100% - 470px);
+    height: calc(100% - 620px);
 }
 
 .manager-container {
@@ -685,4 +686,16 @@ table .selected {
 .manager-container img {
     width: 100px;
     height: 100px;
+}
+
+.welcome-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    margin: 10px 0 30px 20px;
+    font-size: 16px;
+    padding: 5px 10px;
+}
+
+.welcome-container .name span {
+    text-decoration: underline;
 }

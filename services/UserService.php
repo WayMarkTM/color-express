@@ -207,4 +207,11 @@ class UserService
         return $user->manage;
     }
 
+    public function getUserName($id) {
+        $user = User::findIdentity($id);
+        if(Yii::$app->user->can('client'))
+            return $user->name;
+        return $user->surname.' '.$user->name;
+    }
+
 }
