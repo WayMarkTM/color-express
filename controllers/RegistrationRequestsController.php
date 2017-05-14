@@ -11,10 +11,28 @@ namespace app\controllers;
 
 use app\services\UserService;
 use yii\data\ArrayDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 
 class RegistrationRequestsController extends Controller
 {
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'confirm-registration'], //only be applied to
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'confirm-registration'],
+                        'roles' => ['employee'],
+                    ],
+                ],
+            ],
+        ];
+    }
     /**
      * @inheritdoc
      */

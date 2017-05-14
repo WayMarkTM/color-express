@@ -8,10 +8,6 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 use app\models\entities\User;
-if(User::findByUsername("user"))
-    echo "1";
-else
-    echo "2";
 
 $this->title = 'Вход';
 $this->params['breadcrumbs'][] = $this->title;

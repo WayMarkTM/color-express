@@ -13,6 +13,7 @@ use app\models\AddDocumentForm;
 use app\models\entities\Document;
 use app\services\DocumentService;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\web\UnauthorizedHttpException;
@@ -24,6 +25,28 @@ class DocumentsController extends Controller
      * @var DocumentService
      */
     private $documentService;
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['get-documents-calendar', 'get-subclient-documents-calendar', 'get-documents', 'delete-document', 'upload-validation'], //only be applied to
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['delete-document', 'upload-validation'],
+                        'roles' => ['employee'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['get-documents-calendar', 'get-subclient-documents-calendar', 'get-documents'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     public function init() {
         $this->documentService = new DocumentService();
