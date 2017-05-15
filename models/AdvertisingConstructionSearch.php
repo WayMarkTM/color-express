@@ -94,6 +94,15 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
     public function searchItems($params, $showOnlyPublished, $setDefaultTypeId = false) {
         $query = AdvertisingConstruction::find();
 
+        if ($params['ids']) {
+            $ids = explode(',', $params['ids']);
+            return $query
+                ->where(['in', 'id', $ids])
+                ->andFilterWhere(['=', 'is_published', '1'])
+                ->all();
+        }
+
+
         $this->load($params);
         $this->fromDate = $params['AdvertisingConstructionSearch']['fromDate'];
         $this->toDate = $params['AdvertisingConstructionSearch']['toDate'];

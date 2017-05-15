@@ -101,7 +101,12 @@
         }
 
         function showSummary() {
-            window.location.href = '/construction/summary?' + vm.queryString;
+            var selectedConstructions = getSelectedConstructions();
+            if (!!selectedConstructions && selectedConstructions.length > 0) {
+                window.location.href = '/construction/summary?ids=' + selectedConstructions.map(function (it) { return it.id; }).join(',') + '&q=' + vm.queryString;
+            } else {
+                window.location.href = '/construction/summary?' + vm.queryString;
+            }
         }
 
         function getSelectedConstructions() {
