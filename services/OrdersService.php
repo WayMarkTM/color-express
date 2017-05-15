@@ -49,7 +49,15 @@ class OrdersService
      */
     public function approveOrder($id, $cost) {
         $reservation = AdvertisingConstructionReservation::findOne($id);
-        $reservation->status_id = AdvertisingConstructionStatuses::APPROVED;
+
+        if ($reservation->status_id == AdvertisingConstructionStatuses::IN_PROCESSING) {
+            $reservation->status_id = AdvertisingConstructionStatuses::APPROVED;
+        }
+
+        if ($reservation->status_id == AdvertisingConstructionStatuses::RESERVED) {
+            $reservation->status_id = AdvertisingConstructionStatuses::APPROVED_RESERVED;
+        }
+
         $reservation->cost = $cost;
         $reservation->save();
     }
@@ -79,7 +87,7 @@ class OrdersService
     private function getUserOrdersQuery($user_id) {
         return AdvertisingConstructionReservation::find()
             ->where(['=', 'user_id', $user_id])
-            ->andWhere(['in', 'status_id', [AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED, AdvertisingConstructionStatuses::DECLINED]]);
+            ->andWhere(['in', 'status_id', [AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED, AdvertisingConstructionStatuses::DECLINED, AdvertisingConstructionStatuses::APPROVED_RESERVED]]);
     }
 
 }
