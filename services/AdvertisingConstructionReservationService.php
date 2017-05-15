@@ -310,6 +310,7 @@ class AdvertisingConstructionReservationService
      * @param integer $userId
      * @param mixed $model
      * @param integer $statusId
+     * @param integer|null $managerId
      * @return AdvertisingConstructionReservation
      */
     private function getAdvertisingConstructionReservation($userId, $model, $statusId, $managerId = null) {

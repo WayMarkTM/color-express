@@ -95,9 +95,9 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
         $query = AdvertisingConstruction::find();
 
         $this->load($params);
-        $this->fromDate = $params['fromDate'];
-        $this->toDate = $params['toDate'];
-        $this->showOnlyFreeConstructions = $params['showOnlyFreeConstructions'];
+        $this->fromDate = $params['AdvertisingConstructionSearch']['fromDate'];
+        $this->toDate = $params['AdvertisingConstructionSearch']['toDate'];
+        $this->showOnlyFreeConstructions = $params['AdvertisingConstructionSearch']['showOnlyFreeConstructions'];
 
         if ($setDefaultTypeId && ($this->type_id == 0 || $this->type_id == null)) {
             $this->type_id = AdvertisingConstructionType::find()->one()->id;
@@ -128,17 +128,22 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
 
     private function filterByDates($constructions) {
         $service = new AdvertisingConstructionReservationService();
-        if ($this->showOnlyFreeConstructions) {
 
-        } else {
-            foreach ($constructions as $construction) {
-                $construction->isBusy = !$service->isDateRangesValid([
-                    'advertising_construction_id' => $construction->id,
-                    'from' => $this->fromDate,
-                    'to' => $this->toDate
-                ]);
-            }
+        foreach ($constructions as $construction) {
+            $construction->isBusy = !$service->isDateRangesValid([
+                'advertising_construction_id' => $construction->id,
+                'from' => $this->fromDate,
+                'to' => $this->toDate
+            ]);
         }
+
+        if (!$this->showOnlyFreeConstructions) {
+            return $constructions;
+        }
+
+        return array_filter($constructions, function($construction){
+            return !$construction->isBusy;
+        });
     }
 
     private function getAddressList($dbAddresses) {
