@@ -81,7 +81,7 @@
             vm.selectedConstruction = construction;
 
             var index = _.findIndex(vm.constructions, { 'id': construction.id });
-            vm.currentPage = Math.ceil(index/vm.ITEMS_PER_PAGE);
+            vm.currentPage = Math.ceil((index + 1)/vm.ITEMS_PER_PAGE);
         }
 
         function selectConstructionType(id) {
