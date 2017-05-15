@@ -59,7 +59,7 @@ $this->title = 'Мои заказы';
                     'value' => function ($model) {
                         $result = $model->status->name;
 
-                        if ($model->status_id == AdvertisingConstructionStatuses::RESERVED) {
+                        if ($model->status_id == AdvertisingConstructionStatuses::RESERVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED) {
                             $result .= ' '.(new DateTime($model->created_at))->format('d.m');
                         }
 
@@ -87,24 +87,24 @@ $this->title = 'Мои заказы';
                     'contentOptions' =>['class' => 'text-center'],
                     'buttons' => [
                         'buy' => function ($url ,$model) {
-                            return Html::a('Купить', '/', [
+                            return Html::a('Купить', ['construction/details?id='.$model->advertisingConstruction->id], [
                                 'title' => 'Купить',
                                 'class' => 'custom-btn sm blue',
-                                'style' => 'width: 50%;'.($model->status_id != AdvertisingConstructionStatuses::RESERVED ? 'display:none' : '')
+                                'style' => 'width: 50%;'.($model->status_id != AdvertisingConstructionStatuses::RESERVED && $model->status_id != AdvertisingConstructionStatuses::APPROVED_RESERVED ? 'display:none' : '')
                             ]);
                         },
                         'buyAgain' => function ($url, $model) {
                             return Html::a('Купить повторно', ['construction/details?id='.$model->advertisingConstruction->id], [
                                 'title' => 'Купить повторно',
                                 'class' => 'custom-btn sm blue',
-                                'style' => 'width: '.($model->status_id == AdvertisingConstructionStatuses::APPROVED || $model->status_id == AdvertisingConstructionStatuses::DECLINED ? '100%' : '50%').';'.($model->status_id == AdvertisingConstructionStatuses::RESERVED ? 'display:none' : '')
+                                'style' => 'width: '.($model->status_id == AdvertisingConstructionStatuses::APPROVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED || $model->status_id == AdvertisingConstructionStatuses::DECLINED ? '100%' : '50%').';'.($model->status_id == AdvertisingConstructionStatuses::RESERVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED ? 'display:none' : '')
                             ]);
                         },
                         'cancel' => function ($url, $model) {
                             return Html::a('Отменить', '#', [
                                 'title' => 'Отменить',
                                 'class' => 'custom-btn sm white cancel-order-button',
-                                'style' => 'width:50%;'.($model->status_id != AdvertisingConstructionStatuses::IN_PROCESSING && $model->status_id != AdvertisingConstructionStatuses::RESERVED ? 'display: none;' : '')
+                                'style' => 'width:50%;'.($model->status_id != AdvertisingConstructionStatuses::IN_PROCESSING && $model->status_id != AdvertisingConstructionStatuses::RESERVED && $model->status_id != AdvertisingConstructionStatuses::APPROVED_RESERVED ? 'display: none;' : '')
                             ]);
                         }
                     ]
