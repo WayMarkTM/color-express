@@ -42,7 +42,7 @@ class SignupForm extends Model
         return [
             [['username', 'name', 'is_agency',
                 'company', 'address', 'pan', 'okpo', 'number', 'is_agency',
-                'checking_account', 'bank'], 'required', 'message' => 'Поле обязательное для заполнения', 'on' => [self::SCENARIO_DEFAULT, self::SCENARIO_EmployeeEditClient]],
+                'checking_account', 'bank', 'password','sec_password'], 'required', 'message' => 'Поле обязательное для заполнения', 'on' => [self::SCENARIO_DEFAULT, self::SCENARIO_EmployeeEditClient]],
             [['password','sec_password'], 'string', 'min' => 8, 'tooShort' => 'Пароль слишком короткий'],
             [['sec_password'], 'compare', 'compareAttribute' => 'password', 'message' => 'Пароли не совпадают'],
             ['username', 'string', 'max' => 60],
@@ -65,7 +65,7 @@ class SignupForm extends Model
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_DEFAULT] = ['username', 'name', 'is_agency',
             'company', 'address', 'pan', 'okpo', 'number', 'is_agency',
-            'checking_account', 'bank', 'user_id'];
+            'checking_account', 'bank', 'user_id', 'password','sec_password'];
         $scenarios[self::SCENARIO_EmployeeEditClient] = $scenarios[self::SCENARIO_DEFAULT];
         $scenarios[self::SCENARIO_EmployeeApplySignup] = $scenarios[self::SCENARIO_DEFAULT];
         $scenarios[self::SCENARIO_CREATE_EMPLOYEE] = ['username', 'name', 'lastname', 'surname', 'photo', 'password', 'number'];
