@@ -510,7 +510,11 @@ table td a:hover {
     line-height: 27px;
 }
 
-.stock-window > .content > .watermark {
+.stock-window .stock-container {
+    position: relative;
+}
+
+.stock-window .watermark {
     color: #FFFFFF;
     line-height: 25px;
     position: absolute;
@@ -520,7 +524,7 @@ table td a:hover {
     bottom: -35px;
 }
 
-.stock-window > .content {
+.stock-window .content {
     max-width: 80%;
     width: auto;
     text-align: center;
