@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-center text-uppercase"><strong>Добавление субклиента</strong></h4>
+                <h4 class="modal-title text-center text-uppercase"><strong>Добавление сюжета</strong></h4>
             </div>
             <div class="modal-body">
                 <div class="content">

@@ -37,6 +37,7 @@
         vm.editPeriod = editPeriod;
         vm.removeItem = removeItem;
         vm.getReservationTillDate = getReservationTillDate;
+        vm.getItemCost = getItemCost;
 
         function init() {
             vm.cartItems = cartItems;
@@ -47,6 +48,7 @@
                 item.marketing_type_id = vm.marketingTypes[0].id.toString();
                 item.from = convertToCurrentFormat(new Date(item.from));
                 item.to = convertToCurrentFormat(new Date(item.to));
+                item.cost = getItemCost(item);
             });
         }
 
@@ -66,10 +68,22 @@
                 item.cost = item.price;
             }
 
-            var marketingType = _.find(vm.marketingTypes, { 'id': parseInt(item.marketing_type_id) });
-            var charge = marketingType.charge + 100;
+            item.cost = getItemCost(item);
+        }
 
-            item.cost = item.price * charge / 100;
+        function getItemMarketingTypeCharge(item) {
+            var marketingType = _.find(vm.marketingTypes, { 'id': parseInt(item.marketing_type_id) });
+            return marketingType.charge + 100;
+        }
+
+        function getItemCost(item) {
+            var charge = getItemMarketingTypeCharge(item);
+
+            var to = new Date(item.to);
+            var from = new Date(item.from);
+            var days = (to - from)/(1000*60*60*24) + 1;
+
+            return (days * (item.price * charge / 100)).toFixed(2);
         }
 
         function submit() {
@@ -117,6 +131,7 @@
         function onPeriodChanged(item, result) {
             item.from = convertToCurrentFormat(result.from);
             item.to = convertToCurrentFormat(result.to);
+            item.cost = getItemCost(item);
         }
 
         function convertToCurrentFormat(date) {

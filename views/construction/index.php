@@ -75,7 +75,7 @@ $this->title = "Каталог рекламных конструкций";
                                  ng-class="{'active' : type.id == $ctrl.selectedConstructionType }"
                                  ng-repeat="type in $ctrl.constructionTypes"
                                  ng-click="$ctrl.selectConstructionType(type.id)">
-                                <a href="">{{type.name}}</a>
+                                <a href="" ng-bind="type.name"></a>
                             </div>
                         </div>
                     </div>
@@ -125,11 +125,11 @@ $this->title = "Каталог рекламных конструкций";
                                     <input type="checkbox" id="construction_{{construction.id}}" class="modal-checkbox hide" ng-model="construction.isSelected" name="selectedConstruction_{{$index}}" />
                                     <label for="construction_{{construction.id}}"></label>
                                 </td>
-                                <td>{{ construction.name }}</td>
-                                <td>{{ construction.address }}</td>
-                                <td class="text-center">{{ construction.size }}</td>
-                                <td class="text-center">{{ construction.price }}</td>
-                                <td class="text-center">{{ construction.isBusy ? 'занята' : 'свободна' }}</td>
+                                <td ng-bind="construction.name"></td>
+                                <td ng-bind="construction.address"></td>
+                                <td class="text-center" ng-bind="construction.size"></td>
+                                <td class="text-center" ng-bind="$ctrl.getPriceForMonth(construction)"></td>
+                                <td class="text-center" ng-bind="construction.isBusy ? 'занята' : 'свободна'"></td>
                                 <td class="text-center">
                                     <a href="/construction/details?id={{ construction.id}}&q={{$ctrl.queryString}}">Подробнее</a>
                                 </td>

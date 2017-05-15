@@ -80,17 +80,17 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
                     </thead>
                     <tbody>
                         <tr ng-repeat="item in $ctrl.cartItems">
-                            <td class="text-center">{{ $index + 1 }}</td>
-                            <td><a href="/construction/details?id={{item.advertising_construction_id}}">{{ item.name }}</a> <span ng-if="item.status_id == 11">(резерв до {{ $ctrl.getReservationTillDate(item.created_at) }})</span></td>
-                            <td>{{ item.address }}</td>
-                            <td class="text-center">{{ item.from }} - {{ item.to }} <a href="" ng-click="$ctrl.editPeriod(item)" class="additional-link"><i class="icon edit-icon"></i></a></td>
-                            <td class="text-center">{{ item.cost }}</td>
+                            <td class="text-center" ng-bind="$index + 1"></td>
+                            <td><a href="/construction/details?id={{item.advertising_construction_id}}" ng-bind="item.name"></a> <span ng-if="item.status_id == 11">(резерв до <span ng-bind="$ctrl.getReservationTillDate(item.created_at)"></span>)</span></td>
+                            <td ng-bind="item.address"></td>
+                            <td class="text-center"><span ng-bind="item.from + ' - ' + item.to"></span> <a href="" ng-click="$ctrl.editPeriod(item)" class="additional-link"><i class="icon edit-icon"></i></a></td>
+                            <td class="text-center" ng-bind="item.cost"></td>
                             <td class="text-center">
                                 <select class="form-control" ng-model="item.marketing_type_id" ng-change="$ctrl.onItemMarketingTypeChanged(item)">
-                                    <option ng-repeat="mt in $ctrl.marketingTypes" value="{{ mt.id }}">{{ mt.name }}</option>
+                                    <option ng-repeat="mt in $ctrl.marketingTypes" value="{{ mt.id }}" ng-bind="mt.name"></option>
                                 </select>
                             </td>
-                            <td ng-if="$ctrl.isEmployee">{{ item.company }}</td>
+                            <td ng-if="$ctrl.isEmployee" ng-bind="item.company"></td>
                             <td class="text-center">
                                 <a href="" class="custom-btn sm white" ng-click="$ctrl.removeItem(item)">
                                     Удалить из корзины
@@ -109,7 +109,7 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
         <div ng-if="$ctrl.cartItems.length > 0">
             <div class="row block-row">
                 <div class="col-md-4">
-                    <span class="shopping-cart-total">Итого: <span class="total-cost">{{ $ctrl.getTotalCost() }}</span> бел. руб. с НДС</span>
+                    <span class="shopping-cart-total">Итого: <span class="total-cost" ng-bind="$ctrl.getTotalCost()"></span> бел. руб. с НДС</span>
                 </div>
                 <div class="col-md-8">
                     <div class="pull-right">
