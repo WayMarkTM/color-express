@@ -45,9 +45,13 @@ class OrdersService
 
     /**
      * @param integer $id
+     * @param number $cost
      */
-    public function approveOrder($id) {
-        $this->changeStatus($id, AdvertisingConstructionStatuses::APPROVED);
+    public function approveOrder($id, $cost) {
+        $reservation = AdvertisingConstructionReservation::findOne($id);
+        $reservation->status_id = AdvertisingConstructionStatuses::APPROVED;
+        $reservation->cost = $cost;
+        $reservation->save();
     }
 
     /**

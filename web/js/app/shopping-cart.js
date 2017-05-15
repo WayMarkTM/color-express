@@ -48,7 +48,6 @@
                 item.marketing_type_id = vm.marketingTypes[0].id.toString();
                 item.from = convertToCurrentFormat(new Date(item.from));
                 item.to = convertToCurrentFormat(new Date(item.to));
-                item.cost = getItemCost(item);
             });
         }
 

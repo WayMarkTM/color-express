@@ -30,7 +30,7 @@ foreach ($cartItems as $item) {
         'to' => $item->to,
         'created_at' => $item->created_at,
         'status_id' => $item->status_id,
-        'price' => $item->cost,
+        'price' => $item->advertisingConstruction->price,
         'cost' => $item->cost,
         'company' => $item->user->company
     ]);

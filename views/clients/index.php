@@ -35,7 +35,6 @@ $this->title = 'Управление клиентами';
 </div>
 <div class="row block-row">
     <div class="col-md-12">
-        <?php Pjax::begin(); ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'layout' => '{items}{pager}',
@@ -50,7 +49,7 @@ $this->title = 'Управление клиентами';
                     'format' => 'raw',
                     'headerOptions' => ['class' => 'text-center'],
                     'value' => function ($model) {
-                        return Html::a($model->company, Url::to(['details', 'clientId' => $model->id]));
+                        return '<a href="/clients/details?clientId='.$model->id.'">'.$model->company.'</a>';
                     }
                 ],
                 [
@@ -102,7 +101,6 @@ $this->title = 'Управление клиентами';
                 ],
             ],
         ]); ?>
-        <?php Pjax::end(); ?>
     </div>
 </div>
 

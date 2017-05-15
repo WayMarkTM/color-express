@@ -78,7 +78,7 @@ class AdvertisingConstructionReservationService
             $dbReservation->from = $reservation['from'];
             $dbReservation->to = $reservation['to'];
             $dbReservation->thematic = $thematic;
-            $dbReservation->cost = $this->getReservationCost($dbReservation->advertising_construction_id, $dbReservation->marketing_type_id);
+            $dbReservation->cost = $this->getReservationCost($dbReservation->advertising_construction_id, $dbReservation->marketing_type_id, $dbReservation->from, $dbReservation->to);
 
             if ($reservation['status_id'] == AdvertisingConstructionStatuses::IN_BASKET_RESERVED) {
                 $dbReservation->status_id = AdvertisingConstructionStatuses::RESERVED;
@@ -322,7 +322,7 @@ class AdvertisingConstructionReservationService
         $reservation->status_id = $statusId;
         $reservation->employee_id = $managerId;
         // TODO: add specific calculation for Agency
-        $reservation->cost = $this->getReservationCost(intval($model['advertising_construction_id']), intval($model['marketing_type']));
+        $reservation->cost = $this->getReservationCost(intval($model['advertising_construction_id']), intval($model['marketing_type']), $reservation->from, $reservation->to);
 
         return $reservation;
     }
@@ -330,12 +330,18 @@ class AdvertisingConstructionReservationService
     /**
      * @param int $constructionId
      * @param int $marketingTypeId
+     * @param string $from
+     * @param string $to
      * @return float Cost
      */
-    private function getReservationCost($constructionId, $marketingTypeId) {
+    private function getReservationCost($constructionId, $marketingTypeId, $from, $to) {
         $construction = AdvertisingConstruction::findOne($constructionId);
         $marketing_type = MarketingType::findOne($marketingTypeId);
 
-        return $construction->price * (100 + $marketing_type->charge) / 100;
+        $fromDate = new \DateTime($from);
+        $toDate = new \DateTime($to);
+        $days = intval($fromDate->diff($toDate)->days + 1);
+
+        return $days * ($construction->price * (100 + $marketing_type->charge) / 100);
     }
 }
