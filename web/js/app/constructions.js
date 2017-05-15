@@ -39,9 +39,11 @@
         vm.selectConstructionType = selectConstructionType;
         vm.selectConstruction = selectConstruction;
         vm.getPriceForMonth = getPriceForMonth;
+        vm.showRequireAuthorizationModal = showRequireAuthorizationModal;
 
         function init() {
             vm.isEmployee = isEmployee;
+            vm.isGuest = isGuest;
             vm.constructions = constructions;
             vm.constructionTypes = [];
             vm.currentPage = 1;
