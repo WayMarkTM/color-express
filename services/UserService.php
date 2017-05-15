@@ -37,8 +37,9 @@ class UserService
 
         $user->setAttributes($signupForm->getAttributes());
 
-        if(!empty($signupForm->photo)) {
-            $user->imageFile = UploadedFile::getInstance($signupForm, 'photo');
+        $imageFile = UploadedFile::getInstance($signupForm, 'photo');
+        if(!empty($imageFile)) {
+            $user->imageFile = $imageFile;
             $user->upload();
         }
 
