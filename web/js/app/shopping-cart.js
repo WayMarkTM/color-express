@@ -176,9 +176,11 @@
             };
 
             vm.format = 'dd.MM.yyyy';
-            vm.dateOptions = {
-                minDate: new Date()
-            };
+            vm.dateOptions = {};
+
+            if (!isEmployee) {
+                vm.dateOptions.minDate = new Date();
+            }
 
             $timeout(function () {
                 buildConstructionTimeline(reservations, 'timeline', 17592000000);
