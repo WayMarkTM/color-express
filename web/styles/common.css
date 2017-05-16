@@ -213,7 +213,7 @@ body {
 
 .page-container .page-content  {
     min-height: 100%;
-    padding: 22px;
+    padding: 22px 22px 11px 22px;
     background-color: white;
 }
 
@@ -504,7 +504,7 @@ table td a:hover {
 }
 
 .watermark {
-    color: #fff;
+    color: #a1a1a1;
     width: 100%;
     text-align: center;
     line-height: 27px;
