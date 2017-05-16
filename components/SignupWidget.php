@@ -8,6 +8,7 @@
 
 namespace app\components;
 
+use app\services\MailService;
 use Yii;
 use yii\base\Widget;
 use app\models\SignupForm;
@@ -33,6 +34,10 @@ class SignupWidget extends Widget
             if($user) {
                 $userRole = Yii::$app->authManager->getRole('client');
                 Yii::$app->authManager->assign($userRole, $user->getId());
+
+                $mailService = new MailService();
+
+                $mailService->sendSignUpUser($user);
             }
             Yii::$app->getResponse()->redirect(\Yii::$app->getRequest()->getUrl());
         }

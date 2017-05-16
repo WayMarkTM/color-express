@@ -120,9 +120,12 @@ class UserService
         if($user && !$user->isActiveClient()) {
             $user->manage_id = \Yii::$app->user->getId();
             if($user->save()) {
-                //set email
+                $mailService = new MailService();
+
+                return $mailService->sendActiveUserAccount($user);
             }
         }
+        return false;
     }
 
     public function deleteClient($id)

@@ -12,6 +12,7 @@ namespace app\services;
 use app\models\ContactForm;
 use app\models\Mail;
 use app\models\FeedBackForm;
+use app\models\User;
 
 class MailService
 {
@@ -34,6 +35,26 @@ class MailService
         $subject = 'Контактная форма от: '.$contactForm->name;
 
         return $mail->send(SiteSettingsService::getContactEmail(), $subject, $text);
+    }
+
+    /* @param $user User */
+    public function sendActiveUserAccount($user)
+    {
+        $mail = new Mail();
+        $text = '<p style="margin:auto;">Ваш аккаунт активирован: '.$user->username.'<br>Ваш менеджер: '.$user->manage->name.'<br></p>';
+        $subject = 'Ваш аккаунт активирован';
+
+        return $mail->send($user->username, $subject, $text);
+    }
+
+    /* @param $user User */
+    public function sendSignUpUser($user)
+    {
+        $mail = new Mail();
+        $text = '<p style="margin:auto;">Ваш аккаунт зарегистрирован.<br>Мы вас уведомим, когда Ваш аакаунт будет активирован.<br></p>';
+        $subject = 'Регитрация аакаунта';
+
+        return $mail->send($user->username, $subject, $text);
     }
 
 }
