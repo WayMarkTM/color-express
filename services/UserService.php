@@ -209,4 +209,10 @@ class UserService
         return $user->surname.' '.$user->name;
     }
 
+    public function getUserBalance($id) {
+        $user = User::findOne($id);
+
+        return $user->balance != null ? $user->balance : 0.00;
+    }
+
 }

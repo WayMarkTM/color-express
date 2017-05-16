@@ -8,5 +8,5 @@
 ?>
 <div class="welcome-container">
     <div class="block-row"><span>Добро пожаловать,</span></div>
-    <div class="block-row name"><span><?= $name ?></span>!</div>
+    <div class="name"><span><?= $name ?></span>!</div>
 </div>

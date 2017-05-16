@@ -8,6 +8,8 @@ use app\components\CompanyInfoWidget;
 use app\components\MenuWidget;
 use app\components\AddSubclientWidget;
 use app\components\StockWidget;
+use app\components\BalanceWidget;
+use app\models\User;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\helpers\Url;
@@ -47,6 +49,10 @@ AppAsset::register($this);
 
             MenuWidget::begin();
             MenuWidget::end();
+
+            if(Yii::$app->user->can('client') && !Yii::$app->user->can('admin')) {
+                echo BalanceWidget::widget();
+            }
 
         if(Yii::$app->user->can('client') && !Yii::$app->user->can('admin')) {
                 echo ManagerWidget::widget();

@@ -26,6 +26,7 @@ use Yii;
  * @property string $photo
  * @property integer $manage_id
  * @property string $created_at
+ * @property float $balance
  *
  * @property User $manage
  * @property User[] $users
@@ -49,12 +50,13 @@ class User extends \yii\db\ActiveRecord
             [['username'], 'required'],
             [['is_agency', 'manage_id'], 'integer', 'skipOnEmpty' => true],
             [['created_at'], 'safe'],
-            [['bank'], 'string', 'max' => 1000],
+            [['bank', 'number'], 'string', 'max' => 1000],
             [['username', 'password', 'salt', 'address', 'email', 'company'], 'string', 'max' => 255],
             [['name', 'surname'], 'string', 'max' => 50],
-            [['number'], 'string', 'max' => 20],
+            [['okpo'], 'string', 'max' => 20],
             [['checking_account', 'string', 'max' => 28]],
-            [['pan', 'okpo'], 'string', 'max' => 15],
+            [['pan'], 'string', 'max' => 15],
+            [['cost'], 'number'],
             [['username'], 'unique'],
             [['manage_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['manage_id' => 'id']],
         ];

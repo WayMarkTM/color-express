@@ -678,13 +678,13 @@ table .selected {
 }
 
 .menu-client {
-    height: calc(100% - 620px);
+    height: calc(100% - 640px);
 }
 
 .manager-container {
     color: #fff;
     text-align: left;
-    padding: 30px;
+    padding: 15px 30px 30px 30px;
 }
 
 .manager-container img {
@@ -695,11 +695,23 @@ table .selected {
 .welcome-container {
     background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
-    margin: 10px 0 30px 20px;
+    margin: 10px 0 30px 10px;
     font-size: 16px;
     padding: 5px 10px;
 }
 
 .welcome-container .name span {
     text-decoration: underline;
+}
+
+.balance-container {
+    background-color: rgba(255, 0, 0, 0.5);
+    color: #fff;
+    margin: 10px 0 0 10px;
+    padding: 10px 10px;
+    font-size: 13px;
+}
+
+.balance-container .balance {
+    font-size: 19px;
 }

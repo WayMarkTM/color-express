@@ -31,6 +31,7 @@ class SignupForm extends Model
     public $checking_account;
     public $bank;
     public $photo;
+    public $balance;
     const SCENARIO_EmployeeEditClient = 'EmployeeEditClient';
     const SCENARIO_EmployeeApplySignup = 'EmployeeApplySignup';
     const SCENARIO_DEFAULT = 'default';
@@ -49,11 +50,12 @@ class SignupForm extends Model
             ['username','email', 'message' => 'email не соответствует формату'],
             [['name', 'surname', 'lastname'], 'string', 'max' => 30],
             [['company'], 'string'],
-            [['number'], 'string', 'max' => 13],
-            ['okpo', 'string', 'length' => 8],
+            [['number'], 'string', 'max' => 1000],
+            ['okpo', 'string', 'max' => 20],
             ['pan', 'string', 'length' => 9],
             ['checking_account', 'string'],
             ['bank', 'string'],
+            ['balance', 'number'],
             ['username', 'validateEmail'],
             [['photo'],  'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             [['username', 'name', 'lastname', 'surname', 'password', 'number'], 'required', 'on' => self::SCENARIO_CREATE_EMPLOYEE],
@@ -66,7 +68,7 @@ class SignupForm extends Model
         $scenarios[self::SCENARIO_DEFAULT] = ['username', 'name', 'is_agency',
             'company', 'address', 'pan', 'okpo', 'number', 'is_agency',
             'checking_account', 'bank', 'user_id', 'password','sec_password'];
-        $scenarios[self::SCENARIO_EmployeeEditClient] = $scenarios[self::SCENARIO_DEFAULT];
+        $scenarios[self::SCENARIO_EmployeeEditClient] = array_merge($scenarios[self::SCENARIO_DEFAULT], ['balance']);
         $scenarios[self::SCENARIO_EmployeeApplySignup] = $scenarios[self::SCENARIO_DEFAULT];
         $scenarios[self::SCENARIO_CREATE_EMPLOYEE] = ['username', 'name', 'lastname', 'surname', 'photo', 'password', 'number'];
         return $scenarios;
@@ -90,6 +92,7 @@ class SignupForm extends Model
             'checking_account' => 'Р/С',
             'bank' => 'Банк',
             'photo' => 'Фото',
+            'balance' => 'Задолженность'
         ];
     }
 

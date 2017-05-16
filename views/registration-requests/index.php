@@ -43,7 +43,7 @@ $this->title = 'Новые заявки';
                     'headerOptions' => ['class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center', 'width' => '220'],
                     'value' => function ($model) {
-                        return $model->timestamp->format('d.m.Y h:m');
+                        return $model->timestamp->format('d.m.Y H:i');
                     }
                 ],
                 [
