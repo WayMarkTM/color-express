@@ -11,6 +11,7 @@ use yii\web\View;
  */
 
 /* @var $clients array|User[] */
+/* @var $multiple boolean */
 
 $attributes = 'id,company,name,surname,is_agency';
 
@@ -18,10 +19,12 @@ $jsonReservations = JsonService::json_encode_database_models($clients, $attribut
 
 $position = View::POS_BEGIN;
 $this->registerJs('var companies = '.$jsonReservations.';', $position);
-$this->registerJsFile('@web/js/app/company-selection.js');
+if (!$multiple) {
+    $this->registerJsFile('@web/js/app/company-selection.js');
+}
 ?>
 
-<div id="company-selection" class="modal fade" role="dialog" ng-app="company" ng-controller="companyListCtrl as $ctrl">
+<div id="company-selection" class="modal fade" role="dialog" <?php echo $multiple ? '' : 'ng-app="company"' ?> ng-controller="companyListCtrl as $ctrl">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">

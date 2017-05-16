@@ -10,6 +10,7 @@ namespace app\services;
 
 use app\models\constants\AdvertisingConstructionStatuses;
 use app\models\entities\AdvertisingConstructionReservation;
+use app\models\User;
 use Yii;
 use yii\base\Exception;
 use yii\db\Query;
@@ -45,9 +46,21 @@ class OrdersService
 
     /**
      * @param integer $id
+     * @param number $cost
      */
-    public function approveOrder($id) {
-        $this->changeStatus($id, AdvertisingConstructionStatuses::APPROVED);
+    public function approveOrder($id, $cost) {
+        $reservation = AdvertisingConstructionReservation::findOne($id);
+
+        if ($reservation->status_id == AdvertisingConstructionStatuses::IN_PROCESSING) {
+            $reservation->status_id = AdvertisingConstructionStatuses::APPROVED;
+        }
+
+        if ($reservation->status_id == AdvertisingConstructionStatuses::RESERVED) {
+            $reservation->status_id = AdvertisingConstructionStatuses::APPROVED_RESERVED;
+        }
+
+        $reservation->cost = $cost;
+        $reservation->save();
     }
 
     /**
@@ -75,7 +88,32 @@ class OrdersService
     private function getUserOrdersQuery($user_id) {
         return AdvertisingConstructionReservation::find()
             ->where(['=', 'user_id', $user_id])
-            ->andWhere(['in', 'status_id', [AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED, AdvertisingConstructionStatuses::DECLINED]]);
+            ->andWhere(['in', 'status_id', [AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED, AdvertisingConstructionStatuses::DECLINED, AdvertisingConstructionStatuses::APPROVED_RESERVED]]);
     }
 
+    /**
+     * @param integer $user_id
+     * @return Query
+     */
+    public function getUserUnprocessedOrdersQuery($user_id) {
+        return AdvertisingConstructionReservation::find()
+            ->where(['=', 'user_id', $user_id])
+            ->andWhere(['in', 'status_id', [AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::RESERVED]]);
+    }
+
+    /**
+     * @return integer int
+     */
+    public function getEmployeeUserWithUnproccessedOrdersQuery() {
+        $manageId = Yii::$app->user->getId();
+        $users = User::find()->where(['=', 'manage_id', $manageId])->all();
+        $count = 0;
+        foreach ($users as $user) {
+            if ($this->getUserUnprocessedOrdersQuery($user->id)->count() > 0) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
 }

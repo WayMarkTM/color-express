@@ -63,7 +63,7 @@ $this->title = $user->company;
                             'value' => function ($model) {
                                 $result = $model->status->name;
 
-                                if ($model->status_id == AdvertisingConstructionStatuses::RESERVED) {
+                                if ($model->status_id == AdvertisingConstructionStatuses::RESERVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED) {
                                     $result .= ' '.(new DateTime($model->created_at))->format('d.m');
                                 }
 
@@ -79,9 +79,15 @@ $this->title = $user->company;
                             }
                         ],
                         [
-                            'attribute' => 'cost',
+                            'label' => 'Стоимость',
                             'headerOptions' => ['width' => '120', 'class' => 'text-center'],
                             'contentOptions' =>['class' => 'text-center'],
+                            'format' => 'raw',
+                            'value' => function ($model) {
+                                return $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ?
+                                    '<input class="form-control full-width cost" type="text" value="'.$model->cost.'" />' :
+                                    $model->cost;
+                            }
                         ],
                         [
                             'class' => 'yii\grid\ActionColumn',
@@ -91,17 +97,19 @@ $this->title = $user->company;
                             'contentOptions' =>['class' => 'text-center'],
                             'buttons' => [
                                 'confirm' => function ($url ,$model) {
-                                    return Html::a('Подтвердить', ['clients/approve-order?clientId='.$model->user_id.'&orderId='.$model->id], [
+                                    return Html::a('Подтвердить', '#', [
                                         'title' => 'Подтвердить',
-                                        'class' => 'custom-btn sm blue',
-                                        'style' => 'width:50%;'.($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING ? '' : 'display: none;')
+                                        'class' => 'custom-btn sm blue approve-order',
+                                        'data-user-id' => $model->user_id,
+                                        'data-id' => $model->id,
+                                        'style' => 'width:50%;'.($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ? '' : 'display: none;')
                                     ]);
                                 },
                                 'cancel' => function ($url, $model) {
                                     return Html::a('Отклонить', ['clients/decline-order?clientId='.$model->user_id.'&orderId='.$model->id], [
                                         'title' => 'Отклонить',
                                         'class' => 'custom-btn sm white',
-                                        'style' => 'width:50%;'.($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING ? '' : 'display: none;')
+                                        'style' => 'width:50%;'.($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED  ? '' : 'display: none;')
                                     ]);
                                 }
                             ]
@@ -175,3 +183,18 @@ $this->title = $user->company;
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.approve-order').on('click', function () {
+            var data = $(this).data();
+            data.cost = $(this).closest('tr').find('.cost').val();
+            colorApp.utilities.ajaxHelper.post({
+                url: GATEWAY_URLS.APPROVE_ORDER,
+                data: data
+            }).done(function (result) {
+                window.location.reload();
+            });
+        });
+    });
+</script>

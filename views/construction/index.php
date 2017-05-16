@@ -56,8 +56,6 @@ if (Yii::$app->user->isGuest) {
 } else {
     $role = User::findIdentity(Yii::$app->user->getId())->getRole();
     $isEmployee = $role == 'employee';
-//    CompanySelectionWidget::begin();
-//    CompanySelectionWidget::end();
 }
 
 $this->registerJs('var isEmployee = '.json_encode($isEmployee).';', \yii\web\View::POS_BEGIN);
@@ -70,6 +68,10 @@ $this->title = "Каталог рекламных конструкций";
 ?>
 
 <div class="advertising-construction-page-container" ng-app="constructions" ng-controller="constructionsCtrl as $ctrl">
+    <?php if ($isEmployee) {
+        CompanySelectionWidget::begin(['param' => 'multiple']);
+        CompanySelectionWidget::end();
+    } ?>
     <div class="advertising-construction-list-container">
         <div class="row">
             <div class="col-md-12">
@@ -168,6 +170,10 @@ $this->title = "Каталог рекламных конструкций";
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="watermark">
+            Сайт носит рекламно-информационный характер и не используется в качестве интернет-магазина, в том числе для торговли по образцам и с помощью курьера.
         </div>
     </div>
 </div>

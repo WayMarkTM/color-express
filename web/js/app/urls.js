@@ -14,5 +14,7 @@ var GATEWAY_URLS = {
     DELETE_SHOPPING_CART_ITEM: BASE_URL + 'shopping-cart/delete',
     GET_CONSTRUCTION_RESERVATIONS: BASE_URL + 'construction/get-construction-reservations',
     VALIDATE_CONSTRUCTION_DATE_RANGE: BASE_URL + 'construction/validate-construction-date-range',
-    CHECKOUT: BASE_URL + 'shopping-cart/checkout'
+    CHECKOUT: BASE_URL + 'shopping-cart/checkout',
+    APPROVE_ORDER: BASE_URL + 'clients/approve-order',
+    BUY_RESERVED_CONSTRUCTION: BASE_URL + 'orders/buy-reserved-construction',
 };

@@ -26,9 +26,9 @@
     constructionsModule
         .controller('constructionsCtrl', constructionsCtrl);
 
-    constructionsCtrl.$inject = ['$window', 'constructionsDataService'];
+    constructionsCtrl.$inject = ['$window', 'constructionsDataService', '$scope'];
 
-    function constructionsCtrl($window, constructionsDataService) {
+    function constructionsCtrl($window, constructionsDataService, $scope) {
         var vm = this;
 
         vm.$onInit = init;
@@ -40,6 +40,7 @@
         vm.selectConstruction = selectConstruction;
         vm.getPriceForMonth = getPriceForMonth;
         vm.showRequireAuthorizationModal = showRequireAuthorizationModal;
+        vm.getSelectedConstructions = getSelectedConstructions;
 
         function init() {
             vm.isEmployee = isEmployee;
@@ -70,7 +71,13 @@
                             : '')
                     }
                 };
-            })
+            });
+
+            $scope.$watch(function () { return vm.getSelectedConstructions(); }, onSelectedConstructionChanged, true);
+        }
+
+        function onSelectedConstructionChanged() {
+            constructionsDataService.setSelectedConstructions(vm.getSelectedConstructions());
         }
 
         function getPriceForMonth(construction) {
@@ -101,7 +108,12 @@
         }
 
         function showSummary() {
-            window.location.href = '/construction/summary?' + vm.queryString;
+            var selectedConstructions = getSelectedConstructions();
+            if (!!selectedConstructions && selectedConstructions.length > 0) {
+                window.location.href = '/construction/summary?ids=' + selectedConstructions.map(function (it) { return it.id; }).join(',') + '&q=' + vm.queryString;
+            } else {
+                window.location.href = '/construction/summary?' + vm.queryString;
+            }
         }
 
         function getSelectedConstructions() {
@@ -162,9 +174,13 @@
     constructionsDataService.$inject = ['$http'];
 
     function constructionsDataService($http) {
+        var constructions = [];
+
         return {
             buyConstructions: buyConstructions,
-            reservConstructions: reservConstructions
+            reservConstructions: reservConstructions,
+            setSelectedConstructions: setSelectedConstructions,
+            getSelectedConstructions: getSelectedConstructions
         };
 
         function buyConstructions(model) {
@@ -174,5 +190,107 @@
         function reservConstructions(model) {
             return $http.post(GATEWAY_URLS.RESERV_CONSTRUCTIONS, model);
         }
+
+        function setSelectedConstructions(cs) {
+            if (cs != null) {
+                constructions = angular.copy(cs);
+            } else {
+                constructions = [];
+            }
+        }
+
+        function getSelectedConstructions() {
+            return constructions;
+        }
     }
+
+    if (isEmployee) {
+        constructionsModule
+            .controller('companyListCtrl', companyListCtrl);
+
+        companyListCtrl.$inject = ['constructionsDataService', '$timeout', '$scope'];
+
+        function companyListCtrl(constructionsDataService, $timeout, $scope) {
+            var vm = this;
+
+            vm.$onInit = init;
+            vm.cancel = cancel;
+            vm.buy = buy;
+            vm.sortBy = sortBy;
+            vm.selectCompany = selectCompany;
+
+            function hideModal() {
+                $('#company-selection').modal('hide');
+            }
+
+            function init() {
+                vm.search = {};
+                initializeModal();
+                initializeWatchers();
+            }
+
+            function initializeWatchers() {
+                $scope.$watch(function () { return vm.search; }, onSearchChanged, true);
+            }
+
+            function initializeModal() {
+                vm.companies = angular.copy(companies);
+                vm.selectedCompany = null;
+                vm.reverse = true;
+                vm.propertyName = null;
+                vm.search.company = '';
+            }
+
+            function onSearchChanged() {
+                vm.selectedCompany = null;
+            }
+
+            function sortBy(propertyName) {
+                vm.reverse = (vm.propertyName === propertyName) ? !vm.reverse : false;
+                vm.propertyName = propertyName;
+            }
+
+            function cancel() {
+                vm.search.company = '';
+                vm.selectedCompany = null;
+                vm.reverse = true;
+                vm.propertyName = null;
+                $timeout(function () {
+                    $('#company-selection').modal('hide');
+                }, 0);
+
+            }
+
+            function buy() {
+                if (!vm.selectedCompany) {
+                    toastr.warning("Необходимо выбрать компанию.");
+                    return;
+                }
+
+                var model = {
+                    ids: constructionsDataService.getSelectedConstructions().map(function (it) { return it.id; }),
+                    from: $('#advertisingconstructionsearch-fromdate').val(),
+                    to: $('#advertisingconstructionsearch-todate').val(),
+                    user_id: vm.selectedCompany.id
+                };
+
+                constructionsDataService.buyConstructions(model)
+                    .then(function (response) {
+                        var result = response.data;
+                        if (result.isValid) {
+                            window.location.href = '/shopping-cart/';
+                            hideModal();
+                        } else {
+                            toastr.error(result.message);
+                        }
+                    })
+            }
+
+            function selectCompany(company) {
+                vm.selectedCompany = company;
+            }
+
+        }
+    }
+
 })(constructions, constructionTypes, selectedConstructionType, isGuest, isEmployee);

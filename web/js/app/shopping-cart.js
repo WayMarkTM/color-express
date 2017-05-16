@@ -48,7 +48,6 @@
                 item.marketing_type_id = vm.marketingTypes[0].id.toString();
                 item.from = convertToCurrentFormat(new Date(item.from));
                 item.to = convertToCurrentFormat(new Date(item.to));
-                item.cost = getItemCost(item);
             });
         }
 
@@ -95,12 +94,15 @@
             shoppingCartDataService.checkout(vm.cartItems, vm.thematic)
                 .then(function (response) {
                     if (response.data.isValid) {
-                        window.location.href = '/construction/index';
+                        toastr.success('Спасибо, Ваша заявка принята в работу. Подтверждение будет отправлено на е-мейл.');
+                        $timeout(function () {
+                            window.location.href = '/construction/index';
+                        }, 1500);
                     } else {
                         toastr.error(response.data.messages.join('\n'));
                         $timeout(function () {
                             window.location.reload();
-                        }, 2000);
+                        }, 1500);
                     }
                 });
         }
@@ -177,9 +179,11 @@
             };
 
             vm.format = 'dd.MM.yyyy';
-            vm.dateOptions = {
-                minDate: new Date()
-            };
+            vm.dateOptions = {};
+
+            if (!isEmployee) {
+                vm.dateOptions.minDate = new Date();
+            }
 
             $timeout(function () {
                 buildConstructionTimeline(reservations, 'timeline', 17592000000);

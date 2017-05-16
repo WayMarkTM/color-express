@@ -67,13 +67,7 @@ class UserService
                 [
                     'manage_id' => Yii::$app->user->getId(),
 
-                ],
-                [
-                    'AND',
-                    ['NOT', ['is_agency' => null]],
-                    ['manage_id' => null]
                 ]
-
             ]
         )->orderBy('id')->all();
         $employes = $this->employeeDropDown();
@@ -213,6 +207,12 @@ class UserService
         if(Yii::$app->user->can('client'))
             return $user->name;
         return $user->surname.' '.$user->name;
+    }
+
+    public function getUserBalance($id) {
+        $user = User::findOne($id);
+
+        return $user->balance != null ? $user->balance : 0.00;
     }
 
 }

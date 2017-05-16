@@ -16,6 +16,7 @@ use app\models\User;
 use Yii;
 use yii\db\Exception;
 use yii\db\Query;
+use yii\web\MethodNotAllowedHttpException;
 
 class AdvertisingConstructionReservationService
 {
@@ -78,7 +79,7 @@ class AdvertisingConstructionReservationService
             $dbReservation->from = $reservation['from'];
             $dbReservation->to = $reservation['to'];
             $dbReservation->thematic = $thematic;
-            $dbReservation->cost = $this->getReservationCost($dbReservation->advertising_construction_id, $dbReservation->marketing_type_id);
+            $dbReservation->cost = $this->getReservationCost($dbReservation->advertising_construction_id, $dbReservation->marketing_type_id, $dbReservation->from, $dbReservation->to);
 
             if ($reservation['status_id'] == AdvertisingConstructionStatuses::IN_BASKET_RESERVED) {
                 $dbReservation->status_id = AdvertisingConstructionStatuses::RESERVED;
@@ -213,7 +214,7 @@ class AdvertisingConstructionReservationService
     public function getConstructionReservations($id) {
         return AdvertisingConstructionReservation::find()
             ->where(['=', 'advertising_construction_id', $id])
-            ->andWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED)])
+            ->andWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED_RESERVED)])
             ->all();
     }
 
@@ -286,7 +287,7 @@ class AdvertisingConstructionReservationService
     public function isDateRangesValid($model) {
         $reservations = AdvertisingConstructionReservation::find()
             ->where(['=', 'advertising_construction_id', $model['advertising_construction_id']])
-            ->andFilterWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)])
+            ->andFilterWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED_RESERVED , AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)])
             ->all();
 
         $dateService = new DateService();
@@ -307,9 +308,17 @@ class AdvertisingConstructionReservationService
     }
 
     /**
+     * @return int Count of client's not processed items.
+     */
+    public function getCountClientNotProccessedItems() {
+
+    }
+
+    /**
      * @param integer $userId
      * @param mixed $model
      * @param integer $statusId
+     * @param integer|null $managerId
      * @return AdvertisingConstructionReservation
      */
     private function getAdvertisingConstructionReservation($userId, $model, $statusId, $managerId = null) {
@@ -322,7 +331,7 @@ class AdvertisingConstructionReservationService
         $reservation->status_id = $statusId;
         $reservation->employee_id = $managerId;
         // TODO: add specific calculation for Agency
-        $reservation->cost = $this->getReservationCost(intval($model['advertising_construction_id']), intval($model['marketing_type']));
+        $reservation->cost = $this->getReservationCost(intval($model['advertising_construction_id']), intval($model['marketing_type']), $reservation->from, $reservation->to);
 
         return $reservation;
     }
@@ -330,12 +339,32 @@ class AdvertisingConstructionReservationService
     /**
      * @param int $constructionId
      * @param int $marketingTypeId
+     * @param string $from
+     * @param string $to
      * @return float Cost
      */
-    private function getReservationCost($constructionId, $marketingTypeId) {
+    private function getReservationCost($constructionId, $marketingTypeId, $from, $to) {
         $construction = AdvertisingConstruction::findOne($constructionId);
         $marketing_type = MarketingType::findOne($marketingTypeId);
 
-        return $construction->price * (100 + $marketing_type->charge) / 100;
+        $fromDate = new \DateTime($from);
+        $toDate = new \DateTime($to);
+        $days = intval($fromDate->diff($toDate)->days + 1);
+
+        return $days * ($construction->price * (100 + $marketing_type->charge) / 100);
+    }
+
+    /**
+     * @param integer $id
+     * @throws MethodNotAllowedHttpException
+     */
+    public function buyReservedConstruction($id) {
+        $reservation = AdvertisingConstructionReservation::findOne($id);
+        if ($reservation->status_id != AdvertisingConstructionStatuses::APPROVED_RESERVED) {
+            throw new MethodNotAllowedHttpException();
+        }
+
+        $reservation->status_id = AdvertisingConstructionStatuses::APPROVED;
+        $reservation->save();
     }
 }

@@ -13,11 +13,14 @@ use yii\base\Widget;
 
 class CompanySelectionWidget extends Widget
 {
+    public $param;
+
     public function run()
     {
         $service = new ClientsService();
         return $this->render('_companySelection', [
-            'clients' => $service->getClients()
+            'clients' => $service->getClients(),
+            'multiple' => $this->param == 'multiple'
         ]);
     }
 

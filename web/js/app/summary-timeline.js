@@ -89,6 +89,15 @@
 
     $('#backToFilter').on('click', function () {
         var queryString = window.location.href.slice(window.location.href.indexOf('?') + 1)
-        window.location.href = '/construction/index?' + queryString;
+
+        var q = window.location.href.split('&q=');
+        var url = '/construction/index';
+        if (q.length > 1) {
+            url = url + '?' + q[1];
+        } else {
+            url = url + '?' + queryString;
+        }
+
+        window.location.href = url;
     });
 })(timelines);

@@ -16,6 +16,7 @@ class AdvertisingConstructionStatuses
     const IN_PROCESSING = 20;
     const RESERVED = 31;
     const APPROVED = 40;
+    const APPROVED_RESERVED = 41;
     const DECLINED = 50;
     const CANCELLED = 255;
 }

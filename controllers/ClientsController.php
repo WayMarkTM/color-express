@@ -22,6 +22,7 @@ use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
+use yii\web\MethodNotAllowedHttpException;
 use yii\web\Response;
 
 class ClientsController extends Controller
@@ -89,7 +90,7 @@ class ClientsController extends Controller
         $dataProvider = new ArrayDataProvider([
             'allModels' => $clients,
             'sort' => [
-                'attributes' => ['id', 'company', 'name', 'phone', 'type', 'email'],
+                'attributes' => ['id', 'company', 'name', 'phone', 'type', 'email']
             ],
             'pagination' => [
                 'pageSize' => 20,
@@ -107,7 +108,8 @@ class ClientsController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => $orderService->getOrders($clientId),
             'sort' => [
-                'attributes' => ['id', 'advertisingConstructionName', 'address', 'status', 'type', 'cost']
+                'attributes' => ['id', 'advertisingConstructionName', 'address', 'status', 'type', 'cost'],
+                'defaultOrder' => ['id' => SORT_DESC]
             ],
             'pagination' => [
                 'pageSize' => 10
@@ -197,11 +199,19 @@ class ClientsController extends Controller
         return $this->redirect('details?clientId='.$clientId);
     }
 
-    public function actionApproveOrder($clientId, $orderId) {
-        $service = new OrdersService();
-        $service->approveOrder($orderId);
+    public function actionApproveOrder() {
+        $this->enableCsrfValidation = false;
+        Yii::$app->response->format = Response::FORMAT_JSON;
 
-        return $this->redirect('details?clientId='.$clientId);
+        /* id, userId, cost */
+        $model = Yii::$app->request->post();
+
+        if (Yii::$app->request->isAjax) {
+            $service = new OrdersService();
+            $service->approveOrder($model['id'], $model['cost']);
+        }
+
+        return new MethodNotAllowedHttpException();
     }
 
     public function actionGetCurrentEmployeeClients() {

@@ -8,7 +8,7 @@
 .client-logo {
     text-align: center;
     font: 0/0 a;
-    height: 80px;
+    min-height: 80px;
     width: 100%;
 }
 

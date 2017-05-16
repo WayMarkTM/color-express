@@ -55,7 +55,7 @@ use yii\helpers\Url;
             <div class="col-md-6">
                 <?= $form->field($model, 'number')->textInput([
                     'label' => 'Телефон',
-                    'placeholder' => '+375 (__) ___ __ __',
+                    'placeholder' => '+375 (29) ___ __ __, +375 (17) ___ __ __, ...',
                     'tabindex' => '3',
                 ])
                 ?>
@@ -63,7 +63,7 @@ use yii\helpers\Url;
             <div class="col-md-6">
                 <?= $form->field($model, 'okpo')->textInput([
                     'label' => 'ОКПО',
-                    'placeholder' => 'Введите 8 символов',
+                    'placeholder' => 'Не более 20 символов',
                     'tabindex' => '10',
                 ])
                 ?>
@@ -103,10 +103,19 @@ use yii\helpers\Url;
                 <?= $form->field($model, 'bank')->textarea([
                     'label' => 'Банк',
                     'placeholder' => 'Наименование и БИК обслуживающего банка',
-                    'rows' => '5',
+                    'rows' => $model->getScenario() == $model::SCENARIO_EmployeeEditClient ? '1' : '5',
                     'tabindex' => '12',
                 ])
                 ?>
+
+                <?php if ($model->getScenario() == $model::SCENARIO_EmployeeEditClient) { ?>
+                    <?= $form->field($model, 'balance')->textInput([
+                        'label' => 'Задолженность',
+                        'placeholder' => 'Задолженность клиента',
+                        'tabindex' => '13',
+                    ])
+                    ?>
+                <?php } ?>
             </div>
         </div>
         <div class="row">

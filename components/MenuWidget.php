@@ -49,7 +49,8 @@ class MenuWidget extends Widget
             [
                 'label' => 'Управление клиентами',
                 'url' => ['/clients/index'],
-                'active' => strpos(Yii::$app->request->url, 'clients/') !== false
+                'active' => strpos(Yii::$app->request->url, 'clients/') !== false,
+                'template' => '<a href="{url}">{label}</a>'.BadgeWidget::widget(['param' => BadgeWidget::$CLIENTS_WITH_UNPROCESSED_ORDERS_COUNT]),
             ],
             [
                 'label' => 'Управление конструкциями',
