@@ -11,16 +11,19 @@ namespace app\models;
 
 class Mail
 {
-    private $from = 'color_admin@gmail.com';
+    static $from = 'color_admin@gmail.com';
 
-    public function send($form, $to, $subject) {
+    public function send($to, $subject, $form, $file = null) {
         //\Yii::$app->mailer->compose('contact/html', ['contactForm' => $form])
-        \Yii::$app->mailer->compose()
-            ->setFrom($this->from)
+        $message = \Yii::$app->mailer->compose()
+            ->setFrom(Mail::$from)
             ->setTo($to)
             ->setSubject($subject)
-            ->setTextBody($form)
-            ->send();
+            ->setHtmlBody($form);
+            if(!empty($file)) {
+                $message->attach($file);
+            }
+        return $message->send();
     }
 
 }

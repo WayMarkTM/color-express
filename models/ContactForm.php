@@ -23,6 +23,8 @@ class ContactForm extends Model
     {
         return [
             [['name', 'phone', 'body'], 'required'],
+            [['name', 'phone'], 'string', 'max' => 100],
+            ['body', 'string', 'max' => 2000],
             ['verifyCode', 'captcha'],
         ];
     }
@@ -38,25 +40,5 @@ class ContactForm extends Model
             'phone' => 'Номер телефона',
             'body' => 'Ваше сообщение (до 2000 символов)'
         ];
-    }
-
-    /**
-     * Sends an email to the specified email address using the information collected by this model.
-     * @param string $email the target email address
-     * @return bool whether the model passes validation
-     */
-    public function contact($email)
-    {
-        if ($this->validate()) {
-            Yii::$app->mailer->compose()
-                ->setTo($email)
-                ->setFrom(['Site ' => $this->name])
-                ->setSubject($this->phone)
-                ->setTextBody($this->body)
-                ->send();
-
-            return true;
-        }
-        return false;
     }
 }

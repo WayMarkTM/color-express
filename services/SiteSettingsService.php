@@ -42,4 +42,8 @@ class SiteSettingsService
 
         return $model;
     }
+
+    public static function getContactEmail() {
+        return SiteSettings::findOne(SiteSettingKey::CONTACT_EMAIL)->value;
+    }
 }

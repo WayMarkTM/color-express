@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\entities\OurClient;
 use app\models\entities\Vacancy;
 use app\models\FeedBackForm;
+use app\services\MailService;
 use app\services\SiteSettingsService;
 use Yii;
 use yii\filters\AccessControl;
@@ -16,6 +17,7 @@ use app\models\ContactForm;
 use app\services\ContactUsSubmissionService;
 use app\queries\OurClientQuery;
 use yii\web\Response;
+use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 
 class SiteController extends Controller
@@ -127,10 +129,13 @@ class SiteController extends Controller
     {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post())) {
+
             $contactSubmissionService = new ContactUsSubmissionService();
             $contactSubmissionService->createContactSubmission($model);
 
-            if ($model->contact(Yii::$app->params['adminEmail'])) {
+            $mailService = new MailService();
+
+            if($mailService->sendContactForm($model)) {
                 Yii::$app->session->setFlash('contactFormSubmitted');
 
                 return $this->refresh();
@@ -160,6 +165,24 @@ class SiteController extends Controller
     {
         $vacancies = Vacancy::find()->all();
         $feedBackForm = new FeedBackForm();
+
+        if(Yii::$app->request->isPost) {
+            if($feedBackForm->load(Yii::$app->request->post())) {
+                $document = UploadedFile::getInstance($feedBackForm, 'upload_resume');
+                if (!empty($document)) {
+                    $feedBackForm->document = $document;
+                    $feedBackForm->upload();
+                }
+
+                $mailService = new MailService();
+                if($feedBackForm->validate() && $mailService->sendFeedback($feedBackForm)) {
+                    $feedBackForm->deleteTemplFile();
+                    Yii::$app->session->setFlash('contactFormSubmitted');
+
+                    return $this->refresh();
+                }
+            }
+        }
         
         return $this->render('vacancies', [
             'vacancies' => $vacancies,
