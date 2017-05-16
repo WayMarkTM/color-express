@@ -213,7 +213,7 @@ class AdvertisingConstructionReservationService
     public function getConstructionReservations($id) {
         return AdvertisingConstructionReservation::find()
             ->where(['=', 'advertising_construction_id', $id])
-            ->andWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED)])
+            ->andWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED_RESERVED)])
             ->all();
     }
 
@@ -286,7 +286,7 @@ class AdvertisingConstructionReservationService
     public function isDateRangesValid($model) {
         $reservations = AdvertisingConstructionReservation::find()
             ->where(['=', 'advertising_construction_id', $model['advertising_construction_id']])
-            ->andFilterWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)])
+            ->andFilterWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED_RESERVED , AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)])
             ->all();
 
         $dateService = new DateService();
