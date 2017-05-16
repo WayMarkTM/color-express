@@ -94,12 +94,15 @@
             shoppingCartDataService.checkout(vm.cartItems, vm.thematic)
                 .then(function (response) {
                     if (response.data.isValid) {
-                        window.location.href = '/construction/index';
+                        toastr.success('Спасибо, Ваша заявка принята в работу. Подтверждение будет отправлено на е-мейл.');
+                        $timeout(function () {
+                            window.location.href = '/construction/index';
+                        }, 1500);
                     } else {
                         toastr.error(response.data.messages.join('\n'));
                         $timeout(function () {
                             window.location.reload();
-                        }, 2000);
+                        }, 1500);
                     }
                 });
         }
