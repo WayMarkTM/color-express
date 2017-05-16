@@ -6,6 +6,7 @@
  * Time: 7:37PM
  */
 
+use app\components\BadgeWidget;
 use app\models\constants\AdvertisingConstructionStatuses;
 use yii\grid\GridView;
 use yii\helpers\Html;

@@ -307,6 +307,13 @@ class AdvertisingConstructionReservationService
     }
 
     /**
+     * @return int Count of client's not processed items.
+     */
+    public function getCountClientNotProccessedItems() {
+
+    }
+
+    /**
      * @param integer $userId
      * @param mixed $model
      * @param integer $statusId

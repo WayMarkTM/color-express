@@ -6,6 +6,7 @@
  * Time: 12:14 AM
  */
 
+use app\components\BadgeWidget;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -49,7 +50,10 @@ $this->title = 'Управление клиентами';
                     'format' => 'raw',
                     'headerOptions' => ['class' => 'text-center'],
                     'value' => function ($model) {
-                        return '<a href="/clients/details?clientId='.$model->id.'">'.$model->company.'</a>';
+                        return '<a href="/clients/details?clientId='.$model->id.'">'.$model->company.'</a> '.BadgeWidget::widget([
+                            'param' => BadgeWidget::$CLIENTS_LIST_UNPROCCESSED_ORDERS_COUNT,
+                            'paramId' => $model->id
+                        ]);
                     }
                 ],
                 [
