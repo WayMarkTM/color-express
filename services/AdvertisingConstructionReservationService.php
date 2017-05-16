@@ -16,6 +16,7 @@ use app\models\User;
 use Yii;
 use yii\db\Exception;
 use yii\db\Query;
+use yii\web\MethodNotAllowedHttpException;
 
 class AdvertisingConstructionReservationService
 {
@@ -351,5 +352,19 @@ class AdvertisingConstructionReservationService
         $days = intval($fromDate->diff($toDate)->days + 1);
 
         return $days * ($construction->price * (100 + $marketing_type->charge) / 100);
+    }
+
+    /**
+     * @param integer $id
+     * @throws MethodNotAllowedHttpException
+     */
+    public function buyReservedConstruction($id) {
+        $reservation = AdvertisingConstructionReservation::findOne($id);
+        if ($reservation->status_id != AdvertisingConstructionStatuses::APPROVED_RESERVED) {
+            throw new MethodNotAllowedHttpException();
+        }
+
+        $reservation->status_id = AdvertisingConstructionStatuses::APPROVED;
+        $reservation->save();
     }
 }

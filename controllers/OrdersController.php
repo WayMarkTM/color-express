@@ -9,11 +9,16 @@
 namespace app\controllers;
 
 
+use app\services\AdvertisingConstructionReservationService;
 use app\services\OrdersService;
+use Yii;
+use yii\base\Exception;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\MethodNotAllowedHttpException;
+use yii\web\Response;
 
 class OrdersController extends Controller
 {
@@ -62,5 +67,30 @@ class OrdersController extends Controller
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionBuyReservedConstruction() {
+        $this->enableCsrfValidation = false;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        /* id */
+        $model = Yii::$app->request->post();
+
+        if (Yii::$app->request->isAjax) {
+            $advertisingConstructionReservationService = new AdvertisingConstructionReservationService();
+            try {
+                $advertisingConstructionReservationService->buyReservedConstruction($model['id']);
+            } catch (Exception $e) {
+                return [
+                    'isValid' => false
+                ];
+            }
+
+            return [
+                'isValid' => true
+            ];
+        }
+
+        return new MethodNotAllowedHttpException();
     }
 }
