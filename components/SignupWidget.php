@@ -38,8 +38,10 @@ class SignupWidget extends Widget
                 $mailService = new MailService();
 
                 $mailService->sendSignUpUser($user);
+
+                Yii::$app->session->setFlash('signupSuccess');
+                $this->signupForm = new SignupForm();
             }
-            Yii::$app->getResponse()->redirect(\Yii::$app->getRequest()->getUrl());
         }
         return $this->render('_signup', [
             'model' => $this->signupForm
