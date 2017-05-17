@@ -17,3 +17,8 @@
 
     </div>
 </div>
+<?php if (Yii::$app->session->hasFlash('signupSuccess')): ?>
+<script>
+    toastr.success('Ваш аккаунт зарегистрирован');
+</script>
+<?php endif;?>
