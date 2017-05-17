@@ -719,3 +719,7 @@ table .selected {
 .balance-container .balance {
     font-size: 19px;
 }
+
+.about-company-column img {
+    max-width: 178px;
+}

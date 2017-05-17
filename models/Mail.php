@@ -11,7 +11,7 @@ namespace app\models;
 
 class Mail
 {
-    static $from = 'color_admin@gmail.com';
+    static $from = 'color.express.adm@gmail.com';
 
     public function send($to, $subject, $form, $file = null) {
         //\Yii::$app->mailer->compose('contact/html', ['contactForm' => $form])

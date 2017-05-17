@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <p>ООО «Колорэкспресс» – один из ведущих операторов наружной рекламы, который уже более 25 лет успешно сотрудничает с белорусскими и иностранными брендами.</p>
         <p>Компания постоянно инвестирует в развитие сети рекламных носителей, отвечающих основным требованиям, предъявляемым клиентами (размер, видимость, место), что сегодня позволяет ООО «Колорэкспресс» найти подход даже к самым требовательным клиентам.</p>
         <p>Предлагая <strong>размещение рекламы в Минске</strong>, мы продумываем все детали, способные улучшить восприятие рекламируемого бренда или товара. Большой опыт в этой сфере помогает нам подбирать оптимальное сочетание всех параметров, чтобы выделить вашу рекламную кампанию среди множества других.</p>
-        <p>Компания «Колорэкспресс» предлагает <strong>размещение рекламы на МКАД</strong> и значимых улицах города Минска на собственных световых рекламных конструкциях.</p>
+        <p>Компания ООО «Колорэкспресс» предлагает <strong>размещение рекламы на МКАД</strong> и значимых улицах города Минска на собственных световых рекламных конструкциях.</p>
         <p>Своим клиентам мы предлагаем полный комплекс услуг:</p>
         <ul>
             <li><strong>Реклама на бигбордах / билбордах в Минске.</strong></li>
@@ -44,27 +44,27 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <hr/>
 <div class="row block-row">
-    <div class="col-sm-2 text-center">
+    <div class="text-center col-sm-2 about-company-column">
         <p><img src="../images/about-company/1.png"></p>
         <p>Регистрируйтесь на сайте.</p>
     </div>
-    <div class="col-sm-2 text-center">
+    <div class="text-center col-sm-2 about-company-column">
         <p><img src="../images/about-company/2.png"></p>
         <p>Пользуйтесь удобным сервисом для поиска и бронирования рекламных конструкций.</p>
     </div>
-    <div class="col-sm-2 text-center">
+    <div class="text-center col-sm-2 about-company-column">
         <p><img src="../images/about-company/3.png"></p>
         <p>Следите за доступностью конструкций в режиме онлайн.</p>
     </div>
-    <div class="col-sm-2 text-center">
+    <div class="text-center col-sm-2 about-company-column">
         <p><img src="../images/about-company/4.png"></p>
         <p>Просматривайте историю Ваших заказов в личном кабинете.</p>
     </div>
-    <div class="col-sm-2 text-center">
+    <div class="text-center  col-sm-2 about-company-column">
         <p><img src="../images/about-company/5.png"></p>
         <p>Получайте оповещение о доступности конструкции, если в данный момент она недоступна.</p>
     </div>
-    <div class="col-sm-2 text-center">
+    <div class="text-center col-sm-2 about-company-column">
         <p><img src="../images/about-company/6.png"></p>
         <p>Документы по каждой сделке в личном кабинете.</p>
     </div>

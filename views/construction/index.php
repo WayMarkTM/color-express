@@ -167,6 +167,7 @@ $this->title = "Каталог рекламных конструкций";
                         <button class="custom-btn sm blue" type="button" ng-click="$ctrl.buyConstructions()">Купить</button>
                         <button class="custom-btn sm blue" type="button" ng-click="$ctrl.reservConstructions()" ng-if="!$ctrl.isEmployee">Отложить на 5 дней</button>
                         <button class="custom-btn sm blue" type="button" ng-click="$ctrl.showSummary()" ng-if="$ctrl.isEmployee">Сводка</button>
+                        <a class="custom-btn sm blue" href="/web/report_17.05.2017.xlsx" ng-if="$ctrl.isEmployee">Отчет</a>
                     </div>
                 </div>
             </div>
