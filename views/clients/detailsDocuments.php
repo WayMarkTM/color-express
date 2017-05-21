@@ -44,7 +44,7 @@ $this->title = $user->company;
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <a href="#" class="additional-link"><i class="icon edit-icon"></i>Редактировать данные</a>
+                <a href="#" class="additional-link client-editable" data-user-id="<?= $user->id ?>"><i class="icon edit-icon"></i>Редактировать данные</a>
             </div>
         </div>
     </div>
@@ -94,3 +94,8 @@ $this->title = $user->company;
         </div>
     </div>
 </div>
+<?= $this->render('@app/views/layouts/_partial/_modalClientData', [
+    'title' => 'Изменить данные компании',
+    'scenario' => \app\models\SignupForm::SCENARIO_EmployeeEditClient
+]);
+?>
