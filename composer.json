@@ -21,7 +21,8 @@
         "2amigos/yii2-google-maps-library": "*",
         "kartik-v/yii2-widget-fileinput": "^1.0.5",
         "kartik-v/yii2-widget-datepicker": "@dev",
-        "kartik-v/yii2-field-range": "*"
+        "kartik-v/yii2-field-range": "*",
+        "codemix/yii2-excelexport": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
