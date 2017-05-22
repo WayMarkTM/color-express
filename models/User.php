@@ -193,4 +193,13 @@ class User extends entities\User implements IdentityInterface
         }
     }
 
+    public function generateNewPassword()
+    {
+        $newPass = Yii::$app->security->generateRandomString(8);
+        $this->setPassword($newPass);
+        $this->save();
+
+        return $newPass;
+    }
+
 }

@@ -727,3 +727,7 @@ table .selected {
 .about-company-column img {
     max-width: 178px;
 }
+
+#signin span > u {
+    cursor: pointer;
+}
