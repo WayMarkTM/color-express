@@ -85,7 +85,7 @@ class UserService
         $newClients = self::getNewClientsTemplate()->orderBy('id')->all();
 
         foreach ($newClients as $client) {
-            $client_type = $client->is_agency ? 'Заказчик' : 'Агенство';
+            $client_type = $client->is_agency ? 'Агенство': 'Заказчик';
             $clientModels[] = new RegistrationRequestModel($client->id, $client->company, new \DateTime($client->created_at), $client_type);
         }
 
