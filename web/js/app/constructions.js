@@ -26,9 +26,9 @@
     constructionsModule
         .controller('constructionsCtrl', constructionsCtrl);
 
-    constructionsCtrl.$inject = ['$window', 'constructionsDataService', '$scope'];
+    constructionsCtrl.$inject = ['$window', 'constructionsDataService', '$scope', '$uibModal'];
 
-    function constructionsCtrl($window, constructionsDataService, $scope) {
+    function constructionsCtrl($window, constructionsDataService, $scope, $uibModal) {
         var vm = this;
 
         vm.$onInit = init;
@@ -41,6 +41,7 @@
         vm.getPriceForMonth = getPriceForMonth;
         vm.showRequireAuthorizationModal = showRequireAuthorizationModal;
         vm.getSelectedConstructions = getSelectedConstructions;
+        vm.getReport = getReport;
 
         function init() {
             vm.isEmployee = isEmployee;
@@ -166,7 +167,48 @@
         function onConstructionReservationCreated() {
             window.location.href = '/shopping-cart/';
         }
+
+        function getReport() {
+            var params = {
+                templateUrl: '/web/js/app/templates/selectReportPeriodModalTemplate.html',
+                controller: 'selectReportPeriodModalCtrl',
+                controllerAs: '$ctrl',
+                size: 'md',
+                resolve: {
+                    constructions: getSelectedConstructions
+                }
+            };
+
+            $uibModal.open(params);
+        }
     }
+
+    constructionsModule
+        .controller('selectReportPeriodModalCtrl', selectReportPeriodModalCtrl);
+
+    selectReportPeriodModalCtrl.$inject = ['constructions', '$uibModalInstance', '$window'];
+
+    function selectReportPeriodModalCtrl(constructions, $uibModalInstance, $window) {
+        var vm = this;
+
+        vm.$onInit = init;
+        vm.ok = ok;
+        vm.cancel = cancel;
+
+        function init() {
+
+        }
+
+        function ok() {
+            window.location.href = GATEWAY_URLS.GET_REPORT;
+            $uibModalInstance.close();
+        }
+
+        function cancel() {
+            $uibModalInstance.dismiss();
+        }
+    }
+
 
     constructionsModule
         .service('constructionsDataService', constructionsDataService);
