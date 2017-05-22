@@ -8,7 +8,7 @@
         var dat = new Date(this.valueOf());
         dat.setDate(dat.getDate() + days);
         return dat;
-    }
+    };
 
     var shoppingCartModule = angular.module('shoppingCart', ['ui.bootstrap']);
 

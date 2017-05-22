@@ -11,11 +11,16 @@ namespace app\controllers;
 
 use app\services\AdvertisingConstructionReservationService;
 use app\services\ReportService;
+use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\Response;
 
 class ReportsController extends Controller
 {
+    /**
+     * @var ReportService
+     */
     private $reportService;
 
     public function behaviors()
@@ -54,8 +59,14 @@ class ReportsController extends Controller
 
 
     public function actionDownload() {
-        $file = $this->reportService->getReport();
-        $file->send('user.xlsx');
+        $filepath = $this->reportService->getReport(Yii::$app->request->queryParams);
+        $storagePath = Yii::getAlias('@app/web/');
+
+        if (!is_file("$storagePath/$filepath")) {
+            throw new \yii\web\NotFoundHttpException('The file does not exists.');
+        }
+
+        return Yii::$app->response->sendFile("$storagePath/$filepath");
     }
 
 }

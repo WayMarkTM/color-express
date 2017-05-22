@@ -22,6 +22,46 @@
             }
         });
 
+    var MONTHS = [{
+        id: 1,
+        name: 'Январь'
+    }, {
+        id: 2,
+        name: 'Февраль'
+    }, {
+        id: 3,
+        name: 'Март'
+    }, {
+        id: 4,
+        name: 'Апрель'
+    }, {
+        id: 5,
+        name: 'Май'
+    }, {
+        id: 6,
+        name: 'Июнь'
+    }, {
+        id: 7,
+        name: 'Июль'
+    }, {
+        id: 8,
+        name: 'Август'
+    }, {
+        id: 9,
+        name: 'Сентябрь'
+    }, {
+        id: 10,
+        name: 'Октябрь'
+    }, {
+        id: 11,
+        name: 'Ноябрь'
+    }, {
+        id: 12,
+        name: 'Декабрь'
+    }];
+
+    constructionsModule.constant('months', MONTHS);
+
 
     constructionsModule
         .controller('constructionsCtrl', constructionsCtrl);
@@ -186,9 +226,9 @@
     constructionsModule
         .controller('selectReportPeriodModalCtrl', selectReportPeriodModalCtrl);
 
-    selectReportPeriodModalCtrl.$inject = ['constructions', '$uibModalInstance', '$window'];
+    selectReportPeriodModalCtrl.$inject = ['constructions', '$uibModalInstance', 'months'];
 
-    function selectReportPeriodModalCtrl(constructions, $uibModalInstance, $window) {
+    function selectReportPeriodModalCtrl(constructions, $uibModalInstance, months) {
         var vm = this;
 
         vm.$onInit = init;
@@ -196,11 +236,42 @@
         vm.cancel = cancel;
 
         function init() {
+            vm.reportTypes = {
+                BUSY: '1',
+                STATUS: '2'
+            };
 
+            vm.months = months;
+
+            vm.periods = [{
+                id: 1,
+                text: '1 месяц (ежемесячный)'
+            }, {
+                id: 3,
+                text: '3 месяца (ежеквартальный)'
+            }, {
+                id: 12,
+                text: '12 месяцев (годовой)'
+            }];
+
+            vm.model = {
+                type: vm.reportTypes.BUSY,
+                from: vm.months[(new Date()).getMonth()],
+                year: 1900 + (new Date()).getYear(),
+                period: vm.periods[0]
+            };
         }
 
         function ok() {
-            window.location.href = GATEWAY_URLS.GET_REPORT;
+            var url = GATEWAY_URLS.GET_REPORT + '?type=' + vm.model.type + '&year=' + vm.model.year + '&from=' + vm.model.from.id + '&period=' + vm.model.period.id;
+
+            if (constructions.length > 0) {
+                url += '&ids=' + constructions.map(function (it) { return it.id; }).join(',');
+            }
+
+            url += '&' +  window.location.href.slice(window.location.href.indexOf('?') + 1);
+
+            window.location.href = url;
             $uibModalInstance.close();
         }
 

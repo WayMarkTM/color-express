@@ -8,24 +8,49 @@
 
 namespace app\services;
 
-use app\models\User;
+use Yii;
+use yii\base\NotSupportedException;
 
 class ReportService
 {
-    /**
-     * @return object Excel Response
-     */
-    public function getReport() {
-        $file = \Yii::createObject([
-            'class' => 'codemix\excelexport\ExcelFile',
-            'sheets' => [
-                'Users' => [
-                    'class' => 'codemix\excelexport\ActiveExcelSheet',
-                    'query' => User::find(),
-                ]
-            ]
-        ]);
+    const BUSY_REPORT = 1;
+    const STATUS_REPORT = 2;
 
-        return $file;
+    private $dateService;
+
+    function __construct() {
+        $this->dateService = new DateService();
+    }
+
+    /**
+     * @param array $queryParams
+     * @return object Excel Response
+     * @throws NotSupportedException
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getReport($queryParams) {
+        $reportType = $queryParams['type'];
+        $fromMonth = $queryParams['from'];
+        $year = $queryParams['year'];
+        $monthCount = $queryParams['period'];
+
+        /**
+         * @var $reportService iReportService
+         */
+        $reportService = null;
+
+        if ($reportType == $this::BUSY_REPORT) {
+            $reportService = new BusyReportService();
+        }
+
+        if ($reportType == $this::STATUS_REPORT) {
+            $reportService = new StatusReportService();
+        }
+
+        if ($reportService == null) {
+            throw new NotSupportedException('Report type not supported');
+        }
+
+        return $reportService->generate($year, $fromMonth, $monthCount, $queryParams);
     }
 }

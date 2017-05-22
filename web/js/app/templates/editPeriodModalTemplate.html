@@ -18,6 +18,8 @@
                        is-open="$ctrl.datepickers.fromOpened"
                        datepicker-options="$ctrl.dateOptions"
                        ng-required="true"
+                       clear-text="Очистить"
+                       current-text="Сегодня"
                        close-text="Закрыть" />
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="$ctrl.datepickers.fromOpened = !$ctrl.datepickers.fromOpened"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -32,6 +34,8 @@
                        is-open="$ctrl.datepickers.toOpened"
                        datepicker-options="$ctrl.dateOptions"
                        ng-required="true"
+                       clear-text="Очистить"
+                       current-text="Сегодня"
                        close-text="Закрыть" />
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="$ctrl.datepickers.toOpened = !$ctrl.datepickers.toOpened"><i class="glyphicon glyphicon-calendar"></i></button>
