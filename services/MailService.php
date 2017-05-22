@@ -57,4 +57,13 @@ class MailService
         return $mail->send($user->username, $subject, $text);
     }
 
+    public function resetPassword($user, $newPassword)
+    {
+        $mail = new Mail();
+        $text = '<p style="margin:auto;">Ваш пароль был сброшен.<br>Теперь ваш пароль: '.$newPassword.'.<br></p>';
+        $subject = 'Сброс пароля';
+
+        return $mail->send($user->username, $subject, $text);
+    }
+
 }

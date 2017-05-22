@@ -59,6 +59,16 @@ class UserController extends BaseAdminController
         }
     }
 
+    public function actionValidateForgotPass()
+    {
+        $forgotPassForm = new LoginForm();
+        $forgotPassForm->setScenario(LoginForm::FORGOT_PASSWORD);
+        if (Yii::$app->request->isAjax && $forgotPassForm->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($forgotPassForm);
+        }
+    }
+
     public function actionValidateSignup()
     {
         $signupForm = new SignupForm();
