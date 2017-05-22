@@ -40,7 +40,7 @@ use yii\helpers\Url;
                                 ); ?>
                             </div>
                             <div class="col-md-6">
-                                <span class="pull-right" style="text-align:right;"><u>Забыли логин или пароль?</u></span>
+                                <span class="pull-right" style="text-align:right;"><u>Забыли пароль?</u></span>
                             </div>
                         </div>
                     </div>
