@@ -56,17 +56,32 @@ $this->title = $user->company;
                             'headerOptions' => ['class' => 'text-center'],
                         ],
                         [
-                            'label' => 'Статус',
+                            'attribute' => 'status.name',
                             'headerOptions' => ['class' => 'text-center'],
                             'contentOptions' =>['class' => 'text-center'],
+                            'label' => 'Статус',
+                            'format' => 'raw',
                             'value' => function ($model) {
+                                $className = '';
+                                if ($model->status_id == AdvertisingConstructionStatuses::DECLINED) {
+                                    $className = 'highlight-declined';
+                                }
+
+                                if ($model->status_id == AdvertisingConstructionStatuses::APPROVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED) {
+                                    $className = 'highlight-approved';
+                                }
+
+                                if ($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED) {
+                                    $className = 'highlight-processing';
+                                }
+
                                 $result = $model->status->name;
 
                                 if ($model->status_id == AdvertisingConstructionStatuses::RESERVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED) {
                                     $result .= ' '.(new DateTime($model->created_at))->format('d.m');
                                 }
 
-                                return $result;
+                                return '<span class="'. $className .'">'.$result.'</span>';
                             }
                         ],
                         [

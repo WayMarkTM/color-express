@@ -76,7 +76,7 @@ class ConstructionController extends Controller
         $searchModel = new AdvertisingConstructionSearch();
         $searchResults = $searchModel->searchItems(Yii::$app->request->queryParams, true, true);
 
-        $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems();
+        $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems($searchModel->type_id);
         $types = AdvertisingConstructionService::getAdvertisingConstructionTypeDropdownItems();
         $addresses = ArrayHelper::map(AdvertisingConstruction::find()
             ->where(['=', 'type_id', $searchModel->type_id])
