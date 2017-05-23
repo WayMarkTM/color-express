@@ -13,7 +13,7 @@ use \app\models\SignupForm;
 </div>
 <?php
 Yii::$app->view->on(\yii\web\View::EVENT_END_BODY, function () {
-    $scenario = SignupForm::SCENARIO_EmployeeEditClient;
+    $scenario = SignupForm::SCENARIO_DEFAULT;
     if (Yii::$app->user->can('employee')) {
         $scenario = SignupForm::SCENARIO_EDIT_EMPLOYEE;
     }
