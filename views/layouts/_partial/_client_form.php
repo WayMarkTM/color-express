@@ -132,15 +132,15 @@ use yii\helpers\Url;
             <?= $form->field($model, 'scenario')->hiddenInput()->label(false); ?>
             <div class="col-md-6">
                     <label>&nbsp;</label>
-                <?php if($model->getScenario() == $model::SCENARIO_DEFAULT): ?>
-                    <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn custom-btn sm primary text-uppercase']) ?>
-                <?php elseif($model->getScenario() == $model::SCENARIO_EmployeeEditClient): ?>
+                <?php if($model->getScenario() == $model::SCENARIO_EmployeeEditClient || Yii::$app->user->getId() == $model->user_id): ?>
                     <div class="col-md-7">
                         <?= Html::submitButton('Сохранить изменения', ['class' => 'btn custom-btn sm primary text-uppercase'])?>
                     </div>
                     <div class="col-md-4">
                         <button type="button" class="btn custom-btn gray sm text-uppercase" data-dismiss="modal">Отмена</button>
                     </div>
+                <?php elseif($model->getScenario() == $model::SCENARIO_DEFAULT): ?>
+                    <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn custom-btn sm primary text-uppercase']) ?>
                 <?php elseif($model->getScenario() == $model::SCENARIO_EmployeeApplySignup): ?>
                     <div class="col-md-7">
                         <?= Html::submitButton('Подтвердить регистрацию', ['class' => 'btn custom-btn sm blue text-uppercase']) ?>

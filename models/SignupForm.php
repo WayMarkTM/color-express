@@ -36,6 +36,7 @@ class SignupForm extends Model
     const SCENARIO_EmployeeApplySignup = 'EmployeeApplySignup';
     const SCENARIO_DEFAULT = 'default';
     const SCENARIO_CREATE_EMPLOYEE = 'CreateEmployee';
+    const SCENARIO_EDIT_EMPLOYEE = 'EditEmployee';
     const DEFAULT_PASS = '%;%S!@:;';
 
     public function rules()
@@ -71,6 +72,7 @@ class SignupForm extends Model
         $scenarios[self::SCENARIO_EmployeeEditClient] = array_merge($scenarios[self::SCENARIO_DEFAULT], ['balance']);
         $scenarios[self::SCENARIO_EmployeeApplySignup] = $scenarios[self::SCENARIO_DEFAULT];
         $scenarios[self::SCENARIO_CREATE_EMPLOYEE] = ['username', 'name', 'lastname', 'surname', 'photo', 'password', 'number'];
+        $scenarios[self::SCENARIO_EDIT_EMPLOYEE] = $scenarios[self::SCENARIO_CREATE_EMPLOYEE];
         return $scenarios;
     }
 

@@ -55,7 +55,7 @@ class ClientsController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['document'],
+                        'actions' => ['document', 'get-client-info'],
                         'roles' => ['client'],
                     ],
                 ],
@@ -175,21 +175,47 @@ class ClientsController extends Controller
         $signupForm->scenario = $scenario;
         $signupForm = $userService->setUserToSignUpForm($signupForm, $id);
         if (isset($_POST['SignupForm'])) {
-            $userService = new UserService();
-            if($signupForm->getAttributes() !== Yii::$app->request->post() &
-                $signupForm->load(Yii::$app->request->post())) {
-                $userService->save($signupForm, $id);
+            if($this->canEditUser($id)) {
+                $userService = new UserService();
+                if ($signupForm->getAttributes() !== Yii::$app->request->post() &&
+                    $signupForm->load(Yii::$app->request->post())
+                ) {
+                    $userService->save($signupForm, $id);
+                }
+                if ($signupForm->scenario == SignupForm::SCENARIO_EmployeeApplySignup) {
+                    $userService->setActiveUser($id);
+                }
+                $this->redirect(Yii::$app->request->referrer);
             }
-            if($signupForm->scenario = SignupForm::SCENARIO_EmployeeApplySignup) {
-                $userService->setActiveUser($id);
-            }
-            $this->redirect(Yii::$app->request->referrer);
         } else {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return $this->renderAjax('@app/views/layouts/_partial/_client_form', [
+            $form = '@app/views/layouts/_partial/';
+            if(Yii::$app->user->can('employee') && Yii::$app->user->getId() == $id ) {
+                $form .= '_employee_form';
+            }elseif (Yii::$app->user->can('employee') || (Yii::$app->user->can('client') && Yii::$app->user->getId() == $id)) {
+                $form .= '_client_form';
+            } else {
+                return '';
+            }
+            return $this->renderAjax($form, [
                 'model' => $signupForm
             ]);
         }
+    }
+
+    private function canEditUser($id)
+    {
+        $user = User::findIdentity($id);
+        $access = false;
+        if (Yii::$app->user->can('admin')) {
+            $access = true;
+        } elseif (Yii::$app->user->can('client') && !Yii::$app->user->can('admin') && Yii::$app->user->getId() == $id) {
+            $access = true;
+        } elseif (Yii::$app->user->can('employee') && $user->manage_id == Yii::$app->user->getId() || $user->manage_id == null) {
+            $access = true;
+        }
+
+        return $access;
     }
 
     public function actionDeclineOrder($clientId, $orderId) {

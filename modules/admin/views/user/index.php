@@ -53,94 +53,10 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/app/jquery.uploadPreview.
                 </div>
             </div>
             <div class="modal-body">
-                <div class="employee">
-                        <div class="row">
-                            <?php $form = ActiveForm::begin([
-                                'id' => 'create-employee-form',
-                                'options' => ['enctype' => 'multipart/form-data'],
-                                'validationUrl' => \yii\helpers\Url::toRoute('/admin/user/validate-signup')
-                            ]); ?>
-
-                            <?= $form->field($employee, 'surname')->textInput([
-                                'label' => 'Фамилия',
-                                'placeholder' => 'Фамилия сотрудника',
-                                'tabindex' => '1',
-                            ])
-                            ?>
-
-                            <?= $form->field($employee, 'name')->textInput([
-                                'label' => 'Имя',
-                                'placeholder' => 'Имя сотрудника',
-                                'tabindex' => '2',
-                            ])
-                            ?>
-
-                            <?= $form->field($employee, 'lastname')->textInput([
-                                'label' => 'Отчество',
-                                'placeholder' => 'Отчество сотрудника',
-                                'tabindex' => '3',
-                            ])
-                            ?>
-
-                            <?= $form->field($employee, 'username', ['enableAjaxValidation' => true])->textInput([
-                                'placeholder' => 'Введите рабочий e-mail',
-                                'tabindex' => '4',
-                            ])
-                            ?>
-
-                            <?= $form->field($employee, 'password')->passwordInput([
-                                'placeholder' => 'Не менее 8 символов',
-                                'tabindex' => '5',
-                            ])
-                            ?>
-
-                            <?= $form->field($employee, 'number')->textInput([
-                                'label' => 'Телефон',
-                                'placeholder' => '+375 (__) ___ __ __',
-                                'tabindex' => '6',
-                            ])
-                            ?>
-
-
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <div class="preview" id="image-preview">
-
-                                    </div>
-                                </div>
-                                <div class="col-md-5">
-                                    <button type="button" class="btn custom-btn gray full-width" onclick="$('#signupform-photo').click()">Загрузить фотографию</button>
-                                    <div class="preview small" id="image-spreview">
-
-                                    </div>
-                                    <?= $form->field($employee, 'photo')->fileInput([
-                                        'class' => 'hide',
-                                        'accept' => 'image/*'
-                                    ])->label(false) ?>
-                                </div>
-                            </div>
-
-                            <script type="text/javascript">
-                                $(document).ready(function() {
-                                    $.uploadPreview({
-                                        input_field: "#signupform-photo",
-                                        preview_box: "#image-preview, #image-spreview",
-                                        no_label: true
-                                    });
-                                });
-                            </script>
-
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <?= Html::submitButton('Зарегистрировать', ['class' => 'btn custom-btn full-width primary text-uppercase'])?>
-                                </div>
-                                <div class="col-md-4">
-                                    <button type="button" class="btn custom-btn gray full-width text-uppercase" data-dismiss="modal">Отмена</button>
-                                </div>
-                            </div>
-                        </div>
-                        <?php ActiveForm::end() ?>
-                    </div>
+                <?= $this->render('@app/views/layouts/_partial/_employee_form', [
+                    'modal' => $employee
+                ]);
+                ?>
             </div>
         </div>
 
