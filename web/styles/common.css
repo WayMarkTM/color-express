@@ -553,6 +553,7 @@ table td a:hover {
     right: -82px;
     text-align: center;
     top: 0;
+    opacity: 1;
     width: 70px;
     height: 70px;
     text-decoration: none;
@@ -730,4 +731,19 @@ table .selected {
 
 #signin span > u, span.pointer {
     cursor: pointer;
+}
+
+.highlight-processing {
+    font-weight: bold;
+    color: #ffd200;
+}
+
+.highlight-approved {
+    font-weight: bold;
+    color: green;
+}
+
+.highlight-declined {
+    font-weight: bold;
+    color: red;
 }

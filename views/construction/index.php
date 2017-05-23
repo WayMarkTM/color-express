@@ -118,7 +118,7 @@ $this->title = "Каталог рекламных конструкций";
                                 <th class="text-center">Название</th>
                                 <th class="text-center">Адрес</th>
                                 <th class="text-center">Размер</th>
-                                <th class="text-center" style="width: 120px;">Цена с НДС (бел.руб.)</th>
+                                <th class="text-center" style="width: 120px;">Цена в месяц (BYN)</th>
                                 <th class="text-center">Занятость</th>
                                 <th class="text-center"></th>
                             </tr>

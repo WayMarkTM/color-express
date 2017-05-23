@@ -125,8 +125,23 @@ class AdvertisingConstructionService
         return ArrayHelper::map(AdvertisingConstructionType::find()->all(), 'id', 'name');
     }
 
-    public static function getAdvertisingConstructionSizeDropdownItems() {
-        return ArrayHelper::map(AdvertisingConstructionSize::find()->all(), 'id', 'size');
+    public static function getAdvertisingConstructionSizeDropdownItems($type_id = null) {
+        if ($type_id == null) {
+            return ArrayHelper::map(AdvertisingConstructionSize::find()->all(), 'id', 'size');
+        }
+
+        $constructionSizes = AdvertisingConstruction::find()
+            ->where(['=', 'type_id', $type_id])
+            ->select(['size_id'])
+            ->distinct()
+            ->all();
+
+        $size_ids = array();
+        foreach ($constructionSizes as $constructionSize) {
+            array_push($size_ids, $constructionSize->size_id);
+        }
+
+        return ArrayHelper::map(AdvertisingConstructionSize::find()->where(['in', 'id', $size_ids])->all(), 'id', 'size');
     }
 
     public static function getMarketingTypeDropdownItems() {

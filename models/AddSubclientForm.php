@@ -25,7 +25,7 @@ class AddSubclientForm extends Model
     public function attributeLabels()
     {
         return [
-            'name' => 'Название компании-субклиента'
+            'name' => 'Название сюжета'
         ];
     }
 }
