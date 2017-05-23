@@ -66,4 +66,18 @@ class MailService
         return $mail->send($user->username, $subject, $text);
     }
 
+    public function approveOrDeclineOrder($user, $reservation, $isApprove = true)
+    {
+        $mail = new Mail();
+        if ($isApprove) {
+            $orderIs = 'Ваша резервация была подтверждена.';
+        } else {
+            $orderIs = 'Ваша резервация была отклонена.';
+        }
+        $text = '<p style="margin:auto;">'.$orderIs.'<br>Даты резервации: '.$reservation->from.' - '.$reservation->to.'.<br>По адресу: '.$reservation->advertisingConstruction->address.'</p>';
+        $subject = $orderIs;
+
+        return $mail->send($user->username, $subject, $text);
+    }
+
 }

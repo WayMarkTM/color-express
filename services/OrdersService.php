@@ -42,6 +42,13 @@ class OrdersService
      */
     public function declineOrder($id) {
         $this->changeStatus($id, AdvertisingConstructionStatuses::DECLINED);
+
+        $reservation = AdvertisingConstructionReservation::findOne($id);
+        $mailService = new MailService();
+        $user = User::findIdentity($reservation->user_id);
+        if($user && $reservation) {
+            $mailService->approveOrDeclineOrder($user, $reservation, false);
+        }
     }
 
     /**
@@ -60,7 +67,13 @@ class OrdersService
         }
 
         $reservation->cost = $cost;
-        $reservation->save();
+        if ($reservation->save()) {
+            $mailService = new MailService();
+            $user = User::findIdentity($reservation->user_id);
+            if($user && $reservation) {
+                $mailService->approveOrDeclineOrder($user, $reservation, true);
+            }
+        }
     }
 
     /**

@@ -30,7 +30,6 @@ $this->title = $user->company;
     <div class="tab-pane active" role="tabpanel" id="orders">
         <div class="row">
             <div class="col-md-12">
-                <?php Pjax::begin(); ?>
                 <?= GridView::widget([
                     'dataProvider' => $ordersDataProvider,
                     'layout' => '{items}{pager}',
@@ -116,7 +115,6 @@ $this->title = $user->company;
                         ],
                     ],
                 ]); ?>
-                <?php Pjax::end(); ?>
             </div>
         </div>
     </div>
