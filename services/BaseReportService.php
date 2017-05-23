@@ -8,6 +8,8 @@
 
 namespace app\services;
 
+use app\models\constants\AdvertisingConstructionStatuses;
+use app\models\entities\AdvertisingConstructionReservation;
 use PHPExcel_Writer_Excel2007;
 use Yii;
 use yii\base\NotSupportedException;
@@ -38,15 +40,38 @@ class BaseReportService
     }
 
     protected function getStartDate($year, $month) {
-        $start = new \DateTime($year.'-'.$month.'-1');
-        return $start->format('Y-m-d');
+        return $this->getStartDateTime($year, $month)->format('Y-m-d');
+    }
+
+    protected function getStartDateTime($year, $month) {
+        return new \DateTime($year.'-'.$month.'-1');
+    }
+
+    protected function getEndDateTime($year, $month, $period) {
+        $requiredMonth = $month + $period;
+        if ($requiredMonth > 12) {
+            $year++;
+            $requiredMonth %= 12;
+        }
+
+        $end = new \DateTime($year.'-'.$requiredMonth.'-1');
+        $end->modify('-1 day');
+        return $end;
     }
 
     protected function getEndDate($year, $month, $period) {
-        $end = new \DateTime($year.'-'.($month+$period).'-1');
-        $end->modify('-1 day');
-        return $end->format('Y-m-d');
+        return $this->getEndDateTime($year, $month, $period)->format('Y-m-d');
     }
+
+    protected function getReservations($construction, $fromDate, $toDate) {
+        return AdvertisingConstructionReservation::find()
+            ->where(['=', 'advertising_construction_id', $construction->id])
+            ->andFilterWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED_RESERVED , AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)])
+            ->andFilterWhere(['<=', 'from', $toDate])
+            ->andFilterWhere(['>=', 'to', $fromDate])
+            ->all();
+    }
+
 
     protected function getMonthName($month) {
         switch ($month) {
