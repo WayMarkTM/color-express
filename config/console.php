@@ -12,6 +12,17 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.gmail.com',
+                'username' => 'color.express.adm@gmail.com',
+                'password' => '',
+                'port' => '587',
+                'encryption' => 'tls',
+            ],
+        ],
         'log' => [
             'targets' => [
                 [

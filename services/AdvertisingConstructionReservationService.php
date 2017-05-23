@@ -15,6 +15,7 @@ use app\models\entities\MarketingType;
 use app\models\User;
 use Yii;
 use yii\db\Exception;
+use yii\db\Expression;
 use yii\db\Query;
 use yii\web\MethodNotAllowedHttpException;
 
@@ -366,5 +367,16 @@ class AdvertisingConstructionReservationService
 
         $reservation->status_id = AdvertisingConstructionStatuses::APPROVED;
         $reservation->save();
+    }
+
+    public function notificateForTheDayReservation() {
+        $reservations = AdvertisingConstructionReservation::findAll(['to' => new Expression('CURDATE()+1')]);
+        $mailService = new MailService();
+        foreach($reservations as $reservation) {
+            $user = User::findIdentity($reservation->user_id);
+            if ($user) {
+                $mailService->notificationForTheDayOfEndReservation($user, $reservation);
+            }
+        }
     }
 }

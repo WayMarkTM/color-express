@@ -80,4 +80,13 @@ class MailService
         return $mail->send($user->username, $subject, $text);
     }
 
+    public function notificationForTheDayOfEndReservation($user, $reservation)
+    {
+        $mail = new Mail();
+        $text = '<p style="margin:auto;">Напоминаем Вам, что Ваша резервация по адресу '.$reservation->advertisingConstruction->address.' заканчивается.<br></p>';
+        $subject = 'Окончание резервации';
+
+        return $mail->send($user->username, $subject, $text);
+    }
+
 }
