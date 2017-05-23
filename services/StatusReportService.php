@@ -96,15 +96,6 @@ class StatusReportService extends BaseReportService implements iReportService
         ];
     }
 
-    private function getReservations($construction, $fromDate, $toDate) {
-        return AdvertisingConstructionReservation::find()
-            ->where(['=', 'advertising_construction_id', $construction->id])
-            ->andFilterWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED_RESERVED , AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)])
-            ->andFilterWhere(['<=', 'from', $toDate])
-            ->andFilterWhere(['>=', 'to', $fromDate])
-            ->all();
-    }
-
     private function getReportMonth($reservation) {
         $fromMonth = (new \DateTime($reservation->from))->format('n');
         $toMonth = (new \DateTime($reservation->to))->format('n');
