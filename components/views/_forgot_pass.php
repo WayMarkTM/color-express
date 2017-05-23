@@ -5,7 +5,7 @@
  * Date: 22.05.2017
  * Time: 22:13
  *
- * @var $forgotPassForm \app\models\LoginForm
+ * @var $forgotPassForm \app\models\ForgotPassForm
  *
  */
 use \yii\widgets\ActiveForm;

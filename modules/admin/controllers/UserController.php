@@ -3,6 +3,7 @@
 namespace app\modules\admin\controllers;
 
 use app\models\EmployeeModel;
+use app\models\ForgotPassForm;
 use app\models\LoginForm;
 use app\services\UserService;
 use Yii;
@@ -61,8 +62,7 @@ class UserController extends BaseAdminController
 
     public function actionValidateForgotPass()
     {
-        $forgotPassForm = new LoginForm();
-        $forgotPassForm->setScenario(LoginForm::FORGOT_PASSWORD);
+        $forgotPassForm = new ForgotPassForm();
         if (Yii::$app->request->isAjax && $forgotPassForm->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($forgotPassForm);
