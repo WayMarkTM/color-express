@@ -728,6 +728,6 @@ table .selected {
     max-width: 178px;
 }
 
-#signin span > u {
+#signin span > u, span.pointer {
     cursor: pointer;
 }
