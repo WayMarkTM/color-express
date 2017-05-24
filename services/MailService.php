@@ -9,7 +9,9 @@
 namespace app\services;
 
 
+use app\models\constants\AdvertisingConstructionStatuses;
 use app\models\ContactForm;
+use app\models\entities\AdvertisingConstructionReservation;
 use app\models\Mail;
 use app\models\FeedBackForm;
 use app\models\User;
@@ -66,15 +68,29 @@ class MailService
         return $mail->send($user->username, $subject, $text);
     }
 
-    public function approveOrDeclineOrder($user, $reservation, $isApprove = true)
+    /* @param $reservation AdvertisingConstructionReservation */
+    public function approveOrDeclineOrder($user, $reservation, $prev_status_id, $isApprove = true)
     {
         $mail = new Mail();
-        if ($isApprove) {
-            $orderIs = 'Ваша резервация была подтверждена.';
+        if($prev_status_id == AdvertisingConstructionStatuses::IN_PROCESSING) {
+            $mail_data = [
+                'subject_approve' => 'Ваша бронь была подтверждена.',
+                'subject_decline' => 'Ваша бронь была отклонена.',
+                'date' => 'Даты бронирования:',
+            ];
         } else {
-            $orderIs = 'Ваша резервация была отклонена.';
+            $mail_data = [
+                'subject_approve' => 'Ваша резервация была подтверждена.',
+                'subject_decline' => 'Ваша резервация была отклонена.',
+                'date' => 'Даты резервации:',
+            ];
         }
-        $text = '<p style="margin:auto;">'.$orderIs.'<br>Даты резервации: '.$reservation->from.' - '.$reservation->to.'.<br>По адресу: '.$reservation->advertisingConstruction->address.'</p>';
+        if ($isApprove) {
+            $orderIs = $mail_data['subject_approve'];
+        } else {
+            $orderIs = $mail_data['subject_decline'];
+        }
+        $text = '<p style="margin:auto;">'.$orderIs.'<br>'.$mail_data['date'].' '.$reservation->from.' - '.$reservation->to.'.<br>По адресу: '.$reservation->advertisingConstruction->address.'</p>';
         $subject = $orderIs;
 
         return $mail->send($user->username, $subject, $text);

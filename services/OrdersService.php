@@ -41,13 +41,15 @@ class OrdersService
      * @param integer $id
      */
     public function declineOrder($id) {
+        $reservation = AdvertisingConstructionReservation::findOne($id);
+        $prev_status_id = $reservation->status_id;
+
         $this->changeStatus($id, AdvertisingConstructionStatuses::DECLINED);
 
-        $reservation = AdvertisingConstructionReservation::findOne($id);
         $mailService = new MailService();
         $user = User::findIdentity($reservation->user_id);
         if($user && $reservation) {
-            $mailService->approveOrDeclineOrder($user, $reservation, false);
+            $mailService->approveOrDeclineOrder($user, $reservation, $prev_status_id, false);
         }
     }
 
@@ -57,6 +59,7 @@ class OrdersService
      */
     public function approveOrder($id, $cost) {
         $reservation = AdvertisingConstructionReservation::findOne($id);
+        $prev_status_id = $reservation->status_id;
 
         if ($reservation->status_id == AdvertisingConstructionStatuses::IN_PROCESSING) {
             $reservation->status_id = AdvertisingConstructionStatuses::APPROVED;
@@ -71,7 +74,7 @@ class OrdersService
             $mailService = new MailService();
             $user = User::findIdentity($reservation->user_id);
             if($user && $reservation) {
-                $mailService->approveOrDeclineOrder($user, $reservation, true);
+                $mailService->approveOrDeclineOrder($user, $reservation, $prev_status_id, true);
             }
         }
     }
