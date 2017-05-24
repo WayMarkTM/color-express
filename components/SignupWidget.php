@@ -10,6 +10,7 @@ namespace app\components;
 
 use app\services\MailService;
 use Yii;
+use yii\base\Exception;
 use yii\base\Widget;
 use app\models\SignupForm;
 use app\services\UserService;
@@ -35,11 +36,15 @@ class SignupWidget extends Widget
                 $userRole = Yii::$app->authManager->getRole('client');
                 Yii::$app->authManager->assign($userRole, $user->getId());
 
-                $mailService = new MailService();
+                try {
+                    $mailService = new MailService();
 
-                $mailService->sendSignUpUser($user);
+                    $mailService->sendSignUpUser($user);
+                } catch (Exception $e) {
+                    
+                }
 
-                Yii::$app->session->setFlash('signupSuccess');
+                Yii::$app->session->setFlash('signupSuccess')
                 $this->signupForm = new SignupForm();
             }
         }

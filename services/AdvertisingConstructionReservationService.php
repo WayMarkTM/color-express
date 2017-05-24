@@ -140,10 +140,12 @@ class AdvertisingConstructionReservationService
 
         $reservation = $this->getAdvertisingConstructionReservation($userId, $model, $status, $managerId);
         if ($reservation->save()) {
-            $mailService = new MailService();
-            $user = User::findIdentity($userId);
-            if($user) {
-                $mailService->employeeRegisterForCompany($user);
+            if ($model['user_id'] != null) {
+                $mailService = new MailService();
+                $user = User::findIdentity($userId);
+                if ($user) {
+                    $mailService->employeeRegisterForCompany($user);
+                }
             }
         }
 
@@ -160,9 +162,6 @@ class AdvertisingConstructionReservationService
             $userId = Yii::$app->user->getId();
         }
 
-        $mailService = new MailService();
-        $user = User::findIdentity($userId);
-
         foreach ($model['ids'] as $id) {
             $reservation = $this->getAdvertisingConstructionReservation($userId, [
                 'from' => $model['from'] != null ? $model['from'] : (new \DateTime())->format('Y-m-d'),
@@ -171,7 +170,9 @@ class AdvertisingConstructionReservationService
             ], $status, $managerId);
 
             if ($reservation->save()) {
-                if($user) {
+                if($model['user_id'] != null) {
+                    $mailService = new MailService();
+                    $user = User::findIdentity($userId);
                     $mailService->employeeRegisterForCompany($user);
                 }
             }
