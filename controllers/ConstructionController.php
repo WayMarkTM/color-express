@@ -14,6 +14,7 @@ use app\models\entities\AdvertisingConstruction;
 use app\models\constants\AdvertisingConstructionStatuses;
 use app\services\AdvertisingConstructionReservationService;
 use app\services\AdvertisingConstructionService;
+use app\services\AdvertisiongConstructionNotificationService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -46,7 +47,7 @@ class ConstructionController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['buy-construction', 'reserv-construction', 'buy-constructions', 'reserv-constructions'],
+                        'actions' => ['buy-construction', 'reserv-construction', 'buy-constructions', 'reserv-constructions','notification-create'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -114,6 +115,17 @@ class ConstructionController extends Controller
             'reservations' => $reservations,
             'marketingTypes' => $marketing_types
         ]);
+    }
+
+    public function actionNotificationCreate($constructionId, $from, $to)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $notificationService = new AdvertisiongConstructionNotificationService();
+            $notificationService->createNotification($constructionId, $from , $to);
+            return ['success' => true];
+        }
+        return ['success' => false];
     }
 
     public function actionGetConstructionReservations($constructionId) {
