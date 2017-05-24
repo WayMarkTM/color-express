@@ -87,7 +87,6 @@ $this->title = $user->company;
                     <h4 class="info-block-header internal"><i class="icon info-icon"></i>Информация:</h4>
                     <div class="info-block-content internal">
                         <p><?php echo $user->getType(); ?></p>
-                        <p>Договор №384 от 20.08.2014 г.</p>
                     </div>
                 </div>
             </div>
