@@ -23,15 +23,20 @@ $this->title = 'Управление клиентами';
     <div class="col-md-6">
         <h3 class="text-uppercase">
             Список клиентов
-            <button style="margin-left: 30px;" class="custom-btn blue" type="button">Добавить клиента</button>
         </h3>
     </div>
     <div class="col-md-6">
-        <?= Html::input('text', 'search', '', [
-            'class' => 'form-control full-width',
-            'style' => 'margin-top: 10px;',
-            'placeholder' => 'Введите данные для поиска'
-        ]) ?>
+        <?php
+        $form = ActiveForm::begin([
+            'options' => ['class' => 'modal-form'],
+        ])
+        ?>
+            <?= Html::input('text', 'search', $search, [
+                'class' => 'form-control full-width',
+                'style' => 'margin-top: 10px;',
+                'placeholder' => 'Введите данные для поиска'
+            ]) ?>
+        <?php ActiveForm::end() ?>
     </div>
 </div>
 <div class="row block-row">

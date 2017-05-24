@@ -57,19 +57,28 @@ class UserService
         return Yii::$app->getUser()->login($user) ? true : false;
     }
 
-    public function getEmployeeClient()
+    public function getEmployeeClient($search = null)
     {
         $clientModels= [];
         /* @param $clients User[] */
-        $clients = User::find()->where(
-            [
+        $clients = User::find()
+            ->innerJoin(['roles' => 'auth_assignment'], 'roles.user_id=user.id')
+            ->where(['AND',
+                        ['roles.item_name' => 'client'],
+                        ['manage_id' => Yii::$app->user->getId()]
+                    ]
+        )->orderBy('id');
+        if(!empty($search)) {
+            $clients->andWhere([
                 'OR',
-                [
-                    'manage_id' => Yii::$app->user->getId(),
-
+                    ['like', 'company', $search],
+                    ['like', 'username', $search],
+                    ['like', 'name', $search],
+                    ['like', 'number', $search]
                 ]
-            ]
-        )->orderBy('id')->all();
+            );
+        }
+        $clients = $clients->all();
         $employes = $this->employeeDropDown();
         foreach ($clients as $client) {
             $client_type = $client->is_agency ? 'Агенство' : 'Заказчик';

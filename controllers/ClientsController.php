@@ -86,7 +86,8 @@ class ClientsController extends Controller
     public function actionIndex() {
         $service = new UserService();
 
-        $clients = $service->getEmployeeClient();
+        $search = Yii::$app->request->post('search');
+        $clients = $service->getEmployeeClient($search);
 
         $dataProvider = new ArrayDataProvider([
             'allModels' => $clients,
@@ -100,6 +101,7 @@ class ClientsController extends Controller
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'search' => $search
         ]);
     }
 
