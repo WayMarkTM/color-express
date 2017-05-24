@@ -190,7 +190,7 @@ class UserService
     {
         $users = $this->getEmployes();
         $emplyes = [];
-        $emplyes[] = '';
+        //$emplyes[] = '';
         /* @var User[] $users */
         foreach($users as $user) {
             $emplyes[$user->id] = $user->getDisplayName();
