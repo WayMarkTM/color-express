@@ -41,10 +41,10 @@ class SignupWidget extends Widget
 
                     $mailService->sendSignUpUser($user);
                 } catch (Exception $e) {
-                    
+
                 }
 
-                Yii::$app->session->setFlash('signupSuccess')
+                Yii::$app->session->setFlash('signupSuccess');
                 $this->signupForm = new SignupForm();
             }
         }
