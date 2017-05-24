@@ -21,4 +21,10 @@ class SheduleController extends Controller
         $constuctionReservationService->notificateForTheDayReservation();
     }
 
+    public function actionDeleteOldReservation()
+    {
+        $constuctionReservationService = new AdvertisingConstructionReservationService();
+        $constuctionReservationService->deleteOldReservation();
+    }
+
 }

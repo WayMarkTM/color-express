@@ -369,8 +369,9 @@ class AdvertisingConstructionReservationService
         $reservation->save();
     }
 
-    public function notificateForTheDayReservation() {
-        $reservations = AdvertisingConstructionReservation::findAll(['to' => new Expression('CURDATE()+1')]);
+    public function notificateForTheDayReservation()
+    {
+        $reservations = AdvertisingConstructionReservation::findAll(['to' => new Expression('CURDATE()+ interval 1 day')]);
         $mailService = new MailService();
         foreach($reservations as $reservation) {
             $user = User::findIdentity($reservation->user_id);
@@ -378,5 +379,10 @@ class AdvertisingConstructionReservationService
                 $mailService->notificationForTheDayOfEndReservation($user, $reservation);
             }
         }
+    }
+
+    public function deleteOldReservation()
+    {
+        AdvertisingConstructionReservation::deleteAll(['<', 'to', new Expression('CURDATE()- interval 31 day')]);
     }
 }
