@@ -248,6 +248,7 @@ $(document).ready(function () {
     var buyBtn = $('#buy-btn'),
         reservBtn = $('#reserv-btn'),
         goBackBtn = $('#goBack'),
+        remindBtn = $('.reminder-link'),
         model = {
             id: function () {
                 return $('#advertisingconstruction-id').val();
@@ -266,6 +267,12 @@ $(document).ready(function () {
     buyBtn.on('click', buyConstruction);
     reservBtn.on('click', reservConstruction);
     goBackBtn.on('click', goBack);
+    remindBtn.on('click', remind);
+
+    function remind(e) {
+        e.preventDefault();
+        toastr.success('Ваша заявка принята. При освобождении конструкции уведомление придет Вам на почту.')
+    }
 
     function getParameterByName(name, url) {
         if (!url) url = window.location.href;
