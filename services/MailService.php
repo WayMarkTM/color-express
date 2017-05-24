@@ -107,4 +107,13 @@ class MailService
         return $mail->send($user->username, $subject, $text);
     }
 
+    public function employeeRegisterForCompany($user)
+    {
+        $mail = new Mail();
+        $text = '<p style="margin:auto;">Заказ оформлен Вашим менеджером.</p>';
+        $subject = 'Подтверждение заказа';
+
+        return $mail->send($user->username, $subject, $text);
+    }
+
 }
