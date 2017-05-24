@@ -190,7 +190,7 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
             <hr/>
             <div class="row">
                 <div class="col-md-12">
-                    <a href="#" class="reminder-link pull-right">Уведомить, когда освободится</a>
+                    <a href="#" class="reminder-link pull-right create-notification" data-construction-id="<?= $model->id ?>">Уведомить, когда освободится</a>
                 </div>
             </div>
             <div class="row buttons-row block-row">
