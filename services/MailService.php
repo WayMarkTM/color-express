@@ -15,6 +15,7 @@ use app\models\entities\AdvertisingConstructionReservation;
 use app\models\Mail;
 use app\models\FeedBackForm;
 use app\models\User;
+use yii\helpers\Url;
 
 class MailService
 {
@@ -43,8 +44,8 @@ class MailService
     public function sendActiveUserAccount($user)
     {
         $mail = new Mail();
-        $text = '<p style="margin:auto;">Ваш аккаунт активирован: '.$user->username.'<br>Ваш менеджер: '.$user->manage->name.'<br></p>';
-        $subject = 'Ваш аккаунт активирован';
+        $text = '<p style="margin:auto;">Регистрация на сайте <a target="_blank" href="'.Url::home(true).'">'.Url::home(true).'</a> завершена. Спасибо!</p>';
+        $subject = 'Завершение регистрации';
 
         return $mail->send($user->username, $subject, $text);
     }
@@ -53,8 +54,8 @@ class MailService
     public function sendSignUpUser($user)
     {
         $mail = new Mail();
-        $text = '<p style="margin:auto;">Ваш аккаунт зарегистрирован.<br>Мы вас уведомим, когда Ваш аакаунт будет активирован.<br></p>';
-        $subject = 'Регитрация аакаунта';
+        $text = '<p style="margin:auto;">Заявка на регистрацию принята. Подтверждение регистрации Вы получите на указанный электронный ящик.</p>';
+        $subject = 'Заявка на регистрацию принята';
 
         return $mail->send($user->username, $subject, $text);
     }
@@ -62,7 +63,7 @@ class MailService
     public function resetPassword($user, $newPassword)
     {
         $mail = new Mail();
-        $text = '<p style="margin:auto;">Ваш пароль был сброшен.<br>Теперь ваш пароль: '.$newPassword.'.<br></p>';
+        $text = '<p style="margin:auto;">Служба восстановления пароля. Ваш текущий пароль для сайта <a target="_blank" href="'.Url::home(true).'">'.Url::home(true).'</a>: '.$newPassword.'. В целях безопасности советуем Вам сменить пароль в личном кабинете пользователя.<br></p>';
         $subject = 'Сброс пароля';
 
         return $mail->send($user->username, $subject, $text);
@@ -74,24 +75,25 @@ class MailService
         $mail = new Mail();
         if($prev_status_id == AdvertisingConstructionStatuses::IN_PROCESSING) {
             $mail_data = [
-                'subject_approve' => 'Ваша бронь была подтверждена.',
-                'subject_decline' => 'Ваша бронь была отклонена.',
+                'body_approve' => 'Ваш заказ подтвержден. Наш менеджер с Вами свяжется.',
+                'body_decline' => 'К сожалению, заказ отменен. Свяжитесь с Вашим менеджером.',
                 'date' => 'Даты бронирования:',
             ];
         } else {
             $mail_data = [
-                'subject_approve' => 'Ваша резервация была подтверждена.',
-                'subject_decline' => 'Ваша резервация была отклонена.',
+                'body_approve' => 'Ваш заказ отложен на 5 рабочих дней.',
+                'body_decline' => 'К сожалению, заказ отменен. Свяжитесь с Вашим менеджером.',
                 'date' => 'Даты резервации:',
             ];
         }
         if ($isApprove) {
             $orderIs = $mail_data['subject_approve'];
+            $subject = 'Подтверждение заказа';
         } else {
             $orderIs = $mail_data['subject_decline'];
+            $subject = 'Отклонение заказа';
         }
         $text = '<p style="margin:auto;">'.$orderIs.'<br>'.$mail_data['date'].' '.$reservation->from.' - '.$reservation->to.'.<br>По адресу: '.$reservation->advertisingConstruction->address.'</p>';
-        $subject = $orderIs;
 
         return $mail->send($user->username, $subject, $text);
     }
@@ -99,8 +101,8 @@ class MailService
     public function notificationForTheDayOfEndReservation($user, $reservation)
     {
         $mail = new Mail();
-        $text = '<p style="margin:auto;">Напоминаем Вам, что Ваша резервация по адресу '.$reservation->advertisingConstruction->address.' заканчивается.<br></p>';
-        $subject = 'Окончание резервации';
+        $text = '<p style="margin:auto;">Уведомляем Вас, что истекает срок отложенного заказа на сайте <a target="_blank" href="'.Url::home(true).'">'.Url::home(true).'</a>. Перейдите в личный кабинет для оформления заказа.</p>';
+        $subject = 'Уведомление о прекращении резерва';
 
         return $mail->send($user->username, $subject, $text);
     }
