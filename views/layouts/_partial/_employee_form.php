@@ -64,8 +64,7 @@ if($model->user_id == Yii::$app->user->getId()) {
 
         <div class="row">
             <div class="col-md-7">
-                <div class="preview" id="image-preview" <?= !empty($model->photo) ? 'style="background-image: url(\'/'.$model->photo.'\')"' : '' ?>>
-
+                <div class="preview" id="image-preview" <?= !empty($model->photo) ? 'style="background-image: url(\'/'.$model->photo.'\'); background-size: cover; background-position: center center;"' : '' ?> >
                 </div>
             </div>
             <div class="col-md-5">
