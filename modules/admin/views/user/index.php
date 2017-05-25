@@ -54,7 +54,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/js/app/jquery.uploadPreview.
             </div>
             <div class="modal-body">
                 <?= $this->render('@app/views/layouts/_partial/_employee_form', [
-                    'modal' => $employee
+                    'model' => $employee
                 ]);
                 ?>
             </div>
