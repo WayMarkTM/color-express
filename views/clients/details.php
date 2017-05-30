@@ -98,21 +98,25 @@ $this->title = $user->company;
                         ],
                         [
                             'label' => 'Даты использования',
-                            'headerOptions' => ['class' => 'text-center', 'width' => '250'],
+                            'headerOptions' => ['class' => 'text-center', 'width' => '220'],
                             'contentOptions' =>['class' => 'text-center'],
                             'value' => function ($model) {
                                 return $model->from.' - '.$model->to;
                             }
                         ],
                         [
-                            'label' => 'Стоимость',
-                            'headerOptions' => ['width' => '120', 'class' => 'text-center'],
+                            'label' => 'Стоимость за период, BYN (стоимость в месяц, BYN)',
+                            'headerOptions' => ['width' => '220', 'class' => 'text-center'],
                             'contentOptions' =>['class' => 'text-center'],
                             'format' => 'raw',
                             'value' => function ($model) {
-                                return $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ?
+                                $result = $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ?
                                     '<input class="form-control full-width cost" type="text" value="'.$model->cost.'" />' :
                                     $model->cost;
+
+                                $result.=' ('.($model->advertisingConstruction->price*30).')';
+
+                                return $result;
                             }
                         ],
                         [
