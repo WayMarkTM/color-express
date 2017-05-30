@@ -12,6 +12,7 @@ use app\models\constants\AdvertisingConstructionStatuses;
 use app\models\entities\AdvertisingConstruction;
 use app\models\entities\AdvertisingConstructionReservation;
 use app\models\entities\MarketingType;
+use app\models\InterruptionForm;
 use app\models\User;
 use Yii;
 use yii\db\Exception;
@@ -398,5 +399,22 @@ class AdvertisingConstructionReservationService
     public function deleteOldReservation()
     {
         AdvertisingConstructionReservation::deleteAll(['<', 'to', new Expression('CURDATE()- interval 31 day')]);
+    }
+
+    /**
+     * @param $model InterruptionForm
+     * @return bool
+     */
+    public function interruptReservation($model) {
+        $reservation = AdvertisingConstructionReservation::findOne($model->id);
+        if (new \DateTime($reservation->from) > new \DateTime($model->toDate) ||
+            new \DateTime($reservation->to) < new \DateTime($model->toDate)) {
+            return false;
+        }
+
+        $reservation->to = $model->toDate;
+        $reservation->cost = $model->cost;
+        $reservation->save();
+        return true;
     }
 }

@@ -12,6 +12,8 @@ use app\models\AdvertisingConstructionFastReservationForm;
 use app\models\AdvertisingConstructionSearch;
 use app\models\entities\AdvertisingConstruction;
 use app\models\constants\AdvertisingConstructionStatuses;
+use app\models\entities\AdvertisingConstructionReservation;
+use app\models\InterruptionForm;
 use app\services\AdvertisingConstructionReservationService;
 use app\services\AdvertisingConstructionService;
 use app\services\AdvertisiongConstructionNotificationService;
@@ -24,6 +26,7 @@ use yii\web\MethodNotAllowedHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\Request;
+use yii\widgets\ActiveForm;
 
 
 class ConstructionController extends Controller
@@ -240,6 +243,24 @@ class ConstructionController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionInterruptValidation() {
+        $interruptionForm = new InterruptionForm();
+        if (Yii::$app->request->isAjax && $interruptionForm->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if (!ActiveForm::validate($interruptionForm)) {
+                return false;
+            }
+
+            $reservation = AdvertisingConstructionReservation::findOne($interruptionForm->id);
+            if (new \DateTime($reservation->from) > new \DateTime($interruptionForm->toDate) ||
+                new \DateTime($reservation->to) < new \DateTime($interruptionForm->toDate)) {
+                return false;
+            }
+
+            return true;
         }
     }
 }
