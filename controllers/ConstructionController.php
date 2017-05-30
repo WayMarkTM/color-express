@@ -83,6 +83,7 @@ class ConstructionController extends Controller
             ->where(['=', 'type_id', $searchModel->type_id])
             ->andWhere(['=', 'is_published', '1'])
             ->select('address')
+            ->orderBy('address')
             ->all(), 'address', 'address');
 
         $this->layout = 'base.php';
