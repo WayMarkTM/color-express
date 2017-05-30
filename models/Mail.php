@@ -14,16 +14,18 @@ class Mail
     static $from = 'color.express.adm@gmail.com';
 
     public function send($to, $subject, $form, $file = null) {
-        //\Yii::$app->mailer->compose('contact/html', ['contactForm' => $form])
-        $message = \Yii::$app->mailer->compose()
-            ->setFrom(Mail::$from)
-            ->setTo($to)
-            ->setSubject($subject)
-            ->setHtmlBody($form);
-            if(!empty($file)) {
+
+        try {
+            $message = \Yii::$app->mailer->compose()
+                ->setFrom(Mail::$from)
+                ->setTo($to)
+                ->setSubject($subject)
+                ->setHtmlBody($form);
+            if (!empty($file)) {
                 $message->attach($file);
             }
-        return $message->send();
+            return $message->send();
+        } catch(\Exception $ex) {}
     }
 
 }

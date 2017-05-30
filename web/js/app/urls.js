@@ -6,6 +6,7 @@ var GATEWAY_URLS = {
     BUY_CONSTRUCTIONS: BASE_URL + 'construction/buy-constructions',
     RESERV_CONSTRUCTION: BASE_URL + 'construction/reserv-construction',
     RESERV_CONSTRUCTIONS: BASE_URL + 'construction/reserv-constructions',
+    NOTIFICATION_CREATE: BASE_URL + 'construction/notification-create',
     GET_DOCUMENTS_CALENDAR: BASE_URL + 'documents/get-documents-calendar',
     GET_DOCUMENTS: BASE_URL + 'documents/get-documents',
     GET_SUBCLIENT_DOCUMENTS_CALENDAR: BASE_URL + 'documents/get-subclient-documents-calendar',

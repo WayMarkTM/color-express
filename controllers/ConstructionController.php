@@ -14,6 +14,7 @@ use app\models\entities\AdvertisingConstruction;
 use app\models\constants\AdvertisingConstructionStatuses;
 use app\services\AdvertisingConstructionReservationService;
 use app\services\AdvertisingConstructionService;
+use app\services\AdvertisiongConstructionNotificationService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -46,7 +47,7 @@ class ConstructionController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['buy-construction', 'reserv-construction', 'buy-constructions', 'reserv-constructions'],
+                        'actions' => ['buy-construction', 'reserv-construction', 'buy-constructions', 'reserv-constructions','notification-create'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -107,12 +108,15 @@ class ConstructionController extends Controller
 
         $marketing_types = AdvertisingConstructionService::getMarketingTypeDropdownItems();
 
+        $isNotificate = AdvertisiongConstructionNotificationService::getIsNotificate($id);
+
         return $this->render('view', [
             'model' => $model,
             'reservationModel' => $reservationModel,
             'bookings' => $bookings,
             'reservations' => $reservations,
-            'marketingTypes' => $marketing_types
+            'marketingTypes' => $marketing_types,
+            'isNotificate' => $isNotificate
         ]);
     }
 
@@ -208,6 +212,18 @@ class ConstructionController extends Controller
         return [
             'isValid' => true
         ];
+    }
+
+    public function actionNotificationCreate()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $constructionId = Yii::$app->request->post('construction_id');
+            $notificationService = new AdvertisiongConstructionNotificationService();
+            $notificationService->createNotification($constructionId);
+            return ['isValid' => true];
+        }
+        return ['isValid' => false];
     }
 
     /**
