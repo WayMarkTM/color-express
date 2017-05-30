@@ -159,6 +159,7 @@ class AdvertisingConstructionForm extends Model
         $model->latitude = $entity->latitude;
         $model->longitude = $entity->longitude;
         $model->youtube_ids = $entity->youtube_ids;
+        $model->use_manual_coordinates = true;
 
         $model->uploaded_images = array();
 

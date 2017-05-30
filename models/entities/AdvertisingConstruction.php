@@ -13,7 +13,7 @@ use Yii;
  * @property string $traffic_info
  * @property boolean $has_traffic_lights
  * @property boolean $is_published
- * @property integer $address
+ * @property string $address
  * @property integer $size_id
  * @property string $price
  * @property integer $type_id
