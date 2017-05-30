@@ -24,6 +24,7 @@ use yii\widgets\ActiveForm;
 /* @var $marketing_types array app\models\entities\MarketingType */
 /* @var $bookings array|app\models\entities\AdvertisingConstructionReservation */
 /* @var $reservations array|app\models\entities\AdvertisingConstructionReservation */
+/* @var $isNotificate boolean */
 
 $this->title = $model->name.' | Информация о рекламной конструкции';
 
@@ -188,11 +189,13 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
                 </div>
             </div>
             <hr/>
+            <?php if(!$isNotificate): ?>
             <div class="row">
                 <div class="col-md-12">
-                    <a href="#" class="reminder-link pull-right create-notification" data-construction-id="<?= $model->id ?>">Уведомить, когда освободится</a>
+                    <a href="#" class="reminder-link pull-right create-notification">Уведомить, когда освободится</a>
                 </div>
             </div>
+            <?php endif; ?>
             <div class="row buttons-row block-row">
                 <div class="col-md-12">
                     <button type="button" id="buy-btn" class="custom-btn sm blue" data-action-type="buyConstruction">Купить</button>
@@ -262,7 +265,8 @@ $(document).ready(function () {
             dateTo: function () {
                 return $('#advertisingconstructionfastreservationform-todate').val();
             }
-        };
+        },
+        registetNotificateBtn = $('.create-notification');
 
     buyBtn.on('click', buyConstruction);
     reservBtn.on('click', reservConstruction);
@@ -271,7 +275,20 @@ $(document).ready(function () {
 
     function remind(e) {
         e.preventDefault();
-        toastr.success('Ваша заявка принята. При освобождении конструкции уведомление придет Вам на почту.')
+        var id = model.id();
+        $(this).closest('.row').hide();
+        colorApp.utilities.ajaxHelper.post({
+            url: GATEWAY_URLS.NOTIFICATION_CREATE,
+            data: {construction_id: model.id()}
+        }).done(function (result) {
+            if (result.isValid) {
+                toastr.success('Ваша заявка принята. При освобождении конструкции уведомление придет Вам на почту.')
+            } else {
+                toastr.error('Ошибка');
+            }
+        }).error(function() {
+            toastr.error('Ошибка');
+        });
     }
 
     function getParameterByName(name, url) {

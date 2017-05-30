@@ -5,5 +5,6 @@ return [
     'uploadFilesPath' => 'uploads/',
     'googleMapsGeocodeApiUrl' => 'http://maps.google.com/maps/api/geocode/json',
     'googleMapsApiKey' => 'AIzaSyDyZunII9qkJ-3dGcSfizyp0ua5EuvaVLA',
-    'googleMapsApiUrl' => 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDyZunII9qkJ-3dGcSfizyp0ua5EuvaVLA'
+    'googleMapsApiUrl' => 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDyZunII9qkJ-3dGcSfizyp0ua5EuvaVLA',
+    'siteBaseUrl' => 'http://178.159.44.227'
 ];

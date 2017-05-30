@@ -108,12 +108,15 @@ class ConstructionController extends Controller
 
         $marketing_types = AdvertisingConstructionService::getMarketingTypeDropdownItems();
 
+        $isNotificate = AdvertisiongConstructionNotificationService::getIsNotificate($id);
+
         return $this->render('view', [
             'model' => $model,
             'reservationModel' => $reservationModel,
             'bookings' => $bookings,
             'reservations' => $reservations,
-            'marketingTypes' => $marketing_types
+            'marketingTypes' => $marketing_types,
+            'isNotificate' => $isNotificate
         ]);
     }
 
@@ -220,6 +223,18 @@ class ConstructionController extends Controller
         return [
             'isValid' => true
         ];
+    }
+
+    public function actionNotificationCreate()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $constructionId = Yii::$app->request->post('construction_id');
+            $notificationService = new AdvertisiongConstructionNotificationService();
+            $notificationService->createNotification($constructionId);
+            return ['isValid' => true];
+        }
+        return ['isValid' => false];
     }
 
     /**
