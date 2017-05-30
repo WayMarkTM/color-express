@@ -747,3 +747,17 @@ table .selected {
     font-weight: bold;
     color: red;
 }
+
+.balance-label {
+    font-weight: bold;
+    color: #e2001e;
+    font-size: 17px;
+}
+
+.balance-label .balance-value {
+    font-size: 22px;
+}
+
+.has-balance {
+    color: #e2001e;
+}

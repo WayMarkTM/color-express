@@ -34,6 +34,7 @@ class AdvertisingConstructionForm extends Model
     public $latitude;
     public $longitude;
     public $use_manual_coordinates;
+    public $youtube_ids;
 
     /**
      * @var UploadedFile[]
@@ -53,6 +54,7 @@ class AdvertisingConstructionForm extends Model
             [['size_id', 'type_id'], 'integer'],
             [['has_traffic_lights', 'is_published', 'use_manual_coordinates'], 'boolean'],
             [['price'], 'number'],
+            [['youtube_ids'], 'string'],
             [['name', 'address'], 'string', 'max' => 255],
             [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 10],
         ];
@@ -77,7 +79,8 @@ class AdvertisingConstructionForm extends Model
             'documentFile' => 'Документ с техническими требованиями к плакату',
             'latitude' => 'Широта',
             'longitude' => 'Долгота',
-            'use_manual_coordinates' => 'Использовать ручной ввод координат (в противном случае используется сторонний API для получения координат по адресу)'
+            'use_manual_coordinates' => 'Использовать ручной ввод координат (в противном случае используется сторонний API для получения координат по адресу)',
+            'youtube_ids' => 'ID видео из youtube, разделенные ";"'
         ];
     }
 
@@ -99,6 +102,7 @@ class AdvertisingConstructionForm extends Model
         $model->has_traffic_lights = $this->has_traffic_lights;
         $model->is_published = $this->is_published;
         $model->requirements_document_path = $this->document_path;
+        $model->youtube_ids = $this->youtube_ids;
 
         return $model;
     }
@@ -154,6 +158,7 @@ class AdvertisingConstructionForm extends Model
         $model->document_path = $entity->requirements_document_path;
         $model->latitude = $entity->latitude;
         $model->longitude = $entity->longitude;
+        $model->youtube_ids = $entity->youtube_ids;
 
         $model->uploaded_images = array();
 

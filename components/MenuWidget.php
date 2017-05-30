@@ -62,6 +62,11 @@ class MenuWidget extends Widget
                 'url' => ['/registration-requests/index'],
                 'template' => '<a href="{url}">{label}</a>'.BadgeWidget::widget(['param' => BadgeWidget::$NEW_USER_COUNT]),
             ],
+            [
+                'label' => 'Корзина',
+                'url' => ['/shopping-cart/index'],
+                'template' => '<a href="{url}">{label}</a>'.BadgeWidget::widget(['param' => BadgeWidget::$SHOPPING_CART_ITEMS_COUNT]),
+            ],
         ];
     }
 

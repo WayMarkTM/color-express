@@ -21,10 +21,22 @@ use yii\widgets\Pjax;
 $this->title = $user->company;
 ?>
 
-<ul class="nav nav-tabs" id="control-tabs">
-    <li role="presentation" class="active"><a href="#orders">Заказы</a></li>
-    <li role="presentation"><a href="<?php echo Url::toRoute('clients/details-documents?clientId='.$user->id); ?>">Документы</a></li>
-</ul>
+<div class="row">
+    <div class="col-md-7">
+        <ul class="nav nav-tabs" id="control-tabs">
+            <li role="presentation" class="active"><a href="#orders">Заказы</a></li>
+            <li role="presentation"><a href="<?php echo Url::toRoute('clients/details-documents?clientId='.$user->id); ?>">Документы</a></li>
+        </ul>
+    </div>
+    <div class="col-md-5 text-right">
+        <span class="balance-label">
+            Сумма задолженности <?php echo $user->is_agency ? 'общая' : ''; ?> (BYN):
+            <span class="balance-value">
+                <?php echo $user->balance == null ? 0 : $user->balance; ?>
+            </span>
+        </span>
+    </div>
+</div>
 
 <div class="tab-content">
     <div class="tab-pane active" role="tabpanel" id="orders">
@@ -86,21 +98,25 @@ $this->title = $user->company;
                         ],
                         [
                             'label' => 'Даты использования',
-                            'headerOptions' => ['class' => 'text-center', 'width' => '250'],
+                            'headerOptions' => ['class' => 'text-center', 'width' => '220'],
                             'contentOptions' =>['class' => 'text-center'],
                             'value' => function ($model) {
                                 return $model->from.' - '.$model->to;
                             }
                         ],
                         [
-                            'label' => 'Стоимость',
-                            'headerOptions' => ['width' => '120', 'class' => 'text-center'],
+                            'label' => 'Стоимость за период, BYN (стоимость в месяц, BYN)',
+                            'headerOptions' => ['width' => '220', 'class' => 'text-center'],
                             'contentOptions' =>['class' => 'text-center'],
                             'format' => 'raw',
                             'value' => function ($model) {
-                                return $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ?
+                                $result = $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ?
                                     '<input class="form-control full-width cost" type="text" value="'.$model->cost.'" />' :
                                     $model->cost;
+
+                                $result.=' ('.($model->advertisingConstruction->price*30).')';
+
+                                return $result;
                             }
                         ],
                         [

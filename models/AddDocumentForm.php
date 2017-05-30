@@ -23,6 +23,7 @@ class AddDocumentForm extends Model
     public $subclientId;
     public $userId;
     public $filename;
+    public $contract;
 
     /**
      * @var UploadedFile
@@ -34,6 +35,7 @@ class AddDocumentForm extends Model
         return [
             [['documentFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'doc, docx, pdf'],
             [['month', 'year'], 'required'],
+            [['contract'], 'string'],
             ['year', 'compare', 'compareValue' => DateService::$YEAR_FROM, 'operator' => '>=', 'type' => 'number'],
             ['year', 'compare', 'compareValue' => DateService::$YEAR_TO, 'operator' => '<=', 'type' => 'number']
         ];
@@ -44,7 +46,8 @@ class AddDocumentForm extends Model
         return [
             'documentFile' => 'Документ',
             'month' => 'Месяц',
-            'year' => 'Год'
+            'year' => 'Год',
+            'contract' => 'Номер договора'
         ];
     }
 

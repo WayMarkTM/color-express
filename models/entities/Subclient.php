@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property integer $user_id
+ * @property float $balance
  *
  * @property Document[] $documents
  * @property User $user
