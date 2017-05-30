@@ -62,7 +62,7 @@ $this->title = 'Новые заявки';
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{confirm}',
+                    'template' => '<div class="form-group">{confirm}</div>{decline}',
                     'header' => 'Управление',
                     'headerOptions' => ['width' => '300', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
@@ -72,6 +72,13 @@ $this->title = 'Новые заявки';
                             return Html::a('Подтвердить регистрацию', $url, [
                                 'title' => 'Подтвердить регистрацию',
                                 'class' => 'custom-btn sm blue full-width',
+                            ]);
+                        },
+                        'decline' => function ($url ,$model) {
+                            $url = \yii\helpers\Url::toRoute(['/clients/delete', 'id' => $model->id]);
+                            return Html::a('Удалить заявку', $url, [
+                                'title' => 'Удалить заявку',
+                                'class' => 'custom-btn sm red full-width',
                             ]);
                         }
                     ]
@@ -85,4 +92,3 @@ $this->title = 'Новые заявки';
     'scenario' => \app\models\SignupForm::SCENARIO_EmployeeApplySignup
 ]);
 ?>
-

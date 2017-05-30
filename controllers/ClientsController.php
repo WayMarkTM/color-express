@@ -149,7 +149,7 @@ class ClientsController extends Controller
         //add user can delete
         $userService = new UserService();
         $userService->deleteClient($id);
-        $this->redirect('index');
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionDocuments()
