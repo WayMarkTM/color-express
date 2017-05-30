@@ -120,17 +120,6 @@ class ConstructionController extends Controller
         ]);
     }
 
-    public function actionNotificationCreate($constructionId, $from, $to)
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        if (Yii::$app->request->isAjax) {
-            $notificationService = new AdvertisiongConstructionNotificationService();
-            $notificationService->createNotification($constructionId, $from , $to);
-            return ['success' => true];
-        }
-        return ['success' => false];
-    }
-
     public function actionGetConstructionReservations($constructionId) {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
