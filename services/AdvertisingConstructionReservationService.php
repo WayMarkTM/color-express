@@ -88,7 +88,13 @@ class AdvertisingConstructionReservationService
                 $dbReservation->status_id =  AdvertisingConstructionStatuses::IN_PROCESSING;
             }
 
-            $dbReservation->save();
+            if ($dbReservation->save() && Yii::$app->user->can('employee')) {
+                $mailService = new MailService();
+                $user = User::findIdentity($dbReservation->user_id);
+                if ($user) {
+                    $mailService->employeeRegisterForCompany($user);
+                }
+            }
 
             return 'success';
         } catch (\Exception $exception) {
@@ -139,15 +145,7 @@ class AdvertisingConstructionReservationService
         }
 
         $reservation = $this->getAdvertisingConstructionReservation($userId, $model, $status, $managerId);
-        if ($reservation->save()) {
-            if ($model['user_id'] != null) {
-                $mailService = new MailService();
-                $user = User::findIdentity($userId);
-                if ($user) {
-                    $mailService->employeeRegisterForCompany($user);
-                }
-            }
-        }
+        $reservation->save();
 
         return [
             'isValid' => true,
@@ -169,13 +167,7 @@ class AdvertisingConstructionReservationService
                 'advertising_construction_id' => $id
             ], $status, $managerId);
 
-            if ($reservation->save()) {
-                if($model['user_id'] != null) {
-                    $mailService = new MailService();
-                    $user = User::findIdentity($userId);
-                    $mailService->employeeRegisterForCompany($user);
-                }
-            }
+            $reservation->save();
         }
 
         return [
