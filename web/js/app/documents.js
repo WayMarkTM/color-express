@@ -73,7 +73,7 @@
             if (newVal != oldVal && newVal != null) {
                 vm.documents = null;
                 vm.isDocumentsLoading = true;
-                documentDataService.loadDocuments(vm.selectedYear, vm.selectedMonthId)
+                documentDataService.loadDocuments(vm.selectedYear, vm.selectedMonthId, vm.selectedSubclientId)
                     .then(onDocumentsLoaded)
                     .finally(function () {
                         vm.isDocumentsLoading = false;
@@ -163,8 +163,12 @@
                 });
         }
 
-        function loadDocuments(year, month) {
+        function loadDocuments(year, month, subclientId) {
             var url = GATEWAY_URLS.GET_DOCUMENTS + '?userId=' + selectedUserId + '&year=' + year + '&month=' + month;
+
+            if (!!subclientId) {
+                url += '&subclientId=' + subclientId;
+            }
 
             return $http.get(url)
                 .then(function (response) {
