@@ -219,7 +219,7 @@ class BusyReportService extends BaseReportService implements iReportService
             $sum += $value;
         }
 
-        $sheet->getCellByColumnAndRow($column, $row - 1)->setValue(round($sum/$constructionsCount, 2).'%');
+        $sheet->getCellByColumnAndRow($column, $row - 1)->setValue(round($sum*100/$constructionsCount, 2).'%');
     }
 
     private function random_color_part() {
