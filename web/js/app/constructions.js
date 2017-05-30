@@ -108,7 +108,7 @@
                     properties: {
                         balloonContentHeader: construction.name,
                         balloonContent: (!!construction.previewImage ?
-                            '<img class="info-window-image-preview" src="/' + construction.previewImage + '"/>'
+                            '<img class="info-window-image-preview" src="/' + construction.previewImage + '"/><br/><a href="/construction/details?id=' + construction.id + '"/>Подробнее</a>'
                             : '')
                     }
                 };
