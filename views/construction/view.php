@@ -283,24 +283,6 @@ $(document).ready(function () {
     goBackBtn.on('click', goBack);
     remindBtn.on('click', remind);
 
-    function remind(e) {
-        e.preventDefault();
-        var id = model.id();
-        $(this).closest('.row').hide();
-        colorApp.utilities.ajaxHelper.post({
-            url: GATEWAY_URLS.NOTIFICATION_CREATE,
-            data: {construction_id: model.id()}
-        }).done(function (result) {
-            if (result.isValid) {
-                toastr.success('Ваша заявка принята. При освобождении конструкции уведомление придет Вам на почту.')
-            } else {
-                toastr.error('Ошибка');
-            }
-        }).error(function() {
-            toastr.error('Ошибка');
-        });
-    }
-
     function getParameterByName(name, url) {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
@@ -378,6 +360,24 @@ $(document).ready(function () {
             } else {
                 toastr.error(result.message);
             }
+        });
+    }
+
+    function remind(e) {
+        e.preventDefault();
+        var id = model.id();
+        $(this).closest('.row').hide();
+        colorApp.utilities.ajaxHelper.post({
+            url: GATEWAY_URLS.NOTIFICATION_CREATE,
+            data: {construction_id: model.id()}
+        }).done(function (result) {
+            if (result.isValid) {
+                toastr.success('Ваша заявка принята. При освобождении конструкции уведомление придет Вам на почту.')
+            } else {
+                toastr.error('Ошибка');
+            }
+        }).error(function() {
+            toastr.error('Ошибка');
         });
     }
 });
