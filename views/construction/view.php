@@ -103,6 +103,16 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
                             <a href="/<?php echo $image->path; ?>"><img src="/<?php echo $image->path; ?>"></a>
                             <?php
                             }
+
+                            if ($model->youtube_ids != null) {
+                                foreach (explode(';', $model->youtube_ids) as $video) {
+                                    ?>
+
+                                    <a href="http://www.youtube.com/embed/<?php echo $video; ?>"><img
+                                            src="http://img.youtube.com/vi/<?php echo $video; ?>/1.jpg"></a>
+                                    <?php
+                                }
+                            }
                         ?>
                     </div>
                 </div>
