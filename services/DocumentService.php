@@ -51,6 +51,7 @@ class DocumentService
         $document->user_id = $userId;
         $document->subclient_id = $subclientId;
         $document->filename = $viewModel->filename;
+        $document->contract = $viewModel->contract;
         $document->save();
     }
 

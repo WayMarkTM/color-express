@@ -15,6 +15,7 @@ use Yii;
  * @property integer $subclient_id
  * @property string $created_at
  * @property string $filename
+ * @property string $contract
  *
  * @property User $user
  * @property Subclient $subclient
@@ -39,6 +40,7 @@ class Document extends \yii\db\ActiveRecord
             [['user_id', 'month', 'year'], 'integer'],
             [['created_at', 'filename'], 'safe'],
             [['path'], 'string', 'max' => 255],
+            [['contract'], 'string'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['subclient_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subclient::className(), 'targetAttribute' => ['subclient_id' => 'id']],
         ];
@@ -54,6 +56,7 @@ class Document extends \yii\db\ActiveRecord
             'path' => 'Path',
             'user_id' => 'User ID',
             'created_at' => 'Created At',
+            'contract' => 'Номер договора'
         ];
     }
 

@@ -31,7 +31,9 @@ use yii\web\View;
                                 ng-class="{'active': subclient.id == $ctrl.selectedSubclientId}"
                                 ng-click="$ctrl.selectSubclient(subclient)">
                                 <td>
-                                    {{ subclient.arrear }}
+                                    <span ng-class="{'has-balance': subclient.balance > 0 }" class="bold">
+                                        {{ subclient.balance > 0 ? '-' : ''}}{{ subclient.balance || 0 }}
+                                    </span>
                                 </td>
                                 <td class="text-center">
                                     {{ $index + 1 }}
@@ -119,7 +121,7 @@ use yii\web\View;
 ?>
 
 <?php
-$modelAttributeNames = 'id, name';
+$modelAttributeNames = 'id,name,balance';
 ?>
 
 <?php

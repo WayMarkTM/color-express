@@ -21,10 +21,22 @@ use yii\widgets\Pjax;
 $this->title = $user->company;
 ?>
 
-<ul class="nav nav-tabs" id="control-tabs">
-    <li role="presentation" class="active"><a href="#orders">Заказы</a></li>
-    <li role="presentation"><a href="<?php echo Url::toRoute('clients/details-documents?clientId='.$user->id); ?>">Документы</a></li>
-</ul>
+<div class="row">
+    <div class="col-md-7">
+        <ul class="nav nav-tabs" id="control-tabs">
+            <li role="presentation" class="active"><a href="#orders">Заказы</a></li>
+            <li role="presentation"><a href="<?php echo Url::toRoute('clients/details-documents?clientId='.$user->id); ?>">Документы</a></li>
+        </ul>
+    </div>
+    <div class="col-md-5 text-right">
+        <span class="balance-label">
+            Сумма задолженности <?php echo $user->is_agency ? 'общая' : ''; ?> (BYN):
+            <span class="balance-value">
+                <?php echo $user->balance == null ? 0 : $user->balance; ?>
+            </span>
+        </span>
+    </div>
+</div>
 
 <div class="tab-content">
     <div class="tab-pane active" role="tabpanel" id="orders">

@@ -69,7 +69,7 @@ eof;
         $this->openConnection();
 
         echo "Saving csv ".$csv." into database...\n";
-        $query = "INSERT INTO import_file(filename, status) VALUES ('".$csv."', ".ImportedFileStatuses::DRAFT.")";
+        $query = "INSERT INTO import_file(filename, status, created_at) VALUES ('".$csv."', ".ImportedFileStatuses::DRAFT.", NOW())";
 
         if ($this->connection->query($query)) {
             $id = $this->connection->insert_id;
