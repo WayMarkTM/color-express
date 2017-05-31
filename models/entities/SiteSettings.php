@@ -3,6 +3,8 @@
 namespace app\models\entities;
 
 use Yii;
+use yii\helpers\FileHelper;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "site_settings".
@@ -42,5 +44,22 @@ class SiteSettings extends \yii\db\ActiveRecord
             'name' => 'Описание',
             'value' => 'Значение'
         ];
+    }
+
+    public function isImage()
+    {
+        return $this->id == 8;
+    }
+
+    /* @param $imageFile UploadedFile */
+    public function upload($imageFile)
+    {
+        if (!empty($imageFile)) {
+            $root = Yii::$app->params['uploadFilesPath'] . 'stock/';
+            FileHelper::createDirectory($root);
+
+            $this->value = $root . Yii::$app->security->generateRandomString() . '.' . $imageFile->extension;
+            return $imageFile->saveAs($this->value);
+        }
     }
 }

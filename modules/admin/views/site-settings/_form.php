@@ -12,7 +12,13 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
+    <?php if(!$model->isImage()) {
+        echo $form->field($model, 'value')->textInput(['maxlength' => true]);
+    } else {
+        echo $form->field($model, 'value')->fileInput([
+            'accept' => 'image/*'
+        ]);
+    } ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
