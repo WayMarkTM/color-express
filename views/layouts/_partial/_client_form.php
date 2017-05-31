@@ -121,7 +121,7 @@ use yii\helpers\Url;
         <div class="row">
             <div class="col-md-6">
                 <?= $form->field($model, 'is_agency')->dropDownList([
-                    '1' => 'Рекламное агенство',
+                    '1' => 'Рекламное агентство',
                     '0' => 'Конечный заказчик'
                 ], [
                     'tabindex' => '7',

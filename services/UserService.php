@@ -81,7 +81,7 @@ class UserService
         $clients = $clients->all();
         $employes = $this->employeeDropDown();
         foreach ($clients as $client) {
-            $client_type = $client->is_agency ? 'Агенство' : 'Заказчик';
+            $client_type = $client->is_agency ? 'Агентство' : 'Заказчик';
             $clientModels[] = new ClientModel($client->id, $client->company, $client->name, $client->number, $client->username, $client_type, $client->manage, $employes);
         }
 
@@ -94,7 +94,7 @@ class UserService
         $newClients = self::getNewClientsTemplate()->orderBy('id')->all();
 
         foreach ($newClients as $client) {
-            $client_type = $client->is_agency ? 'Агенство': 'Заказчик';
+            $client_type = $client->is_agency ? 'Агентство': 'Заказчик';
             $clientModels[] = new RegistrationRequestModel($client->id, $client->company, new \DateTime($client->created_at), $client_type);
         }
 
