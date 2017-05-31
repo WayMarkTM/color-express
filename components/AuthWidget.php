@@ -21,10 +21,12 @@ class AuthWidget extends Widget
     public function run()
     {
         if($this->authForm->load(Yii::$app->request->post()) && $this->authForm->login()) {
-            if(Yii::$app->user->can('client') && !Yii::$app->user->can('admin')) {
-                Yii::$app->getResponse()->redirect(Url::home(true));
+            if(Yii::$app->user->can('admin')) {
+                Yii::$app->getResponse()->redirect(Url::toRoute('/admin/construction/index'));
+            } elseif(Yii::$app->user->can('employee')) {
+                Yii::$app->getResponse()->redirect(Url::toRoute('/clients/index'));
             } else {
-                Yii::$app->getResponse()->redirect(\Yii::$app->getRequest()->getUrl());
+                Yii::$app->getResponse()->redirect(Url::home(true));
             }
         }
         return $this->render('_signin', [
