@@ -129,7 +129,12 @@ $this->title = "Каталог рекламных конструкций";
                                 ng-class="{'selected-row': $ctrl.selectedConstruction.id == construction.id}"
                                 ng-if="$ctrl.constructions.length > 0">
                                 <td class="text-center">
-                                    <input type="checkbox" id="construction_{{construction.id}}" class="modal-checkbox hide" ng-model="construction.isSelected" name="selectedConstruction_{{$index}}" />
+                                    <input type="checkbox"
+                                           id="construction_{{construction.id}}"
+                                           class="modal-checkbox hide"
+                                           ng-model="construction.isSelected"
+                                           name="selectedConstruction_{{$index}}"
+                                           ng-disabled="construction.isBusy"/>
                                     <label for="construction_{{construction.id}}"></label>
                                 </td>
                                 <td ng-bind="construction.name"></td>

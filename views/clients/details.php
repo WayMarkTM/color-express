@@ -7,6 +7,7 @@
  */
 
 
+use app\components\InterruptReservationWidget;
 use app\models\constants\AdvertisingConstructionStatuses;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -19,6 +20,9 @@ use yii\widgets\Pjax;
 /* @var $user app\models\User */
 
 $this->title = $user->company;
+
+InterruptReservationWidget::begin();
+InterruptReservationWidget::end();
 ?>
 
 <div class="row">
@@ -121,7 +125,7 @@ $this->title = $user->company;
                         ],
                         [
                             'class' => 'yii\grid\ActionColumn',
-                            'template' => '{confirm}{cancel}',
+                            'template' => '{confirm}{cancel}{interrupt}',
                             'header' => 'Управление',
                             'headerOptions' => ['width' => '300', 'class' => 'text-center'],
                             'contentOptions' =>['class' => 'text-center'],
@@ -140,6 +144,17 @@ $this->title = $user->company;
                                         'title' => 'Отклонить',
                                         'class' => 'custom-btn sm white',
                                         'style' => 'width:50%;'.($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED  ? '' : 'display: none;')
+                                    ]);
+                                },
+                                'interrupt' => function ($url, $model) {
+                                    return Html::a('Прервать', '#', [
+                                        'title' => 'Прервать',
+                                        'class' => 'custom-btn sm white interrupt-reservation',
+                                        'style' => 'width: 100%;'.($model->status_id == AdvertisingConstructionStatuses::APPROVED && new \DateTime($model->to) > new \DateTime()  ? '' : 'display:none;'),
+                                        'data-id' => $model->id,
+                                        'data-from' => $model->from,
+                                        'data-to' => $model->to,
+                                        'data-cost' => $model->cost
                                     ]);
                                 }
                             ]
@@ -224,6 +239,16 @@ $this->title = $user->company;
                 window.location.reload();
             });
         });
+
+        $('.interrupt-reservation').on('click', function (e) {
+            e.preventDefault();
+            var data = $(this).data();
+            $('#interrupt-reservation-modal #interruptionform-id').val(data.id);
+            $('#interrupt-reservation-modal #interruptionform-todate').val(data.to);
+            $('#interrupt-reservation-modal #interruptionform-cost').val(data.cost);
+            $('#interrupt-reservation-modal').modal('show');
+
+        })
     });
 </script>
 <?= $this->render('@app/views/layouts/_partial/_modalClientData', [

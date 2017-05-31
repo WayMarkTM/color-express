@@ -12,6 +12,7 @@ use app\models\constants\AdvertisingConstructionStatuses;
 use app\models\entities\AdvertisingConstruction;
 use app\models\entities\AdvertisingConstructionReservation;
 use app\models\entities\MarketingType;
+use app\models\InterruptionForm;
 use app\models\User;
 use Yii;
 use yii\db\Exception;
@@ -52,12 +53,38 @@ class AdvertisingConstructionReservationService
      * @return array|string Array of errors
      */
     public function checkOutReservations($thematic, $reservations) {
+        $result = $this->validateFrontendReservations($reservations);
+
+        if (count($result) == 0) {
+            foreach ($reservations as $reservation) {
+                $transaction = Yii::$app->db->beginTransaction();
+                $res = $this->checkOutReservation($reservation, $thematic);
+                if ($res != 'success') {
+                    array_push($result, $res);
+                    $transaction->rollBack();
+                } else {
+                    $transaction->commit();
+                }
+            }
+        }
+
+        return array_unique($result);
+    }
+
+    private function validateFrontendReservations($reservations) {
         $result = array();
-        foreach ($reservations as $reservation) {
-            $res = $this->checkOutReservation($reservation, $thematic) ;
-            if ($res != 'success') {
-                array_push($result, $res);
-            };
+        $dateService = new DateService();
+
+        foreach ($reservations as $reservation1) {
+            foreach ($reservations as $reservation2) {
+                if ($reservation1['advertising_construction_id'] == $reservation2['advertising_construction_id'] && $reservation1['id'] != $reservation2['id']) {
+                    if ($dateService->intersects(new \DateTime($reservation1['from']), new \DateTime($reservation1['to']),
+                        new \DateTime($reservation2['from']), new \DateTime($reservation2['to']))) {
+
+                        array_push($result, 'Даты бронирований конструкций "'.$reservation1['name'] .'" и "'.$reservation2['name'].'" пересекаются.');
+                    }
+                }
+            }
         }
 
         return $result;
@@ -390,5 +417,22 @@ class AdvertisingConstructionReservationService
     public function deleteOldReservation()
     {
         AdvertisingConstructionReservation::deleteAll(['<', 'to', new Expression('CURDATE()- interval 31 day')]);
+    }
+
+    /**
+     * @param $model InterruptionForm
+     * @return bool
+     */
+    public function interruptReservation($model) {
+        $reservation = AdvertisingConstructionReservation::findOne($model->id);
+        if (new \DateTime($reservation->from) > new \DateTime($model->toDate) ||
+            new \DateTime($reservation->to) < new \DateTime($model->toDate)) {
+            return false;
+        }
+
+        $reservation->to = $model->toDate;
+        $reservation->cost = $model->cost;
+        $reservation->save();
+        return true;
     }
 }
