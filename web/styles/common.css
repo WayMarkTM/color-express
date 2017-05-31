@@ -542,6 +542,10 @@ table td a:hover {
     background: -o-linear-gradient(#fff, #999);
 }
 
+.stock-window .content img {
+	width: 100%;
+}
+
 .stock-window .close {
     background: #606061;
     font-size: 55px;
