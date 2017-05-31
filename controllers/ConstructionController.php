@@ -82,12 +82,6 @@ class ConstructionController extends Controller
 
         $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems($searchModel->type_id);
         $types = AdvertisingConstructionService::getAdvertisingConstructionTypeDropdownItems();
-        $addresses = ArrayHelper::map(AdvertisingConstruction::find()
-            ->where(['=', 'type_id', $searchModel->type_id])
-            ->andWhere(['=', 'is_published', '1'])
-            ->select('address')
-            ->orderBy('address')
-            ->all(), 'address', 'address');
 
         $this->layout = 'base.php';
 
@@ -95,8 +89,7 @@ class ConstructionController extends Controller
             'searchModel' => $searchModel,
             'constructions' => $searchResults,
             'sizes' => $sizes,
-            'types' => $types,
-            'addresses' => $addresses,
+            'types' => $types
         ]);
     }
 

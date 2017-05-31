@@ -18,7 +18,6 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\AdvertisingConstructionSearch */
 /* @var $constructions array|app\models\entities\AdvertisingConstruction */
 /* @var $sizes array */
-/* @var $addresses array */
 /* @var $types array */
 
 $mappedConstructions = array();
@@ -106,8 +105,7 @@ $this->title = "Каталог рекламных конструкций";
                 <div class="col-md-4">
                     <?= $this->render('_search', [
                         'model' => $searchModel,
-                        'sizes' => $sizes,
-                        'addresses' => $addresses
+                        'sizes' => $sizes
                     ]) ?>
                 </div>
                 <div class="col-md-8">
