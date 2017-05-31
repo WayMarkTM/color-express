@@ -38,6 +38,8 @@ use yii\widgets\ActiveForm;
 
                     <?= $form->field($documentForm, 'year')->textInput(['placeholder' => 'Год'])->label(false) ?>
 
+                    <?= $form->field($documentForm, 'contract')->textInput(['placeholder' => 'Номер договора'])->label(false) ?>
+
                     <?= $form->field($documentForm, 'documentFile')->fileInput([
                         'accept' => 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                     ])?>

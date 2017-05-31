@@ -542,6 +542,10 @@ table td a:hover {
     background: -o-linear-gradient(#fff, #999);
 }
 
+.stock-window .content img {
+	width: 100%;
+}
+
 .stock-window .close {
     background: #606061;
     font-size: 55px;
@@ -746,4 +750,18 @@ table .selected {
 .highlight-declined {
     font-weight: bold;
     color: red;
+}
+
+.balance-label {
+    font-weight: bold;
+    color: #e2001e;
+    font-size: 17px;
+}
+
+.balance-label .balance-value {
+    font-size: 22px;
+}
+
+.has-balance {
+    color: #e2001e;
 }

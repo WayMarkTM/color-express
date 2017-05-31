@@ -11,6 +11,7 @@ namespace app\controllers;
 
 use app\models\SignupForm;
 use app\models\User;
+use app\services\AdvertisiongConstructionNotificationService;
 use app\services\ClientsService;
 use app\services\DocumentService;
 use app\services\MailService;
@@ -148,7 +149,7 @@ class ClientsController extends Controller
         //add user can delete
         $userService = new UserService();
         $userService->deleteClient($id);
-        $this->redirect('index');
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionDocuments()
@@ -157,6 +158,7 @@ class ClientsController extends Controller
         $user = User::findOne($currentUserId);
         $subclients = array();
         $documentsCalendar = array();
+        AdvertisiongConstructionNotificationService::checkNotifications();
 
         if ($user->is_agency) {
             $subclients = $this->subclientService->getSubclients($currentUserId);

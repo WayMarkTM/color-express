@@ -18,7 +18,7 @@ $this->title = 'Наши Клиенты';
 </div>
 <div class="row">
     <div class="col-sm-12 text-center">
-        <h4 class="text-uppercase">Занимаясь этим бизнесом более 20 лет</h4>
+        <h4 class="text-uppercase">Занимаясь этим бизнесом более 25 лет</h4>
         <h4 class="text-uppercase">компании ООО «КОЛОРЭКСПРЕСС» доверили свои бренды такие компании как:</h4>
     </div>
 </div>

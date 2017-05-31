@@ -11,7 +11,7 @@ use Yii;
  * @property string $company
  * @property string $pan
  * @property string $contract
- * @property string $amount
+ * @property float $amount
  * @property string $created_at
  * @property integer $imported_from_id
  *

@@ -96,7 +96,7 @@ $this->title = 'Управление клиентами';
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{update} &nbsp;&nbsp;&nbsp;{delete}',
+                    'template' => '{update}',
                     'headerOptions' => ['width' => '80', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
                     'urlCreator' => function ($action, $model, $key, $index) {

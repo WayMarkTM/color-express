@@ -12,8 +12,11 @@ use app\models\AdvertisingConstructionFastReservationForm;
 use app\models\AdvertisingConstructionSearch;
 use app\models\entities\AdvertisingConstruction;
 use app\models\constants\AdvertisingConstructionStatuses;
+use app\models\entities\AdvertisingConstructionReservation;
+use app\models\InterruptionForm;
 use app\services\AdvertisingConstructionReservationService;
 use app\services\AdvertisingConstructionService;
+use app\services\AdvertisiongConstructionNotificationService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -23,6 +26,7 @@ use yii\web\MethodNotAllowedHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\Request;
+use yii\widgets\ActiveForm;
 
 
 class ConstructionController extends Controller
@@ -46,7 +50,7 @@ class ConstructionController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['buy-construction', 'reserv-construction', 'buy-constructions', 'reserv-constructions'],
+                        'actions' => ['buy-construction', 'reserv-construction', 'buy-constructions', 'reserv-constructions','notification-create'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -82,6 +86,7 @@ class ConstructionController extends Controller
             ->where(['=', 'type_id', $searchModel->type_id])
             ->andWhere(['=', 'is_published', '1'])
             ->select('address')
+            ->orderBy('address')
             ->all(), 'address', 'address');
 
         $this->layout = 'base.php';
@@ -107,12 +112,15 @@ class ConstructionController extends Controller
 
         $marketing_types = AdvertisingConstructionService::getMarketingTypeDropdownItems();
 
+        $isNotificate = AdvertisiongConstructionNotificationService::getIsNotificate($id);
+
         return $this->render('view', [
             'model' => $model,
             'reservationModel' => $reservationModel,
             'bookings' => $bookings,
             'reservations' => $reservations,
-            'marketingTypes' => $marketing_types
+            'marketingTypes' => $marketing_types,
+            'isNotificate' => $isNotificate
         ]);
     }
 
@@ -210,6 +218,18 @@ class ConstructionController extends Controller
         ];
     }
 
+    public function actionNotificationCreate()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $constructionId = Yii::$app->request->post('construction_id');
+            $notificationService = new AdvertisiongConstructionNotificationService();
+            $notificationService->createNotification($constructionId);
+            return ['isValid' => true];
+        }
+        return ['isValid' => false];
+    }
+
     /**
      * Finds the AdvertisingConstruction model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -223,6 +243,24 @@ class ConstructionController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionInterruptValidation() {
+        $interruptionForm = new InterruptionForm();
+        if (Yii::$app->request->isAjax && $interruptionForm->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if (!ActiveForm::validate($interruptionForm)) {
+                return false;
+            }
+
+            $reservation = AdvertisingConstructionReservation::findOne($interruptionForm->id);
+            if (new \DateTime($reservation->from) > new \DateTime($interruptionForm->toDate) ||
+                new \DateTime($reservation->to) < new \DateTime($interruptionForm->toDate)) {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property string $filename
  * @property integer $status
+ * @property string $created_at
  *
  * @property ClientBalance[] $clientBalances
  */
@@ -31,6 +32,7 @@ class ImportFile extends \yii\db\ActiveRecord
         return [
             [['filename', 'status'], 'required'],
             [['status'], 'integer'],
+            [['created_at'], 'safe'],
             [['filename'], 'string', 'max' => 255],
         ];
     }
@@ -44,6 +46,7 @@ class ImportFile extends \yii\db\ActiveRecord
             'id' => 'ID',
             'filename' => 'Filename',
             'status' => 'Status',
+            'created_at' => 'Created At',
         ];
     }
 

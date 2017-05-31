@@ -97,7 +97,7 @@
                         toastr.success('Спасибо, Ваша заявка принята в работу. Подтверждение будет отправлено на е-мейл.');
                         $timeout(function () {
                             window.location.href = '/construction/index';
-                        }, 1500);
+                        }, 3000);
                     } else {
                         toastr.error(response.data.messages.join('\n'));
                         $timeout(function () {

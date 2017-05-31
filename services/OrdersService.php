@@ -23,11 +23,13 @@ class OrdersService
      * @return Query
      */
     public function getOrders($userId = null) {
+        $isEmployeeList = true;
         if ($userId == null) {
             $userId = Yii::$app->user->getId();
+            $isEmployeeList = false;
         }
 
-        return $this->getUserOrdersQuery($userId);
+        return $this->getUserOrdersQuery($userId, $isEmployeeList);
     }
 
     /**
@@ -99,12 +101,20 @@ class OrdersService
 
     /**
      * @param integer $user_id
+     * @param boolean $isEmployeeList
      * @return Query
      */
-    private function getUserOrdersQuery($user_id) {
+    private function getUserOrdersQuery($user_id, $isEmployeeList) {
+        $statuses = [AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::RESERVED,
+            AdvertisingConstructionStatuses::APPROVED, AdvertisingConstructionStatuses::APPROVED_RESERVED];
+
+        if (!$isEmployeeList) {
+            array_push($statuses, AdvertisingConstructionStatuses::DECLINED);
+        }
+
         return AdvertisingConstructionReservation::find()
             ->where(['=', 'user_id', $user_id])
-            ->andWhere(['in', 'status_id', [AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED, AdvertisingConstructionStatuses::DECLINED, AdvertisingConstructionStatuses::APPROVED_RESERVED]]);
+            ->andWhere(['in', 'status_id', $statuses]);
     }
 
     /**

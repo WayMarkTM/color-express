@@ -11,6 +11,7 @@ namespace app\commands;
 
 
 use app\services\AdvertisingConstructionReservationService;
+use app\services\AdvertisiongConstructionNotificationService;
 use yii\console\Controller;
 
 class SheduleController extends Controller
@@ -25,6 +26,11 @@ class SheduleController extends Controller
     {
         $constuctionReservationService = new AdvertisingConstructionReservationService();
         $constuctionReservationService->deleteOldReservation();
+    }
+
+    public function actionNotificateFreeConstruction()
+    {
+        AdvertisiongConstructionNotificationService::checkNotifications();
     }
 
 }

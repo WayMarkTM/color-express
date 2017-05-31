@@ -28,14 +28,21 @@ class DocumentService
      * @param integer $userId
      * @param integer $year
      * @param integer $month
+     * @param integer|null $subclientId
      * @return array|Document[]
      */
-    public function getDocuments($userId, $year, $month) {
-        return Document::find()
+    public function getDocuments($userId, $year, $month, $subclientId) {
+        $query = Document::find()
             ->where(['=', 'user_id', $userId])
             ->andFilterWhere(['=', 'year', $year])
-            ->andFilterWhere(['=', 'month', $month])
-            ->all();
+            ->andFilterWhere(['=', 'month', $month]);
+
+        if ($subclientId != null) {
+            $query = $query
+                ->andWhere(['=', 'subclient_id', $subclientId]);
+        }
+
+        return $query->all();
     }
 
     /**
@@ -51,6 +58,7 @@ class DocumentService
         $document->user_id = $userId;
         $document->subclient_id = $subclientId;
         $document->filename = $viewModel->filename;
+        $document->contract = $viewModel->contract;
         $document->save();
     }
 

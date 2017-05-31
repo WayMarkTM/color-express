@@ -9,6 +9,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * SiteSettingsController implements the CRUD actions for SiteSettings model.
@@ -80,7 +81,12 @@ class SiteSettingsController extends BaseAdminController
         $request = Yii::$app->request->post();
 
         if ($request) {
-            $model->value = $request['SiteSettings']['value'];
+            if ($model->isImage()) {
+                $imageFile = UploadedFile::getInstance($model, 'value');
+                $model->upload($imageFile);
+            } else {
+                $model->value = $request['SiteSettings']['value'];
+            }
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }

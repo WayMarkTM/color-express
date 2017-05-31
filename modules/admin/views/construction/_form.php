@@ -69,6 +69,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'is_published')->checkBox(['selected' => $model->is_published]) ?>
 
+    <?= $form->field($model, 'youtube_ids')->textInput() ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->id == null ? 'Создать' : 'Сохранить', ['class' => 'custom-btn blue']) ?>
     </div>

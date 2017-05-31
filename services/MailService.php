@@ -15,6 +15,7 @@ use app\models\entities\AdvertisingConstructionReservation;
 use app\models\Mail;
 use app\models\FeedBackForm;
 use app\models\User;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 class MailService
@@ -101,7 +102,7 @@ class MailService
     public function notificationForTheDayOfEndReservation($user, $reservation)
     {
         $mail = new Mail();
-        $text = '<p style="margin:auto;">Уведомляем Вас, что истекает срок отложенного заказа на сайте <a target="_blank" href="'.Url::home(true).'">'.Url::home(true).'</a>. Перейдите в личный кабинет для оформления заказа.</p>';
+        $text = '<p style="margin:auto;">Уведомляем Вас, что истекает срок отложенного заказа на сайте <a target="_blank" href="'.\Yii::$app->urlManager->baseUrl.'">'.\Yii::$app->urlManager->baseUrl.'</a>. Перейдите в личный кабинет для оформления заказа.</p>';
         $subject = 'Уведомление о прекращении резерва';
 
         return $mail->send($user->username, $subject, $text);
@@ -114,6 +115,15 @@ class MailService
         $subject = 'Подтверждение заказа';
 
         return $mail->send($user->username, $subject, $text);
+    }
+
+    public function sendNotificateAboutFreeConstruction($sendTo, $constructionId) {
+        $mail = new Mail();
+        $url = Url::to(['construction/details', 'id' => $constructionId]);
+        $text = '<p style="margin:auto;">Конструкция освободилась <a target="_blank" href="'.$url.'">'.$url.'</a>.</p>';
+        $subject = 'Конструкция освободилась';
+
+        return $mail->send($sendTo, $subject, $text);
     }
 
 }
