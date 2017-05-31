@@ -11,6 +11,7 @@ namespace app\controllers;
 
 use app\models\AddDocumentForm;
 use app\models\entities\Document;
+use app\models\entities\Subclient;
 use app\services\DocumentService;
 use Yii;
 use yii\filters\AccessControl;
@@ -31,11 +32,11 @@ class DocumentsController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['get-documents-calendar', 'get-subclient-documents-calendar', 'get-documents', 'delete-document', 'upload-validation'], //only be applied to
+                'only' => ['get-documents-calendar', 'get-subclient-documents-calendar', 'get-documents', 'delete-document', 'upload-validation', 'delete-subclient'], //only be applied to
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['delete-document', 'upload-validation'],
+                        'actions' => ['delete-document', 'upload-validation', 'delete-subclient'],
                         'roles' => ['employee'],
                     ],
                     [
@@ -95,5 +96,18 @@ class DocumentsController extends Controller
         }
 
         Document::findOne($documentId)->delete();
+    }
+
+    public function actionDeleteSubclient($id) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $documents = Document::find()
+            ->where(['=', 'subclient_id', $id])
+            ->all();
+        foreach($documents as $document) {
+            $document->delete();
+        }
+
+        Subclient::findOne($id)->delete();
     }
 }

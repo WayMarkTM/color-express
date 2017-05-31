@@ -107,6 +107,7 @@ use yii\web\View;
                 </div>
             <?php } ?>
             <div class="col-sm-8" ng-if="!!$ctrl.selectedSubclientId || !$ctrl.subclients || $ctrl.subclients.length == 0">
+                <a href="#" class="additional-link" ng-click="$ctrl.deleteSubclient($event)" style="margin-right: 15px;"><i class="icon add-document-icon"></i>Удалить сюжет</a>
                 <a href="#" class="additional-link" ng-click="$ctrl.openAddDocumentModal($event)"><i class="icon add-document-icon"></i>Добавить документ</a>
             </div>
         <?php } ?>
