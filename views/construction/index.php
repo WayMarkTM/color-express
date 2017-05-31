@@ -59,14 +59,12 @@ if (Yii::$app->user->isGuest) {
 }
 
 $this->registerJs('var isEmployee = '.json_encode($isEmployee).';', \yii\web\View::POS_BEGIN);
-$this->registerJsFile('@web/js/ya-map-2.1.min.js');
-$this->registerJsFile('@web/js/ui-bootstrap-tpls-2.5.0.min.js');
-$this->registerJsFile('@web/js/app/constructions.js');
+
 
 $this->title = "Каталог рекламных конструкций";
 
 ?>
-<div class="loader"></div>
+
 <div class="advertising-construction-page-container" ng-app="constructions" ng-controller="constructionsCtrl as $ctrl">
     <?php if ($isEmployee) {
         CompanySelectionWidget::begin(['param' => 'multiple']);
@@ -89,7 +87,7 @@ $this->title = "Каталог рекламных конструкций";
                 </div>
             </div>
         </div>
-        <div class="row hide">
+        <div class="row">
             <div class="col-md-12">
                 <ya-map ya-zoom="11" ya-center="[27.5292012,53.8905047]">
                     <ya-geo-object ng-repeat="construction in $ctrl.constructions"
@@ -184,12 +182,7 @@ $this->title = "Каталог рекламных конструкций";
     </div>
 </div>
 <?php
-$script = <<< JS
-    ymaps.ready(function(){
-        $('.advertising-construction-list-container > .row:eq(1)').removeClass('hide'); 
-         $('.loader').hide();
-    });
-JS;
-$position = \yii\web\View::POS_READY;
-$this->registerJs($script, $position);
+$this->registerJsFile('@web/js/ya-map-2.1.min.js');
+$this->registerJsFile('@web/js/ui-bootstrap-tpls-2.5.0.min.js');
+$this->registerJsFile('@web/js/app/constructions.js');
 ?>

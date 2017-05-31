@@ -761,3 +761,15 @@ table .selected {
 .has-balance {
     color: #e2001e;
 }
+
+.background-on-load {
+    background-color: rgba(255, 255, 255, 0.5);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.page-wrapper.loading > div {
+    -webkit-filter: blur(10px);
+    filter: blur(10px);
+}

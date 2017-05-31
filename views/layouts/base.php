@@ -35,6 +35,8 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
+<div class="background-on-load"></div>
+<div class="loader"></div>
 <?php $this->beginBody() ?>
 
 <div class="wrap">
@@ -75,7 +77,7 @@ AppAsset::register($this);
         </div>
     </div>
 
-    <div class="page-wrapper">
+    <div class="page-wrapper loading">
         <?= $content ?>
     </div>
 </div>
@@ -91,6 +93,17 @@ if(Yii::$app->user->isGuest) {
 
 StockWidget::begin();
 StockWidget::end();
+
+$script = <<< JS
+    $(document).ready(function() {
+        $('.loader').hide();
+        $('.page-wrapper.loading').removeClass('loading');
+    });
+
+JS;
+$position = \yii\web\View::POS_BEGIN;
+$this->registerJs($script, $position);
+
 ?>
 </body>
 </html>
