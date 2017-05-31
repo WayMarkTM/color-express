@@ -148,7 +148,7 @@ class User extends entities\User implements IdentityInterface
      */
     public function getType()
     {
-        return $this->is_agency ? 'Агенство' : 'Заказчик';
+        return $this->is_agency ? 'Агентство' : 'Заказчик';
     }
 
     public function isEmployee()
