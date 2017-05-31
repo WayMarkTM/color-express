@@ -5,11 +5,11 @@ namespace importer;
 use mysqli;
 
 class Constants {
-    const CSV_DIRECTORY = 'D:/import from 1c/csv/';
-    const SERVER_NAME = '127.0.0.1';
+    const CSV_DIRECTORY = '/var/www/www-root/data/ftp/ftpuser/csv/';
+    const SERVER_NAME = 'localhost';
     const DB_USERNAME = 'root';
-    const DB_PASSWORD = '';
-    const DB_NAME = 'colorexpressdev';
+    const DB_PASSWORD = 'Yg79523cwb';
+    const DB_NAME = 'colorexpress';
 }
 
 class ImportedFileStatuses {
@@ -31,8 +31,9 @@ class DataAccess {
 
         $filepath = Constants::CSV_DIRECTORY.$csv;
         $query = <<<eof
-    LOAD DATA INFILE '$filepath'
+    LOAD DATA LOCAL INFILE '$filepath'
     INTO TABLE `client_balance`
+    CHARACTER SET UTF8
     FIELDS TERMINATED BY ';'
     LINES TERMINATED BY '\r\n'
     (@company,@pan,@contract,@amount)
@@ -44,7 +45,9 @@ class DataAccess {
         `created_at` = NOW()
 eof;
 
-        $this->connection->query($query);
+        if (!$this->connection->query($query)) {
+            echo $this->connection->error;
+        }
 
         echo "Updating import_file status... \n";
 
