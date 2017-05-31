@@ -80,8 +80,9 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
             <?php $form = ActiveForm::begin(); ?>
             <div class="row">
                 <div class="col-md-12">
-                    <script type="text/javascript" src="/web/html5gallery/jquery.js"></script>
-                    <script type="text/javascript" src="/web/html5gallery/html5gallery.js"></script>
+                    <?php
+                    $this->registerJsFile('@web/html5gallery/html5gallery.js');
+                    ?>
                     <div style="display:none;"
                          class="html5gallery"
                          data-lightbox="true"
@@ -202,7 +203,7 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
             <?php if(!$isNotificate): ?>
             <div class="row">
                 <div class="col-md-12">
-                    <a href="#" class="reminder-link pull-right create-notification">Уведомить, когда освободится</a>
+                    <a href="#" class="reminder-link pull-right">Уведомить, когда освободится</a>
                 </div>
             </div>
             <?php endif; ?>
