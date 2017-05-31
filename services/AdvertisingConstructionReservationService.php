@@ -341,13 +341,18 @@ class AdvertisingConstructionReservationService
         return $this->getShoppingCartItems()->count();
     }
 
-    /**
-     * @return int Count of client's not processed items.
-     */
-    public function getCountClientNotProccessedItems() {
+    public function validateAndUpdateReservationRange($model) {
+        if (!$this->isDateRangesValid($model)) {
+            return false;
+        }
 
+        $reservation = AdvertisingConstructionReservation::findOne($model['id']);
+        $reservation->from = (new \DateTime($model['from']))->format('Y-m-d');
+        $reservation->to = (new \DateTime($model['to']))->format('Y-m-d');
+        $reservation->save();
+
+        return true;
     }
-
     /**
      * @param integer $userId
      * @param mixed $model

@@ -173,6 +173,7 @@
 
         function init() {
             vm.model = {
+                id: reservation.id,
                 advertising_construction_id: reservation.advertising_construction_id,
                 from: new Date(reservation.from),
                 to: new Date(reservation.to)

@@ -194,12 +194,12 @@ class ConstructionController extends Controller
         ]);
     }
 
-    public function actionValidateConstructionDateRange() {
+    public function actionValidateAndSaveConstructionDateRange() {
         $this->enableCsrfValidation = false;
         Yii::$app->response->format = Response::FORMAT_JSON;
         $model = Yii::$app->request->post();
 
-        if (!$this->advertisingConstructionReservationService->isDateRangesValid($model)) {
+        if (!$this->advertisingConstructionReservationService->validateAndUpdateReservationRange($model)) {
             return [
                 'isValid' => false,
                 'message' => 'Данные даты заняты для бронирования.'
