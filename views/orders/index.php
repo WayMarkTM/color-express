@@ -91,6 +91,7 @@ $this->title = 'Мои заказы';
                 ],
                 [
                     'attribute' => 'cost',
+                    'label' => 'Стоимость с НДС (BYN)',
                     'headerOptions' => ['width' => '120', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
                 ],

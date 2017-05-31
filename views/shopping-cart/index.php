@@ -72,7 +72,7 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
                         <th class="text-center">Название</th>
                         <th class="text-center">Адрес</th>
                         <th class="text-center" width="250">Даты использования</th>
-                        <th class="text-center" width="220">Стоимость за период, BYN (стоимость в месяц, BYN)</th>
+                        <th class="text-center" width="290">Стоимость за период, с НДС, BYN (стоимость в месяц, с НДС, BYN)</th>
                         <th class="text-center" width="180">Тип рекламы</th>
                         <th class="text-center" ng-if="$ctrl.isEmployee">Компания</th>
                         <th width="180">&nbsp;</th>
@@ -109,7 +109,7 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
         <div ng-if="$ctrl.cartItems.length > 0">
             <div class="row block-row">
                 <div class="col-md-4">
-                    <span class="shopping-cart-total">Итого: <span class="total-cost" ng-bind="$ctrl.getTotalCost()"></span> бел. руб. с НДС</span>
+                    <span class="shopping-cart-total">Итого: <span class="total-cost" ng-bind="$ctrl.getTotalCost()"></span> BYN с НДС</span>
                 </div>
                 <div class="col-md-8">
                     <div class="pull-right">

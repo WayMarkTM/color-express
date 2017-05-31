@@ -32,7 +32,7 @@ class OrderItemModel extends Model
             'id' => 'ID',
             'advertisingConstructionName' => 'Название',
             'address' => 'Адрес',
-            'cost' => 'Цена с НДС (бел. руб.)',
+            'cost' => 'Цена с НДС (BYN)',
             'type' => 'Тип',
             'status' => 'Статус'
         ];

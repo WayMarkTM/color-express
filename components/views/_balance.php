@@ -10,6 +10,6 @@
 
 ?>
 <div class="balance-container">
-    Задолженность (руб.): <span class="balance"><?= $balance ?></span>
+    Задолженность (BYN): <span class="balance"><?= $balance ?></span>
 </div>
 
