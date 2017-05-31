@@ -22,6 +22,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+            $model->isImage() ? [
+                'label'=> 'Изображение',
+                'value' => '/'.$model->value,
+                'format' => ['image',['width'=>'100','height'=>'100']],
+            ] :
             'value',
             'name',
         ],
