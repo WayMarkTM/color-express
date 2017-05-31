@@ -17,7 +17,7 @@ $this->title = 'Преимущества';
 <hr/>
 <div class="row">
     <div class="col-sm-6 text-center">
-        <img src="../images/advantages/big-photo.png" style="width: 80%"/>
+        <img src="../images/advantages/big-photo.png" style="max-height: 286px; width: auto; margin-top: 10px;"/>
     </div>
     <div class="col-sm-6">
         <div class="advantage-panel lamp">
