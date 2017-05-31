@@ -21,6 +21,7 @@
         vm.openAddDocumentModal = openAddDocumentModal;
         vm.openAddSubclientModal = openAddSubclientModal;
         vm.deleteDocument = deleteDocument;
+        vm.deleteSubclient = deleteSubclient;
 
 
         function init() {
@@ -114,11 +115,23 @@
         }
 
         function deleteDocument($index, document) {
-            if (confirm('Вы уверены, что хотите удалить документ ' + document.filename)) {
+            if (confirm('Вы уверены, что хотите удалить документ ' + document.filename + '?')) {
                 documentDataService.deleteDocument(document.id)
                     .then(function () {
                         vm.documents.splice($index, 1);
                         toastr.success('Документ успешно удален');
+                    });
+            }
+        }
+
+        function deleteSubclient($event) {
+            if (confirm('Вы уверены, что хотите удалить выбранный сюжет?')) {
+                documentDataService.deleteSubclient(vm.selectedSubclientId)
+                    .then(function () {
+                        var $index = _.findIndex(vm.subclients, function (it) { return it.id == vm.selectedSubclientId; });
+                        vm.subclients.splice($index, 1);
+                        vm.selectedSubclientId = null;
+                        toastr.success('Сюжет успешно удален');
                     });
             }
         }
@@ -153,7 +166,8 @@
             loadCalendar: loadCalendar,
             loadDocuments: loadDocuments,
             loadSubclientCalendar: loadSubclientCalendar,
-            deleteDocument: deleteDocument
+            deleteDocument: deleteDocument,
+            deleteSubclient: deleteSubclient
         };
 
         function loadCalendar() {
@@ -187,6 +201,12 @@
 
         function deleteDocument(documentId) {
             var url = GATEWAY_URLS.DELETE_DOCUMENT + '?documentId=' + documentId;
+
+            return $http.get(url);
+        }
+
+        function deleteSubclient(subclientId) {
+            var url = GATEWAY_URLS.DELETE_SUBCLIENT + '?id=' + subclientId;
 
             return $http.get(url);
         }
