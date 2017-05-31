@@ -28,6 +28,7 @@ class AppAsset extends AssetBundle
         'styles/icons.css',
         'styles/construction.css',
         'styles/documents.css',
+        'styles/ring_loader.css',
     ];
     public $js = [
         'js/lodash.min.js',
