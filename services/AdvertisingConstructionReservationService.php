@@ -349,6 +349,8 @@ class AdvertisingConstructionReservationService
         $reservation = AdvertisingConstructionReservation::findOne($model['id']);
         $reservation->from = (new \DateTime($model['from']))->format('Y-m-d');
         $reservation->to = (new \DateTime($model['to']))->format('Y-m-d');
+        $reservation->cost = $this->getReservationCost($reservation->advertising_construction_id,
+            $reservation->marketing_type_id, $reservation->from, $reservation->to);
         $reservation->save();
 
         return true;
