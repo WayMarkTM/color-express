@@ -118,7 +118,9 @@ InterruptReservationWidget::end();
                                     '<input class="form-control full-width cost" type="text" value="'.$model->cost.'" />' :
                                     $model->cost;
 
-                                $result.=' ('.($model->advertisingConstruction->price*30).')';
+                                $costPerMonth = 30 * ($model->advertisingConstruction->price * (100 + $model->marketingType->charge) / 100);
+
+                                $result.=' ('.($costPerMonth).')';
 
                                 return $result;
                             }
