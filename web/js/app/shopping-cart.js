@@ -32,6 +32,7 @@
 
         vm.$onInit = init;
         vm.getTotalCost = getTotalCost;
+        vm.getMonthCost = getMonthCost;
         vm.onItemMarketingTypeChanged = onItemMarketingTypeChanged;
         vm.submit = submit;
         vm.editPeriod = editPeriod;
@@ -83,6 +84,12 @@
             var days = (to - from)/(1000*60*60*24) + 1;
 
             return (days * (item.price * charge / 100)).toFixed(2);
+        }
+
+        function getMonthCost(item) {
+            var charge = getItemMarketingTypeCharge(item);
+
+            return (item.price * charge/100 * 30).toFixed(2);
         }
 
         function submit() {
