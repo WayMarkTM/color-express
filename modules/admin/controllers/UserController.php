@@ -91,10 +91,10 @@ class UserController extends BaseAdminController
 
         if(Yii::$app->request->isPost) {
             if($employee->load(Yii::$app->request->post())) {
-                $employee = $userService->save($employee);
-                if($employee) {
+                $employee_entity = $userService->save($employee);
+                if($employee_entity) {
                     $userRole = Yii::$app->authManager->getRole('employee');
-                    Yii::$app->authManager->assign($userRole, $employee->getId());
+                    Yii::$app->authManager->assign($userRole, $employee_entity->getId());
                 }
 
                 $this->refresh();
