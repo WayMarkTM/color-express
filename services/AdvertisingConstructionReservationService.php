@@ -296,7 +296,13 @@ class AdvertisingConstructionReservationService
             ]);
         }
 
+        usort($result, array($this, "addressCmp"));
+
         return $result;
+    }
+
+    public function addressCmp($a, $b) {
+        return strcmp($a['address'], $b['address']);
     }
 
     /**

@@ -14,6 +14,7 @@ use yii\web\View;
 $position = View::POS_BEGIN;
 $this->registerJsFile('@web/js/vis.min.js');
 $this->registerJs('var timelines = '.json_encode($timelinesItems).';', $position);
+$this->title = "Сводка";
 ?>
 
 <link rel="stylesheet" href="/web/styles/vis.min.css" />
