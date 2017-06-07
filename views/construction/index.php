@@ -8,6 +8,7 @@
 
 use app\components\CompanySelectionWidget;
 use app\components\RequireAuthorizationWidget;
+use app\models\constants\SystemConstants;
 use app\models\User;
 use app\services\JsonService;
 use yii\grid\GridView;
@@ -44,11 +45,18 @@ foreach ($constructions as $construction) {
 }
 
 $isDatesSet = $searchModel->fromDate != null && $searchModel->toDate != null;
+$isAgency = false;
+if (!Yii::$app->user->isGuest) {
+    $user = User::findOne(Yii::$app->user->getId());
+    $isAgency = $user->is_agency;
+}
 
 $this->registerJs('var constructions = '.json_encode($mappedConstructions).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var constructionTypes = '.json_encode($types).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var selectedConstructionType = '.json_encode($searchModel->type_id).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', \yii\web\View::POS_BEGIN);
+$this->registerJs('var isAgency = '.json_encode($isAgency).';', \yii\web\View::POS_BEGIN);
+$this->registerJs('var agencyCharge = '.json_encode(SystemConstants::AGENCY_PERCENT).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var isDatesSet = '.json_encode($isDatesSet).';', \yii\web\View::POS_BEGIN);
 
 if (Yii::$app->user->isGuest) {

@@ -9,6 +9,7 @@
 
 use app\components\InterruptReservationWidget;
 use app\models\constants\AdvertisingConstructionStatuses;
+use app\models\constants\SystemConstants;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -118,7 +119,8 @@ InterruptReservationWidget::end();
                                     '<input class="form-control full-width cost" type="text" value="'.$model->cost.'" />' :
                                     $model->cost;
 
-                                $costPerMonth = 30 * ($model->advertisingConstruction->price * (100 + $model->marketingType->charge) / 100);
+                                $agency_charge = $model->user->is_agency ? SystemConstants::AGENCY_PERCENT : 0;
+                                $costPerMonth = 30 * ($model->advertisingConstruction->price * (100 + $model->marketingType->charge) / 100 * (100 - $agency_charge)/100);
 
                                 $result.=' ('.($costPerMonth).')';
 

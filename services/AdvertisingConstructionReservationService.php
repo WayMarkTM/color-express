@@ -9,6 +9,7 @@
 namespace app\services;
 
 use app\models\constants\AdvertisingConstructionStatuses;
+use app\models\constants\SystemConstants;
 use app\models\entities\AdvertisingConstruction;
 use app\models\entities\AdvertisingConstructionReservation;
 use app\models\entities\MarketingType;
@@ -107,7 +108,8 @@ class AdvertisingConstructionReservationService
             $dbReservation->from = $reservation['from'];
             $dbReservation->to = $reservation['to'];
             $dbReservation->thematic = $thematic;
-            $dbReservation->cost = $this->getReservationCost($dbReservation->advertising_construction_id, $dbReservation->marketing_type_id, $dbReservation->from, $dbReservation->to);
+            $dbReservation->cost = $this->getReservationCost($dbReservation->advertising_construction_id,
+                $dbReservation->marketing_type_id, $dbReservation->from, $dbReservation->to, $dbReservation->user_id);
 
             if ($reservation['status_id'] == AdvertisingConstructionStatuses::IN_BASKET_RESERVED) {
                 $dbReservation->status_id = AdvertisingConstructionStatuses::RESERVED;
@@ -350,7 +352,7 @@ class AdvertisingConstructionReservationService
         $reservation->from = (new \DateTime($model['from']))->format('Y-m-d');
         $reservation->to = (new \DateTime($model['to']))->format('Y-m-d');
         $reservation->cost = $this->getReservationCost($reservation->advertising_construction_id,
-            $reservation->marketing_type_id, $reservation->from, $reservation->to);
+            $reservation->marketing_type_id, $reservation->from, $reservation->to, $reservation->user_id);
         $reservation->save();
 
         return true;
@@ -372,7 +374,8 @@ class AdvertisingConstructionReservationService
         $reservation->status_id = $statusId;
         $reservation->employee_id = $managerId;
         // TODO: add specific calculation for Agency
-        $reservation->cost = $this->getReservationCost(intval($model['advertising_construction_id']), intval($model['marketing_type']), $reservation->from, $reservation->to);
+        $reservation->cost = $this->getReservationCost(intval($model['advertising_construction_id']),
+            intval($model['marketing_type']), $reservation->from, $reservation->to, $reservation->user_id);
 
         return $reservation;
     }
@@ -382,17 +385,21 @@ class AdvertisingConstructionReservationService
      * @param int $marketingTypeId
      * @param string $from
      * @param string $to
+     * @param int $user_id
      * @return float Cost
      */
-    private function getReservationCost($constructionId, $marketingTypeId, $from, $to) {
+    private function getReservationCost($constructionId, $marketingTypeId, $from, $to, $user_id) {
         $construction = AdvertisingConstruction::findOne($constructionId);
         $marketing_type = MarketingType::findOne($marketingTypeId);
+        $user = User::findOne($user_id);
 
         $fromDate = new \DateTime($from);
         $toDate = new \DateTime($to);
         $days = intval($fromDate->diff($toDate)->days + 1);
 
-        return $days * ($construction->price * (100 + $marketing_type->charge) / 100);
+        $agency_charge = $user->is_agency ? SystemConstants::AGENCY_PERCENT : 0;
+
+        return $days * ($construction->price * (100 + $marketing_type->charge) / 100 * (100 - $agency_charge) / 100);
     }
 
     /**

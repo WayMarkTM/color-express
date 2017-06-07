@@ -1,4 +1,4 @@
-(function (constructions, constructionTypes, selectedConstructionType, isGuest, isEmployee, isDatesSet) {
+(function (constructions, constructionTypes, selectedConstructionType, isGuest, isEmployee, isDatesSet, isAgency, agencyCharge) {
     "use strict";
 
     var constructionsModule = angular
@@ -123,7 +123,8 @@
         }
 
         function getPriceForMonth(construction) {
-            return (construction.price * 30).toFixed(2);
+            var charge = isAgency ? agencyCharge : 0;
+            return (construction.price * (100-charge)/100 * 30).toFixed(2);
         }
 
         function getConstructionStatus(construction) {
@@ -415,4 +416,4 @@
         }
     }
 
-})(constructions, constructionTypes, selectedConstructionType, isGuest, isEmployee, isDatesSet);
+})(constructions, constructionTypes, selectedConstructionType, isGuest, isEmployee, isDatesSet, isAgency, agencyCharge);

@@ -6,6 +6,7 @@
  * Time: 7:37PM
  */
 
+use app\models\constants\SystemConstants;
 use app\models\User;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -32,7 +33,8 @@ foreach ($cartItems as $item) {
         'status_id' => $item->status_id,
         'price' => $item->advertisingConstruction->price,
         'cost' => $item->cost,
-        'company' => $item->user->company
+        'company' => $item->user->company,
+        'user_is_agency' => $item->user->is_agency
     ]);
 }
 
@@ -48,6 +50,7 @@ $position = View::POS_BEGIN;
 $this->registerJs('var cartItems = '.json_encode($jsonCartItems).';', $position);
 $this->registerJs('var isEmployee = '.json_encode($isEmployee).';', $position);
 $this->registerJs('var marketingTypes = '.$jsonMarketingTypes.';', $position);
+$this->registerJs('var agencyCharge = '.json_encode(SystemConstants::AGENCY_PERCENT).';', $position);
 $this->registerJsFile('@web/js/angular-locale_ru-ru.js');
 $this->registerJsFile('@web/js/ui-bootstrap-tpls-2.5.0.min.js');
 $this->registerJsFile('@web/js/vis.min.js');
