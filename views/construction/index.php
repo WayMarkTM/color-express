@@ -43,10 +43,13 @@ foreach ($constructions as $construction) {
     array_push($mappedConstructions, $arr);
 }
 
+$isDatesSet = $searchModel->fromDate != null && $searchModel->toDate != null;
+
 $this->registerJs('var constructions = '.json_encode($mappedConstructions).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var constructionTypes = '.json_encode($types).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var selectedConstructionType = '.json_encode($searchModel->type_id).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', \yii\web\View::POS_BEGIN);
+$this->registerJs('var isDatesSet = '.json_encode($isDatesSet).';', \yii\web\View::POS_BEGIN);
 
 if (Yii::$app->user->isGuest) {
     RequireAuthorizationWidget::begin();
@@ -142,7 +145,7 @@ $this->title = "Каталог рекламных конструкций";
                                     <span ng-if="!$ctrl.isGuest" ng-bind="$ctrl.getPriceForMonth(construction)"></span>
                                     <a ng-if="$ctrl.isGuest" href="#" ng-click="$ctrl.showRequireAuthorizationModal()">Зарегистрироваться</a>
                                 </td>
-                                <td class="text-center" ng-bind="construction.isBusy ? 'занята' : 'свободна'"></td>
+                                <td class="text-center" ng-bind="$ctrl.getConstructionStatus(construction)"></td>
                                 <td class="text-center">
                                     <a href="/construction/details?id={{ construction.id}}&q={{$ctrl.queryString}}">Подробнее</a>
                                 </td>

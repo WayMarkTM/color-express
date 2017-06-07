@@ -1,4 +1,4 @@
-(function (constructions, constructionTypes, selectedConstructionType, isGuest, isEmployee) {
+(function (constructions, constructionTypes, selectedConstructionType, isGuest, isEmployee, isDatesSet) {
     "use strict";
 
     var constructionsModule = angular
@@ -79,6 +79,7 @@
         vm.selectConstructionType = selectConstructionType;
         vm.selectConstruction = selectConstruction;
         vm.getPriceForMonth = getPriceForMonth;
+        vm.getConstructionStatus = getConstructionStatus;
         vm.showRequireAuthorizationModal = showRequireAuthorizationModal;
         vm.getSelectedConstructions = getSelectedConstructions;
         vm.getReport = getReport;
@@ -123,6 +124,14 @@
 
         function getPriceForMonth(construction) {
             return (construction.price * 30).toFixed(2);
+        }
+
+        function getConstructionStatus(construction) {
+            if (isDatesSet) {
+                return construction.isBusy ? 'занята' : 'свободна';
+            }
+
+            return '-'
         }
 
         function selectConstruction(construction) {
@@ -406,4 +415,4 @@
         }
     }
 
-})(constructions, constructionTypes, selectedConstructionType, isGuest, isEmployee);
+})(constructions, constructionTypes, selectedConstructionType, isGuest, isEmployee, isDatesSet);
