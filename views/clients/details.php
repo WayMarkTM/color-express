@@ -122,7 +122,7 @@ InterruptReservationWidget::end();
                                 $agency_charge = $model->user->is_agency ? SystemConstants::AGENCY_PERCENT : 0;
                                 $costPerMonth = 30 * ($model->advertisingConstruction->price * (100 + $model->marketingType->charge) / 100 * (100 - $agency_charge)/100);
 
-                                $result.=' ('.($costPerMonth).')';
+                                $result.=' ('.(round($costPerMonth, 2)).')';
 
                                 return $result;
                             }
