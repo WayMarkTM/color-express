@@ -120,17 +120,19 @@ use yii\helpers\Url;
         </div>
         <div class="row">
             <div class="col-md-6">
-                <?= $form->field($model, 'is_agency')->dropDownList([
-                    '1' => 'Рекламное агентство',
-                    '0' => 'Конечный заказчик'
-                ], [
-                    'tabindex' => '7',
-                ])
-                ?>
+                <?php if(!Yii::$app->user->getId() || Yii::$app->user->getId() != $model->user_id): ?>
+                    <?= $form->field($model, 'is_agency')->dropDownList([
+                        '1' => 'Рекламное агентство',
+                        '0' => 'Конечный заказчик'
+                    ], [
+                        'tabindex' => '7',
+                    ])
+                    ?>
+                <?php endif; ?>
             </div>
-            <?= $form->field($model, 'user_id')->hiddenInput()->label(false); ?>
-            <?= $form->field($model, 'scenario')->hiddenInput()->label(false); ?>
             <div class="col-md-6">
+                <?= $form->field($model, 'user_id')->hiddenInput()->label(false); ?>
+                <?= $form->field($model, 'scenario')->hiddenInput()->label(false); ?>
                     <label>&nbsp;</label>
                 <?php if($model->getScenario() == $model::SCENARIO_EmployeeEditClient || Yii::$app->user->getId() == $model->user_id): ?>
                     <div class="col-md-7">
