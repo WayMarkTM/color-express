@@ -34,7 +34,8 @@ foreach ($cartItems as $item) {
         'price' => $item->advertisingConstruction->price,
         'cost' => $item->cost,
         'company' => $item->user->company,
-        'user_is_agency' => $item->user->is_agency
+        'user_is_agency' => $item->user->is_agency,
+        'reserv_till' => $item->reserv_till
     ]);
 }
 
@@ -84,7 +85,7 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
                     <tbody>
                         <tr ng-repeat="item in $ctrl.cartItems">
                             <td class="text-center" ng-bind="$index + 1"></td>
-                            <td><a href="/construction/details?id={{item.advertising_construction_id}}" ng-bind="item.name"></a> <span ng-if="item.status_id == 11">(резерв до <span ng-bind="$ctrl.getReservationTillDate(item.created_at)"></span>)</span></td>
+                            <td><a href="/construction/details?id={{item.advertising_construction_id}}" ng-bind="item.name"></a> <span ng-if="item.status_id == 11">(отложено до <span ng-bind="item.reserv_till"></span>)</span></td>
                             <td ng-bind="item.address"></td>
                             <td class="text-center"><span ng-bind="item.from + ' - ' + item.to"></span> <a href="" ng-click="$ctrl.editPeriod(item)" class="additional-link"><i class="icon edit-icon"></i></a></td>
                             <td class="text-center" ng-bind="item.cost + ' (' + $ctrl.getMonthCost(item) + ')'"></td>

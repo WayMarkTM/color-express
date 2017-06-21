@@ -379,9 +379,12 @@ class AdvertisingConstructionReservationService
         $reservation->user_id = $userId;
         $reservation->status_id = $statusId;
         $reservation->employee_id = $managerId;
-        // TODO: add specific calculation for Agency
         $reservation->cost = $this->getReservationCost(intval($model['advertising_construction_id']),
             intval($model['marketing_type']), $reservation->from, $reservation->to, $reservation->user_id);
+
+        if ($statusId == AdvertisingConstructionStatuses::IN_BASKET_RESERVED) {
+            $reservation->reserv_till = date('Y-m-d', strtotime('today +5 weekdays'));
+        }
 
         return $reservation;
     }

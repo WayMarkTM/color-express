@@ -18,6 +18,7 @@ use Yii;
  * @property string $to
  * @property string $thematic
  * @property \DateTime $created_at
+ * @property \DateTime $reserv_till
  *
  * @property AdvertisingConstruction $advertisingConstruction
  * @property AdvertisingConstructionReservationStatus $status

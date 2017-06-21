@@ -124,10 +124,10 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
                 <div class="col-md-12">
                     <div class="status-panel">
                         <div class="item">
-                            <span class="indicator booked"></span><span class="text"> - Забронировано</span>
+                            <span class="indicator booked"></span><span class="text"> - Куплено</span>
                         </div>
                         <div class="item">
-                            <span class="indicator reserved"></span><span class="text"> - Зарезервировано</span>
+                            <span class="indicator reserved"></span><span class="text"> - Отложено</span>
                         </div>
                         <div class="item">
                             <span class="indicator free"></span><span class="text"> - Свободно</span>

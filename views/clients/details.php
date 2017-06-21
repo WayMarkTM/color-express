@@ -95,7 +95,7 @@ InterruptReservationWidget::end();
                                 $result = $model->status->name;
 
                                 if ($model->status_id == AdvertisingConstructionStatuses::RESERVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED) {
-                                    $result .= ' '.(new DateTime($model->created_at))->format('d.m');
+                                    $result .= ' '.(new DateTime($model->reserv_till))->format('d.m');
                                 }
 
                                 return '<span class="'. $className .'">'.$result.'</span>';
