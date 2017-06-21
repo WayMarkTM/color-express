@@ -20,7 +20,7 @@ html, body {
 }
 
 body {
-    background-image: url('../images/background.png');
+    background-image: url('../images/background.jpg');
     background-size: cover;
     background-repeat: none;
     letter-spacing: 1px;
@@ -212,7 +212,7 @@ body {
 }
 
 .page-container .page-content  {
-    min-height: 100%;
+    min-height: 800px;
     padding: 22px 22px 11px 22px;
     background-color: white;
 }

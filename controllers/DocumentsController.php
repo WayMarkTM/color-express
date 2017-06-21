@@ -70,7 +70,7 @@ class DocumentsController extends Controller
         ];
     }
 
-    public function actionGetDocuments($userId, $year, $month, $subclientId) {
+    public function actionGetDocuments($userId, $year, $month, $subclientId = null) {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $documents = $this->documentService->getDocuments($userId, $year, $month, $subclientId);
 

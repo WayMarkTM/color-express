@@ -95,7 +95,9 @@ use yii\web\View;
                     </tr>
                 </tbody>
             </table>
-            <p ng-if="!$ctrl.calendar">Нет документов.</p>
+            <?php if (!$isAgency) { ?>
+                <p ng-if="!$ctrl.calendar">Нет документов.</p>
+            <?php } ?>
         </div>
     </div>
 

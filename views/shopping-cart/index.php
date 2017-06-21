@@ -6,6 +6,7 @@
  * Time: 7:37PM
  */
 
+use app\models\constants\SystemConstants;
 use app\models\User;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -32,7 +33,8 @@ foreach ($cartItems as $item) {
         'status_id' => $item->status_id,
         'price' => $item->advertisingConstruction->price,
         'cost' => $item->cost,
-        'company' => $item->user->company
+        'company' => $item->user->company,
+        'user_is_agency' => $item->user->is_agency
     ]);
 }
 
@@ -48,6 +50,7 @@ $position = View::POS_BEGIN;
 $this->registerJs('var cartItems = '.json_encode($jsonCartItems).';', $position);
 $this->registerJs('var isEmployee = '.json_encode($isEmployee).';', $position);
 $this->registerJs('var marketingTypes = '.$jsonMarketingTypes.';', $position);
+$this->registerJs('var agencyCharge = '.json_encode(SystemConstants::AGENCY_PERCENT).';', $position);
 $this->registerJsFile('@web/js/angular-locale_ru-ru.js');
 $this->registerJsFile('@web/js/ui-bootstrap-tpls-2.5.0.min.js');
 $this->registerJsFile('@web/js/vis.min.js');
@@ -84,7 +87,7 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
                             <td><a href="/construction/details?id={{item.advertising_construction_id}}" ng-bind="item.name"></a> <span ng-if="item.status_id == 11">(резерв до <span ng-bind="$ctrl.getReservationTillDate(item.created_at)"></span>)</span></td>
                             <td ng-bind="item.address"></td>
                             <td class="text-center"><span ng-bind="item.from + ' - ' + item.to"></span> <a href="" ng-click="$ctrl.editPeriod(item)" class="additional-link"><i class="icon edit-icon"></i></a></td>
-                            <td class="text-center" ng-bind="item.cost + ' (' + (item.price * 30).toFixed(2) + ')'"></td>
+                            <td class="text-center" ng-bind="item.cost + ' (' + $ctrl.getMonthCost(item) + ')'"></td>
                             <td class="text-center">
                                 <select class="form-control" ng-model="item.marketing_type_id" ng-change="$ctrl.onItemMarketingTypeChanged(item)">
                                     <option ng-repeat="mt in $ctrl.marketingTypes" value="{{ mt.id }}" ng-bind="mt.name"></option>

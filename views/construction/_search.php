@@ -35,7 +35,7 @@ use kartik\date\DatePicker;
 
     <?= $form->field($model, 'type_id')->hiddenInput()->label('') ?>
     <?= $form->field($model, 'size_id')->dropDownList($sizes, ['prompt' => 'Выберите размер'])->label('По размеру:') ?>
-    <?= $form->field($model, 'address')->textInput()->label('По адресу:') ?>
+    <?= $form->field($model, 'address')->textInput(['placeholder' => 'Независимости проспект, 80'])->label('По адресу:') ?>
     <?php
     $rangeLayout = '<div class="form-group"><label class="col-sm-3 control-label">По датам: </label>'.
         '<div class="col-sm-6">'.

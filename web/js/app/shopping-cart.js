@@ -1,7 +1,7 @@
 /**
  * Created by e.chernyavsky on 08.05.2017.
  */
-(function (cartItems, marketingTypes, isEmployee) {
+(function (cartItems, marketingTypes, isEmployee, agencyCharge) {
     "use strict";
 
     Date.prototype.addDays = function(days) {
@@ -32,6 +32,7 @@
 
         vm.$onInit = init;
         vm.getTotalCost = getTotalCost;
+        vm.getMonthCost = getMonthCost;
         vm.onItemMarketingTypeChanged = onItemMarketingTypeChanged;
         vm.submit = submit;
         vm.editPeriod = editPeriod;
@@ -59,7 +60,7 @@
         function getTotalCost() {
             return _.sumBy(vm.cartItems, function (item) {
                 return parseFloat(item.cost);
-            });
+            }).toFixed(2);
         }
 
         function onItemMarketingTypeChanged(item) {
@@ -81,8 +82,15 @@
             var to = new Date(item.to);
             var from = new Date(item.from);
             var days = (to - from)/(1000*60*60*24) + 1;
+            var agency_charge = item.user_is_agency ? agencyCharge : 0;
 
-            return (days * (item.price * charge / 100)).toFixed(2);
+            return (days * (item.price * charge / 100 * (100 - agency_charge)/100)).toFixed(2);
+        }
+
+        function getMonthCost(item) {
+            var charge = getItemMarketingTypeCharge(item);
+            var agency_charge = item.user_is_agency ? agencyCharge : 0;
+            return (item.price * charge/100 * (100 - agency_charge)/100 * 30).toFixed(2);
         }
 
         function submit() {
@@ -251,4 +259,4 @@
             });
         }
     }
-})(cartItems, marketingTypes, isEmployee);
+})(cartItems, marketingTypes, isEmployee, agencyCharge);

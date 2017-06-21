@@ -67,6 +67,8 @@
         groupTemplate: function (item, element, data) {
             return item.content + ' (<a href="/construction/details?id=' + item.id + '">подробнее</a>)';
         },
+        // groupOrder: 'address',
+        groupOrder: 'content',
         orientation: {
             axis: 'top'
         },
