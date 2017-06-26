@@ -116,13 +116,13 @@ InterruptReservationWidget::end();
                             'format' => 'raw',
                             'value' => function ($model) {
                                 $result = $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ?
-                                    '<input class="form-control full-width cost" type="text" value="'.$model->cost.'" />' :
+                                    '<input class="form-control full-width cost" type="text" value="'.number_format($model->cost, 2).'" />' :
                                     $model->cost;
 
                                 $agency_charge = $model->user->is_agency ? SystemConstants::AGENCY_PERCENT : 0;
                                 $costPerMonth = 30 * ($model->advertisingConstruction->price * (100 + $model->marketingType->charge) / 100 * (100 - $agency_charge)/100);
 
-                                $result.=' ('.(round($costPerMonth, 2)).')';
+                                $result.=' ('.(number_format($costPerMonth, 2)).')';
 
                                 return $result;
                             }

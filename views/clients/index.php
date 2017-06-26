@@ -12,6 +12,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
+use app\components\SignupWidget;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ArrayDataProvider */
@@ -21,9 +22,14 @@ $this->title = 'Управление клиентами';
 ?>
 <div class="row">
     <div class="col-md-6">
-        <h3 class="text-uppercase">
-            Список клиентов
-        </h3>
+        <div class="col-md-5">
+            <h3 class="text-uppercase">
+                Список клиентов
+            </h3>
+        </div>
+        <div class="col-md-7">
+            <a data-toggle="modal" data-target="#signup" class="custom-btn blue">Добавить клиента</a>
+        </div>
     </div>
     <div class="col-md-6">
         <?php
@@ -41,6 +47,7 @@ $this->title = 'Управление клиентами';
 </div>
 <div class="row block-row">
     <div class="col-md-12">
+        <?php  Pjax::begin(['id' => 'clients-list']); ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'layout' => '{items}{pager}',
@@ -110,6 +117,7 @@ $this->title = 'Управление клиентами';
                 ],
             ],
         ]); ?>
+        <?php  Pjax::end(); ?>
     </div>
 </div>
 
@@ -124,3 +132,5 @@ $this->title = 'Управление клиентами';
     'scenario' => \app\models\SignupForm::SCENARIO_EmployeeEditClient
 ]);
 ?>
+
+<?= SignupWidget::widget(['reloadWidget' => '#clients-list']); ?>
