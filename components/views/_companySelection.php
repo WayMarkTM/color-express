@@ -29,8 +29,11 @@ if (!$multiple) {
         <div class="modal-content">
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-5">
                         <h4>Список компаний</h4>
+                    </div>
+                    <div class="col-sm-7">
+                        <a data-toggle="modal" data-target="#signup" class="custom-btn blue">Добавить клиента</a>
                     </div>
                 </div>
                 <div class="row block-row">
@@ -82,4 +85,23 @@ if (!$multiple) {
         </div>
     </div>
 </div>
+
+<?= \app\components\SignupWidget::widget(); ?>
+<script>
+    $(document).ready(function() {
+        $("#signup-form").submit(function(event) {
+            event.preventDefault();
+            $.post(
+                '',
+               $(this).serialize(),
+            ).done(function(data) {
+                toastr.success('Ваша заявка на регистрацию клиента была принята на рассмотрение.');
+                $('#signup').modal('hide');
+                $.pjax.reload({container: '#client-list'});
+            });
+
+            return false;
+        });
+    });
+</script>
 

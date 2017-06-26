@@ -79,8 +79,10 @@ $this->title = "Каталог рекламных конструкций";
 
 <div class="advertising-construction-page-container" ng-app="constructions" ng-controller="constructionsCtrl as $ctrl">
     <?php if ($isEmployee) {
+        Pjax::begin(['id' => 'clients-list']);
         CompanySelectionWidget::begin(['param' => 'multiple']);
         CompanySelectionWidget::end();
+        Pjax::end();
     } ?>
     <div class="advertising-construction-list-container">
         <div class="row">
