@@ -17,6 +17,7 @@ use app\services\UserService;
 
 class SignupWidget extends Widget
 {
+    public $reloadWidget;
     /* @var $signupForm SignupForm*/
     public $signupForm;
 
@@ -32,7 +33,7 @@ class SignupWidget extends Widget
             $this->signupForm->setAttributes($_POST['SignupForm'], false);
             $userService = new UserService();
             $user = $userService->save($this->signupForm);
-            if($user) {
+            if ($user) {
                 $userRole = Yii::$app->authManager->getRole('client');
                 Yii::$app->authManager->assign($userRole, $user->getId());
 
@@ -44,12 +45,19 @@ class SignupWidget extends Widget
 
                 }
 
+                //set manager if employee created this user
+                if (Yii::$app->user->can('employee')) {
+                    $user->manage_id = Yii::$app->user->getId();
+                    $user->save();
+                }
+
                 Yii::$app->session->setFlash('signupSuccess');
                 $this->signupForm = new SignupForm();
             }
         }
         return $this->render('_signup', [
-            'model' => $this->signupForm
+            'model' => $this->signupForm,
+            'reloadWidget' => $this->reloadWidget
         ]);
     }
 
