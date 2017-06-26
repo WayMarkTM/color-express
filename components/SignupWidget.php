@@ -37,18 +37,9 @@ class SignupWidget extends Widget
                 $userRole = Yii::$app->authManager->getRole('client');
                 Yii::$app->authManager->assign($userRole, $user->getId());
 
-                try {
-                    $mailService = new MailService();
-
-                    $mailService->sendSignUpUser($user);
-                } catch (Exception $e) {
-
-                }
-
                 //set manager if employee created this user
                 if (Yii::$app->user->can('employee')) {
-                    $user->manage_id = Yii::$app->user->getId();
-                    $user->save();
+                    $userService->setActiveUser($user->id);
                 }
 
                 Yii::$app->session->setFlash('signupSuccess');

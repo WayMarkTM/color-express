@@ -46,17 +46,7 @@ class MailService
     {
         $mail = new Mail();
         $text = '<p style="margin:auto;">Регистрация на сайте <a target="_blank" href="'.Url::home(true).'">'.Url::home(true).'</a> завершена. Спасибо!</p>';
-        $subject = 'Завершение регистрации';
-
-        return $mail->send($user->username, $subject, $text);
-    }
-
-    /* @param $user User */
-    public function sendSignUpUser($user)
-    {
-        $mail = new Mail();
-        $text = '<p style="margin:auto;">Заявка на регистрацию принята. Подтверждение регистрации Вы получите на указанный электронный ящик.</p>';
-        $subject = 'Заявка на регистрацию принята';
+        $subject = 'Вы зарегестрированы.';
 
         return $mail->send($user->username, $subject, $text);
     }
@@ -102,8 +92,8 @@ class MailService
     public function notificationForTheDayOfEndReservation($user, $reservation)
     {
         $mail = new Mail();
-        $text = '<p style="margin:auto;">Уведомляем Вас, что истекает срок отложенного заказа на сайте <a target="_blank" href="'.\Yii::$app->urlManager->baseUrl.'">'.\Yii::$app->urlManager->baseUrl.'</a>. Перейдите в личный кабинет для оформления заказа.</p>';
-        $subject = 'Уведомление о прекращении резерва';
+        $text = '<p style="margin:auto;">Истекает срок отложенного заказа на сайте. Перейдите в личный кабинет для оформления заказа.</p>';
+        $subject = 'Истчение срока отложенного заказа.';
 
         return $mail->send($user->username, $subject, $text);
     }
@@ -120,8 +110,8 @@ class MailService
     public function sendNotificateAboutFreeConstruction($sendTo, $constructionId) {
         $mail = new Mail();
         $url = Url::to(['construction/details', 'id' => $constructionId]);
-        $text = '<p style="margin:auto;">Конструкция освободилась <a target="_blank" href="'.$url.'">'.$url.'</a>.</p>';
-        $subject = 'Конструкция освободилась';
+        $text = '<p style="margin:auto;">Добрый день! Понравившаяся Вам конструкция доступна к покупке. <a target="_blank" href="'.$url.'">'.$url.'</a>.</p>';
+        $subject = 'Освобождение конструкции.';
 
         return $mail->send($sendTo, $subject, $text);
     }
