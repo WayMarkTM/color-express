@@ -45,6 +45,7 @@ class StatusReportService extends BaseReportService implements iReportService
     private function getExcelDataLine($construction, $reservation) {
         return [
             $construction->name,
+            $construction->address,
             $this->getReportMonth($reservation),
             $reservation->user->company,
             $reservation->thematic,
@@ -58,7 +59,7 @@ class StatusReportService extends BaseReportService implements iReportService
         $sheet = $xls->getActiveSheet();
         $sheet->setTitle('Отчет по статусу');
         $sheet->setCellValue("A1", 'Отчетный период: '.$this->getPeriodName($monthCount));
-        $sheet->mergeCells('A1:E1');
+        $sheet->mergeCells('A1:F1');
 
         $sheet->fromArray($data, null, 'A2');
 
@@ -67,12 +68,14 @@ class StatusReportService extends BaseReportService implements iReportService
         $sheet->getColumnDimension('C')->setAutoSize(true);
         $sheet->getColumnDimension('D')->setAutoSize(true);
         $sheet->getColumnDimension('E')->setAutoSize(true);
+        $sheet->getColumnDimension('F')->setAutoSize(true);
 
         $this->setHeaderStyle($sheet->getStyle('A2'));
         $this->setHeaderStyle($sheet->getStyle('B2'));
         $this->setHeaderStyle($sheet->getStyle('C2'));
         $this->setHeaderStyle($sheet->getStyle('D2'));
         $this->setHeaderStyle($sheet->getStyle('E2'));
+        $this->setHeaderStyle($sheet->getStyle('F2'));
 
         return $xls;
     }
@@ -89,6 +92,7 @@ class StatusReportService extends BaseReportService implements iReportService
     private function getColumnTitles() {
         return [
             'Название',
+            'Адрес',
             'Месяц',
             'Юр. лицо',
             'Тематика',
@@ -97,13 +101,9 @@ class StatusReportService extends BaseReportService implements iReportService
     }
 
     private function getReportMonth($reservation) {
-        $fromMonth = (new \DateTime($reservation->from))->format('n');
-        $toMonth = (new \DateTime($reservation->to))->format('n');
+        $from = (new \DateTime($reservation->from))->format('d.m.Y');
+        $to = (new \DateTime($reservation->to))->format('d.m.Y');
 
-        if ($fromMonth == $toMonth) {
-            return $this->getMonthName($fromMonth);
-        }
-
-        return $this->getMonthName($fromMonth).' - '.$this->getMonthName($toMonth);
+        return $from.' - '.$to;
     }
 }
