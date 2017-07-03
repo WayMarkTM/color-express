@@ -103,9 +103,11 @@ class ImportService
             echo "--> Found clients: ".count($clients)."\n";
             foreach ($clients as $client) {
                 $client->balance = 0;
-                foreach ($lines as $line) {
-                    if ($client->pan == $line->pan) {
-                        $client->balance += $line->amount;
+                foreach ($client->documents as $document) {
+                    foreach ($lines as $line) {
+                        if ($document->contact != null && $line->contract != null && $document->contract == $line->contract) {
+                            $client->balance += $line->amount;
+                        }
                     }
                 }
 

@@ -30,6 +30,7 @@ use Yii;
  *
  * @property User $manage
  * @property User[] $users
+ * @property Document[] $documents
  * @property Subclient[] $subclients
  */
 class User extends \yii\db\ActiveRecord
@@ -112,5 +113,13 @@ class User extends \yii\db\ActiveRecord
     public function getSubclients()
     {
         return $this->hasMany(Subclient::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDocuments()
+    {
+        return $this->hasMany(Document::className(), ['user_id' => 'id']);
     }
 }
