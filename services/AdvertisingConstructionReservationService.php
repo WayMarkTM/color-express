@@ -121,7 +121,7 @@ class AdvertisingConstructionReservationService
                 $mailService = new MailService();
                 $user = User::findIdentity($dbReservation->user_id);
                 if ($user) {
-                    $mailService->employeeRegisterForCompany($user);
+                    $mailService->employeeRegisterForCompany($user, $dbReservation);
                 }
             }
 
@@ -427,12 +427,20 @@ class AdvertisingConstructionReservationService
 
     public function notificateForTheDayReservation()
     {
-        $reservations = AdvertisingConstructionReservation::findAll(['to' => new Expression('CURDATE()+ interval 1 day')]);
+        $reservations = AdvertisingConstructionReservation::find()->where(
+            ['<=', 'reserv_till', new Expression('CURDATE()')])
+            ->andWhere(['status_id' => AdvertisingConstructionStatuses::RESERVED]
+            )->all();
         $mailService = new MailService();
         foreach($reservations as $reservation) {
             $user = User::findIdentity($reservation->user_id);
-            if ($user) {
-                $mailService->notificationForTheDayOfEndReservation($user, $reservation);
+            if ($user && $mailService->notificationForTheDayOfEndReservation($user, $reservation)) {
+                $reservation->reserv_till = null;
+                $reservation->save();
+
+                echo "Succes send message about ended reservation day to user: $user->username \n";
+            } else {
+                echo "Error send message about ended reservation day to user: $user->username \n";
             }
         }
     }

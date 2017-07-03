@@ -49,7 +49,7 @@ class AdvertisiongConstructionNotificationService
             $mailService = new MailService();
             if($mailService->sendNotificateAboutFreeConstruction($notificate->user->username, $notificate->advertising_construction_id)) {
                 $notificate->delete();
-                echo 'Sucessfull send message to user: '.$notificate->user->username;
+                echo "Sucessfull send message to user: $notificate->user->username \n";
             }
         }
         return $notifications;
