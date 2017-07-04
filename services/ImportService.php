@@ -105,7 +105,7 @@ class ImportService
                 $client->balance = 0;
                 foreach ($client->documents as $document) {
                     foreach ($lines as $line) {
-                        if ($document->contact != null && $line->contract != null && $document->contract == $line->contract) {
+                        if ($document->contract != null && $line->contract != null && $document->contract == $line->contract) {
                             $client->balance += $line->amount;
                         }
                     }
