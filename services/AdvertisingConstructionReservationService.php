@@ -428,16 +428,16 @@ class AdvertisingConstructionReservationService
     public function notificateForTheDayReservation()
     {
         $reservations = AdvertisingConstructionReservation::find()->where(
-            ['<=', 'reserv_till', new Expression('CURDATE()')])
-            ->andWhere(['status_id' => AdvertisingConstructionStatuses::RESERVED]
-            )->all();
+            ['<=', 'reserv_till', new Expression('CURDATE()+ interval 1 day')])
+            ->andWhere([
+                    'OR',
+                    ['status_id' => AdvertisingConstructionStatuses::RESERVED],
+                    ['status_id' => AdvertisingConstructionStatuses::APPROVED_RESERVED]
+                ])->all();
         $mailService = new MailService();
         foreach($reservations as $reservation) {
             $user = User::findIdentity($reservation->user_id);
             if ($user && $mailService->notificationForTheDayOfEndReservation($user, $reservation)) {
-                $reservation->reserv_till = null;
-                $reservation->save();
-
                 echo "Succes send message about ended reservation day to user: $user->username \n";
             } else {
                 echo "Error send message about ended reservation day to user: $user->username \n";
@@ -447,7 +447,9 @@ class AdvertisingConstructionReservationService
 
     public function deleteOldReservation()
     {
-        AdvertisingConstructionReservation::deleteAll(['<', 'to', new Expression('CURDATE()- interval 31 day')]);
+        AdvertisingConstructionReservation::deleteAll('reserv_till <= '. new Expression('CURDATE()') . ' and (status_id = '.
+            AdvertisingConstructionStatuses::RESERVED .' OR status_id = '. AdvertisingConstructionStatuses::APPROVED_RESERVED .' )');
+        echo 'Deleted old reservation is ended';
     }
 
     /**
