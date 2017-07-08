@@ -26,6 +26,12 @@ body {
     letter-spacing: 1px;
 }
 
+.download-presentation-link {
+    color: #333;
+    font-style: italic;
+    text-decoration: underline;
+}
+
 .section-row {
     margin-top: 15px;
 }

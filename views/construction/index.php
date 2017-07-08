@@ -9,6 +9,7 @@
 use app\components\CompanySelectionWidget;
 use app\components\RequireAuthorizationWidget;
 use app\models\constants\SystemConstants;
+use app\models\entities\AdvertisingConstructionType;
 use app\models\User;
 use app\services\JsonService;
 use yii\grid\GridView;
@@ -20,6 +21,7 @@ use yii\widgets\Pjax;
 /* @var $constructions array|app\models\entities\AdvertisingConstruction */
 /* @var $sizes array */
 /* @var $types array */
+/* @var $constructionType AdvertisingConstructionType */
 
 $mappedConstructions = array();
 foreach ($constructions as $construction) {
@@ -116,7 +118,8 @@ $this->title = "Каталог рекламных конструкций";
                 <div class="col-md-4">
                     <?= $this->render('_search', [
                         'model' => $searchModel,
-                        'sizes' => $sizes
+                        'sizes' => $sizes,
+                        'constructionType' => $constructionType
                     ]) ?>
                 </div>
                 <div class="col-md-8">
