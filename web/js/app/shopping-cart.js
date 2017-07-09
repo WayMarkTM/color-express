@@ -99,7 +99,7 @@
                 return;
             }
 
-            shoppingCartDataService.checkout(vm.cartItems, vm.thematic)
+            shoppingCartDataService.checkout(vm.cartItems, vm.thematic, vm.comment)
                 .then(function (response) {
                     if (response.data.isValid) {
                         toastr.success('Спасибо, Ваша заявка принята в работу. Подтверждение будет отправлено на е-мейл.');
@@ -252,10 +252,11 @@
             return $http.post(GATEWAY_URLS.VALIDATE_CONSTRUCTION_DATE_RANGE, model);
         }
 
-        function checkout(cartItems, thematic) {
+        function checkout(cartItems, thematic, comment) {
             return $http.post(GATEWAY_URLS.CHECKOUT, {
                 reservations: cartItems,
-                thematic: thematic
+                thematic: thematic,
+                comment: comment
             });
         }
     }

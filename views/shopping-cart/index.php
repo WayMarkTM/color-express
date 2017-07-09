@@ -129,6 +129,19 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
                     </div>
                 </div>
             </div>
+            <div class="row block-row">
+                <div class="col-md-4"></div>
+                <div class="col-md-8">
+                    <div class="pull-right">
+                        <label class="control-label">Комментарий:</label>
+                        <textarea class="form-control"
+                                  style="width: 300px; max-width:300px; margin-left: 15px;"
+                                  rows="4"
+                                  name="comment"
+                                  ng-model="$ctrl.comment"></textarea>
+                    </div>
+                </div>
+            </div>
             <hr/>
             <div class="row block-row">
                 <div class="col-md-4 col-md-offset-4">

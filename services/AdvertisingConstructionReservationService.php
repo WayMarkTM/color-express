@@ -50,16 +50,17 @@ class AdvertisingConstructionReservationService
     /**
      * @param string $thematic
      * @param array $reservations
+     * @param string $comment
      * @throws Exception
      * @return array|string Array of errors
      */
-    public function checkOutReservations($thematic, $reservations) {
+    public function checkOutReservations($thematic, $reservations, $comment) {
         $result = $this->validateFrontendReservations($reservations);
 
         if (count($result) == 0) {
             foreach ($reservations as $reservation) {
                 $transaction = Yii::$app->db->beginTransaction();
-                $res = $this->checkOutReservation($reservation, $thematic);
+                $res = $this->checkOutReservation($reservation, $thematic, $comment);
                 if ($res != 'success') {
                     array_push($result, $res);
                     $transaction->rollBack();
@@ -94,9 +95,10 @@ class AdvertisingConstructionReservationService
     /**
      * @param $reservation mixed
      * @param $thematic string
+     * @param $comment string
      * @return bool True whether all reservations are checked out.
      */
-    private function checkOutReservation($reservation, $thematic) {
+    private function checkOutReservation($reservation, $thematic, $comment) {
         try {
             if (!$this->isDateRangesValid($reservation)) {
                 $construction = AdvertisingConstruction::findOne($reservation['advertising_construction_id']);
@@ -108,6 +110,7 @@ class AdvertisingConstructionReservationService
             $dbReservation->from = $reservation['from'];
             $dbReservation->to = $reservation['to'];
             $dbReservation->thematic = $thematic;
+            $dbReservation->comment = $comment;
             $dbReservation->cost = $this->getReservationCost($dbReservation->advertising_construction_id,
                 $dbReservation->marketing_type_id, $dbReservation->from, $dbReservation->to, $dbReservation->user_id);
 
@@ -315,6 +318,7 @@ class AdvertisingConstructionReservationService
             'from' => $reservation->from,
             'to' => $reservation->to,
             'thematic' => $reservation->thematic,
+            'comment' => $reservation->comment,
             'marketing_type' => $reservation->marketingType != null ? $reservation->marketingType->name : '',
             'manager' => $reservation->employee != null ? $reservation->employee->name : '',
             'company' => $reservation->user != null ? $reservation->user->company : '',
