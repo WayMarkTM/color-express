@@ -31,6 +31,7 @@ class AdvertisingConstructionForm extends Model
     public $uploaded_images;
     public $document_path;
     public $is_published;
+    public $has_stock;
     public $latitude;
     public $longitude;
     public $use_manual_coordinates;
@@ -52,7 +53,7 @@ class AdvertisingConstructionForm extends Model
             [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
             [['nearest_locations', 'latitude', 'longitude'], 'string'],
             [['size_id', 'type_id'], 'integer'],
-            [['has_traffic_lights', 'is_published', 'use_manual_coordinates'], 'boolean'],
+            [['has_traffic_lights', 'is_published', 'use_manual_coordinates', 'has_stock'], 'boolean'],
             [['price'], 'number'],
             [['youtube_ids'], 'string'],
             [['name', 'address'], 'string', 'max' => 255],
@@ -76,6 +77,7 @@ class AdvertisingConstructionForm extends Model
             'type_id' => 'Тип',
             'imageFiles' => 'Фотографии',
             'is_published' => 'Показывать на внешнем сайте',
+            'has_stock' => 'На акции',
             'documentFile' => 'Документ с техническими требованиями к плакату',
             'latitude' => 'Широта',
             'longitude' => 'Долгота',
@@ -100,6 +102,7 @@ class AdvertisingConstructionForm extends Model
         $model->type_id = $this->type_id;
         $model->nearest_locations = $this->nearest_locations;
         $model->has_traffic_lights = $this->has_traffic_lights;
+        $model->has_stock = $this->has_stock;
         $model->is_published = $this->is_published;
         $model->requirements_document_path = $this->document_path;
         $model->youtube_ids = $this->youtube_ids;
@@ -154,6 +157,7 @@ class AdvertisingConstructionForm extends Model
         $model->type_id = $entity->type_id;
         $model->nearest_locations = $entity->nearest_locations;
         $model->has_traffic_lights = $entity->has_traffic_lights;
+        $model->has_stock = $entity->has_stock;
         $model->is_published = $entity->is_published;
         $model->document_path = $entity->requirements_document_path;
         $model->latitude = $entity->latitude;

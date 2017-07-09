@@ -33,6 +33,7 @@ foreach ($constructions as $construction) {
         'long' => $construction->longitude,
         'lat' => $construction->latitude,
         'isBusy' => $construction->isBusy,
+        'hasStock' => $construction->has_stock,
         'previewImage' => count($construction->advertisingConstructionImages) > 0 ?
             $construction->advertisingConstructionImages[0]->path :
             '',
@@ -130,7 +131,7 @@ $this->title = "Каталог рекламных конструкций";
                                 <th class="text-center">Название</th>
                                 <th class="text-center">Адрес</th>
                                 <th class="text-center">Размер</th>
-                                <th class="text-center" style="width: 130px;">Цена в месяц, с НДС (BYN)</th>
+                                <th class="text-center" style="width: 150px;">Цена в месяц, с НДС (BYN)</th>
                                 <th class="text-center">Занятость</th>
                                 <th class="text-center"></th>
                             </tr>
@@ -153,7 +154,10 @@ $this->title = "Каталог рекламных конструкций";
                                 <td ng-bind="construction.address"></td>
                                 <td class="text-center" ng-bind="construction.size"></td>
                                 <td class="text-center">
-                                    <span ng-if="!$ctrl.isGuest" ng-bind="$ctrl.getPriceForMonth(construction)"></span>
+                                    <span ng-if="!$ctrl.isGuest" ng-class="{ 'price-with-badge' : construction.hasStock }">
+                                        <span class="price" ng-bind="$ctrl.getPriceForMonth(construction) + ' '"></span>
+                                        <span ng-if="construction.hasStock" class="badge">Акция</span>
+                                    </span>
                                     <a ng-if="$ctrl.isGuest" href="#" ng-click="$ctrl.showRequireAuthorizationModal()">Зарегистрироваться</a>
                                 </td>
                                 <td class="text-center" ng-bind="$ctrl.getConstructionStatus(construction)"></td>

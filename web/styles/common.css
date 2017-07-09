@@ -771,3 +771,16 @@ table .selected {
 .has-balance {
     color: #e2001e;
 }
+
+.price-with-badge {
+    position: relative;
+    padding-right: 30px;
+}
+
+.price-with-badge .price {
+}
+
+.price-with-badge .badge {
+    top: -8px;
+    margin-left: 3px;
+}
