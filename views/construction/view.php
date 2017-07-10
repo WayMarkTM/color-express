@@ -373,7 +373,7 @@ $(document).ready(function () {
             data: {construction_id: model.id()}
         }).done(function (result) {
             if (result.isValid) {
-                toastr.success('Ваша заявка принята. При освобождении конструкции уведомление придет Вам на почту.')
+                toastr.success('Ваша заявка принята. При освобождении конструкции уведомление придет Вам на е-мейл.')
             } else {
                 toastr.error('Ошибка');
             }

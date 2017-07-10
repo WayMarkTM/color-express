@@ -13,6 +13,7 @@ use Yii;
  * @property string $traffic_info
  * @property boolean $has_traffic_lights
  * @property boolean $is_published
+ * @property boolean $has_stock
  * @property string $address
  * @property integer $size_id
  * @property string $price
@@ -49,7 +50,7 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
             [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
             [['nearest_locations', 'traffic_info', 'latitude', 'longitude', 'requirements_document_path'], 'string'],
             [['size_id', 'type_id'], 'integer'],
-            [['has_traffic_lights', 'is_published'], 'boolean'],
+            [['has_traffic_lights', 'is_published', 'has_stock'], 'boolean'],
             [['price'], 'number'],
             [['youtube_ids'], 'string'],
             [['name', 'address'], 'string', 'max' => 255],
@@ -76,6 +77,7 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
             'latitude' => 'Широта',
             'longitude' => 'Долгота',
             'is_published' => 'Показывать на внешнем сайте',
+            'has_stock' => 'На акции',
             'requirements_document_path' => 'Технические требования',
             'youtube_ids' => 'ID видео из youtube, разделенные ;'
         ];

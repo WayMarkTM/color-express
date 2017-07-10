@@ -72,7 +72,7 @@ class ShoppingCartController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $model = Yii::$app->request->post();
 
-        $result = $this->advertisingConstructionReservationService->checkOutReservations($model['thematic'], $model['reservations']);
+        $result = $this->advertisingConstructionReservationService->checkOutReservations($model['thematic'], $model['reservations'], $model['comment']);
 
         return [
             'isValid' => count($result) == 0,

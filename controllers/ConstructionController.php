@@ -13,6 +13,7 @@ use app\models\AdvertisingConstructionSearch;
 use app\models\entities\AdvertisingConstruction;
 use app\models\constants\AdvertisingConstructionStatuses;
 use app\models\entities\AdvertisingConstructionReservation;
+use app\models\entities\AdvertisingConstructionType;
 use app\models\InterruptionForm;
 use app\services\AdvertisingConstructionReservationService;
 use app\services\AdvertisingConstructionService;
@@ -83,13 +84,16 @@ class ConstructionController extends Controller
         $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems($searchModel->type_id);
         $types = AdvertisingConstructionService::getAdvertisingConstructionTypeDropdownItems();
 
+        $constructionType = AdvertisingConstructionType::findOne($searchModel->type_id);
+
         $this->layout = 'base.php';
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'constructions' => $searchResults,
             'sizes' => $sizes,
-            'types' => $types
+            'types' => $types,
+            'constructionType' => $constructionType
         ]);
     }
 

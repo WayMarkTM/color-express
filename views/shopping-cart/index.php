@@ -44,12 +44,15 @@ if (User::findIdentity(Yii::$app->user->getId())->getRole() == 'employee') {
     $isEmployee = true;
 }
 
+$isAgency = User::findIdentity(Yii::$app->user->getId())->is_agency;
+
 $mtAttributes = 'id,name,charge';
 $jsonMarketingTypes = \app\services\JsonService::json_encode_database_models($marketingTypes, $mtAttributes);
 
 $position = View::POS_BEGIN;
 $this->registerJs('var cartItems = '.json_encode($jsonCartItems).';', $position);
 $this->registerJs('var isEmployee = '.json_encode($isEmployee).';', $position);
+$this->registerJs('var isAgency = '.json_encode($isAgency).';', $position);
 $this->registerJs('var marketingTypes = '.$jsonMarketingTypes.';', $position);
 $this->registerJs('var agencyCharge = '.json_encode(SystemConstants::AGENCY_PERCENT).';', $position);
 $this->registerJsFile('@web/js/angular-locale_ru-ru.js');
@@ -75,8 +78,10 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
                         <th class="text-center" width="30">#</th>
                         <th class="text-center">Название</th>
                         <th class="text-center">Адрес</th>
-                        <th class="text-center" width="250">Даты использования</th>
-                        <th class="text-center" width="290">Стоимость за период, с НДС, BYN (стоимость в месяц, с НДС, BYN)</th>
+                        <th class="text-center" width="240">Даты использования</th>
+                        <th class="text-center" width="140" ng-bind="$ctrl.isAgency ? 'Прайсовая стоимость в день, с НДС, BYN' : 'Стоимость в день, с НДС, BYN'"></th>
+                        <th class="text-center" width="140" ng-if="$ctrl.isAgency">Стоимость в день со скидкой, с НДС, BYN</th>
+                        <th class="text-center" width="140" ng-bind="$ctrl.isAgency ? 'Стоимость со скидкой за период, с НДС, BYN' : 'Стоимость за период, с НДС, BYN'"></th>
                         <th class="text-center" width="180">Тип рекламы</th>
                         <th class="text-center" ng-if="$ctrl.isEmployee">Компания</th>
                         <th width="180">&nbsp;</th>
@@ -88,7 +93,9 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
                             <td><a href="/construction/details?id={{item.advertising_construction_id}}" ng-bind="item.name"></a> <span ng-if="item.status_id == 11">(отложено до <span ng-bind="item.reserv_till"></span>)</span></td>
                             <td ng-bind="item.address"></td>
                             <td class="text-center"><span ng-bind="item.from + ' - ' + item.to"></span> <a href="" ng-click="$ctrl.editPeriod(item)" class="additional-link"><i class="icon edit-icon"></i></a></td>
-                            <td class="text-center" ng-bind="item.cost + ' (' + $ctrl.getMonthCost(item) + ')'"></td>
+                            <td class="text-center" ng-bind="item.price"></td>
+                            <td class="text-center" ng-if="$ctrl.isAgency" ng-bind="$ctrl.getItemPrice(item)"></td>
+                            <td class="text-center" ng-bind="item.cost"></td>
                             <td class="text-center">
                                 <select class="form-control" ng-model="item.marketing_type_id" ng-change="$ctrl.onItemMarketingTypeChanged(item)">
                                     <option ng-repeat="mt in $ctrl.marketingTypes" value="{{ mt.id }}" ng-bind="mt.name"></option>
@@ -126,6 +133,19 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
                                name="thematic"
                                ng-class="{ 'has-error' : $ctrl.form.$submitted && $ctrl.form.thematic.$error.required }"
                                ng-model="$ctrl.thematic"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row block-row">
+                <div class="col-md-4"></div>
+                <div class="col-md-8">
+                    <div class="pull-right">
+                        <label class="control-label">Комментарий:</label>
+                        <textarea class="form-control"
+                                  style="width: 300px; max-width:300px; margin-left: 15px;"
+                                  rows="4"
+                                  name="comment"
+                                  ng-model="$ctrl.comment"></textarea>
                     </div>
                 </div>
             </div>

@@ -8,6 +8,7 @@
 
 use app\components\BadgeWidget;
 use app\models\constants\AdvertisingConstructionStatuses;
+use app\models\constants\SystemConstants;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -15,6 +16,7 @@ use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ArrayDataProvider */
+/* @var $isAgency boolean */
 
 
 $this->title = 'Мои заказы';
@@ -26,11 +28,8 @@ $this->title = 'Мои заказы';
 </div>
 <div class="row block-row">
     <div class="col-md-12">
-        <?php Pjax::begin(); ?>
-        <?= GridView::widget([
-            'dataProvider' => $dataProvider,
-            'layout' => '{items}{pager}',
-            'columns' => [
+        <?php
+            $columns = [
                 [
                     'class' => 'yii\grid\SerialColumn',
                     'headerOptions' => ['width' => '30', 'class' => 'text-center'],
@@ -54,7 +53,7 @@ $this->title = 'Мои заказы';
                 ],
                 [
                     'attribute' => 'status.name',
-                    'headerOptions' => ['class' => 'text-center'],
+                    'headerOptions' => ['class' => 'text-center', 'width' => '100'],
                     'contentOptions' =>['class' => 'text-center'],
                     'label' => 'Статус',
                     'format' => 'raw',
@@ -83,15 +82,21 @@ $this->title = 'Мои заказы';
                 ],
                 [
                     'label' => 'Даты использования',
-                    'headerOptions' => ['class' => 'text-center', 'width' => '250'],
+                    'headerOptions' => ['class' => 'text-center', 'width' => '210'],
                     'contentOptions' =>['class' => 'text-center'],
                     'value' => function ($model) {
                         return (new DateTime($model->from))->format('d.m.Y').' - '.(new DateTime($model->to))->format('d.m.Y');
                     }
                 ],
                 [
+                    'attribute' => 'advertisingConstruction.price',
+                    'header' => $isAgency ? 'Прайсовая стоимость в день, с НДС (BYN)' : 'Стоимость в день, с НДС (BYN)',
+                    'headerOptions' => ['width' => '120', 'class' => 'text-center'],
+                    'contentOptions' =>['class' => 'text-center'],
+                ],
+                [
                     'attribute' => 'cost',
-                    'label' => 'Стоимость с НДС (BYN)',
+                    'header' => $isAgency ? 'Стоимость со скидкой за период, с НДС (BYN)' : 'Стоимость за период, с НДС (BYN)',
                     'headerOptions' => ['width' => '120', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
                 ],
@@ -126,7 +131,31 @@ $this->title = 'Мои заказы';
                         }
                     ]
                 ],
-            ],
+            ];
+
+            if ($isAgency) {
+                $stockPrice = array([
+                    'label' => 'Стоимость в день со скидкой, с НДС (BYN)',
+                    'headerOptions' => ['width' => '120', 'class' => 'text-center'],
+                    'contentOptions' =>['class' => 'text-center'],
+                    'value' => function ($model) {
+                        $from = new \DateTime($model->from);
+                        $to = new \DateTime($model->to);
+                        $interval = date_diff($to, $from);
+
+                        return number_format($model->cost / (intval($interval->days) + 1), 2, ".", "");
+                    }
+                ]);
+
+                array_splice($columns, 7, 0, $stockPrice);
+            }
+        ?>
+
+        <?php Pjax::begin(); ?>
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'layout' => '{items}{pager}',
+            'columns' => $columns,
         ]); ?>
         <?php Pjax::end(); ?>
     </div>

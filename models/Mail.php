@@ -13,14 +13,27 @@ class Mail
 {
     static $from = 'color.express.adm@gmail.com';
 
-    public function send($to, $subject, $form, $file = null) {
+    /**
+     * @param string $to
+     * @param string $subject
+     * @param string $from
+     * @param null $file
+     * @param string|null $bcc
+     * @return bool
+     */
+    public function send($to, $subject, $from, $file = null, $bcc = null) {
 
         try {
             $message = \Yii::$app->mailer->compose()
                 ->setFrom(Mail::$from)
                 ->setTo($to)
                 ->setSubject($subject)
-                ->setHtmlBody($form);
+                ->setHtmlBody($from);
+
+            if ($bcc != null) {
+                $message->setBcc($bcc);
+            }
+
             if (!empty($file)) {
                 $message->attach($file);
             }

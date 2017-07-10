@@ -9,7 +9,9 @@
 namespace app\services;
 
 
+use app\models\AddContractForm;
 use app\models\AddDocumentForm;
+use app\models\entities\Contract;
 use app\models\entities\Document;
 
 class DocumentService
@@ -46,6 +48,25 @@ class DocumentService
     }
 
     /**
+     * @param integer $userId
+     * @param integer $year
+     * @param integer|null $subclientId
+     * @return array|Contract[]
+     */
+    public function getContracts($userId, $year, $subclientId) {
+        $query = Contract::find()
+            ->where(['=', 'user_id', $userId])
+            ->andFilterWhere(['=', 'year', $year]);
+
+        if ($subclientId != null) {
+            $query = $query
+                ->andWhere(['=', 'subclient_id', $subclientId]);
+        }
+
+        return $query->all();
+    }
+
+    /**
      * @param $viewModel AddDocumentForm
      * @param $userId integer
      * @param $subclientId integer
@@ -60,6 +81,21 @@ class DocumentService
         $document->filename = $viewModel->filename;
         $document->contract = $viewModel->contract;
         $document->save();
+    }
+
+    /**
+     * @param $viewModel AddContractForm
+     * @param $userId integer
+     * @param $subclientId integer
+     */
+    public function createContract($viewModel, $userId, $subclientId) {
+        $contract = new Contract();
+        $contract->year = $viewModel->year;
+        $contract->user_id = $userId;
+        $contract->subclient_id = $subclientId;
+        $contract->filename = $viewModel->filename;
+        $contract->path = $viewModel->path;
+        $contract->save();
     }
 
     /**

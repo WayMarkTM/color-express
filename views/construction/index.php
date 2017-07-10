@@ -9,6 +9,7 @@
 use app\components\CompanySelectionWidget;
 use app\components\RequireAuthorizationWidget;
 use app\models\constants\SystemConstants;
+use app\models\entities\AdvertisingConstructionType;
 use app\models\User;
 use app\services\JsonService;
 use yii\grid\GridView;
@@ -20,6 +21,7 @@ use yii\widgets\Pjax;
 /* @var $constructions array|app\models\entities\AdvertisingConstruction */
 /* @var $sizes array */
 /* @var $types array */
+/* @var $constructionType AdvertisingConstructionType */
 
 $mappedConstructions = array();
 foreach ($constructions as $construction) {
@@ -31,6 +33,7 @@ foreach ($constructions as $construction) {
         'long' => $construction->longitude,
         'lat' => $construction->latitude,
         'isBusy' => $construction->isBusy,
+        'hasStock' => $construction->has_stock,
         'previewImage' => count($construction->advertisingConstructionImages) > 0 ?
             $construction->advertisingConstructionImages[0]->path :
             '',
@@ -116,7 +119,8 @@ $this->title = "Каталог рекламных конструкций";
                 <div class="col-md-4">
                     <?= $this->render('_search', [
                         'model' => $searchModel,
-                        'sizes' => $sizes
+                        'sizes' => $sizes,
+                        'constructionType' => $constructionType
                     ]) ?>
                 </div>
                 <div class="col-md-8">
@@ -127,7 +131,7 @@ $this->title = "Каталог рекламных конструкций";
                                 <th class="text-center">Название</th>
                                 <th class="text-center">Адрес</th>
                                 <th class="text-center">Размер</th>
-                                <th class="text-center" style="width: 130px;">Цена в месяц, с НДС (BYN)</th>
+                                <th class="text-center" style="width: 150px;">Цена в день, с НДС (BYN)</th>
                                 <th class="text-center">Занятость</th>
                                 <th class="text-center"></th>
                             </tr>
@@ -150,13 +154,20 @@ $this->title = "Каталог рекламных конструкций";
                                 <td ng-bind="construction.address"></td>
                                 <td class="text-center" ng-bind="construction.size"></td>
                                 <td class="text-center">
-                                    <span ng-if="!$ctrl.isGuest" ng-bind="$ctrl.getPriceForMonth(construction)"></span>
+                                    <span ng-if="!$ctrl.isGuest" ng-class="{ 'price-with-badge' : construction.hasStock }">
+                                        <span class="price" ng-bind="$ctrl.getPricePerDay(construction)"></span>
+                                        <span ng-if="construction.hasStock" class="badge">Акция</span>
+                                    </span>
                                     <a ng-if="$ctrl.isGuest" href="#" ng-click="$ctrl.showRequireAuthorizationModal()">Зарегистрироваться</a>
                                 </td>
                                 <td class="text-center" ng-bind="$ctrl.getConstructionStatus(construction)"></td>
                                 <td class="text-center">
-                                    <a href="/construction/details?id={{ construction.id}}&q={{$ctrl.queryString}}">Подробнее</a>
+                                    <a href="/construction/details?id={{ construction.id}}&q={{$ctrl.getQueryString()}}">Подробнее</a>
                                 </td>
+                            </tr>
+                            <tr ng-if="$ctrl.constructions.length > 0 && $ctrl.isAgency">
+                                <td class="invisible" colspan="4"></td>
+                                <td class="text-left note-message" colspan="3">* Со скидкой для Рекламных Агентств</td>
                             </tr>
                             <tr ng-if="!$ctrl.constructions || $ctrl.constructions.length == 0">
                                 <td colspan="7">
