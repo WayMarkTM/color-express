@@ -110,22 +110,27 @@ InterruptReservationWidget::end();
                             }
                         ],
                         [
-                            'label' => 'Стоимость за период, BYN (стоимость в месяц, BYN)',
-                            'headerOptions' => ['width' => '220', 'class' => 'text-center'],
+                            'label' => 'Стоимость в день, BYN ',
+                            'headerOptions' => ['width' => '140', 'class' => 'text-center'],
                             'contentOptions' =>['class' => 'text-center'],
                             'format' => 'raw',
                             'value' => function ($model) {
-                                $result = $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ?
-                                    '<input class="form-control full-width cost" type="text" value="'.number_format($model->cost, 2, ".", "").'" />' :
-                                    $model->cost;
+                                $from = new \DateTime($model->from);
+                                $to = new \DateTime($model->to);
+                                $interval = intval(date_diff($to, $from)->days) + 1;
 
-                                $agency_charge = $model->user->is_agency ? SystemConstants::AGENCY_PERCENT : 0;
-                                $costPerMonth = 30 * ($model->advertisingConstruction->price * (100 + $model->marketingType->charge) / 100 * (100 - $agency_charge)/100);
+                                $price = $model->cost / $interval;
 
-                                $result.=' ('.(number_format($costPerMonth, 2)).')';
-
-                                return $result;
+                                return $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ?
+                                    '<input class="form-control full-width price-per-day" data-period="'.$interval.'" type="text" value="'.number_format($price, 2, ".", "").'" />' :
+                                    number_format($price, 2, ".", "");
                             }
+                        ],
+                        [
+                            'label' => 'Стоимость за период, BYN',
+                            'headerOptions' => ['width' => '140', 'class' => 'text-center'],
+                            'contentOptions' =>['class' => 'text-center cost'],
+                            'attribute' => 'cost'
                         ],
                         [
                             'class' => 'yii\grid\ActionColumn',
@@ -241,9 +246,18 @@ InterruptReservationWidget::end();
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $('.price-per-day').on('change', function (e) {
+            var price = $(this).val(),
+                period = $(this).data('period'),
+                $cost = $(this).closest('tr').find('.cost');
+
+            $cost.text(price*period);
+        });
+
         $('.approve-order').on('click', function () {
-            var data = $(this).data();
-            data.cost = $(this).closest('tr').find('.cost').val();
+            var data = $(this).data(),
+                $pricePerDay = $(this).closest('tr').find('.price-per-day');
+            data.cost = $pricePerDay.val() * $pricePerDay.data('period');
             colorApp.utilities.ajaxHelper.post({
                 url: GATEWAY_URLS.APPROVE_ORDER,
                 data: data

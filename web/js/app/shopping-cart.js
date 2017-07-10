@@ -1,7 +1,7 @@
 /**
  * Created by e.chernyavsky on 08.05.2017.
  */
-(function (cartItems, marketingTypes, isEmployee, agencyCharge) {
+(function (cartItems, marketingTypes, isEmployee, agencyCharge, isAgency) {
     "use strict";
 
     Date.prototype.addDays = function(days) {
@@ -39,10 +39,12 @@
         vm.removeItem = removeItem;
         vm.getReservationTillDate = getReservationTillDate;
         vm.getItemCost = getItemCost;
+        vm.getItemPrice = getItemPrice;
 
         function init() {
             vm.cartItems = cartItems;
             vm.isEmployee = isEmployee;
+            vm.isAgency = isAgency;
             vm.marketingTypes = marketingTypes;
 
             _.forEach(vm.cartItems, function (item) {
@@ -76,15 +78,18 @@
             return marketingType.charge + 100;
         }
 
-        function getItemCost(item) {
+        function getItemPrice(item) {
             var charge = getItemMarketingTypeCharge(item);
+            var agency_charge = item.user_is_agency ? agencyCharge : 0;
 
+            return (item.price * charge / 100 * (100 - agency_charge)/100).toFixed(2);
+        }
+
+        function getItemCost(item) {
             var to = new Date(item.to);
             var from = new Date(item.from);
             var days = (to - from)/(1000*60*60*24) + 1;
-            var agency_charge = item.user_is_agency ? agencyCharge : 0;
-
-            return (days * (item.price * charge / 100 * (100 - agency_charge)/100)).toFixed(2);
+            return (days * getItemPrice(item)).toFixed(2);
         }
 
         function getMonthCost(item) {
@@ -260,4 +265,4 @@
             });
         }
     }
-})(cartItems, marketingTypes, isEmployee, agencyCharge);
+})(cartItems, marketingTypes, isEmployee, agencyCharge, isAgency);
