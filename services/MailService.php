@@ -96,13 +96,13 @@ class MailService
     }
 
     /** @param $reservation AdvertisingConstructionReservation */
-    public function notificationForTheDayOfEndReservation($user, $reservation)
+    public function notificationForTheDayOfEndReservation($user, $reservation, $managerEmail)
     {
         $mail = new Mail();
         $text = '<p style="margin:auto;">Истекает срок отложенного заказа на сайте. Перейдите в личный кабинет для оформления заказа.<br/>Период размещения: '.$reservation->from.' - '.$reservation->to.'<br>По адресу: '.$reservation->advertisingConstruction->address.'</p>';
         $subject = 'Истчение срока отложенного заказа.';
 
-        return $mail->send($user->username, $subject, $text);
+        return $mail->send($user->username, $subject, $text, null, $managerEmail);
     }
 
     /** @param $reservation AdvertisingConstructionReservation */
@@ -115,13 +115,13 @@ class MailService
         return $mail->send($user->username, $subject, $text);
     }
 
-    public function sendNotificateAboutFreeConstruction($sendTo, $constructionId) {
+    public function sendNotificateAboutFreeConstruction($sendTo, $constructionId, $managerEmail) {
         $mail = new Mail();
         $url = Url::to(['construction/details', 'id' => $constructionId], true);
         $text = '<p style="margin:auto;">Добрый день! Понравившаяся Вам конструкция доступна к покупке. <a target="_blank" href="'.$url.'">'.$url.'</a>.</p>';
         $subject = 'Освобождение конструкции.';
 
-        return $mail->send($sendTo, $subject, $text);
+        return $mail->send($sendTo, $subject, $text, null, $managerEmail);
     }
 
 }

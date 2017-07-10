@@ -441,8 +441,13 @@ class AdvertisingConstructionReservationService
         $mailService = new MailService();
         foreach($reservations as $reservation) {
             $user = User::findIdentity($reservation->user_id);
-            if ($user && $mailService->notificationForTheDayOfEndReservation($user, $reservation)) {
-                echo "Succes send message about ended reservation day to user: $user->username \n";
+            $bcc = null;
+            if ($user->manage != null) {
+                $bcc = $user->manage->username;
+            }
+
+            if ($user && $mailService->notificationForTheDayOfEndReservation($user, $reservation, $bcc)) {
+                echo "Successfully send message about ended reservation day to user: $user->username \n";
             } else {
                 echo "Error send message about ended reservation day to user: $user->username \n";
             }

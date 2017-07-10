@@ -44,10 +44,16 @@ class AdvertisiongConstructionNotificationService
             ->andWhere(['<', 'construction.to', new Expression('CURDATE()')])
             ->all();
 
+        $mailService = new MailService();
         foreach($notifications as $notificate) {
             /* @var $notificate AdvertisingConstructionNotification */
-            $mailService = new MailService();
-            if($mailService->sendNotificateAboutFreeConstruction($notificate->user->username, $notificate->advertising_construction_id)) {
+            $bcc = null;
+            $manage = $notificate->user->manage;
+            if ($manage != null) {
+                $bcc = $manage->username;
+            }
+
+            if($mailService->sendNotificateAboutFreeConstruction($notificate->user->username, $notificate->advertising_construction_id, $bcc)) {
                 $notificate->delete();
                 echo "Sucessfull send message to user: $notificate->user->username \n";
             }
