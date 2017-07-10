@@ -18,14 +18,18 @@
         vm.isMonthAvailable = isMonthAvailable;
         vm.isYearAvailable = isYearAvailable;
         vm.getDocumentLink = getDocumentLink;
+        vm.getContractLink = getContractLink;
         vm.openAddDocumentModal = openAddDocumentModal;
         vm.openAddSubclientModal = openAddSubclientModal;
+        vm.openAddContractModal = openAddContractModal;
         vm.deleteDocument = deleteDocument;
+        vm.deleteContract = deleteContract;
         vm.deleteSubclient = deleteSubclient;
 
 
         function init() {
             vm.isDocumentsLoading = false;
+            vm.isContractsLoading = false;
 
             if (!!subclients && subclients.length > 0) {
                 initSubclients();
@@ -67,6 +71,14 @@
             if (newVal != oldVal) {
                 vm.selectedMonthId = null;
                 vm.documents = null;
+                vm.isContractsLoading = true;
+
+                vm.contracts = null;
+                documentDataService.loadContracts(vm.selectedYear, vm.selectedSubclientId)
+                    .then(onContractsLoaded)
+                    .finally(function () {
+                        vm.isContractsLoading = false;
+                    });
             }
         }
 
@@ -110,8 +122,16 @@
             vm.documents = documents;
         }
 
+        function onContractsLoaded(contracts) {
+            vm.contracts = contracts;
+        }
+
         function getDocumentLink(document) {
             return '/uploads/documents/' + selectedUserId + '/' + vm.selectedYear + '/' + vm.selectedMonthId + '/' + document.path;
+        }
+
+        function getContractLink(contract) {
+            return '/uploads/contracts/' + selectedUserId + '/' + vm.selectedYear + '/' + contract.path;
         }
 
         function deleteDocument($index, document) {
@@ -120,6 +140,16 @@
                     .then(function () {
                         vm.documents.splice($index, 1);
                         toastr.success('Документ успешно удален');
+                    });
+            }
+        }
+
+        function deleteContract($index, contract) {
+            if (confirm('Вы уверены, что хотите удалить договор ' + contract.filename + '?')) {
+                documentDataService.deleteContract(contract.id)
+                    .then(function () {
+                        vm.contracts.splice($index, 1);
+                        toastr.success('Договор успешно удален');
                     });
             }
         }
@@ -148,6 +178,18 @@
             $('#add-document').modal('show');
         }
 
+        function openAddContractModal($event) {
+            if (!!vm.selectedSubclientId) {
+                $('#addcontractform-subclientid').val(vm.selectedSubclientId);
+            }
+
+            if (!!selectedUserId) {
+                $('#addcontractform-userid').val(selectedUserId);
+            }
+
+            $('#add-contract').modal('show');
+        }
+
         function openAddSubclientModal($event) {
             if (!!selectedUserId) {
                 $('#addsubclientform-userid').val(selectedUserId);
@@ -165,8 +207,10 @@
         return {
             loadCalendar: loadCalendar,
             loadDocuments: loadDocuments,
+            loadContracts: loadContracts,
             loadSubclientCalendar: loadSubclientCalendar,
             deleteDocument: deleteDocument,
+            deleteContract: deleteContract,
             deleteSubclient: deleteSubclient
         };
 
@@ -190,6 +234,19 @@
                 });
         }
 
+        function loadContracts(year, subclientId) {
+            var url = GATEWAY_URLS.GET_CONTRACTS + '?userId=' + selectedUserId + '&year=' + year;
+
+            if (!!subclientId) {
+                url += '&subclientId=' + subclientId;
+            }
+
+            return $http.get(url)
+                .then(function (response) {
+                    return response.data.contracts;
+                });
+        }
+
         function loadSubclientCalendar(subclientId) {
             var url = GATEWAY_URLS.GET_SUBCLIENT_DOCUMENTS_CALENDAR + '?userId=' + selectedUserId + '&subclientId=' + subclientId;
 
@@ -201,6 +258,12 @@
 
         function deleteDocument(documentId) {
             var url = GATEWAY_URLS.DELETE_DOCUMENT + '?documentId=' + documentId;
+
+            return $http.get(url);
+        }
+
+        function deleteContract(contractId) {
+            var url = GATEWAY_URLS.DELETE_CONTRACT + '?contractId=' + contractId;
 
             return $http.get(url);
         }
