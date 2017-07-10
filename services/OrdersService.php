@@ -57,6 +57,14 @@ class OrdersService
 
     /**
      * @param integer $id
+     */
+    public function deleteOrder($id) {
+        $reservation = AdvertisingConstructionReservation::findOne($id);
+        $reservation->delete();
+    }
+
+    /**
+     * @param integer $id
      * @param number $cost
      */
     public function approveOrder($id, $cost) {

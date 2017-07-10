@@ -116,7 +116,7 @@ InterruptReservationWidget::end();
                             'format' => 'raw',
                             'value' => function ($model) {
                                 $result = $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ?
-                                    '<input class="form-control full-width cost" type="text" value="'.number_format($model->cost, 2).'" />' :
+                                    '<input class="form-control full-width cost" type="text" value="'.number_format($model->cost, 2, ".", "").'" />' :
                                     $model->cost;
 
                                 $agency_charge = $model->user->is_agency ? SystemConstants::AGENCY_PERCENT : 0;
@@ -129,7 +129,7 @@ InterruptReservationWidget::end();
                         ],
                         [
                             'class' => 'yii\grid\ActionColumn',
-                            'template' => '{confirm}{cancel}{interrupt}',
+                            'template' => '{confirm}{cancel}{interrupt}{delete}',
                             'header' => 'Управление',
                             'headerOptions' => ['width' => '300', 'class' => 'text-center'],
                             'contentOptions' =>['class' => 'text-center'],
@@ -154,11 +154,19 @@ InterruptReservationWidget::end();
                                     return Html::a('Прервать', '#', [
                                         'title' => 'Прервать',
                                         'class' => 'custom-btn sm white interrupt-reservation',
-                                        'style' => 'width: 100%;'.($model->status_id == AdvertisingConstructionStatuses::APPROVED && new \DateTime($model->to) > new \DateTime()  ? '' : 'display:none;'),
+                                        'style' => 'width: 50%;'.($model->status_id == AdvertisingConstructionStatuses::APPROVED && new \DateTime($model->to) > new \DateTime()  ? '' : 'display:none;'),
                                         'data-id' => $model->id,
                                         'data-from' => $model->from,
                                         'data-to' => $model->to,
                                         'data-cost' => $model->cost
+                                    ]);
+                                },
+                                'delete' => function ($url, $model) {
+                                    return Html::a('Удалить', '#', [
+                                        'title' => 'Удалить',
+                                        'class' => 'custom-btn sm red delete-reservation',
+                                        'style' => 'width: 50%;'.($model->status_id == AdvertisingConstructionStatuses::APPROVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED ? '' : 'display:none;'),
+                                        'data-id' => $model->id
                                     ]);
                                 }
                             ]
@@ -252,6 +260,19 @@ InterruptReservationWidget::end();
             $('#interrupt-reservation-modal #interruptionform-cost').val(data.cost);
             $('#interrupt-reservation-modal').modal('show');
 
+        });
+
+        $('.delete-reservation').on('click', function (e) {
+            e.preventDefault();
+            var data = $(this).data();
+            if (confirm('Вы уверены, что хотите удалить бронирование/резерв?')) {
+                colorApp.utilities.ajaxHelper.post({
+                    url: GATEWAY_URLS.DELETE_ORDER,
+                    data: data
+                }).done(function (result) {
+                    window.location.reload();
+                });
+            }
         })
     });
 </script>

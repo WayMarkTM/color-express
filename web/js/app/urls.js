@@ -19,5 +19,6 @@ var GATEWAY_URLS = {
     CHECKOUT: BASE_URL + 'shopping-cart/checkout',
     APPROVE_ORDER: BASE_URL + 'clients/approve-order',
     BUY_RESERVED_CONSTRUCTION: BASE_URL + 'orders/buy-reserved-construction',
-    GET_REPORT: BASE_URL + 'reports/download'
+    GET_REPORT: BASE_URL + 'reports/download',
+    DELETE_ORDER: BASE_URL + 'clients/delete-order'
 };

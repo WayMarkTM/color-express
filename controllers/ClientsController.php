@@ -43,16 +43,21 @@ class ClientsController extends Controller
      */
     private $clientsService;
 
+    /**
+     * @var OrdersService
+     */
+    private $ordersService;
+
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'details', 'delete', 'update-manager', 'decline-order', 'approve-order', 'details-documents', 'get-client-info', 'update-manager', 'get-current-employee-clients', 'document'], //only be applied to
+                'only' => ['index', 'details', 'delete', 'update-manager', 'delete-order', 'decline-order', 'approve-order', 'details-documents', 'get-client-info', 'update-manager', 'get-current-employee-clients', 'document'], //only be applied to
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'details', 'delete', 'update-manager', 'decline-order', 'approve-order', 'details-documents', 'get-client-info', 'update-manager', 'get-current-employee-clients'],
+                        'actions' => ['index', 'details', 'delete', 'update-manager', 'delete-order', 'decline-order', 'approve-order', 'details-documents', 'get-client-info', 'update-manager', 'get-current-employee-clients'],
                         'roles' => ['employee'],
                     ],
                     [
@@ -69,6 +74,7 @@ class ClientsController extends Controller
         $this->documentService = new DocumentService();
         $this->subclientService = new SubclientService();
         $this->clientsService = new ClientsService();
+        $this->ordersService = new OrdersService();
         parent::init();
     }
 
@@ -238,8 +244,27 @@ class ClientsController extends Controller
         $model = Yii::$app->request->post();
 
         if (Yii::$app->request->isAjax) {
-            $service = new OrdersService();
-            $service->approveOrder($model['id'], $model['cost']);
+            $this->ordersService->approveOrder($model['id'], $model['cost']);
+            return [
+                'success' => true
+            ];
+        }
+
+        return new MethodNotAllowedHttpException();
+    }
+
+    public function actionDeleteOrder() {
+        $this->enableCsrfValidation = false;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        /* id */
+        $model = Yii::$app->request->post();
+
+        if (Yii::$app->request->isAjax) {
+            $this->ordersService->deleteOrder($model['id']);
+            return [
+                'success' => true
+            ];
         }
 
         return new MethodNotAllowedHttpException();
