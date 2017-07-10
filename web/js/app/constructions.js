@@ -83,9 +83,11 @@
         vm.showRequireAuthorizationModal = showRequireAuthorizationModal;
         vm.getSelectedConstructions = getSelectedConstructions;
         vm.getReport = getReport;
+        vm.getPricePerDay = getPricePerDay;
 
         function init() {
             vm.isEmployee = isEmployee;
+            vm.isAgency = isAgency;
             vm.isGuest = isGuest;
             vm.constructions = constructions;
             vm.constructionTypes = [];
@@ -120,6 +122,11 @@
 
         function onSelectedConstructionChanged() {
             constructionsDataService.setSelectedConstructions(vm.getSelectedConstructions());
+        }
+
+        function getPricePerDay(construction) {
+            var charge = isAgency ? agencyCharge : 0;
+            return (construction.price * (100-charge)/100).toFixed(2);
         }
 
         function getPriceForMonth(construction) {

@@ -131,7 +131,7 @@ $this->title = "Каталог рекламных конструкций";
                                 <th class="text-center">Название</th>
                                 <th class="text-center">Адрес</th>
                                 <th class="text-center">Размер</th>
-                                <th class="text-center" style="width: 150px;">Цена в месяц, с НДС (BYN)</th>
+                                <th class="text-center" style="width: 150px;">Цена в день, с НДС (BYN)</th>
                                 <th class="text-center">Занятость</th>
                                 <th class="text-center"></th>
                             </tr>
@@ -155,7 +155,7 @@ $this->title = "Каталог рекламных конструкций";
                                 <td class="text-center" ng-bind="construction.size"></td>
                                 <td class="text-center">
                                     <span ng-if="!$ctrl.isGuest" ng-class="{ 'price-with-badge' : construction.hasStock }">
-                                        <span class="price" ng-bind="$ctrl.getPriceForMonth(construction) + ' '"></span>
+                                        <span class="price" ng-bind="$ctrl.getPricePerDay(construction)"></span>
                                         <span ng-if="construction.hasStock" class="badge">Акция</span>
                                     </span>
                                     <a ng-if="$ctrl.isGuest" href="#" ng-click="$ctrl.showRequireAuthorizationModal()">Зарегистрироваться</a>
@@ -164,6 +164,10 @@ $this->title = "Каталог рекламных конструкций";
                                 <td class="text-center">
                                     <a href="/construction/details?id={{ construction.id}}&q={{$ctrl.queryString}}">Подробнее</a>
                                 </td>
+                            </tr>
+                            <tr ng-if="$ctrl.constructions.length > 0 && $ctrl.isAgency">
+                                <td class="invisible" colspan="4"></td>
+                                <td class="text-left note-message" colspan="3">* Со скидкой для Рекламных Агентств</td>
                             </tr>
                             <tr ng-if="!$ctrl.constructions || $ctrl.constructions.length == 0">
                                 <td colspan="7">
