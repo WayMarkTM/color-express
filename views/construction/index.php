@@ -162,7 +162,7 @@ $this->title = "Каталог рекламных конструкций";
                                 </td>
                                 <td class="text-center" ng-bind="$ctrl.getConstructionStatus(construction)"></td>
                                 <td class="text-center">
-                                    <a href="/construction/details?id={{ construction.id}}&q={{$ctrl.queryString}}">Подробнее</a>
+                                    <a href="/construction/details?id={{ construction.id}}&q={{$ctrl.getQueryString()}}">Подробнее</a>
                                 </td>
                             </tr>
                             <tr ng-if="$ctrl.constructions.length > 0 && $ctrl.isAgency">

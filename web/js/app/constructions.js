@@ -75,7 +75,6 @@
         vm.showSummary = showSummary;
         vm.buyConstructions = buyConstructions;
         vm.reservConstructions = reservConstructions;
-        vm.showSummary = showSummary;
         vm.selectConstructionType = selectConstructionType;
         vm.selectConstruction = selectConstruction;
         vm.getPriceForMonth = getPriceForMonth;
@@ -84,16 +83,17 @@
         vm.getSelectedConstructions = getSelectedConstructions;
         vm.getReport = getReport;
         vm.getPricePerDay = getPricePerDay;
+        vm.getQueryString = getQueryString;
 
         function init() {
+            vm.PAGE_NUMBER_PARAM = 'page-number';
             vm.isEmployee = isEmployee;
             vm.isAgency = isAgency;
             vm.isGuest = isGuest;
             vm.constructions = constructions;
             vm.constructionTypes = [];
-            vm.currentPage = 1;
+            vm.currentPage = colorApp.utilities.urlHelper.getParameterByName(vm.PAGE_NUMBER_PARAM) || 1;
             vm.ITEMS_PER_PAGE = 7;
-            vm.queryString = window.location.href.slice(window.location.href.indexOf('?') + 1);
             vm.selectedConstructionType = selectedConstructionType;
             _.forEach(constructionTypes, function (type, key) {
                 vm.constructionTypes.push({
@@ -118,6 +118,11 @@
             });
 
             $scope.$watch(function () { return vm.getSelectedConstructions(); }, onSelectedConstructionChanged, true);
+        }
+
+        function getQueryString() {
+            var url = colorApp.utilities.urlHelper.updateQueryString(vm.PAGE_NUMBER_PARAM, vm.currentPage);
+            return url.slice(url.indexOf('?') + 1);
         }
 
         function onSelectedConstructionChanged() {
@@ -168,9 +173,9 @@
         function showSummary() {
             var selectedConstructions = getSelectedConstructions();
             if (!!selectedConstructions && selectedConstructions.length > 0) {
-                window.location.href = '/construction/summary?ids=' + selectedConstructions.map(function (it) { return it.id; }).join(',') + '&q=' + vm.queryString;
+                window.location.href = '/construction/summary?ids=' + selectedConstructions.map(function (it) { return it.id; }).join(',') + '&q=' + getQueryString();
             } else {
-                window.location.href = '/construction/summary?' + vm.queryString;
+                window.location.href = '/construction/summary?' + getQueryString();
             }
         }
 
