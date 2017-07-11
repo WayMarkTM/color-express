@@ -23,7 +23,8 @@ class DocumentService
      */
     public function getDocumentsCalendar($userId, $subclientId = null) {
         $yearsAndMonths = $this->getUserDocumentsYearsAndMonths($userId, $subclientId);
-        return $this->createCalendar($yearsAndMonths);
+        $contractYears = $this->getUserContractsYears($userId, $subclientId);
+        return $this->createCalendar($yearsAndMonths, $contractYears);
     }
 
     /**
@@ -118,10 +119,30 @@ class DocumentService
     }
 
     /**
+     * @param integer $userId
+     * @param integer $subclientId
+     * @return array|mixed
+     */
+    private function getUserContractsYears($userId, $subclientId) {
+        $query = Contract::find()
+            ->where(['=', 'user_id', $userId]);
+
+        if ($subclientId != null) {
+            $query = $query
+                ->where(['=', 'subclient_id', $subclientId]);
+        }
+
+        return $query
+            ->select(['year'])
+            ->all();
+    }
+
+    /**
      * @param array|\DateTime $dates
+     * @param array|\DateTime $contractYears
      * @return array
      */
-    private function createCalendar($dates) {
+    private function createCalendar($dates, $contractYears) {
         if (count($dates) == 0) {
             return [];
         }
@@ -132,7 +153,6 @@ class DocumentService
 
         foreach($dates as $date) {
             $year = $date['year'];
-            $month = $date['month'];
 
             if ($year < $minYear) {
                 $minYear = $year;
@@ -141,6 +161,23 @@ class DocumentService
             if ($year > $maxYear) {
                 $maxYear = $year;
             }
+        }
+
+        foreach($contractYears as $contract) {
+            $year = $contract['year'];
+
+            if ($year < $minYear) {
+                $minYear = $year;
+            }
+
+            if ($year > $maxYear) {
+                $maxYear = $year;
+            }
+        }
+
+        foreach($dates as $date) {
+            $year = $date['year'];
+            $month = $date['month'];
 
             if (count($result[$year][$month]) == 0) {
                 $result[$year][$month] = 0;
