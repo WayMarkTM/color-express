@@ -143,7 +143,7 @@ class DocumentService
      * @return array
      */
     private function createCalendar($dates, $contractYears) {
-        if (count($dates) == 0) {
+        if (count($dates) == 0 && count($contractYears) == 0) {
             return [];
         }
 
