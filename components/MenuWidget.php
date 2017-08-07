@@ -158,7 +158,7 @@ class MenuWidget extends Widget
                 'visible' => Yii::$app->user->isGuest,
             ],
             [
-                'label' => 'Презентация наших конструкций',
+                'label' => 'Инструкция к сайту',
                 'url' => SiteSettings::findOne(SiteSettingKey::PRESENTATION_LINK)->value,
                 'visible' => Yii::$app->user->isGuest
             ]

@@ -9,7 +9,9 @@
 namespace app\services;
 
 
+use app\models\AddContractForm;
 use app\models\AddDocumentForm;
+use app\models\entities\Contract;
 use app\models\entities\Document;
 
 class DocumentService
@@ -21,7 +23,8 @@ class DocumentService
      */
     public function getDocumentsCalendar($userId, $subclientId = null) {
         $yearsAndMonths = $this->getUserDocumentsYearsAndMonths($userId, $subclientId);
-        return $this->createCalendar($yearsAndMonths);
+        $contractYears = $this->getUserContractsYears($userId, $subclientId);
+        return $this->createCalendar($yearsAndMonths, $contractYears);
     }
 
     /**
@@ -36,6 +39,25 @@ class DocumentService
             ->where(['=', 'user_id', $userId])
             ->andFilterWhere(['=', 'year', $year])
             ->andFilterWhere(['=', 'month', $month]);
+
+        if ($subclientId != null) {
+            $query = $query
+                ->andWhere(['=', 'subclient_id', $subclientId]);
+        }
+
+        return $query->all();
+    }
+
+    /**
+     * @param integer $userId
+     * @param integer $year
+     * @param integer|null $subclientId
+     * @return array|Contract[]
+     */
+    public function getContracts($userId, $year, $subclientId) {
+        $query = Contract::find()
+            ->where(['=', 'user_id', $userId])
+            ->andFilterWhere(['=', 'year', $year]);
 
         if ($subclientId != null) {
             $query = $query
@@ -63,6 +85,21 @@ class DocumentService
     }
 
     /**
+     * @param $viewModel AddContractForm
+     * @param $userId integer
+     * @param $subclientId integer
+     */
+    public function createContract($viewModel, $userId, $subclientId) {
+        $contract = new Contract();
+        $contract->year = $viewModel->year;
+        $contract->user_id = $userId;
+        $contract->subclient_id = $subclientId;
+        $contract->filename = $viewModel->filename;
+        $contract->path = $viewModel->path;
+        $contract->save();
+    }
+
+    /**
      * @param integer $userId
      * @param integer $subclientId
      * @return array|mixed
@@ -82,11 +119,31 @@ class DocumentService
     }
 
     /**
+     * @param integer $userId
+     * @param integer $subclientId
+     * @return array|mixed
+     */
+    private function getUserContractsYears($userId, $subclientId) {
+        $query = Contract::find()
+            ->where(['=', 'user_id', $userId]);
+
+        if ($subclientId != null) {
+            $query = $query
+                ->where(['=', 'subclient_id', $subclientId]);
+        }
+
+        return $query
+            ->select(['year'])
+            ->all();
+    }
+
+    /**
      * @param array|\DateTime $dates
+     * @param array|\DateTime $contractYears
      * @return array
      */
-    private function createCalendar($dates) {
-        if (count($dates) == 0) {
+    private function createCalendar($dates, $contractYears) {
+        if (count($dates) == 0 && count($contractYears) == 0) {
             return [];
         }
 
@@ -96,7 +153,6 @@ class DocumentService
 
         foreach($dates as $date) {
             $year = $date['year'];
-            $month = $date['month'];
 
             if ($year < $minYear) {
                 $minYear = $year;
@@ -105,6 +161,23 @@ class DocumentService
             if ($year > $maxYear) {
                 $maxYear = $year;
             }
+        }
+
+        foreach($contractYears as $contract) {
+            $year = $contract['year'];
+
+            if ($year < $minYear) {
+                $minYear = $year;
+            }
+
+            if ($year > $maxYear) {
+                $maxYear = $year;
+            }
+        }
+
+        foreach($dates as $date) {
+            $year = $date['year'];
+            $month = $date['month'];
 
             if (count($result[$year][$month]) == 0) {
                 $result[$year][$month] = 0;

@@ -9,7 +9,9 @@
 namespace app\controllers;
 
 
+use app\models\AddContractForm;
 use app\models\AddDocumentForm;
+use app\models\entities\Contract;
 use app\models\entities\Document;
 use app\models\entities\Subclient;
 use app\services\DocumentService;
@@ -32,16 +34,16 @@ class DocumentsController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['get-documents-calendar', 'get-subclient-documents-calendar', 'get-documents', 'delete-document', 'upload-validation', 'delete-subclient'], //only be applied to
+                'only' => ['get-documents-calendar', 'get-subclient-documents-calendar', 'get-contracts', 'get-documents', 'delete-document', 'delete-contract', 'upload-validation', 'upload-contract-validation', 'delete-subclient'], //only be applied to
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['delete-document', 'upload-validation', 'delete-subclient'],
+                        'actions' => ['delete-document', 'delete-contract', 'upload-validation', 'upload-contract-validation', 'delete-subclient'],
                         'roles' => ['employee'],
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['get-documents-calendar', 'get-subclient-documents-calendar', 'get-documents'],
+                        'actions' => ['get-documents-calendar', 'get-subclient-documents-calendar', 'get-documents', 'get-contracts'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -79,11 +81,28 @@ class DocumentsController extends Controller
         ];
     }
 
+    public function actionGetContracts($userId, $year, $subclientId = null) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $contracts = $this->documentService->getContracts($userId, $year, $subclientId);
+
+        return [
+            'contracts' => $contracts
+        ];
+    }
+
     public function actionUploadValidation() {
         $documentForm = new AddDocumentForm();
         if (Yii::$app->request->isAjax && $documentForm->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($documentForm);
+        }
+    }
+
+    public function actionUploadContractValidation() {
+        $contractForm = new AddContractForm();
+        if (Yii::$app->request->isAjax && $contractForm->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($contractForm);
         }
     }
 
@@ -96,6 +115,17 @@ class DocumentsController extends Controller
         }
 
         Document::findOne($documentId)->delete();
+    }
+
+    public function actionDeleteContract($contractId) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $currentUserId = Yii::$app->user->getId();
+
+        if ($currentUserId == null) {
+            throw new UnauthorizedHttpException();
+        }
+
+        Contract::findOne($contractId)->delete();
     }
 
     public function actionDeleteSubclient($id) {

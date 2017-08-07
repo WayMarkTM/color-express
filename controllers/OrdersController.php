@@ -9,6 +9,7 @@
 namespace app\controllers;
 
 
+use app\models\User;
 use app\services\AdvertisingConstructionReservationService;
 use app\services\OrdersService;
 use Yii;
@@ -64,7 +65,10 @@ class OrdersController extends Controller
             ],
         ]);
 
+        $isAgency = User::findIdentity(Yii::$app->user->getId())->is_agency;
+
         return $this->render('index', [
+            'isAgency' => $isAgency,
             'dataProvider' => $dataProvider,
         ]);
     }

@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ * @property string $presentation_link
  *
  * @property AdvertisingConstruction[] $advertisingConstructions
  */
@@ -28,7 +29,7 @@ class AdvertisingConstructionType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'string', 'max' => 255],
+            [['name', 'presentation_link'], 'string', 'max' => 255],
         ];
     }
 
@@ -40,6 +41,7 @@ class AdvertisingConstructionType extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Тип конструкции',
+            'presentation_link' => 'Ссылка на презентацию',
         ];
     }
 

@@ -6,6 +6,7 @@
  * Time: 13:07
  */
 
+use app\models\entities\AdvertisingConstructionType;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\date\DatePicker;
@@ -14,6 +15,7 @@ use kartik\date\DatePicker;
 /* @var $model app\models\AdvertisingConstructionSearch */
 /* @var $sizes array app\models\entities\AdvertisingConstructionSize */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $constructionType AdvertisingConstructionType */
 ?>
 
 <div class="advertising-construction-search">
@@ -72,6 +74,14 @@ use kartik\date\DatePicker;
             <?= Html::submitButton('Отобрать', ['class' => 'custom-btn sm white full-width']) ?>
         </div>
     </div>
+
+    <?php if (!Yii::$app->user->isGuest && $constructionType->presentation_link != null && $constructionType->presentation_link != '') { ?>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <a class="download-presentation-link" target="_blank" href="<?php echo $constructionType->presentation_link; ?>">Скачать презентацию "<?php echo $constructionType->name; ?>"</a>
+        </div>
+    </div>
+    <?php } ?>
 
     <?php ActiveForm::end(); ?>
 </div>

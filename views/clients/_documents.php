@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
+use app\components\AddContractWidget;
 use app\components\AddDocumentWidget;
 use app\components\AddSubclientWidget;
 use app\services\JsonService;
@@ -53,9 +54,10 @@ use yii\web\View;
              <table class="documents-table table table-bordered" ng-if="!!$ctrl.calendar">
                 <thead>
                     <tr>
-                        <th>Год</th>
-                        <th>Месяц</th>
-                        <th>Документы</th>
+                        <th width="67">Год</th>
+                        <th width="300">Договора</th>
+                        <th width="100">Месяц</th>
+                        <th>Ежемесячные документы</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,9 +65,25 @@ use yii\web\View;
                         <td id="years">
                             <div class="item-year"
                                  ng-repeat="year in $ctrl.years"
-                                 ng-class="{'active': year == $ctrl.selectedYear, 'not-available': !$ctrl.isYearAvailable(year)}"
+                                 ng-class="{'active': year == $ctrl.selectedYear }"
                                  ng-click="$ctrl.selectYear(year)">
                                 {{year}}
+                            </div>
+                        </td>
+                        <td id="contracts">
+                            <div ng-if="(!$ctrl.contracts || $ctrl.contracts.length === 0) && !!$ctrl.selectedYear && !$ctrl.isContractsLoading">
+                                Договоров в заданном году не найдено
+                            </div>
+                            <div ng-if="$ctrl.isContractsLoading">
+                                Список договоров загружается. Пожалуйста, подождите...
+                            </div>
+                            <div class="item-document"
+                                 ng-if="$ctrl.contracts.length > 0"
+                                 ng-repeat="contract in $ctrl.contracts">
+                                <a href="{{$ctrl.getContractLink(contract)}}">{{ contract.filename }}</a>
+                                <?php if (!$isViewMode) { ?>
+                                    <a href="" ng-click="$ctrl.deleteContract($index, contract)">X</a>
+                                <?php } ?>
                             </div>
                         </td>
                         <td id="months">
@@ -110,6 +128,7 @@ use yii\web\View;
             <?php } ?>
             <div class="col-sm-8" ng-if="!!$ctrl.selectedSubclientId || !$ctrl.subclients || $ctrl.subclients.length == 0">
                 <a href="#" class="additional-link" ng-click="$ctrl.deleteSubclient($event)" style="margin-right: 15px;"><i class="icon add-document-icon"></i>Удалить сюжет</a>
+                <a href="#" class="additional-link" ng-click="$ctrl.openAddContractModal($event)" style="margin-right: 15px;"><i class="icon add-document-icon"></i>Добавить договор</a>
                 <a href="#" class="additional-link" ng-click="$ctrl.openAddDocumentModal($event)"><i class="icon add-document-icon"></i>Добавить документ</a>
             </div>
         <?php } ?>
@@ -121,6 +140,8 @@ use yii\web\View;
     AddDocumentWidget::end();
     AddSubclientWidget::begin();
     AddSubclientWidget::end();
+    AddContractWidget::begin();
+    AddContractWidget::end();
 ?>
 
 <?php

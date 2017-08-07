@@ -23,7 +23,11 @@
         }
 
         if (!!reservation.marketing_type) {
-            title += '- ' + reservation.marketing_type + '<br/><br/>'
+            title += '- ' + reservation.marketing_type + '<br/>'
+        }
+
+        if (!!reservation.comment) {
+            title += '<br/>Комментарий: ' + reservation.comment + '<br/><br/>';
         }
 
         title += reservation.from + ' - ' + reservation.to;

@@ -9,8 +9,10 @@ var GATEWAY_URLS = {
     NOTIFICATION_CREATE: BASE_URL + 'construction/notification-create',
     GET_DOCUMENTS_CALENDAR: BASE_URL + 'documents/get-documents-calendar',
     GET_DOCUMENTS: BASE_URL + 'documents/get-documents',
+    GET_CONTRACTS: BASE_URL + 'documents/get-contracts',
     GET_SUBCLIENT_DOCUMENTS_CALENDAR: BASE_URL + 'documents/get-subclient-documents-calendar',
     DELETE_DOCUMENT: BASE_URL + 'documents/delete-document',
+    DELETE_CONTRACT: BASE_URL + 'documents/delete-contract',
     DELETE_SUBCLIENT: BASE_URL + 'documents/delete-subclient',
     DELETE_CONSTRUCTION_IMAGE: BASE_URL + 'admin/construction/delete-image',
     DELETE_SHOPPING_CART_ITEM: BASE_URL + 'shopping-cart/delete',
@@ -19,5 +21,6 @@ var GATEWAY_URLS = {
     CHECKOUT: BASE_URL + 'shopping-cart/checkout',
     APPROVE_ORDER: BASE_URL + 'clients/approve-order',
     BUY_RESERVED_CONSTRUCTION: BASE_URL + 'orders/buy-reserved-construction',
-    GET_REPORT: BASE_URL + 'reports/download'
+    GET_REPORT: BASE_URL + 'reports/download',
+    DELETE_ORDER: BASE_URL + 'clients/delete-order'
 };

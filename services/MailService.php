@@ -46,17 +46,7 @@ class MailService
     {
         $mail = new Mail();
         $text = '<p style="margin:auto;">Регистрация на сайте <a target="_blank" href="'.Url::home(true).'">'.Url::home(true).'</a> завершена. Спасибо!</p>';
-        $subject = 'Завершение регистрации';
-
-        return $mail->send($user->username, $subject, $text);
-    }
-
-    /* @param $user User */
-    public function sendSignUpUser($user)
-    {
-        $mail = new Mail();
-        $text = '<p style="margin:auto;">Заявка на регистрацию принята. Подтверждение регистрации Вы получите на указанный электронный ящик.</p>';
-        $subject = 'Заявка на регистрацию принята';
+        $subject = 'Вы зарегестрированы.';
 
         return $mail->send($user->username, $subject, $text);
     }
@@ -76,54 +66,62 @@ class MailService
         $mail = new Mail();
         if($prev_status_id == AdvertisingConstructionStatuses::IN_PROCESSING) {
             $mail_data = [
+                'subject_approve' => 'Подтверждение оформленного заказа',
+                'subject_decline' => 'Отклонение оформленного заказа',
                 'body_approve' => 'Ваш заказ подтвержден. Наш менеджер с Вами свяжется.',
                 'body_decline' => 'К сожалению, заказ отменен. Свяжитесь с Вашим менеджером.',
                 'date' => 'Даты бронирования:',
             ];
         } else {
             $mail_data = [
+                'subject_approve' => 'Подтверждение отложенного заказа',
+                'subject_decline' => 'Отклонение отложенного заказа',
                 'body_approve' => 'Ваш заказ отложен на 5 рабочих дней.',
                 'body_decline' => 'К сожалению, заказ отменен. Свяжитесь с Вашим менеджером.',
                 'date' => 'Даты резервации:',
+                'additional' => 'Срок действи отложенного заказа: до '. $reservation->reserv_till,
             ];
         }
         if ($isApprove) {
-            $orderIs = $mail_data['subject_approve'];
-            $subject = 'Подтверждение заказа';
+            $orderIs = $mail_data['body_approve'];
+            $subject = $mail_data['subject_approve'];
+            $additional_info = $mail_data['additional'];
         } else {
-            $orderIs = $mail_data['subject_decline'];
-            $subject = 'Отклонение заказа';
+            $orderIs = $mail_data['body_decline'];
+            $subject = $mail_data['subject_decline'];
         }
-        $text = '<p style="margin:auto;">'.$orderIs.'<br>'.$mail_data['date'].' '.$reservation->from.' - '.$reservation->to.'.<br>По адресу: '.$reservation->advertisingConstruction->address.'</p>';
+        $text = '<p style="margin:auto;">'.$orderIs.'<br>'.$mail_data['date'].' '.$reservation->from.' - '.$reservation->to.'.<br>По адресу: '.$reservation->advertisingConstruction->address.isset($additional_info) && !empty($additional_info) ? '<br>'.$additional_info : ''.'</p>';
 
         return $mail->send($user->username, $subject, $text);
     }
 
-    public function notificationForTheDayOfEndReservation($user, $reservation)
+    /** @param $reservation AdvertisingConstructionReservation */
+    public function notificationForTheDayOfEndReservation($user, $reservation, $managerEmail)
     {
         $mail = new Mail();
-        $text = '<p style="margin:auto;">Уведомляем Вас, что истекает срок отложенного заказа на сайте <a target="_blank" href="'.\Yii::$app->urlManager->baseUrl.'">'.\Yii::$app->urlManager->baseUrl.'</a>. Перейдите в личный кабинет для оформления заказа.</p>';
-        $subject = 'Уведомление о прекращении резерва';
+        $text = '<p style="margin:auto;">Истекает срок отложенного заказа на сайте. Перейдите в личный кабинет для оформления заказа.<br/>Период размещения: '.$reservation->from.' - '.$reservation->to.'<br>По адресу: '.$reservation->advertisingConstruction->address.'</p>';
+        $subject = 'Истчение срока отложенного заказа.';
 
-        return $mail->send($user->username, $subject, $text);
+        return $mail->send($user->username, $subject, $text, null, $managerEmail);
     }
 
-    public function employeeRegisterForCompany($user)
+    /** @param $reservation AdvertisingConstructionReservation */
+    public function employeeRegisterForCompany($user, $reservation)
     {
         $mail = new Mail();
-        $text = '<p style="margin:auto;">Заказ оформлен Вашим менеджером.</p>';
+        $text = '<p style="margin:auto;">Заказ оформлен Вашим менеджером.<br/>Период размещения: '.$reservation->from.' - '.$reservation->to.'<br>По адресу: '.$reservation->advertisingConstruction->address.'</p>';
         $subject = 'Подтверждение заказа';
 
         return $mail->send($user->username, $subject, $text);
     }
 
-    public function sendNotificateAboutFreeConstruction($sendTo, $constructionId) {
+    public function sendNotificateAboutFreeConstruction($sendTo, $constructionId, $managerEmail) {
         $mail = new Mail();
-        $url = Url::to(['construction/details', 'id' => $constructionId]);
-        $text = '<p style="margin:auto;">Конструкция освободилась <a target="_blank" href="'.$url.'">'.$url.'</a>.</p>';
-        $subject = 'Конструкция освободилась';
+        $url = Url::to(['construction/details', 'id' => $constructionId], true);
+        $text = '<p style="margin:auto;">Добрый день! Понравившаяся Вам конструкция доступна к покупке. <a target="_blank" href="'.$url.'">'.$url.'</a>.</p>';
+        $subject = 'Освобождение конструкции.';
 
-        return $mail->send($sendTo, $subject, $text);
+        return $mail->send($sendTo, $subject, $text, null, $managerEmail);
     }
 
 }

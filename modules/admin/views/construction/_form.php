@@ -67,6 +67,8 @@ use yii\widgets\ActiveForm;
         <?php }
     } ?>
 
+    <?= $form->field($model, 'has_stock')->checkBox(['selected' => $model->has_stock]) ?>
+
     <?= $form->field($model, 'is_published')->checkBox(['selected' => $model->is_published]) ?>
 
     <?= $form->field($model, 'youtube_ids')->textInput() ?>
