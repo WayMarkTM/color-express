@@ -54,7 +54,7 @@ class SignupForm extends Model
             [['number'], 'string', 'max' => 1000],
             ['okpo', 'string', 'max' => 20],
             ['pan', 'string', 'length' => 9],
-            ['checking_account', 'string'],
+            ['checking_account', 'string', 'max' => 28],
             ['bank', 'string'],
             ['balance', 'number'],
             ['username', 'validateEmail'],
