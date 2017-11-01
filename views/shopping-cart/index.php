@@ -109,7 +109,7 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
                             </td>
                         </tr>
                         <tr ng-if="!$ctrl.cartItems || $ctrl.cartItems.length == 0">
-                            <td colspan="7">
+                            <td colspan="9">
                                 Отсутствуют элементы в корзине.
                             </td>
                         </tr>

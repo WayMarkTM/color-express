@@ -65,7 +65,7 @@ use yii\web\View;
                         <td id="years">
                             <div class="item-year"
                                  ng-repeat="year in $ctrl.years"
-                                 ng-class="{'active': year == $ctrl.selectedYear, 'not-available': !$ctrl.isYearAvailable(year)}"
+                                 ng-class="{'active': year == $ctrl.selectedYear }"
                                  ng-click="$ctrl.selectYear(year)">
                                 {{year}}
                             </div>

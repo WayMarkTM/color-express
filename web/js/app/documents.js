@@ -95,10 +95,6 @@
         }
 
         function selectYear(year) {
-            if (!isYearAvailable(year)) {
-                return;
-            }
-
             vm.selectedYear = year;
         }
 
