@@ -164,7 +164,6 @@ class ClientsController extends Controller
         $user = User::findOne($currentUserId);
         $subclients = array();
         $documentsCalendar = array();
-        AdvertisiongConstructionNotificationService::checkNotifications();
 
         if ($user->is_agency) {
             $subclients = $this->subclientService->getSubclients($currentUserId);
