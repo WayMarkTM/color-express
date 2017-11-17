@@ -30,6 +30,9 @@ class User extends entities\User implements IdentityInterface
             [['name', 'surname'], 'string', 'max' => 50],
             [['bank', 'number'], 'string'],
             [['checking_account'], 'string', 'max' => 28],
+            ['checking_account', 'filter', 'filter' => function($value) {
+                return str_replace(' ', '', $value);
+            }],
             [['okpo'], 'string', 'max' => 20],
             [['pan'], 'string', 'max' => 15],
             [['photo'],  'string', 'max' => 255],
