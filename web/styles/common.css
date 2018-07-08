@@ -22,7 +22,7 @@ html, body {
 body {
     background-image: url('../images/background.jpg');
     background-size: cover;
-    background-repeat: none;
+    background-repeat: no-repeat;
     letter-spacing: 1px;
 }
 
