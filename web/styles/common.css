@@ -499,6 +499,7 @@ table td a:hover {
 }
 
 .stock-window {
+    display: flex;
     position: fixed;
     font-family: Arial, Helvetica, sans-serif;
     top: 0;
@@ -520,10 +521,6 @@ table td a:hover {
     line-height: 27px;
 }
 
-.stock-window .stock-container {
-    position: relative;
-}
-
 .stock-window .watermark {
     color: #FFFFFF;
     line-height: 25px;
@@ -536,10 +533,9 @@ table td a:hover {
 
 .stock-window .content {
     max-width: 80%;
-    width: auto;
     text-align: center;
     position: relative;
-    margin: 10% auto;
+    margin: auto;
     padding: 40px;
     border-radius: 10px;
     background: #fff;
