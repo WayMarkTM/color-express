@@ -477,6 +477,11 @@ table td a:hover {
     color: black;
 }
 
+.custom-tabs > li > a {
+    padding: 10px;
+    width: 180px;
+}
+
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
     border: 0;
     background-color: #164a9e;

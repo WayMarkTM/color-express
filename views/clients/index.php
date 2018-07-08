@@ -17,25 +17,31 @@ use app\components\SignupWidget;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ArrayDataProvider */
 /* @var $employeeList [] */
+/* @var $tab */
 
 $this->title = 'Управление клиентами';
 ?>
 <div class="row">
     <div class="col-md-6">
-        <div class="col-md-5">
-            <h3 class="text-uppercase">
-                Список клиентов
-            </h3>
-        </div>
-        <div class="col-md-7">
-            <a data-toggle="modal" data-target="#signup" class="custom-btn blue">Добавить клиента</a>
+        <div class="row">
+            <div class="col-md-8">
+                <ul class="nav nav-tabs custom-tabs">
+                    <li role="presentation" class="<?= $tab == 'my-clients' ? 'active' : '' ?>">
+                        <a href="<?= Url::toRoute(['clients/index']) ?>" class="text-uppercase">Список Ваших клиентов</a>
+                    </li>
+                    <li role="presentation" class="<?= $tab == 'all-clients' ? 'active' : '' ?>">
+                        <a href="<?= Url::toRoute(['clients/index', 'show_all' => 1]) ?>" class="text-uppercase">Список всех клиентов</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <a data-toggle="modal" data-target="#signup" class="custom-btn blue">Добавить клиента</a>
+            </div>
         </div>
     </div>
     <div class="col-md-6">
         <?php
-        $form = ActiveForm::begin([
-            'options' => ['class' => 'modal-form'],
-        ])
+        $form = ActiveForm::begin()
         ?>
             <?= Html::input('text', 'search', $search, [
                 'class' => 'form-control full-width',

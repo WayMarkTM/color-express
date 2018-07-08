@@ -94,7 +94,13 @@ class ClientsController extends Controller
         $service = new UserService();
 
         $search = Yii::$app->request->post('search');
-        $clients = $service->getEmployeeClient($search);
+        $showAll = Yii::$app->request->get('show_all');
+
+        $employeeId = null;
+        if (!$showAll) {
+            $employeeId = Yii::$app->user->getId();
+        }
+        $clients = $service->getClientsByEmployee($employeeId, $search);
 
         $dataProvider = new ArrayDataProvider([
             'allModels' => $clients,
@@ -106,9 +112,12 @@ class ClientsController extends Controller
             ],
         ]);
 
+        $tab = $showAll ? 'all-clients' : 'my-clients';
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            'search' => $search
+            'search' => $search,
+            'tab' => $tab
         ]);
     }
 

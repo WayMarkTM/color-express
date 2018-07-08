@@ -57,20 +57,21 @@ class UserService
         return Yii::$app->getUser()->login($user) ? true : false;
     }
 
-    public function getEmployeeClient($search = null)
-    {
+    public function getClientsByEmployee($employeeId = null, $search = null) {
         $clientModels= [];
         /* @param $clients User[] */
         $clients = User::find()
             ->innerJoin(['roles' => 'auth_assignment'], 'roles.user_id=user.id')
             ->where(['AND',
-                        ['roles.item_name' => 'client'],
-                        ['manage_id' => Yii::$app->user->getId()]
-                    ]
-        )->orderBy('id');
+                    ['roles.item_name' => 'client']
+                ]
+            )->orderBy('id');
+        if (!empty($employeeId)) {
+            $clients->andWhere(['manage_id' => $employeeId]);
+        }
         if(!empty($search)) {
             $clients->andWhere([
-                'OR',
+                    'OR',
                     ['like', 'company', $search],
                     ['like', 'username', $search],
                     ['like', 'name', $search],
@@ -87,6 +88,7 @@ class UserService
 
         return $clientModels;
     }
+
 
     public function getNewClients()
     {
