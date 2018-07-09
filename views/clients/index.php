@@ -22,33 +22,31 @@ use app\components\SignupWidget;
 $this->title = 'Управление клиентами';
 ?>
 <div class="row">
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-md-8">
-                <ul class="nav nav-tabs custom-tabs">
-                    <li role="presentation" class="<?= $tab == 'my-clients' ? 'active' : '' ?>">
-                        <a href="<?= Url::toRoute(['clients/index']) ?>" class="text-uppercase">Список Ваших клиентов</a>
-                    </li>
-                    <li role="presentation" class="<?= $tab == 'all-clients' ? 'active' : '' ?>">
-                        <a href="<?= Url::toRoute(['clients/index', 'show_all' => 1]) ?>" class="text-uppercase">Список всех клиентов</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-4">
-                <a data-toggle="modal" data-target="#signup" class="custom-btn blue">Добавить клиента</a>
-            </div>
-        </div>
+    <div class="col-md-5">
+        <ul class="nav nav-tabs custom-tabs">
+            <li role="presentation" class="<?= $tab == 'my-clients' ? 'active' : '' ?>">
+                <a href="<?= Url::toRoute(['clients/index']) ?>" class="text-uppercase">Список Ваших клиентов</a>
+            </li>
+            <li role="presentation" class="<?= $tab == 'all-clients' ? 'active' : '' ?>">
+                <a href="<?= Url::toRoute(['clients/index', 'show_all' => 1]) ?>" class="text-uppercase">Список всех клиентов</a>
+            </li>
+        </ul>
     </div>
-    <div class="col-md-6">
-        <?php
-        $form = ActiveForm::begin()
-        ?>
-            <?= Html::input('text', 'search', $search, [
-                'class' => 'form-control full-width',
-                'style' => 'margin-top: 10px;',
-                'placeholder' => 'Введите данные для поиска'
-            ]) ?>
-        <?php ActiveForm::end() ?>
+    <div class="col-md-7">
+        <div class="col-md-3">
+            <a data-toggle="modal" data-target="#signup" class="custom-btn blue">Добавить клиента</a>
+        </div>
+        <div class="col-md-9">
+            <?php
+            $form = ActiveForm::begin()
+            ?>
+                <?= Html::input('text', 'search', $search, [
+                    'class' => 'form-control full-width',
+                    'style' => 'margin-top: 10px;',
+                    'placeholder' => 'Введите данные для поиска'
+                ]) ?>
+            <?php ActiveForm::end() ?>
+        </div>
     </div>
 </div>
 <div class="row block-row">
