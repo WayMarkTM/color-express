@@ -309,7 +309,8 @@ class ClientsController extends Controller
 
     public function actionGetCurrentEmployeeClients() {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $clients = $this->clientsService->getClients();
+        $manageId = Yii::$app->user->getId();
+        $clients = $this->clientsService->getClients($manageId);
 
         return [
             'clients' => $clients

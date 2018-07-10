@@ -1,7 +1,7 @@
 /**
  * Created by e.chernyavsky on 01.05.2017.
  */
-(function (companies) {
+(function (companies, manageId) {
     "use strict";
 
     var companyModule = angular.module('company', []);
@@ -28,6 +28,17 @@
         vm.buy = buy;
         vm.sortBy = sortBy;
         vm.selectCompany = selectCompany;
+        vm.setTab = setTab;
+
+        function setTab(tab) {
+            vm.currentTab = tab;
+            vm.search.company = '';
+            if (vm.currentTab == vm.tabs[0]) {
+                vm.tab.manage_id = vm.manageId;
+            } else {
+                vm.tab.manage_id = '';
+            }
+        }
 
         function hideModal() {
             $('#company-selection').modal('hide');
@@ -35,8 +46,12 @@
 
         function init() {
             vm.search = {};
+            vm.tab = {};
+            vm.tabs = ['own', 'all'];
             initializeModal();
             initializeWatchers();
+
+            vm.setTab(vm.tabs[0]);
         }
 
         function initializeWatchers() {
@@ -45,6 +60,7 @@
 
         function initializeModal() {
             vm.companies = angular.copy(companies);
+            vm.manageId = angular.copy(manageId);
             vm.selectedCompany = null;
             vm.reverse = true;
             vm.propertyName = null;
@@ -97,6 +113,8 @@
         }
 
         function selectCompany(company) {
+            console.log(123);
+            debugger;
             vm.selectedCompany = company;
         }
     }
@@ -115,4 +133,4 @@
             return $http.post(GATEWAY_URLS.BUY_CONSTRUCTION, model);
         }
     }
-})(companies);
+})(companies, manageId);

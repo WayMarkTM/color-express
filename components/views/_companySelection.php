@@ -11,14 +11,21 @@ use yii\web\View;
  */
 
 /* @var $clients array|User[] */
+/* @var $manageId */
 /* @var $multiple boolean */
 
-$attributes = 'id,company,name,surname,is_agency';
+$isEmployee = false;
+if (Yii::$app->user->can('employee')) {
+    $isEmployee = true;
+}
+
+$attributes = 'id,company,name,surname,is_agency,manage_id';
 
 $jsonReservations = JsonService::json_encode_database_models($clients, $attributes);
 
 $position = View::POS_BEGIN;
 $this->registerJs('var companies = '.$jsonReservations.';', $position);
+$this->registerJs('var manageId = '.$manageId.';', $position);
 if (!$multiple) {
     $this->registerJsFile('@web/js/app/company-selection.js');
 }
@@ -29,9 +36,21 @@ if (!$multiple) {
         <div class="modal-content">
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-5">
                         <h4>Список компаний</h4>
                     </div>
+                    <?php if ($isEmployee): ?>
+                        <div class="col-sm-7">
+                            <ul class="nav nav-tabs modal-custom-tabs pull-right">
+                                <li role="presentation" ng-click="$ctrl.setTab($ctrl.tabs[0])" ng-class="{'active': $ctrl.currentTab == $ctrl.tabs[0]}">
+                                    <a href="#" class="text-uppercase">Список Ваших клиентов</a>
+                                </li>
+                                <li role="presentation" ng-click="$ctrl.setTab($ctrl.tabs[1])" ng-class="{'active': $ctrl.currentTab == $ctrl.tabs[1]}">
+                                    <a href="#" class="text-uppercase">Список всех клиентов</a>
+                                </li>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <div class="row block-row">
                     <div class="col-sm-12">
@@ -53,7 +72,7 @@ if (!$multiple) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="company in $ctrl.companies | filter:$ctrl.search | orderBy:$ctrl.propertyName:$ctrl.reverse"
+                                <tr ng-repeat="company in $ctrl.companies | filter:$ctrl.search | filter:$ctrl.tab | orderBy:$ctrl.propertyName:$ctrl.reverse"
                                     class="selectable"
                                     ng-click="$ctrl.selectCompany(company)"
                                     ng-class="{'selected': $ctrl.selectedCompany.id == company.id }">

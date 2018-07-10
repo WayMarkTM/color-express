@@ -18,13 +18,11 @@ class ClientsService
      * @return array|User[]
      */
     public function getClients($managerId = null) {
-        if ($managerId == null) {
-            $managerId = Yii::$app->user->getId();
+        $clients = User::find();
+        if ($managerId) {
+            $clients->andWhere(['manage_id' => $managerId]);
         }
-
-        return User::find()
-            ->where(['=', 'manage_id', $managerId])
-            ->all();
+        return $clients->all();
     }
 
 
