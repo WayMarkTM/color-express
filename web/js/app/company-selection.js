@@ -33,6 +33,7 @@
         function setTab(tab) {
             vm.currentTab = tab;
             vm.search.company = '';
+            vm.selectedCompany = null;
             if (vm.currentTab == vm.tabs[0]) {
                 vm.tab.manage_id = vm.manageId;
             } else {
