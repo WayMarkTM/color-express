@@ -34,6 +34,7 @@ foreach ($constructions as $construction) {
         'lat' => $construction->latitude,
         'isBusy' => $construction->isBusy,
         'hasStock' => $construction->has_stock,
+        'stock_text' => $construction->stock_text,
         'previewImage' => count($construction->advertisingConstructionImages) > 0 ?
             $construction->advertisingConstructionImages[0]->path :
             '',
@@ -156,7 +157,7 @@ $this->title = "Каталог рекламных конструкций";
                                 <td class="text-center">
                                     <span ng-if="!$ctrl.isGuest" ng-class="{ 'price-with-badge' : construction.hasStock }">
                                         <span class="price" ng-bind="$ctrl.getPricePerDay(construction)"></span>
-                                        <span ng-if="construction.hasStock" class="badge">Акция</span>
+                                        <span ng-if="construction.hasStock" class="badge" ng-bind="construction.stock_text"></span>
                                     </span>
                                     <a ng-if="$ctrl.isGuest" href="#" ng-click="$ctrl.showRequireAuthorizationModal()">Зарегистрироваться</a>
                                 </td>

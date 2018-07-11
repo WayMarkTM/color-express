@@ -41,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'type.name',
             'requirements_document_path',
             'has_stock',
+            'stock_text',
             'is_published',
             'youtube_ids'
         ],

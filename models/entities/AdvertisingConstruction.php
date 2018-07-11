@@ -14,6 +14,7 @@ use Yii;
  * @property boolean $has_traffic_lights
  * @property boolean $is_published
  * @property boolean $has_stock
+ * @property string $stock_text
  * @property string $address
  * @property integer $size_id
  * @property string $price
@@ -48,7 +49,7 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
-            [['nearest_locations', 'traffic_info', 'latitude', 'longitude', 'requirements_document_path'], 'string'],
+            [['nearest_locations', 'traffic_info', 'latitude', 'longitude', 'requirements_document_path', 'stock_text'], 'string'],
             [['size_id', 'type_id'], 'integer'],
             [['has_traffic_lights', 'is_published', 'has_stock'], 'boolean'],
             [['price'], 'number'],
@@ -56,6 +57,7 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
             [['name', 'address'], 'string', 'max' => 255],
             [['size_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstructionSize::className(), 'targetAttribute' => ['size_id' => 'id']],
             [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstructionType::className(), 'targetAttribute' => ['type_id' => 'id']],
+            ['stock_text', 'default', 'value' => 'Акция'],
         ];
     }
 
@@ -78,6 +80,7 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
             'longitude' => 'Долгота',
             'is_published' => 'Показывать на внешнем сайте',
             'has_stock' => 'На акции',
+            'stock_text' => 'Текст отображаемый для РК на акции',
             'requirements_document_path' => 'Технические требования',
             'youtube_ids' => 'ID видео из youtube, разделенные ;'
         ];

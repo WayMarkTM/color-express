@@ -32,6 +32,7 @@ class AdvertisingConstructionForm extends Model
     public $document_path;
     public $is_published;
     public $has_stock;
+    public $stock_text;
     public $latitude;
     public $longitude;
     public $use_manual_coordinates;
@@ -51,13 +52,14 @@ class AdvertisingConstructionForm extends Model
     {
         return [
             [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
-            [['nearest_locations', 'latitude', 'longitude'], 'string'],
+            [['nearest_locations', 'latitude', 'longitude', 'stock_text'], 'string'],
             [['size_id', 'type_id'], 'integer'],
             [['has_traffic_lights', 'is_published', 'use_manual_coordinates', 'has_stock'], 'boolean'],
             [['price'], 'number'],
             [['youtube_ids'], 'string'],
             [['name', 'address'], 'string', 'max' => 255],
             [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 10],
+            [['stock_text'], 'default', 'value'=> 'Акция'],
         ];
     }
 
@@ -78,6 +80,7 @@ class AdvertisingConstructionForm extends Model
             'imageFiles' => 'Фотографии',
             'is_published' => 'Показывать на внешнем сайте',
             'has_stock' => 'На акции',
+            'stock_text' => 'Текст отображаемый для РК на акции',
             'documentFile' => 'Документ с техническими требованиями к плакату',
             'latitude' => 'Широта',
             'longitude' => 'Долгота',
@@ -103,6 +106,7 @@ class AdvertisingConstructionForm extends Model
         $model->nearest_locations = $this->nearest_locations;
         $model->has_traffic_lights = $this->has_traffic_lights;
         $model->has_stock = $this->has_stock;
+        $model->stock_text = $this->stock_text;
         $model->is_published = $this->is_published;
         $model->requirements_document_path = $this->document_path;
         $model->youtube_ids = $this->youtube_ids;
@@ -158,6 +162,7 @@ class AdvertisingConstructionForm extends Model
         $model->nearest_locations = $entity->nearest_locations;
         $model->has_traffic_lights = $entity->has_traffic_lights;
         $model->has_stock = $entity->has_stock;
+        $model->stock_text = $entity->stock_text;
         $model->is_published = $entity->is_published;
         $model->document_path = $entity->requirements_document_path;
         $model->latitude = $entity->latitude;

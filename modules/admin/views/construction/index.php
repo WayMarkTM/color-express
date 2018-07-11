@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'type.name',
             'is_published',
             'has_stock',
+            'stock_text',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
