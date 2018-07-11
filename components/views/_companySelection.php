@@ -25,7 +25,11 @@ $jsonReservations = JsonService::json_encode_database_models($clients, $attribut
 
 $position = View::POS_BEGIN;
 $this->registerJs('var companies = '.$jsonReservations.';', $position);
-$this->registerJs('var manageId = '.$manageId.';', $position);
+
+if(!$manageId) {
+    $manageId = 'undefined';
+}
+$this->registerJs('var manageId = '. $manageId .';', $position);
 if (!$multiple) {
     $this->registerJsFile('@web/js/app/company-selection.js');
 }

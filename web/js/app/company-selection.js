@@ -1,7 +1,7 @@
 /**
  * Created by e.chernyavsky on 01.05.2017.
  */
-(function (companies, manageId) {
+(function (companies) {
     "use strict";
 
     var companyModule = angular.module('company', []);
@@ -114,8 +114,6 @@
         }
 
         function selectCompany(company) {
-            console.log(123);
-            debugger;
             vm.selectedCompany = company;
         }
     }
@@ -134,4 +132,4 @@
             return $http.post(GATEWAY_URLS.BUY_CONSTRUCTION, model);
         }
     }
-})(companies, manageId);
+})(companies);
