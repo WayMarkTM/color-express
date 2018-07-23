@@ -91,10 +91,6 @@ class ClientsController extends Controller
     }
 
     public function actionIndex() {
-        if (!Yii::$app->user->can('employee')) {
-            return $this->goHome();
-        }
-
         $service = new UserService();
 
         $search = Yii::$app->request->post('search');
@@ -126,10 +122,6 @@ class ClientsController extends Controller
     }
 
     public function actionDetails($clientId) {
-        if (!Yii::$app->user->can('employee')) {
-            return $this->goHome();
-        }
-
         $orderService = new OrdersService();
         $user = $this->clientsService->getClientDetails($clientId);
         $dataProvider = new ActiveDataProvider([
@@ -150,10 +142,6 @@ class ClientsController extends Controller
     }
 
     public function actionDetailsDocuments($clientId) {
-        if (!Yii::$app->user->can('employee')) {
-            return $this->goHome();
-        }
-
         $subclients = array();
         $documentsCalendar = array();
         $user = $this->clientsService->getClientDetails($clientId);
@@ -173,10 +161,6 @@ class ClientsController extends Controller
 
     public function actionDelete($id)
     {
-        if (!Yii::$app->user->can('employee')) {
-            return $this->goHome();
-        }
-
         //add user can delete
         $userService = new UserService();
         $userService->deleteClient($id);
@@ -185,10 +169,6 @@ class ClientsController extends Controller
 
     public function actionDocuments()
     {
-        if (!Yii::$app->user->can('employee')) {
-            return $this->goHome();
-        }
-
         $currentUserId = Yii::$app->user->getId();
         $user = User::findOne($currentUserId);
         $subclients = array();
@@ -266,10 +246,6 @@ class ClientsController extends Controller
     }
 
     public function actionApproveOrder() {
-        if (!Yii::$app->user->can('employee')) {
-            return $this->goHome();
-        }
-
         $this->enableCsrfValidation = false;
         Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -287,10 +263,6 @@ class ClientsController extends Controller
     }
 
     public function actionDeleteOrder() {
-        if (!Yii::$app->user->can('employee')) {
-            return $this->goHome();
-        }
-
         $this->enableCsrfValidation = false;
         Yii::$app->response->format = Response::FORMAT_JSON;
 
