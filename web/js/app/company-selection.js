@@ -105,7 +105,7 @@
                 .then(function (response) {
                     var result = response.data;
                     if (result.isValid) {
-                        window.location.href = '/shopping-cart/';
+                        toastr.success('Ваш заказ перемещен в корзину');
                         hideModal();
                     } else {
                         toastr.error(result.message);

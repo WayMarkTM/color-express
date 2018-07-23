@@ -332,7 +332,7 @@ $(document).ready(function () {
             data: submitModel
         }).done(function (result) {
             if (result.isValid) {
-                window.location.href = BASE_URL + 'shopping-cart';
+                toastr.success('Ваш заказ перемещен в корзину');
             } else {
                 toastr.error(result.message);
             }
@@ -357,7 +357,7 @@ $(document).ready(function () {
             data: submitModel
         }).done(function (result) {
             if (result.isValid) {
-                window.location.href = BASE_URL + 'shopping-cart';
+                toastr.success('Ваш заказ перемещен в корзину');
             } else {
                 toastr.error(result.message);
             }

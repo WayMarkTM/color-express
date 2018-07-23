@@ -207,7 +207,10 @@
             };
 
             constructionsDataService.buyConstructions(model)
-                .then(onConstructionReservationCreated);
+                .then(function() {
+                    onConstructionReservationCreated();
+                    constructionsDataService.clearSelectedConstructions();
+                });
         }
 
         function reservConstructions() {
@@ -223,11 +226,14 @@
             };
 
             constructionsDataService.reservConstructions(model)
-                .then(onConstructionReservationCreated);
+                .then(function() {
+                    onConstructionReservationCreated();
+                    constructionsDataService.clearSelectedConstructions();
+                });
         }
 
         function onConstructionReservationCreated() {
-            window.location.href = '/shopping-cart/';
+            toastr.success('Ваш заказ перемещен в корзину');
         }
 
         function getReport() {
@@ -309,13 +315,14 @@
     constructionsDataService.$inject = ['$http'];
 
     function constructionsDataService($http) {
-        var constructions = [];
+        var _constructions = [];
 
         return {
             buyConstructions: buyConstructions,
             reservConstructions: reservConstructions,
             setSelectedConstructions: setSelectedConstructions,
-            getSelectedConstructions: getSelectedConstructions
+            getSelectedConstructions: getSelectedConstructions,
+            clearSelectedConstructions: clearSelectedConstructions,
         };
 
         function buyConstructions(model) {
@@ -328,14 +335,21 @@
 
         function setSelectedConstructions(cs) {
             if (cs != null) {
-                constructions = angular.copy(cs);
+                _constructions = angular.copy(cs);
             } else {
-                constructions = [];
+                _constructions = [];
             }
         }
 
         function getSelectedConstructions() {
-            return constructions;
+            return _constructions;
+        }
+
+        function clearSelectedConstructions() {
+            constructions.forEach(function (construction) {
+                construction.isSelected = false;
+            });
+            setSelectedConstructions([]);
         }
     }
 
@@ -345,6 +359,7 @@
 
         companyListCtrl.$inject = ['constructionsDataService', '$timeout', '$scope'];
 
+        //noinspection JSAnnotator
         function companyListCtrl(constructionsDataService, $timeout, $scope) {
             var vm = this;
 
@@ -354,10 +369,6 @@
             vm.sortBy = sortBy;
             vm.selectCompany = selectCompany;
             vm.setTab = setTab;
-
-            function hideModal() {
-                $('#company-selection').modal('hide');
-            }
 
             function setTab(tab) {
                 vm.currentTab = tab;
@@ -430,8 +441,9 @@
                     .then(function (response) {
                         var result = response.data;
                         if (result.isValid) {
-                            window.location.href = '/shopping-cart/';
-                            hideModal();
+                            toastr.success('Ваш заказ перемещен в корзину');
+                            constructionsDataService.clearSelectedConstructions();
+                            cancel();
                         } else {
                             toastr.error(result.message);
                         }
