@@ -97,4 +97,29 @@ class OrdersController extends Controller
 
         return new MethodNotAllowedHttpException();
     }
+
+    public function actionUpdateThematic() {
+        $this->enableCsrfValidation = false;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        /* id, thematic */
+        $model = Yii::$app->request->post();
+
+        if (Yii::$app->request->isAjax) {
+            $ordersService = new OrdersService();
+            try {
+                $ordersService->updateThematic($model['id'], $model['thematic']);
+            } catch (Exception $e) {
+                return [
+                    'isValid' => false
+                ];
+            }
+
+            return [
+                'isValid' => true
+            ]; 
+        }
+
+        return new MethodNotAllowedHttpException();
+    }
 }

@@ -22,5 +22,6 @@ var GATEWAY_URLS = {
     APPROVE_ORDER: BASE_URL + 'clients/approve-order',
     BUY_RESERVED_CONSTRUCTION: BASE_URL + 'orders/buy-reserved-construction',
     GET_REPORT: BASE_URL + 'reports/download',
-    DELETE_ORDER: BASE_URL + 'clients/delete-order'
+    DELETE_ORDER: BASE_URL + 'clients/delete-order',
+    UPDATE_THEMATIC: BASE_URL + 'orders/update-thematic'
 };

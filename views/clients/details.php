@@ -70,8 +70,14 @@ InterruptReservationWidget::end();
                         ],
                         [
                             'label' => 'Сюжет',
-                            'attribute' => 'thematic',
-                            'headerOptions' => ['class' => 'text-center'],
+                            'headerOptions' => ['class' => 'text-center', 'width' => '150'],
+                            'contentOptions' =>['class' => 'text-center'],
+                            'format' => 'raw',
+                            'value' => function ($model) {
+                                return '<input class="form-control thematic" style="width: calc(100% - 20px); display: inline;" data-id="'.$model->id.'" data-original-value="'.$model->thematic.'" type="text" value="'.$model->thematic.'" />
+                                    <a class="submit-thematic" href="#" style="display: none;"><span style="color: #164a9e" class="glyphicon glyphicon-ok"></span></a>
+                                ';
+                            }
                         ],
                         [
                             'attribute' => 'status.name',
@@ -247,6 +253,28 @@ InterruptReservationWidget::end();
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $('.thematic').on('keyup', function (e) {
+            var confirmationLink = $(this).closest('td').find('.submit-thematic');
+            confirmationLink.attr('style', 'display: inline;');
+        });
+
+        $('.submit-thematic').on('click', function (e) {
+            var $cell = $(this).closest('td'),
+                submitModel = {
+                    id: $cell.find('.thematic').data('id'),
+                    thematic: $cell.find('.thematic').val()
+                },
+                $link = $(this);
+
+            colorApp.utilities.ajaxHelper.post({
+                url: GATEWAY_URLS.UPDATE_THEMATIC,
+                data: submitModel
+            }).done(function (result) {
+                $link.attr('style', 'display: none');    
+                toastr.success('Сюжет успешно обновлен');
+            });            
+        })
+
         $('.price-per-day').on('change', function (e) {
             var price = $(this).val(),
                 period = $(this).data('period'),

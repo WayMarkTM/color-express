@@ -57,6 +57,16 @@ class OrdersService
 
     /**
      * @param integer $id
+     * @param string $thematic
+     */
+    public function updateThematic($id, $thematic) {
+        $reservation = AdvertisingConstructionReservation::findOne($id);
+        $reservation->thematic = $thematic;
+        $reservation->save();
+    }
+
+    /**
+     * @param integer $id
      */
     public function deleteOrder($id) {
         $reservation = AdvertisingConstructionReservation::findOne($id);
