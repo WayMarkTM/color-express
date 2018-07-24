@@ -232,7 +232,6 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
                     </div>
                     <div class="details-row">
                         <p><span class="bold">Формат:</span> <?php echo $model->size->size; ?> м.</p>
-                        <p><span class="bold">Тип:</span> <?php echo $model->type->name; ?></p>
                     </div>
                     <?php if ($model->nearest_locations) { ?>
                     <div class="details-row">

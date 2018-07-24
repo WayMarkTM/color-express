@@ -69,7 +69,8 @@ InterruptReservationWidget::end();
                             'headerOptions' => ['class' => 'text-center']
                         ],
                         [
-                            'attribute' => 'advertisingConstruction.type.name',
+                            'label' => 'Сюжет',
+                            'attribute' => 'thematic',
                             'headerOptions' => ['class' => 'text-center'],
                         ],
                         [
