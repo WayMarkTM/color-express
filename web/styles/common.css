@@ -525,6 +525,11 @@ table td a:hover {
     pointer-events: auto;
 }
 
+.stock-window .wrapper {
+    position: relative;
+    margin: auto;
+}
+
 .watermark {
     color: #a1a1a1;
     width: 100%;
