@@ -188,7 +188,7 @@ class UserService
         return $emplyes;
     }
 
-    private function employeeDropDown()
+    public function employeeDropDown()
     {
         $users = $this->getEmployes();
         $emplyes = [];

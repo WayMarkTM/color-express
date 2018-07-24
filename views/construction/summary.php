@@ -6,6 +6,8 @@
  * Time: 18:14
  */
 use yii\web\View;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $timelinesItems mixed */
@@ -20,10 +22,36 @@ $this->title = "Сводка";
 <link rel="stylesheet" href="/web/styles/vis.min.css" />
 
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-2" style="width: 12%">
         <h3 class="text-uppercase">Сводка</h3>
     </div>
-    <div class="col-sm-8 text-right">
+    <div class="col-sm-4" style="padding: 0; width: 46%">
+        <?php $form = ActiveForm::begin([
+            'options' => [
+                'class' => 'form-inline'
+            ]
+        ]) ?>
+            <?= Html::dropDownList("manager", $manager, $managers, [
+                'class' => 'form-control',
+                'style' => 'width: 25%'
+            ]); ?>
+
+            <?= Html::input('text', 'client', $client, [
+                'class' => 'form-control',
+                'style' => 'width: 25%',
+                'placeholder' => 'Клиент'
+            ]) ?>
+
+            <?= Html::input('text', 'address', $address, [
+                'class' => 'form-control full-width',
+                'style' => 'width: 25%',
+                'placeholder' => 'Адрес'
+            ]) ?>
+
+            <?= Html::submitButton('Поиск', ['class' => 'custom-btn sm blue', 'style' => 'width: 80px']) ?>
+        <?php ActiveForm::end() ?>
+    </div>
+    <div class="col-sm-6 text-right" style="width: 42%">
         <div class="status-panel">
             <div class="item">
                 <span class="indicator booked"></span><span class="text"> - Куплено</span>

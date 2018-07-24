@@ -18,6 +18,7 @@ use app\models\InterruptionForm;
 use app\services\AdvertisingConstructionReservationService;
 use app\services\AdvertisingConstructionService;
 use app\services\AdvertisiongConstructionNotificationService;
+use app\services\UserService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -36,6 +37,11 @@ class ConstructionController extends Controller
     * @var AdvertisingConstructionReservationService
     */
     private $advertisingConstructionReservationService;
+
+    /**
+     * @var UserService
+     */
+    private $userService;
 
     public function behaviors()
     {
@@ -61,6 +67,7 @@ class ConstructionController extends Controller
 
     public function init() {
         $this->advertisingConstructionReservationService = new AdvertisingConstructionReservationService();
+        $this->userService = new UserService();
         parent::init();
     }
 
@@ -189,12 +196,23 @@ class ConstructionController extends Controller
     }
 
     public function actionSummary() {
+        $manager = Yii::$app->request->post('manager');
+        $client = Yii::$app->request->post('client');
+        $address = Yii::$app->request->post('address');
+
         $searchModel = new AdvertisingConstructionSearch();
         $searchResults = $searchModel->searchItems(Yii::$app->request->queryParams, true);
-        $timelinesItems = $this->advertisingConstructionReservationService->getBookingsAndReservationForConstructions($searchResults);
+        $timelinesItems = $this->advertisingConstructionReservationService->getBookingsAndReservationForConstructions($searchResults, $address, $client, $manager);
+
+        $managers = $this->userService->employeeDropDown();
+        array_unshift($managers, 'Выберите менеджера');
 
         return $this->render('summary', [
-            'timelinesItems' => $timelinesItems
+            'timelinesItems' => $timelinesItems,
+            'manager' => $manager,
+            'client' => $client,
+            'address' => $address,
+            'managers' => $managers
         ]);
     }
 

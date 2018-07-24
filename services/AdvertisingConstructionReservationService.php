@@ -274,21 +274,32 @@ class AdvertisingConstructionReservationService
 
     /**
      * @param array|AdvertisingConstruction[] $constructions
+     * @param string $address
+     * @param string $client
+     * @param string $manager
      * @return array
      */
-    public function getBookingsAndReservationForConstructions($constructions) {
+    public function getBookingsAndReservationForConstructions($constructions, $address, $client, $manager) {
         $result = array();
         foreach ($constructions as $construction) {
+            if (!$this->isAddressFilterPassed($address, $construction)) {
+                continue;
+            }
+
             $bookings = $this->getConstructionBookings($construction->id);
             $bookingsResult = array();
             foreach($bookings as $booking) {
-                array_push($bookingsResult, $this->mapReservationForSummary($booking, 'booking'));
+                if ($this->isClientAndManagerFilterPassed($client, $manager, $booking)) {
+                    array_push($bookingsResult, $this->mapReservationForSummary($booking, 'booking'));
+                }
             }
 
             $reservations = $this->getConstructionReservations($construction->id);
             $reservationsResult = array();
             foreach($reservations as $reservation) {
-                array_push($reservationsResult, $this->mapReservationForSummary($reservation, 'reservation'));
+                if ($this->isClientAndManagerFilterPassed($client, $manager, $reservation)) {
+                    array_push($reservationsResult, $this->mapReservationForSummary($reservation, 'reservation'));
+                }
             }
 
             array_push($result, [
@@ -302,6 +313,27 @@ class AdvertisingConstructionReservationService
         usort($result, array($this, "addressCmp"));
 
         return $result;
+    }
+
+    /**
+     * @param string $address
+     * @param AdvertisingConstruction $construction
+     * @return Boolean
+     */
+    private function isAddressFilterPassed($address, $construction) {
+        return $address == null || $address == "" ||
+            stripos($construction->address, $address) !== false;
+    }
+
+    /**
+     * @param string $client
+     * @param string $manager
+     * @param AdvertisingConstructionReservation $reservation
+     * @return Boolean
+     */
+    private function isClientAndManagerFilterPassed($client, $manager, $reservation) {
+        return ($client == null || $client == "" || ($reservation->user->company != null && stripos($reservation->user->company, $client) !== false)) &&
+            ($manager == null || $manager == "0" || ($reservation->employee != null && $reservation->employee->id == $manager));
     }
 
     public function addressCmp($a, $b) {
