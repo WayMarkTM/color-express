@@ -19,7 +19,7 @@
         }
 
         if (!!reservation.thematic) {
-            title += '- ' + reservation.thematic + '<br/>';
+            title += 'Сюжет: ' + reservation.thematic + '<br/><br/>';
         }
 
         if (!!reservation.marketing_type) {
@@ -36,6 +36,16 @@
             title += '<br/><br/>Отложен до ' + reservation.reserv_till;
         }
 
+        var itemConfig = _getDefaultItemConfig(reservation, title, groupId);
+
+        if (reservation.type == RESERVATION_TYPES.BOOKING) {
+            itemConfig.style = 'background-color: ' + getRandomColor();
+        }
+
+        return itemConfig;
+    };
+
+    function _getDefaultItemConfig(reservation, title, groupId) {
         return {
             id: reservation.id,
             title: title,
@@ -46,7 +56,7 @@
                 'booked' :
                 'reserved'
         };
-    };
+    }
 
     _.forEach(timelines, function (tl) {
         groups.push({
@@ -110,4 +120,10 @@
 
         window.location.href = url;
     });
+
+    function getRandomColor() {
+        color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
+        return color;
+      }
+      
 })(timelines);
