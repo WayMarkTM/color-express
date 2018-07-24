@@ -25,10 +25,16 @@
 
         vm.$onInit = init;
         vm.cancel = cancel;
-        vm.buy = buy;
+        vm.onApproveBtnClick = onApproveBtnClick;
         vm.sortBy = sortBy;
         vm.selectCompany = selectCompany;
         vm.setTab = setTab;
+        vm.getBtnName = getBtnName;
+        vm.render = render;
+
+        function render() {
+            console.warn('Method need for rerender angular controller');
+        }
 
         function setTab(tab) {
             vm.currentTab = tab;
@@ -39,10 +45,6 @@
             } else {
                 vm.tab.manage_id = '';
             }
-        }
-
-        function hideModal() {
-            $('#company-selection').modal('hide');
         }
 
         function init() {
@@ -88,7 +90,12 @@
 
         }
 
-        function buy() {
+        function onApproveBtnClick() {
+            var approveFunction = companyDataService.buyConstruction;
+            if (currentMode === modes.reserv) {
+                approveFunction = companyDataService.reservConstructions;
+            }
+
             if (!vm.selectedCompany) {
                 toastr.warning("Необходимо выбрать компанию.");
                 return;
@@ -101,16 +108,20 @@
                 user_id: vm.selectedCompany.id
             };
 
-            companyDataService.buyConstruction(model)
+            approveFunction(model)
                 .then(function (response) {
                     var result = response.data;
                     if (result.isValid) {
                         toastr.success('Ваш заказ перемещен в корзину');
-                        hideModal();
+                        cancel();
                     } else {
                         toastr.error(result.message);
                     }
                 })
+        }
+
+        function getBtnName() {
+            return window.currentMode && window.currentMode.btnname;
         }
 
         function selectCompany(company) {
@@ -125,11 +136,16 @@
 
     function companyDataService($http) {
         return {
-            buyConstruction: buyConstruction
+            buyConstruction: buyConstruction,
+            reservConstructions: reservConstructions
         };
 
         function buyConstruction(model) {
             return $http.post(GATEWAY_URLS.BUY_CONSTRUCTION, model);
         }
+
+        function reservConstructions(model) {
+            return $http.post(GATEWAY_URLS.RESERV_CONSTRUCTION, model);
+        }
     }
-})(companies);
+})(companies, currentMode);

@@ -66,6 +66,17 @@
     constructionsModule
         .controller('constructionsCtrl', constructionsCtrl);
 
+    var modes = {
+        buy: {
+            btnname: 'Купить'
+        },
+        reserv: {
+            btnname: 'Зарезервировать'
+        }
+    };
+    var currentMode;
+
+
     constructionsCtrl.$inject = ['$window', 'constructionsDataService', '$scope', '$uibModal'];
 
     function constructionsCtrl($window, constructionsDataService, $scope, $uibModal) {
@@ -196,6 +207,7 @@
             }
 
             if (isEmployee) {
+                currentMode = modes.buy;
                 $('#company-selection').modal('show');
                 return;
             }
@@ -216,6 +228,12 @@
         function reservConstructions() {
             if (!!isGuest) {
                 showRequireAuthorizationModal();
+                return;
+            }
+
+            if (isEmployee) {
+                currentMode = modes.reserv;
+                $('#company-selection').modal('show');
                 return;
             }
 
@@ -365,10 +383,16 @@
 
             vm.$onInit = init;
             vm.cancel = cancel;
-            vm.buy = buy;
+            vm.onApproveBtnClick = onApproveBtnClick;
             vm.sortBy = sortBy;
             vm.selectCompany = selectCompany;
             vm.setTab = setTab;
+            vm.getBtnName = getBtnName;
+            vm.render = render;
+
+            function render() {
+                console.warn('Method need for rerender angular controller');
+            }
 
             function setTab(tab) {
                 vm.currentTab = tab;
@@ -424,7 +448,12 @@
 
             }
 
-            function buy() {
+            function onApproveBtnClick() {
+                var approveFunction = constructionsDataService.buyConstructions;
+                if (currentMode === modes.reserv) {
+                    approveFunction = constructionsDataService.reservConstructions;
+                }
+
                 if (!vm.selectedCompany) {
                     toastr.warning("Необходимо выбрать компанию.");
                     return;
@@ -437,7 +466,7 @@
                     user_id: vm.selectedCompany.id
                 };
 
-                constructionsDataService.buyConstructions(model)
+                approveFunction(model)
                     .then(function (response) {
                         var result = response.data;
                         if (result.isValid) {
@@ -448,6 +477,10 @@
                             toastr.error(result.message);
                         }
                     })
+            }
+
+            function getBtnName() {
+                return currentMode && currentMode.btnname;
             }
 
             function selectCompany(company) {

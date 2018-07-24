@@ -36,6 +36,7 @@ if (!$multiple) {
 ?>
 
 <div id="company-selection" class="modal fade" role="dialog" <?php echo $multiple ? '' : 'ng-app="company"' ?> ng-controller="companyListCtrl as $ctrl">
+    <div class="hidden render-modal" ng-click="$ctrl.render()"></div>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
@@ -92,8 +93,8 @@ if (!$multiple) {
                 <div class="row block-row">
                     <div class="col-sm-9">
                         <button type="button"
-                                ng-click="$ctrl.buy()"
-                                class="custom-btn red sm full-width">Купить</button>
+                                ng-click="$ctrl.onApproveBtnClick()"
+                                class="custom-btn red sm full-width" ng-bind="$ctrl.getBtnName()"></button>
                     </div>
                     <div class="col-sm-3">
                         <button type="button"

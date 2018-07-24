@@ -70,6 +70,16 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
 
         map.geoObjects.add(myGeoObject);
     }
+
+    var modes = {
+        buy: {
+            btnname: 'Купить'
+        },
+        reserv: {
+            btnname: 'Зарезервировать'
+        }
+    };
+    var currentMode;
 </script>
 
 <link rel="stylesheet" href="/web/styles/vis.min.css" />
@@ -210,9 +220,7 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
             <div class="row buttons-row block-row">
                 <div class="col-md-12">
                     <button type="button" id="buy-btn" class="custom-btn sm blue" data-action-type="buyConstruction">Купить</button>
-                    <?php if (!$isEmployee) { ?>
-                        <button type="button" id="reserv-btn" class="custom-btn sm blue" data-action-type="reservConstruction">Отложить на 5 дней</button>
-                    <?php } ?>
+                    <button type="button" id="reserv-btn" class="custom-btn sm blue" data-action-type="reservConstruction">Отложить на 5 дней</button>
                     <button type="button" class="custom-btn sm white" id="goBack">Вернуться назад</button>
                 </div>
             </div>
@@ -262,6 +270,7 @@ $(document).ready(function () {
         reservBtn = $('#reserv-btn'),
         goBackBtn = $('#goBack'),
         remindBtn = $('.reminder-link'),
+        renderModal = $('.render-modal'),
         model = {
             id: function () {
                 return $('#advertisingconstruction-id').val();
@@ -315,6 +324,8 @@ $(document).ready(function () {
         }
         
         if (isEmployee) {
+            currentMode = modes.buy;
+            renderModal.click();
             $('#company-selection').modal('show');
             return;
         }
@@ -341,6 +352,13 @@ $(document).ready(function () {
     function reservConstruction() {
         if (!!isGuest) {
             showRequireAuthorizationModal();
+            return;
+        }
+        
+        if (isEmployee) {
+            currentMode = modes.reserv;
+            renderModal.click();
+            $('#company-selection').modal('show');
             return;
         }
         
