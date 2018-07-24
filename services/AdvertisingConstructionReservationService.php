@@ -322,7 +322,8 @@ class AdvertisingConstructionReservationService
             'marketing_type' => $reservation->marketingType != null ? $reservation->marketingType->name : '',
             'manager' => $reservation->employee != null ? $reservation->employee->name : '',
             'company' => $reservation->user != null ? $reservation->user->company : '',
-            'type' => $type
+            'type' => $type,
+            'reserv_till' => $reservation->reserv_till
         ];
     }
 

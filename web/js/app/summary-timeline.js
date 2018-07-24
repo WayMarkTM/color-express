@@ -31,6 +31,10 @@
         }
 
         title += reservation.from + ' - ' + reservation.to;
+        
+        if (!!reservation.reserv_till) {
+            title += '<br/><br/>Отложен до ' + reservation.reserv_till;
+        }
 
         return {
             id: reservation.id,
