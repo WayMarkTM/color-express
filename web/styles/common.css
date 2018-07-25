@@ -528,6 +528,7 @@ table td a:hover {
 .stock-window .wrapper {
     position: relative;
     margin: auto;
+    width: 100%;
 }
 
 .watermark {
