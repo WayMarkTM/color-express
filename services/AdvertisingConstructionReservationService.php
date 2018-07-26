@@ -517,6 +517,19 @@ class AdvertisingConstructionReservationService
             ['=', 'to', new Expression('CURDATE() + INTERVAL 20 DAY')])
             ->andWhere(['status_id' => AdvertisingConstructionStatuses::APPROVED])->orderBy('user_id')->all();
         $mailService = new MailService();
+        $usersReservationsByManagers = $this->groupByUsersReservationsByManagers($reservations);
+
+        foreach($usersReservationsByManagers as $manager=>$reservationsByUsers) {
+            if ($mailService->sendNotifyEmployeeBefore20DaysTheEndOfUse($manager, $reservationsByUsers)) {
+                echo "Successfully send message about before 20 days the end of use to managers: $manager  \n";
+            } else {
+                echo "Error send message about before 20 days the end of use to managers: $manager \n";
+            }
+        }
+    }
+
+    private function groupByUsersReservationsByManagers($reservations)
+    {
         $usersReservationsByManagers = [];
         foreach ($reservations as $reservation) {
             if (!$reservation->user || !$reservation->employee) {
@@ -540,15 +553,7 @@ class AdvertisingConstructionReservationService
             array_push($reservationsByUsers[$user], $reservation);
 
             $usersReservationsByManagers[$manager] = $reservationsByUsers;
-
         }
-
-        foreach($usersReservationsByManagers as $manager=>$reservationsByUsers) {
-            if ($mailService->sendNotifyEmployeeBefore20DaysTheEndOfUse($manager, $reservationsByUsers)) {
-                echo "Successfully send message about before 20 days the end of use to managers: $manager  \n";
-            } else {
-                echo "Error send message about before 20 days the end of use to managers: $manager \n";
-            }
-        }
+        return $usersReservationsByManagers;
     }
 }
