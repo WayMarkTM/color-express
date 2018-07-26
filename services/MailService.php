@@ -79,7 +79,7 @@ class MailService
                 'body_approve' => 'Ваш заказ отложен на 5 рабочих дней.',
                 'body_decline' => 'К сожалению, заказ отменен. Свяжитесь с Вашим менеджером.',
                 'date' => 'Даты резервации:',
-                'additional' => 'Срок действи отложенного заказа: до '. $reservation->reserv_till,
+                'additional' => 'Срок действия отложенного заказа: до '. $reservation->reserv_till,
             ];
         }
         if ($isApprove) {
@@ -122,6 +122,28 @@ class MailService
         $subject = 'Освобождение конструкции.';
 
         return $mail->send($sendTo, $subject, $text, null, $managerEmail);
+    }
+
+    public function sendNotifyEmployeeBefore20DaysTheEndOfUse($managerEmail, $reservationsByUsers) {
+        $mail = new Mail();
+        $clientsInfo = '';
+        $dateOfEnd = null;
+        foreach($reservationsByUsers as $user=>$reservations) {
+            $addresses = '';
+            foreach($reservations as $reservation) {
+                if (!$dateOfEnd) {
+                    $dateOfEnd = $reservation->to;
+                }
+                $url = Url::to(['construction/details', 'id' => $reservation->advertisingConstruction->id], true);
+                $addresses .= '<div style="margin-top: 5px; padding-left: 5px;">Размер конструкции: '. $reservation->advertisingConstruction->size->size .'<br/>Адрес конструкции: <a target="_blank" href="'.$url.'">'.$reservation->advertisingConstruction->address. '</a></div>';
+            }
+            $clientsInfo .= '<div style="margin: 5px auto; padding: 10px; border: 1px solid #000">Клиент: '. $reservation->user->name .' '. $reservation->user->username .' <br/>Телефон: '. $reservation->user->number .'<br/>'. $addresses .'</div>';
+        }
+
+        $subject = 'Истекает период использования РК.';
+        $text = '<p style="margin:auto;">Добрый день,<br/>Истекает период использования РК - '. $dateOfEnd .'.<br/>Пожалуйста, уточните информацию по заказам:</p>' . $clientsInfo;
+
+        return $mail->send($managerEmail, $subject, $text);
     }
 
 }

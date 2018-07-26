@@ -33,4 +33,10 @@ class SheduleController extends Controller
         AdvertisiongConstructionNotificationService::checkNotifications();
     }
 
+    public function actionNotifyEmployeeBefore20DaysTheEndOfUse()
+    {
+        $constuctionReservationService = new AdvertisingConstructionReservationService();
+        $constuctionReservationService->notifyEmployeeBefore20DaysTheEndOfUse();
+    }
+
 }

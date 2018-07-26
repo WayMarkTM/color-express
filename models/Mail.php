@@ -38,7 +38,7 @@ class Mail
                 $message->attach($file);
             }
             return $message->send();
-        } catch(\Exception $ex) {}
+        } catch(\Exception $ex) {echo $ex;}
     }
 
 }
