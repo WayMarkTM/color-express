@@ -146,4 +146,23 @@ class MailService
         return $mail->send($managerEmail, $subject, $text);
     }
 
+    public function sendNotifyEmployeeAfter1DayTheEndOfReservation($managerEmail, $reservationsByUsers)
+    {
+        $mail = new Mail();
+        $clientsInfo = '';
+        foreach($reservationsByUsers as $user=>$reservations) {
+            $addresses = '';
+            foreach($reservations as $reservation) {
+                $url = Url::to(['construction/details', 'id' => $reservation->advertisingConstruction->id], true);
+                $addresses .= '<div style="margin-top: 5px; padding-left: 5px;">Период резерва: '. $reservation->from .' - '. $reservation->to .'<br/>Размер конструкции: '. $reservation->advertisingConstruction->size->size .'<br/>Адрес конструкции: <a target="_blank" href="'.$url.'">'.$reservation->advertisingConstruction->address. '</a></div>';
+            }
+            $clientsInfo .= '<div style="margin: 5px auto; padding: 10px; border: 1px solid #000">Клиент: '. $reservation->user->name .' '. $reservation->user->username .' <br/>Телефон: '. $reservation->user->number .'<br/>'. $addresses .'</div>';
+        }
+
+        $subject = 'Отложенный заказ аннулирован.';
+        $text = '<p style="margin:auto;">Добрый день,<br/>Отложенный заказ аннулирован..<br/>Пожалуйста, уточните информацию по заказам:</p>' . $clientsInfo;
+
+        return $mail->send($managerEmail, $subject, $text);
+    }
+
 }
