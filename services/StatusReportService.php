@@ -34,7 +34,7 @@ class StatusReportService extends BaseReportService implements iReportService
             $reservations = $this->getReservations($construction, $fromDate, $toDate);
 
             foreach($reservations as $reservation) {
-                array_push($data, $this->getExcelDataLine($construction, $reservation));
+                array_push($data, $this->getExcelDataLine($construction, $reservation, $fromDate, $toDate));
             }
         }
 
@@ -42,11 +42,11 @@ class StatusReportService extends BaseReportService implements iReportService
         return $this->saveExcelFile($xls);
     }
 
-    private function getExcelDataLine($construction, $reservation) {
+    private function getExcelDataLine($construction, $reservation, $reportFromDate, $reportToDate) {
         return [
             $construction->name,
             $construction->address,
-            $this->getReportMonth($reservation),
+            $this->getReportMonth($reservation, $reportFromDate, $reportToDate),
             $reservation->user->company,
             $reservation->thematic,
             $reservation->marketingType->name
@@ -100,9 +100,22 @@ class StatusReportService extends BaseReportService implements iReportService
         ];
     }
 
-    private function getReportMonth($reservation) {
-        $from = (new \DateTime($reservation->from))->format('d.m.Y');
-        $to = (new \DateTime($reservation->to))->format('d.m.Y');
+    private function getReportMonth($reservation, $reportFromDate, $reportToDate) {
+        $fromDateTime = new \DateTime($reservation->from);
+        $toDateTime = new \DateTime($reservation->to);
+        $reportFromDateTime = new \DateTime($reportFromDate);
+        $reportToDateTime = new \DateTime($reportToDate);
+
+        if ($fromDateTime < $reportFromDateTime) {
+            $fromDateTime = $reportFromDateTime;
+        }
+
+        if ($toDateTime > $reportToDateTime) {
+            $toDateTime = $reportToDateTime;
+        }
+
+        $from = $fromDateTime->format('d.m.Y');
+        $to = $toDateTime->format('d.m.Y');
 
         return $from.' - '.$to;
     }
