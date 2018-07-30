@@ -49,6 +49,7 @@
         return {
             id: reservation.id,
             title: title,
+            content: reservation.thematic,
             start: reservation.from,
             end: reservation.to,
             group: groupId,

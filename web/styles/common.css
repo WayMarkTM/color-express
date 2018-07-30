@@ -679,6 +679,10 @@ table .selected {
     overflow: visible !important;
 }
 
+.vis-item-overflow {
+    text-overflow: ellipsis;
+}
+
 .employee .custom-btn {
     border-radius: 0px;
     padding: 3px;
