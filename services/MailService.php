@@ -134,8 +134,9 @@ class MailService
             $addresses .= '<div style="margin-top: 5px; padding-left: 5px;">Размер конструкции: '. $reservation->advertisingConstruction->size->size .'<br/>Адрес конструкции: <a target="_blank" href="'.$url.'">'.$reservation->advertisingConstruction->address. '</a></div>';
         }
 
+        $urlToClientConstruction = Url::to(['clients/details', 'clientId' => $user->id], true);
         $subject = 'Истекает период использования РК.';
-        $text = '<p style="margin:auto;">Добрый день.<br/>Истекает период использования РК.<br/>Пожалуйста, уточните информацию по заказу: <br/> Клиент: '. $user->name .' '. $user->username .' <br/>Телефон: '. $user->number .'<br/>Дата окончания использования: '. $dateOfEnd .'</p>' . $addresses;
+        $text = '<p style="margin:auto;">Добрый день.<br/>Истекает период использования РК.<br/>Пожалуйста, уточните информацию по <a href="'.  $urlToClientConstruction.'">заказу</a>: <br/> Клиент: '. $user->name .' '. $user->username .' <br/>Телефон: '. $user->number .'<br/>Дата окончания использования: '. $dateOfEnd .'</p>' . $addresses;
 
         return $mail->send($manager->username, $subject, $text);
     }

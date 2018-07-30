@@ -489,16 +489,16 @@ class AdvertisingConstructionReservationService
     public function notifyEmployeeBefore20DaysTheEndOfUse()
     {
         $reservations = AdvertisingConstructionReservation::find()->where(
-            ['=', 'to', new Expression('CURDATE() + INTERVAL 32 DAY')])
-            ->andWhere(['status_id' => AdvertisingConstructionStatuses::APPROVED])->orderBy('user_id')->all();
+            ['=', 'to', new Expression('CURDATE() + INTERVAL 20 DAY')])
+            ->where(['status_id' => AdvertisingConstructionStatuses::APPROVED])->all();
         $mailService = new MailService();
         $usersReservations = $this->groupByUsersReservations($reservations);
 
         foreach($usersReservations as $reservationsByUser) {
             if ($mailService->sendNotifyEmployeeBefore20DaysTheEndOfUse($reservationsByUser)) {
-                echo "Successfully send message about before 20 days the end of use to managers: $manager  \n";
+                echo "Successfully send message about before 20 days the end of use to managers  \n";
             } else {
-                echo "Error send message about before 20 days the end of use to managers: $manager \n";
+                echo "Error send message about before 20 days the end of use to managers \n";
             }
         }
     }
@@ -516,12 +516,10 @@ class AdvertisingConstructionReservationService
         $usersReservations = $this->groupByUsersReservations($reservations);
 
         foreach($usersReservations as $reservationsByUser) {
-            $user = $reservationsByUser[0]->user->username;
-            $manager = $reservationsByUser[0]-> user->manage->username;
-            if ($mailService->sendNotifyEmployeeAfter1DayTheEndOfReservation($user, $reservationsByUser, $manager)) {
-                echo "Successfully send message about ended reservation after 1 day to managers and user: $manager  \n";
+            if ($mailService->sendNotifyEmployeeAfter1DayTheEndOfReservation($reservationsByUser)) {
+                echo "Successfully send message about ended reservation after 1 day to managers and user  \n";
             } else {
-                echo "Error send message about ended reservation after 1 day to managers and user: $manager \n";
+                echo "Error send message about ended reservation after 1 day to managers and user \n";
             }
         }
     }
@@ -530,7 +528,7 @@ class AdvertisingConstructionReservationService
     {
         $usersReservations = [];
         foreach ($reservations as $reservation) {
-            if (!$reservation->user || !$reservation->employee) {
+            if (!$reservation->user || !$reservation->user->manage) {
                 continue;
             }
             $userId = $reservation->user->id;
