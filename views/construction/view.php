@@ -76,7 +76,7 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
             btnname: 'Купить'
         },
         reserv: {
-            btnname: 'Зарезервировать'
+            btnname: 'Отложить'
         }
     };
     var currentMode;

@@ -71,7 +71,7 @@
             btnname: 'Купить'
         },
         reserv: {
-            btnname: 'Зарезервировать'
+            btnname: 'Отложить'
         }
     };
     var currentMode;
