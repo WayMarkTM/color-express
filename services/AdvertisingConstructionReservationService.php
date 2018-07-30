@@ -322,7 +322,7 @@ class AdvertisingConstructionReservationService
      */
     private function isAddressFilterPassed($address, $construction) {
         return $address == null || $address == "" ||
-            stripos($construction->address, $address) !== false;
+            mb_stripos($construction->address, $address) !== false;
     }
 
     /**
@@ -332,7 +332,7 @@ class AdvertisingConstructionReservationService
      * @return Boolean
      */
     private function isClientAndManagerFilterPassed($client, $manager, $reservation) {
-        return ($client == null || $client == "" || ($reservation->user->company != null && stripos($reservation->user->company, $client) !== false)) &&
+        return ($client == null || $client == "" || ($reservation->user->company != null && mb_stripos($reservation->user->company, $client) !== false)) &&
             ($manager == null || $manager == "0" || ($reservation->employee != null && $reservation->employee->id == $manager));
     }
 
