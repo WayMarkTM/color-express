@@ -16,12 +16,6 @@ use yii\console\Controller;
 
 class SheduleController extends Controller
 {
-    public function actionNotificationForTheDay()
-    {
-        $constuctionReservationService = new AdvertisingConstructionReservationService();
-        $constuctionReservationService->notificateForTheDayReservation();
-    }
-
     public function actionDeleteOldReservation()
     {
         $constuctionReservationService = new AdvertisingConstructionReservationService();

@@ -96,16 +96,6 @@ class MailService
     }
 
     /** @param $reservation AdvertisingConstructionReservation */
-    public function notificationForTheDayOfEndReservation($user, $reservation, $managerEmail)
-    {
-        $mail = new Mail();
-        $text = '<p style="margin:auto;">Истекает срок отложенного заказа на сайте. Перейдите в личный кабинет для оформления заказа.<br/>Период размещения: '.$reservation->from.' - '.$reservation->to.'<br>По адресу: '.$reservation->advertisingConstruction->address.'</p>';
-        $subject = 'Истчение срока отложенного заказа.';
-
-        return $mail->send($user->username, $subject, $text, null, $managerEmail);
-    }
-
-    /** @param $reservation AdvertisingConstructionReservation */
     public function employeeRegisterForCompany($user, $reservation)
     {
         $mail = new Mail();
@@ -124,45 +114,53 @@ class MailService
         return $mail->send($sendTo, $subject, $text, null, $managerEmail);
     }
 
-    public function sendNotifyEmployeeBefore20DaysTheEndOfUse($managerEmail, $reservationsByUsers) {
+    public function sendNotifyEmployeeBefore20DaysTheEndOfUse($reservationsByUser) {
         $mail = new Mail();
-        $clientsInfo = '';
+        $addresses = '';
         $dateOfEnd = null;
-        foreach($reservationsByUsers as $user=>$reservations) {
-            $addresses = '';
-            foreach($reservations as $reservation) {
-                if (!$dateOfEnd) {
-                    $dateOfEnd = $reservation->to;
-                }
-                $url = Url::to(['construction/details', 'id' => $reservation->advertisingConstruction->id], true);
-                $addresses .= '<div style="margin-top: 5px; padding-left: 5px;">Размер конструкции: '. $reservation->advertisingConstruction->size->size .'<br/>Адрес конструкции: <a target="_blank" href="'.$url.'">'.$reservation->advertisingConstruction->address. '</a></div>';
+        $user = null;
+        $manager = null;
+        foreach($reservationsByUser as $reservation) {
+            if (!$dateOfEnd) {
+                $dateOfEnd = $reservation->to;
             }
-            $clientsInfo .= '<div style="margin: 5px auto; padding: 10px; border: 1px solid #000">Клиент: '. $reservation->user->name .' '. $reservation->user->username .' <br/>Телефон: '. $reservation->user->number .'<br/>'. $addresses .'</div>';
+            if (!$user) {
+                $user = $reservation->user;
+            }
+            if (!$manager) {
+                $manager = $reservation->user->manage;
+            }
+            $url = Url::to(['construction/details', 'id' => $reservation->advertisingConstruction->id], true);
+            $addresses .= '<div style="margin-top: 5px; padding-left: 5px;">Размер конструкции: '. $reservation->advertisingConstruction->size->size .'<br/>Адрес конструкции: <a target="_blank" href="'.$url.'">'.$reservation->advertisingConstruction->address. '</a></div>';
         }
 
         $subject = 'Истекает период использования РК.';
-        $text = '<p style="margin:auto;">Добрый день,<br/>Истекает период использования РК - '. $dateOfEnd .'.<br/>Пожалуйста, уточните информацию по заказам:</p>' . $clientsInfo;
+        $text = '<p style="margin:auto;">Добрый день.<br/>Истекает период использования РК.<br/>Пожалуйста, уточните информацию по заказу: <br/> Клиент: '. $user->name .' '. $user->username .' <br/>Телефон: '. $user->number .'<br/>Дата окончания использования: '. $dateOfEnd .'</p>' . $addresses;
 
-        return $mail->send($managerEmail, $subject, $text);
+        return $mail->send($manager->username, $subject, $text);
     }
 
-    public function sendNotifyEmployeeAfter1DayTheEndOfReservation($managerEmail, $reservationsByUsers)
+    public function sendNotifyEmployeeAfter1DayTheEndOfReservation($reservationsByUser)
     {
         $mail = new Mail();
-        $clientsInfo = '';
-        foreach($reservationsByUsers as $user=>$reservations) {
-            $addresses = '';
-            foreach($reservations as $reservation) {
-                $url = Url::to(['construction/details', 'id' => $reservation->advertisingConstruction->id], true);
-                $addresses .= '<div style="margin-top: 5px; padding-left: 5px;">Период резерва: '. $reservation->from .' - '. $reservation->to .'<br/>Размер конструкции: '. $reservation->advertisingConstruction->size->size .'<br/>Адрес конструкции: <a target="_blank" href="'.$url.'">'.$reservation->advertisingConstruction->address. '</a></div>';
+        $addresses = '';
+        $manager = null;
+        $user = null;
+        foreach($reservationsByUser as $reservation) {
+            if (!$user) {
+                $user = $reservation->user;
             }
-            $clientsInfo .= '<div style="margin: 5px auto; padding: 10px; border: 1px solid #000">Клиент: '. $reservation->user->name .' '. $reservation->user->username .' <br/>Телефон: '. $reservation->user->number .'<br/>'. $addresses .'</div>';
+            if (!$manager) {
+                $manager = $reservation->user->manage;
+            }
+            $url = Url::to(['construction/details', 'id' => $reservation->advertisingConstruction->id], true);
+            $addresses .= '<div style="margin-top: 5px; padding-left: 5px;">Размер конструкции: '. $reservation->advertisingConstruction->size->size .'<br/>Адрес конструкции: <a target="_blank" href="'.$url.'">'.$reservation->advertisingConstruction->address. '</a><br/>Даты использования: '. $reservation->from .' - '. $reservation->to .'</div>';
         }
 
         $subject = 'Отложенный заказ аннулирован.';
-        $text = '<p style="margin:auto;">Добрый день,<br/>Отложенный заказ аннулирован..<br/>Пожалуйста, уточните информацию по заказам:</p>' . $clientsInfo;
+        $text = '<p style="margin:auto;">Добрый день.<br/>Отложенный заказ аннулирован.<br/>Пожалуйста, перейдите к оформлению заказа:</p>'.$addresses;
 
-        return $mail->send($managerEmail, $subject, $text);
+        return $mail->send($user->username, $subject, $text, null, $manager->username);
     }
 
 }

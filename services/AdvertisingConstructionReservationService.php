@@ -462,31 +462,6 @@ class AdvertisingConstructionReservationService
         $reservation->save();
     }
 
-    public function notificateForTheDayReservation()
-    {
-        $reservations = AdvertisingConstructionReservation::find()->where(
-            ['<=', 'reserv_till', new Expression('CURDATE()+ interval 1 day')])
-            ->andWhere([
-                    'OR',
-                    ['status_id' => AdvertisingConstructionStatuses::RESERVED],
-                    ['status_id' => AdvertisingConstructionStatuses::APPROVED_RESERVED]
-                ])->all();
-        $mailService = new MailService();
-        foreach($reservations as $reservation) {
-            $user = User::findIdentity($reservation->user_id);
-            $bcc = null;
-            if ($user->manage != null) {
-                $bcc = $user->manage->username;
-            }
-
-            if ($user && $mailService->notificationForTheDayOfEndReservation($user, $reservation, $bcc)) {
-                echo "Successfully send message about ended reservation day to user: $user->username \n";
-            } else {
-                echo "Error send message about ended reservation day to user: $user->username \n";
-            }
-        }
-    }
-
     public function deleteOldReservation()
     {
         AdvertisingConstructionReservation::deleteAll('reserv_till <= '. new Expression('CURDATE() - interval 2 days') . ' and (status_id = '.
@@ -514,13 +489,13 @@ class AdvertisingConstructionReservationService
     public function notifyEmployeeBefore20DaysTheEndOfUse()
     {
         $reservations = AdvertisingConstructionReservation::find()->where(
-            ['=', 'to', new Expression('CURDATE() + INTERVAL 20 DAY')])
+            ['=', 'to', new Expression('CURDATE() + INTERVAL 32 DAY')])
             ->andWhere(['status_id' => AdvertisingConstructionStatuses::APPROVED])->orderBy('user_id')->all();
         $mailService = new MailService();
-        $usersReservationsByManagers = $this->groupByUsersReservationsByManagers($reservations);
+        $usersReservations = $this->groupByUsersReservations($reservations);
 
-        foreach($usersReservationsByManagers as $manager=>$reservationsByUsers) {
-            if ($mailService->sendNotifyEmployeeBefore20DaysTheEndOfUse($manager, $reservationsByUsers)) {
+        foreach($usersReservations as $reservationsByUser) {
+            if ($mailService->sendNotifyEmployeeBefore20DaysTheEndOfUse($reservationsByUser)) {
                 echo "Successfully send message about before 20 days the end of use to managers: $manager  \n";
             } else {
                 echo "Error send message about before 20 days the end of use to managers: $manager \n";
@@ -538,43 +513,34 @@ class AdvertisingConstructionReservationService
                 ['status_id' => AdvertisingConstructionStatuses::APPROVED_RESERVED]
             ])->all();
         $mailService = new MailService();
-        $usersReservationsByManagers = $this->groupByUsersReservationsByManagers($reservations);
+        $usersReservations = $this->groupByUsersReservations($reservations);
 
-        foreach($usersReservationsByManagers as $manager=>$reservationsByUsers) {
-            if ($mailService->sendNotifyEmployeeAfter1DayTheEndOfReservation($manager, $reservationsByUsers)) {
-                echo "Successfully send message about ended reservation after 1 day to managers: $manager  \n";
+        foreach($usersReservations as $reservationsByUser) {
+            $user = $reservationsByUser[0]->user->username;
+            $manager = $reservationsByUser[0]-> user->manage->username;
+            if ($mailService->sendNotifyEmployeeAfter1DayTheEndOfReservation($user, $reservationsByUser, $manager)) {
+                echo "Successfully send message about ended reservation after 1 day to managers and user: $manager  \n";
             } else {
-                echo "Error send message about ended reservation after 1 day to managers: $manager \n";
+                echo "Error send message about ended reservation after 1 day to managers and user: $manager \n";
             }
         }
     }
 
-    private function groupByUsersReservationsByManagers($reservations)
+    private function groupByUsersReservations($reservations)
     {
-        $usersReservationsByManagers = [];
+        $usersReservations = [];
         foreach ($reservations as $reservation) {
             if (!$reservation->user || !$reservation->employee) {
                 continue;
             }
-            $manager = $reservation->employee->username;
-            $user = $reservation->user->username;
+            $userId = $reservation->user->id;
 
-            if (!$usersReservationsByManagers[$manager]) {
-                $usersReservationsByManagers[$manager] = [];
+            if (!$usersReservations[$userId]) {
+                $usersReservations[$userId] = [];
             }
 
-            $reservationsByUsers = $usersReservationsByManagers[$manager];
-            if (!$reservationsByUsers) {
-                $reservationsByUsers = [];
-            }
-            if (!$reservationsByUsers[$user]) {
-                $reservationsByUsers[$user] = [];
-            }
-
-            array_push($reservationsByUsers[$user], $reservation);
-
-            $usersReservationsByManagers[$manager] = $reservationsByUsers;
+            array_push($usersReservations[$userId], $reservation);
         }
-        return $usersReservationsByManagers;
+        return $usersReservations;
     }
 }
