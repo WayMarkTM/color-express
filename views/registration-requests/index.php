@@ -35,10 +35,12 @@ $this->title = 'Новые заявки';
                     'contentOptions' =>['class' => 'text-center'],
                 ],
                 [
+                    'label' => 'Компания',
                     'attribute' => 'company',
                     'headerOptions' => ['class' => 'text-center']
                 ],
                 [
+                    'label' => 'Время получения заявки',
                     'attribute' => 'timestamp',
                     'headerOptions' => ['class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center', 'width' => '220'],
@@ -56,6 +58,7 @@ $this->title = 'Новые заявки';
                     }
                 ],
                 [
+                    'label' => 'Тип',
                     'attribute' => 'type',
                     'headerOptions' => ['class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center', 'width' => '150'],
