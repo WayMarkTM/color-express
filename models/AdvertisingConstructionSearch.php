@@ -94,7 +94,7 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
     public function searchItems($params, $showOnlyPublished, $setDefaultTypeId = false) {
         $query = AdvertisingConstruction::find();
 
-        if ($params['ids']) {
+        if (isset($params['ids'])) {
             $ids = explode(',', $params['ids']);
             return $query
                 ->where(['in', 'id', $ids])
@@ -104,9 +104,11 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
 
 
         $this->load($params);
-        $this->fromDate = $params['AdvertisingConstructionSearch']['fromDate'];
-        $this->toDate = $params['AdvertisingConstructionSearch']['toDate'];
-        $this->showOnlyFreeConstructions = $params['AdvertisingConstructionSearch']['showOnlyFreeConstructions'];
+        if (isset($params['AdvertisingConstructionSearch'])) {
+            $this->fromDate = $params['AdvertisingConstructionSearch']['fromDate'];
+            $this->toDate = $params['AdvertisingConstructionSearch']['toDate'];
+            $this->showOnlyFreeConstructions = $params['AdvertisingConstructionSearch']['showOnlyFreeConstructions'];
+        }
 
         if ($setDefaultTypeId && ($this->type_id == 0 || $this->type_id == null)) {
             $this->type_id = AdvertisingConstructionType::find()->one()->id;
