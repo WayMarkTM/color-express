@@ -16,12 +16,6 @@ use yii\console\Controller;
 
 class SheduleController extends Controller
 {
-    public function actionDeleteOldReservation()
-    {
-        $constuctionReservationService = new AdvertisingConstructionReservationService();
-        $constuctionReservationService->deleteOldReservation();
-    }
-
     public function actionNotificateFreeConstruction()
     {
         AdvertisiongConstructionNotificationService::checkNotifications();
@@ -30,7 +24,8 @@ class SheduleController extends Controller
     public function actionNotifyEmployeeAfter1DayTheEndOfReservation()
     {
         $constuctionReservationService = new AdvertisingConstructionReservationService();
-        $constuctionReservationService->notifyEmployeeAfter1DayTheEndOfReservation();
+        $constuctionReservationService->notifyAfter1DayTheEndOfReservation();
+        $constuctionReservationService->deleteOldReservation();
     }
 
     public function actionNotifyEmployeeBefore20DaysTheEndOfUse()

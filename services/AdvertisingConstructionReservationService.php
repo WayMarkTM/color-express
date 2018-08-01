@@ -464,7 +464,7 @@ class AdvertisingConstructionReservationService
 
     public function deleteOldReservation()
     {
-        AdvertisingConstructionReservation::deleteAll('reserv_till <= '. new Expression('CURDATE() - interval 2 days') . ' and (status_id = '.
+        AdvertisingConstructionReservation::deleteAll('reserv_till <= '. new Expression('CURDATE()') . ' and (status_id = '.
             AdvertisingConstructionStatuses::RESERVED .' OR status_id = '. AdvertisingConstructionStatuses::APPROVED_RESERVED .' )');
         echo 'Deleted old reservation is ended';
     }
@@ -503,10 +503,10 @@ class AdvertisingConstructionReservationService
         }
     }
 
-    public function notifyEmployeeAfter1DayTheEndOfReservation()
+    public function notifyAfter1DayTheEndOfReservation()
     {
         $reservations = AdvertisingConstructionReservation::find()->where(
-            ['=', 'reserv_till', new Expression('CURDATE()- INTERVAL 1 DAY')])
+            ['<=', 'reserv_till', new Expression('CURDATE()')])
             ->andWhere([
                 'OR',
                 ['status_id' => AdvertisingConstructionStatuses::RESERVED],
@@ -516,7 +516,7 @@ class AdvertisingConstructionReservationService
         $usersReservations = $this->groupByUsersReservations($reservations);
 
         foreach($usersReservations as $reservationsByUser) {
-            if ($mailService->sendNotifyEmployeeAfter1DayTheEndOfReservation($reservationsByUser)) {
+            if ($mailService->sendNotifyAfter1DayTheEndOfReservation($reservationsByUser)) {
                 echo "Successfully send message about ended reservation after 1 day to managers and user  \n";
             } else {
                 echo "Error send message about ended reservation after 1 day to managers and user \n";
@@ -533,7 +533,7 @@ class AdvertisingConstructionReservationService
             }
             $userId = $reservation->user->id;
 
-            if (!$usersReservations[$userId]) {
+            if (!isset($usersReservations[$userId])) {
                 $usersReservations[$userId] = [];
             }
 
