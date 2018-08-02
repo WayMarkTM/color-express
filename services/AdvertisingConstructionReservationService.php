@@ -488,9 +488,11 @@ class AdvertisingConstructionReservationService
 
     public function notifyEmployeeBefore20DaysTheEndOfUse()
     {
-        $reservations = AdvertisingConstructionReservation::find()->where(
-            ['=', 'to', new Expression('CURDATE() + INTERVAL 20 DAY')])
-            ->where(['status_id' => AdvertisingConstructionStatuses::APPROVED])->all();
+        $reservations = AdvertisingConstructionReservation::find()
+            ->where(['=', 'to', new Expression('CURDATE() + INTERVAL 20 DAY')])
+            ->andWhere(['status_id' => AdvertisingConstructionStatuses::APPROVED])
+            ->all();
+
         $mailService = new MailService();
         $usersReservations = $this->groupByUsersReservations($reservations);
 
