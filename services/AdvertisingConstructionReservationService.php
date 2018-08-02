@@ -333,7 +333,7 @@ class AdvertisingConstructionReservationService
      */
     private function isClientAndManagerFilterPassed($client, $manager, $reservation) {
         return ($client == null || $client == "" || ($reservation->user->company != null && mb_stripos($reservation->user->company, $client) !== false)) &&
-            ($manager == null || $manager == "0" || ($reservation->employee != null && $reservation->employee->id == $manager));
+            ($manager == null || $manager == "0" || ($reservation->user != null && $reservation->user->manage != null && $reservation->user->manage->id == $manager));
     }
 
     public function addressCmp($a, $b) {
@@ -352,7 +352,7 @@ class AdvertisingConstructionReservationService
             'thematic' => $reservation->thematic,
             'comment' => $reservation->comment,
             'marketing_type' => $reservation->marketingType != null ? $reservation->marketingType->name : '',
-            'manager' => $reservation->employee != null ? $reservation->employee->name : '',
+            'manager' => $reservation->user != null && $reservation->user->manage != null ? $reservation->user->manage->name : '',
             'company' => $reservation->user != null ? $reservation->user->company : '',
             'type' => $type,
             'reserv_till' => $reservation->reserv_till
