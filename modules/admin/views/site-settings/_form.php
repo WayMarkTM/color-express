@@ -12,12 +12,14 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?php if(!$model->isImage()) {
-        echo $form->field($model, 'value')->textInput(['maxlength' => true]);
-    } else {
+    <?php if($model->isImage()) {
         echo $form->field($model, 'value')->fileInput([
             'accept' => 'image/*'
         ]);
+    } else if ($model->isCheckbox()) {
+        echo $form->field($model, 'value')->checkbox(['label' => $model->name]);
+    }else {
+        echo $form->field($model, 'value')->textInput(['maxlength' => true]);
     } ?>
 
     <div class="form-group">

@@ -21,7 +21,7 @@ class StockWidget extends Widget
     {
         $model = new StockSettings();
 
-        if (!isset($_COOKIE[$this->cookieName])) {
+        if (!isset($_COOKIE[$this->cookieName]) && SiteSettingsService::isShowStock()) {
             $model = $this->getStockModel();
             setcookie($this->cookieName, true, time() + intval($model->frequency), "/");
         }

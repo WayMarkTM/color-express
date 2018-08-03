@@ -43,6 +43,11 @@ class SiteSettingsService
         return $model;
     }
 
+    public static function isShowStock()
+    {
+        return !!SiteSettings::findOne(SiteSettingKey::STOCK_SHOW)->value;
+    }
+
     public static function getContactEmail() {
         return SiteSettings::findOne(SiteSettingKey::CONTACT_EMAIL)->value;
     }

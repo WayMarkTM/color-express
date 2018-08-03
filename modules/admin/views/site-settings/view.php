@@ -9,6 +9,25 @@ use yii\widgets\DetailView;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Настройки Сайта', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+function getTableDataByType($model) {
+    $answer = 'value';
+    if ($model->isImage()) {
+        $answer = [
+            'label'=> 'Изображение',
+            'value' => '/'.$model->value,
+            'format' => ['image',['width'=>'100','height'=>'100']],
+        ];
+    } else if ($model->isCheckbox()) {
+        $answer = [
+            'label' => $model->name,
+            'value' => $model->value,
+            'format' => 'boolean'
+        ];
+    }
+
+    return $answer;
+}
 ?>
 <div class="site-settings-view">
 
@@ -22,12 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            $model->isImage() ? [
-                'label'=> 'Изображение',
-                'value' => '/'.$model->value,
-                'format' => ['image',['width'=>'100','height'=>'100']],
-            ] :
-            'value',
+            getTableDataByType($model),
             'name',
         ],
     ]) ?>

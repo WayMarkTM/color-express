@@ -51,6 +51,11 @@ class SiteSettings extends \yii\db\ActiveRecord
         return $this->id == 8;
     }
 
+    public function isCheckbox()
+    {
+        return $this->id == 9;
+    }
+
     /* @param $imageFile UploadedFile */
     public function upload($imageFile)
     {
