@@ -40,7 +40,7 @@ AppAsset::register($this);
 <div class="wrap">
     <div class="side-menu">
         <div class="logo-container">
-            <div class="logo"></div>
+            <a href="/" class="logo"></a>
         </div>
         <?php
             if(!Yii::$app->user->isGuest) {

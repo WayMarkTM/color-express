@@ -42,6 +42,7 @@ body {
 }
 
 .logo {
+    display: block;
     background-image: url('../images/logo.png');
     background-repeat: no-repeat;
     width: 190px;
