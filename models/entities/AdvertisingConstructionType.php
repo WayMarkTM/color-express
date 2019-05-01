@@ -30,6 +30,7 @@ class AdvertisingConstructionType extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'presentation_link'], 'string', 'max' => 255],
+            ['additional_text', 'string']
         ];
     }
 
@@ -42,6 +43,7 @@ class AdvertisingConstructionType extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Тип конструкции',
             'presentation_link' => 'Ссылка на презентацию',
+            'additional_text' => 'Текстовый блок под каталогом'
         ];
     }
 

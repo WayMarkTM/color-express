@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'presentation_link')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'additional_text')->textarea(['rows' => '6']) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'custom-btn blue']) ?>
     </div>

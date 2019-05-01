@@ -95,6 +95,7 @@
         vm.getReport = getReport;
         vm.getPricePerDay = getPricePerDay;
         vm.getQueryString = getQueryString;
+        vm.getSelectedConstructionAdditionalText = getSelectedConstructionAdditionalText;
 
         function init() {
             vm.PAGE_NUMBER_PARAM = 'page-number';
@@ -102,16 +103,10 @@
             vm.isAgency = isAgency;
             vm.isGuest = isGuest;
             vm.constructions = constructions;
-            vm.constructionTypes = [];
+            vm.constructionTypes = _.cloneDeep(constructionTypes);
             vm.currentPage = colorApp.utilities.urlHelper.getParameterByName(vm.PAGE_NUMBER_PARAM) || 1;
             vm.ITEMS_PER_PAGE = 7;
             vm.selectedConstructionType = selectedConstructionType;
-            _.forEach(constructionTypes, function (type, key) {
-                vm.constructionTypes.push({
-                    id: key,
-                    name: type
-                });
-            });
 
             _.forEach(vm.constructions, function (construction) {
                 construction.yaPoint = {
@@ -163,6 +158,13 @@
 
             var index = _.findIndex(vm.constructions, { 'id': construction.id });
             vm.currentPage = Math.ceil((index + 1)/vm.ITEMS_PER_PAGE);
+        }
+
+        function getSelectedConstructionAdditionalText() {
+            var selectedConstructionType = _.find(vm.constructionTypes, it => it.id == vm.selectedConstructionType);
+            return selectedConstructionType != null ?
+                selectedConstructionType.additionalText :
+                '';
         }
 
         function selectConstructionType(id) {

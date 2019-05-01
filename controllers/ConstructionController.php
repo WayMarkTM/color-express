@@ -90,6 +90,7 @@ class ConstructionController extends Controller
 
         $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems($searchModel->type_id);
         $types = AdvertisingConstructionService::getAdvertisingConstructionTypeDropdownItems();
+        $constructionTypes = AdvertisingConstructionService::getAdvertisingConstructionTypes();
 
         $constructionType = AdvertisingConstructionType::findOne($searchModel->type_id);
 
@@ -100,6 +101,7 @@ class ConstructionController extends Controller
             'constructions' => $searchResults,
             'sizes' => $sizes,
             'types' => $types,
+            'constructionTypes' => $constructionTypes,
             'constructionType' => $constructionType
         ]);
     }

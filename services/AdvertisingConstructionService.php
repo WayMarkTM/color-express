@@ -125,6 +125,10 @@ class AdvertisingConstructionService
         return ArrayHelper::map(AdvertisingConstructionType::find()->all(), 'id', 'name');
     }
 
+    public static function getAdvertisingConstructionTypes() {
+        return AdvertisingConstructionType::find()->all();
+    }
+
     public static function getAdvertisingConstructionSizeDropdownItems($type_id = null) {
         if ($type_id == null) {
             return ArrayHelper::map(AdvertisingConstructionSize::find()->all(), 'id', 'size');

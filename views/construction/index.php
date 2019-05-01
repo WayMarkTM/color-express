@@ -21,6 +21,7 @@ use yii\widgets\Pjax;
 /* @var $constructions array|app\models\entities\AdvertisingConstruction */
 /* @var $sizes array */
 /* @var $types array */
+/* @var $constructionTypes array */
 /* @var $constructionType AdvertisingConstructionType */
 
 $mappedConstructions = array();
@@ -48,6 +49,17 @@ foreach ($constructions as $construction) {
     array_push($mappedConstructions, $arr);
 }
 
+$mappedConstructionTypes = array();
+foreach ($constructionTypes as $constrType) {
+    $arr = [
+        'id' => $constrType->id,
+        'name' => $constrType->name,
+        'additionalText' => $constrType->additional_text
+    ];
+
+    array_push($mappedConstructionTypes, $arr);
+}
+
 $isDatesSet = $searchModel->fromDate != null && $searchModel->toDate != null;
 $isAgency = false;
 if (!Yii::$app->user->isGuest) {
@@ -56,7 +68,7 @@ if (!Yii::$app->user->isGuest) {
 }
 
 $this->registerJs('var constructions = '.json_encode($mappedConstructions).';', \yii\web\View::POS_BEGIN);
-$this->registerJs('var constructionTypes = '.json_encode($types).';', \yii\web\View::POS_BEGIN);
+$this->registerJs('var constructionTypes = '.json_encode($mappedConstructionTypes).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var selectedConstructionType = '.json_encode($searchModel->type_id).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', \yii\web\View::POS_BEGIN);
 $this->registerJs('var isAgency = '.json_encode($isAgency).';', \yii\web\View::POS_BEGIN);
@@ -198,7 +210,13 @@ $this->title = "Каталог рекламных конструкций";
                 </div>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-12">
+                {{ $ctrl.getSelectedConstructionAdditionalText() }}
+                </div>
+            </div>
+        </div>
         <div class="watermark">
             Сайт носит рекламно-информационный характер и не используется в качестве интернет-магазина, в том числе для торговли по образцам и с помощью курьера.
         </div>
