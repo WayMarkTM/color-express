@@ -48,6 +48,11 @@ class AdvertisingConstructionTypeController extends BaseAdminController
     {
         $dataProvider = new ActiveDataProvider([
             'query' => AdvertisingConstructionType::find(),
+            'sort' => [
+                'defaultOrder' => [
+                    'sort_order' => SORT_ASC,
+                ]
+            ],
         ]);
 
         return $this->render('index', [

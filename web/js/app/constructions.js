@@ -103,7 +103,7 @@
             vm.isAgency = isAgency;
             vm.isGuest = isGuest;
             vm.constructions = constructions;
-            vm.constructionTypes = _.cloneDeep(constructionTypes);
+            vm.constructionTypes = _.sortBy(_.cloneDeep(constructionTypes), 'sortOrder');
             vm.currentPage = colorApp.utilities.urlHelper.getParameterByName(vm.PAGE_NUMBER_PARAM) || 1;
             vm.ITEMS_PER_PAGE = 7;
             vm.selectedConstructionType = selectedConstructionType;

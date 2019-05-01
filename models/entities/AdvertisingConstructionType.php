@@ -10,6 +10,8 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property string $presentation_link
+ * @property string $additional_text
+ * @property integer $sort_order
  *
  * @property AdvertisingConstruction[] $advertisingConstructions
  */
@@ -30,7 +32,8 @@ class AdvertisingConstructionType extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'presentation_link'], 'string', 'max' => 255],
-            ['additional_text', 'string']
+            ['additional_text', 'string'],
+            ['sort_order', 'number', 'min' => 0, 'max' => 255]
         ];
     }
 
@@ -43,7 +46,8 @@ class AdvertisingConstructionType extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Тип конструкции',
             'presentation_link' => 'Ссылка на презентацию',
-            'additional_text' => 'Текстовый блок под каталогом'
+            'additional_text' => 'Текстовый блок под каталогом',
+            'sort_order' => 'Порядковый номер'
         ];
     }
 

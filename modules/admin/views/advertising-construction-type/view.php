@@ -31,7 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'presentation_link',
-            'additional_text'
+            'additional_text',
+            'sort_order'
         ],
     ]) ?>
 

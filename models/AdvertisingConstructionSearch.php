@@ -111,7 +111,10 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
         }
 
         if ($setDefaultTypeId && ($this->type_id == 0 || $this->type_id == null)) {
-            $this->type_id = AdvertisingConstructionType::find()->one()->id;
+            $this->type_id = AdvertisingConstructionType::find()
+                ->orderBy('sort_order')
+                ->one()
+                ->id;
         }
 
         if ($showOnlyPublished) {

@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'presentation_link')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'sort_order')->textInput(['type' => 'number', 'max' => '255', 'min' => '0', 'step' => '1']) ?>
+
     <?= $form->field($model, 'additional_text')->textarea(['rows' => '6']) ?>
 
     <div class="form-group">

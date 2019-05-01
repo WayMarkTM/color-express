@@ -54,7 +54,8 @@ foreach ($constructionTypes as $constrType) {
     $arr = [
         'id' => $constrType->id,
         'name' => $constrType->name,
-        'additionalText' => $constrType->additional_text
+        'additionalText' => $constrType->additional_text,
+        'sortOrder' => $constrType->sort_order
     ];
 
     array_push($mappedConstructionTypes, $arr);
