@@ -433,6 +433,21 @@ h1, .h1, h2, .h2, h3, .h3 {
     color: #fff;
 }
 
+.social-networks {
+    margin-bottom: 7px;
+}
+
+.social-networks a,
+.social-networks a:hover {
+    margin-right: 2px;
+    text-decoration: none;
+}
+
+.social-networks img {
+    width: 32px;
+    height: 32px;
+}
+
 table th a {
     color: #000000;
 }

@@ -20,4 +20,6 @@ class SiteSettingKey
     const STOCK_FREQUENCY = 7;
     const STOCK_CONTENT = 8;
     const STOCK_SHOW = 9;
+    const INSTAGRAM = 10;
+    const FACEBOOK = 11;
 }

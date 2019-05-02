@@ -26,6 +26,8 @@ class SiteSettingsService
         $model->address = SiteSettings::findOne(SiteSettingKey::ADDRESS)->value;
         $model->latitude = SiteSettings::findOne(SiteSettingKey::ADDRESS_LAT)->value;
         $model->longitude = SiteSettings::findOne(SiteSettingKey::ADDRESS_LONG)->value;
+        $model->instagram = SiteSettings::findOne(SiteSettingKey::INSTAGRAM)->value;
+        $model->facebook = SiteSettings::findOne(SiteSettingKey::FACEBOOK)->value;
         $model->phones = explode(";", SiteSettings::findOne(SiteSettingKey::PHONES)->value);
 
         return $model;

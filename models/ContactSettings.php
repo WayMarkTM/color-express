@@ -14,6 +14,8 @@ namespace app\models;
  * @property $address string
  * @property $latitude string
  * @property $longitude string
+ * @property $instagram string
+ * @property $facebook string
  */
 class ContactSettings
 {
@@ -22,4 +24,6 @@ class ContactSettings
     public $address;
     public $latitude;
     public $longitude;
+    public $instagram;
+    public $facebook;
 }

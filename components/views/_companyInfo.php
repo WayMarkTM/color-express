@@ -11,6 +11,14 @@
 ?>
 
 <div class="contacts ">
+    <div class="row block-row social-networks">
+        <a href="<?php echo $model->instagram ?>" target="_blank">
+            <img src="/images/instagram.png" />
+        </a>
+        <a href="<?php echo $model->facebook ?>" target="_blank">
+            <img src="/images/facebook.png" />
+        </a>
+    </div>
     <div class="row block-row">
         <span>ООО "Колорэкспресс"</span>
     </div>
