@@ -4,7 +4,10 @@
 
 use yii\helpers\Html;
 
-$this->title = 'О компании';
+if ($this->title == null || $this->title == '') {
+    $this->title = "О компании";
+}
+
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">

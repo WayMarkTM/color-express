@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\entities\OurClient;
 use app\models\entities\Vacancy;
 use app\models\FeedBackForm;
+use app\models\constants\PageKey;
 use app\services\MailService;
 use app\services\SiteSettingsService;
 use Yii;
@@ -15,6 +16,7 @@ use yii\helpers\Url;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\services\ContactUsSubmissionService;
+use app\services\SeoService;
 use app\queries\OurClientQuery;
 use yii\web\Response;
 use yii\web\UploadedFile;
@@ -65,6 +67,16 @@ class SiteController extends Controller
     }
 
     /**
+     * @var SeoService
+     */
+    private $seoService;
+
+    public function init() {
+        $this->seoService = new SeoService();
+        parent::init();
+    }
+
+    /**
      * Displays homepage.
      *
      * @return string
@@ -76,6 +88,8 @@ class SiteController extends Controller
 
     public function actionClients()
     {
+        $this->view->title = $this->seoService->getTitleAndSetMetaData(PageKey::OUR_CLIENTS);
+
         $clients = OurClient::find()->all();
 
         return $this->render('clients', [
@@ -127,6 +141,8 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+        $this->view->title = $this->seoService->getTitleAndSetMetaData(PageKey::CONTACTS);
+
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post())) {
 
@@ -158,11 +174,13 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
+        $this->view->title = $this->seoService->getTitleAndSetMetaData(PageKey::ABOUT);
         return $this->render('about');
     }
 
     public function actionVacancies()
     {
+        $this->view->title = $this->seoService->getTitleAndSetMetaData(PageKey::VACANCIES);
         $vacancies = Vacancy::find()->all();
         $feedBackForm = new FeedBackForm();
 
@@ -192,6 +210,7 @@ class SiteController extends Controller
 
     public function actionAdvantages()
     {
+        $this->view->title = $this->seoService->getTitleAndSetMetaData(PageKey::ADVANTAGES);
         return $this->render('advantages');
     }
 }

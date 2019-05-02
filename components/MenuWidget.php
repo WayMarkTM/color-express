@@ -119,6 +119,10 @@ class MenuWidget extends Widget
                 'url' => ['/admin/vacancy/index']
             ],
             [
+                'label' => 'Мета-данные о страницах',
+                'url' => ['/admin/page-metadata/index']
+            ],
+            [
                 'label' => 'Настройки сайта',
                 'url' => ['/admin/site-settings/index']
             ]

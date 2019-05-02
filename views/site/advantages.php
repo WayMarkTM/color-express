@@ -5,8 +5,9 @@
  * Date: 03.03.2017
  * Time: 13:28
  */
-
-$this->title = 'Преимущества';
+if ($this->title == null || $this->title == '') {
+    $this->title = "Преимущества";
+}
 ?>
 
 <div class="row">

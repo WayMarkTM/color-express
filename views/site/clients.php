@@ -8,8 +8,9 @@
 
     /* @var $this yii\web\View */
     /* @var $clients array app\models\entities\OurClient */
-
-$this->title = 'Наши Клиенты';
+if ($this->title == null || $this->title == '') {
+    $this->title = "Наши Клиенты";
+}
 ?>
 <div class="row">
     <div class="col-sm-12 text-center">

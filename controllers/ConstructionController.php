@@ -12,6 +12,7 @@ use app\models\AdvertisingConstructionFastReservationForm;
 use app\models\AdvertisingConstructionSearch;
 use app\models\entities\AdvertisingConstruction;
 use app\models\constants\AdvertisingConstructionStatuses;
+use app\models\constants\PageKey;
 use app\models\entities\AdvertisingConstructionReservation;
 use app\models\entities\AdvertisingConstructionType;
 use app\models\InterruptionForm;
@@ -86,6 +87,9 @@ class ConstructionController extends Controller
 
     public function actionIndex()
     {
+        $seoService = new SeoService();
+        $this->view->title = $seoService->getTitleAndSetMetaData(PageKey::CATALOG);
+
         $searchModel = new AdvertisingConstructionSearch();
         $searchResults = $searchModel->searchItems(Yii::$app->request->queryParams, true, true);
 

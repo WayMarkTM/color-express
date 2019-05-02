@@ -43,7 +43,9 @@ $marker->attachInfoWindow(
 
 $map->addOverlay($marker);
 
-$this->title = "Контакты";
+if ($this->title == null || $this->title == '') {
+    $this->title = "Контакты";
+}
 ?>
 
 <div class="row">

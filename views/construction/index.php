@@ -90,7 +90,9 @@ $this->registerJsFile('@web/js/ui-bootstrap-tpls-2.5.0.min.js');
 $this->registerJsFile('@web/js/ya-map-2.1.min.js');
 $this->registerJsFile('@web/js/app/constructions.js');
 
-$this->title = "Каталог рекламных конструкций";
+if ($this->title == null || $this->title == '') {
+    $this->title = "Каталог рекламных конструкций";
+}
 
 ?>
 

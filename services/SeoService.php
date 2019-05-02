@@ -8,6 +8,9 @@
 
 namespace app\services;
 
+use app\models\constants\PageKey;
+use app\models\entities\PageMetadata;
+
 class SeoService
 {
   public static function setMetaTags($description, $keywords) {
@@ -19,5 +22,11 @@ class SeoService
       'name' => 'keywords',
       'content' => $keywords,
     ]);
+  }
+
+  public static function getTitleAndSetMetaData($pageKey) {
+    $pageMetaData = PageMetadata::find()->where(['key' => $pageKey])->one();
+    SeoService::setMetaTags($pageMetaData->description, $pageMetaData->keywords);
+    return $pageMetaData->title;
   }
 }
