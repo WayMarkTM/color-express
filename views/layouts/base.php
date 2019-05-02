@@ -29,6 +29,7 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <link rel=”canonical” href=”http://colorexpo.by/” />
     <script type="text/javascript">
         var BASE_URL = '<?php echo Url::home(true); ?>';
     </script>

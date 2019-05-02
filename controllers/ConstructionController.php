@@ -19,6 +19,7 @@ use app\services\AdvertisingConstructionReservationService;
 use app\services\AdvertisingConstructionService;
 use app\services\AdvertisiongConstructionNotificationService;
 use app\services\UserService;
+use app\services\SeoService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -109,6 +110,12 @@ class ConstructionController extends Controller
     public function actionDetails($id)
     {
         $model = $this->findModel($id);
+
+        SeoService::setMetaTags($model->meta_description, $model->meta_keywords);
+        if ($model->meta_title != null && $model->meta_title != '') {
+            $this->view->title = $model->meta_title;    
+        }
+
         $reservationModel = new AdvertisingConstructionFastReservationForm();
         $reservationModel->fromDate = date("d.m.Y");
         $reservationModel->toDate = date("d.m.Y");

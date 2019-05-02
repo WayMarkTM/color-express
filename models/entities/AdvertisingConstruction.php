@@ -24,6 +24,9 @@ use Yii;
  * @property string $requirements_document_path
  * @property boolean $isBusy
  * @property string $youtube_ids
+ * @property string $meta_title
+ * @property string $meta_description
+ * @property string $meta_keywords
  *
  * @property AdvertisingConstructionSize $size
  * @property AdvertisingConstructionType $type
@@ -58,6 +61,8 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
             [['size_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstructionSize::className(), 'targetAttribute' => ['size_id' => 'id']],
             [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => AdvertisingConstructionType::className(), 'targetAttribute' => ['type_id' => 'id']],
             ['stock_text', 'default', 'value' => 'Акция'],
+            [['meta_title'], 'string', 'max' => 1024],
+            [['meta_keywords', 'meta_description'], 'string', 'max' => 4000],
         ];
     }
 
@@ -82,7 +87,10 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
             'has_stock' => 'На акции',
             'stock_text' => 'Текст отображаемый для РК на акции',
             'requirements_document_path' => 'Технические требования',
-            'youtube_ids' => 'ID видео из youtube, разделенные ;'
+            'youtube_ids' => 'ID видео из youtube, разделенные ;',
+            'meta_title' => 'Заголовок страницы',
+            'meta_keywords' => 'Мета-тэг keywords',
+            'meta_description' => 'Мета-тэг description'
         ];
     }
 

@@ -75,6 +75,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'youtube_ids')->textInput() ?>
 
+    <?= $form->field($model, 'meta_title')->textInput() ?>
+
+    <?= $form->field($model, 'meta_description')->textarea(['rows' => '6']) ?>
+
+    <?= $form->field($model, 'meta_keywords')->textarea(['rows' => '6']) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->id == null ? 'Создать' : 'Сохранить', ['class' => 'custom-btn blue']) ?>
     </div>

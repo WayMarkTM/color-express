@@ -26,7 +26,11 @@ use yii\widgets\ActiveForm;
 /* @var $reservations array|app\models\entities\AdvertisingConstructionReservation */
 /* @var $isNotificate boolean */
 
-$this->title = $model->name.' | Информация о рекламной конструкции';
+if ($this->title == null || $this->title == '') {
+    $this->title = $model->name;
+}
+
+$this->title .= ' | Информация о рекламной конструкции';
 
 if (Yii::$app->user->isGuest) {
     RequireAuthorizationWidget::begin();

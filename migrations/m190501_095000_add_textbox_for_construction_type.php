@@ -6,7 +6,7 @@ class m190501_095000_add_textbox_for_construction_type extends Migration
 {
     public function up()
     {
-        $this->addColumn('advertising_construction_type', 'additional_text', \yii\db\mysql\Schema::TYPE_STRING." NOT NULL DEFAULT ''");
+        $this->addColumn('advertising_construction_type', 'additional_text', "varchar(4000) NOT NULL DEFAULT ''");
     }
 
     public function down()

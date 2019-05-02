@@ -37,6 +37,9 @@ class AdvertisingConstructionForm extends Model
     public $longitude;
     public $use_manual_coordinates;
     public $youtube_ids;
+    public $meta_description;
+    public $meta_title;
+    public $meta_keywords;
 
     /**
      * @var UploadedFile[]
@@ -60,6 +63,8 @@ class AdvertisingConstructionForm extends Model
             [['name', 'address'], 'string', 'max' => 255],
             [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 10],
             [['stock_text'], 'default', 'value'=> 'Акция'],
+            [['meta_title'], 'string', 'max' => 1024],
+            [['meta_keywords', 'meta_description'], 'string', 'max' => 4000],
         ];
     }
 
@@ -85,7 +90,10 @@ class AdvertisingConstructionForm extends Model
             'latitude' => 'Широта',
             'longitude' => 'Долгота',
             'use_manual_coordinates' => 'Использовать ручной ввод координат (в противном случае используется сторонний API для получения координат по адресу)',
-            'youtube_ids' => 'ID видео из youtube, разделенные ";"'
+            'youtube_ids' => 'ID видео из youtube, разделенные ";"',
+            'meta_title' => 'Заголовок страницы',
+            'meta_keywords' => 'Мета-тэг keywords',
+            'meta_description' => 'Мета-тэг description'
         ];
     }
 
@@ -110,6 +118,9 @@ class AdvertisingConstructionForm extends Model
         $model->is_published = $this->is_published;
         $model->requirements_document_path = $this->document_path;
         $model->youtube_ids = $this->youtube_ids;
+        $model->meta_description = $this->meta_description;
+        $model->meta_title = $this->meta_title;
+        $model->meta_keywords = $this->meta_keywords;
 
         return $model;
     }
@@ -169,6 +180,9 @@ class AdvertisingConstructionForm extends Model
         $model->longitude = $entity->longitude;
         $model->youtube_ids = $entity->youtube_ids;
         $model->use_manual_coordinates = true;
+        $model->meta_description = $entity->meta_description;
+        $model->meta_title = $entity->meta_title;
+        $model->meta_keywords = $entity->meta_keywords;
 
         $model->uploaded_images = array();
 
