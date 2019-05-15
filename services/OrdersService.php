@@ -132,7 +132,8 @@ class OrdersService
 
         return AdvertisingConstructionReservation::find()
             ->where(['=', 'user_id', $user_id])
-            ->andWhere(['in', 'status_id', $statuses]);
+            ->andWhere(['in', 'status_id', $statuses])
+            ->orderBy('(`status_id` = 31 or `status_id` = 41) desc, `status_id` = 20 desc, `status_id` = 40 desc');
     }
 
     /**
