@@ -10,6 +10,7 @@ namespace app\controllers;
 
 
 use app\models\User;
+use app\models\entities\AdvertisingConstructionReservationPeriod;
 use app\services\AdvertisingConstructionReservationService;
 use app\services\OrdersService;
 use Yii;
@@ -70,6 +71,19 @@ class OrdersController extends Controller
         return $this->render('index', [
             'isAgency' => $isAgency,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionRowDetails($id, $advanced = false) {
+        $dataProvider = new ActiveDataProvider([
+            'query' => AdvertisingConstructionReservationPeriod::find()
+                ->where(['=', 'advertising_construction_reservation_id', $id])
+        ]);
+
+        return $this->renderAjax('_rowDetails', [
+            'dataProvider' => $dataProvider,
+            'advanced' => $advanced,
+            'id' => $id,
         ]);
     }
 

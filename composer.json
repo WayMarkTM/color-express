@@ -22,7 +22,8 @@
         "kartik-v/yii2-widget-fileinput": "^1.0.5",
         "kartik-v/yii2-widget-datepicker": "@dev",
         "kartik-v/yii2-field-range": "*",
-        "codemix/yii2-excelexport": "*"
+        "codemix/yii2-excelexport": "*",
+        "dimmitri/yii2-expand-row-column": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

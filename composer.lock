@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e6661e9792fe58c18c06a60077c1ba4",
+    "content-hash": "aa9ad08d701db4b82b3f1602b9f6625d",
     "packages": [
         {
             "name": "2amigos/yii2-google-maps-library",
@@ -353,6 +353,43 @@
                 "yii2"
             ],
             "time": "2017-05-03T08:54:34+00:00"
+        },
+        {
+            "name": "dimmitri/yii2-expand-row-column",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dimmitri/yii2-expand-row-column.git",
+                "reference": "11a268bfe891e00c7fd00826e59d40178001e2dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dimmitri/yii2-expand-row-column/zipball/11a268bfe891e00c7fd00826e59d40178001e2dc",
+                "reference": "11a268bfe891e00c7fd00826e59d40178001e2dc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0",
+                "yiisoft/yii2": "~2.0.1"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "dimmitri\\grid\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Expand row column for the Yii 2.0 GridView widget.",
+            "homepage": "https://github.com/dimmitri/yii2-expand-row-column",
+            "keywords": [
+                "grid",
+                "widget",
+                "yii2"
+            ],
+            "time": "2018-09-16T21:53:11+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -786,7 +823,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-11-11 15:42:04"
+            "time": "2016-11-11T15:42:04+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-fileinput",
@@ -934,6 +971,7 @@
                 "xls",
                 "xlsx"
             ],
+            "abandoned": "phpoffice/phpspreadsheet",
             "time": "2015-05-01T07:00:55+00:00"
         },
         {
@@ -2323,6 +2361,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2016-12-08T20:27:08+00:00"
         },
         {

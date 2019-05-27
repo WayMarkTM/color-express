@@ -26,6 +26,7 @@ use Yii;
  * @property MarketingType $marketingType
  * @property User $employee
  * @property User $user
+ * @property AdvertisingConstructionReservationPeriod[] $advertisingConstructionReservationPeriods
  */
 class AdvertisingConstructionReservation extends \yii\db\ActiveRecord
 {
@@ -110,5 +111,14 @@ class AdvertisingConstructionReservation extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAdvertisingConstructionReservationPeriods()
+    {
+        return $this->hasMany(AdvertisingConstructionReservationPeriod::className(), ['advertising_construction_reservation_id' => 'id']);
     }
 }

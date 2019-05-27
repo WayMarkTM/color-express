@@ -6,11 +6,13 @@
  * Time: 7:37PM
  */
 
+use dimmitri\grid\ExpandRowColumn;
 use app\components\BadgeWidget;
 use app\models\constants\AdvertisingConstructionStatuses;
 use app\models\constants\SystemConstants;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
@@ -81,12 +83,14 @@ $this->title = 'Мои заказы';
                     }
                 ],
                 [
+                    'class' => ExpandRowColumn::class,
                     'label' => 'Даты использования',
                     'headerOptions' => ['class' => 'text-center', 'width' => '210'],
                     'contentOptions' =>['class' => 'text-center'],
                     'value' => function ($model) {
                         return (new DateTime($model->from))->format('d.m.Y').' - '.(new DateTime($model->to))->format('d.m.Y');
-                    }
+                    },
+                    'url' => Url::to(['row-details']),
                 ],
                 [
                     'attribute' => 'advertisingConstruction.price',

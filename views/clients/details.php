@@ -6,7 +6,7 @@
  * Time: 12:33 AM
  */
 
-
+use dimmitri\grid\ExpandRowColumn;
 use app\components\InterruptReservationWidget;
 use app\models\constants\AdvertisingConstructionStatuses;
 use app\models\constants\SystemConstants;
@@ -109,12 +109,14 @@ InterruptReservationWidget::end();
                             }
                         ],
                         [
+                            'class' => ExpandRowColumn::class,
                             'label' => 'Даты использования',
                             'headerOptions' => ['class' => 'text-center', 'width' => '220'],
                             'contentOptions' =>['class' => 'text-center'],
                             'value' => function ($model) {
                                 return $model->from.' - '.$model->to;
-                            }
+                            },
+                            'url' => Url::to(['row-details']),
                         ],
                         [
                             'label' => 'Стоимость в день, BYN ',

@@ -824,3 +824,21 @@ table .selected {
     text-overflow: ellipsis;
     overflow: hidden;
 }
+
+*[class^="expand-row-column"] {
+    color: #000;
+    border-bottom: dashed 1px #000;
+}
+
+*[class^="expand-row-column"]:hover {
+    border: 0;
+    color: #23527c;
+}
+
+td .grid-view {
+}
+
+td .table {
+    max-width: 800px;
+    margin-bottom: 0;
+}

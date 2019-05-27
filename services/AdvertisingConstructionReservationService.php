@@ -12,10 +12,12 @@ use app\models\constants\AdvertisingConstructionStatuses;
 use app\models\constants\SystemConstants;
 use app\models\entities\AdvertisingConstruction;
 use app\models\entities\AdvertisingConstructionReservation;
+use app\models\entities\AdvertisingConstructionReservationPeriod;
 use app\models\entities\MarketingType;
 use app\models\InterruptionForm;
 use app\models\User;
 use Yii;
+use yii\helpers\Json;
 use yii\db\Exception;
 use yii\db\Expression;
 use yii\db\Query;
@@ -111,6 +113,7 @@ class AdvertisingConstructionReservationService
             $dbReservation->to = $reservation['to'];
             $dbReservation->thematic = $thematic;
             $dbReservation->comment = $comment;
+            $this->createReservationPeriods($reservation, $dbReservation);
             $dbReservation->cost = $this->getReservationCost($dbReservation->advertising_construction_id,
                 $dbReservation->marketing_type_id, $dbReservation->from, $dbReservation->to, $dbReservation->user_id);
 
@@ -132,6 +135,35 @@ class AdvertisingConstructionReservationService
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }
+    }
+
+    /**
+     * @param mixed $reservation
+     * @param AdvertisingConstructionReservation $dbReservation
+     * 
+     * @return AdvertisingConstructionReservationPeriod[]
+     */
+    private function createReservationPeriods($reservation, $dbReservation) {
+        $periods = DateService::getMonthRanges($reservation['from'], $reservation['to']);
+        $reservationPeriods = [];
+        $price = $this->getReservationPrice($dbReservation->advertising_construction_id,
+            $dbReservation->marketing_type_id, $dbReservation->user_id);
+        
+        foreach ($periods as $period) {
+            $reservationPeriod = new AdvertisingConstructionReservationPeriod();
+            $reservationPeriod->advertising_construction_reservation_id = $dbReservation->id;
+            $reservationPeriod->from = $period['start'];
+            $reservationPeriod->to = $period['end'];
+            $reservationPeriod->price = $price;
+
+            if (!$reservationPeriod->save()) {
+                throw new Exception('Error during saving entity reservation period: '.Json::encode($reservationPeriod->getErrors()));
+            }
+
+            array_push($reservationPeriods, $reservationPeriod);
+        }
+
+        return $reservationPeriods;
     }
 
     /**
@@ -435,17 +467,26 @@ class AdvertisingConstructionReservationService
      * @return float Cost
      */
     private function getReservationCost($constructionId, $marketingTypeId, $from, $to, $user_id) {
-        $construction = AdvertisingConstruction::findOne($constructionId);
-        $marketing_type = MarketingType::findOne($marketingTypeId);
-        $user = User::findOne($user_id);
-
         $fromDate = new \DateTime($from);
         $toDate = new \DateTime($to);
         $days = intval($fromDate->diff($toDate)->days + 1);
 
-        $agency_charge = $user->is_agency ? SystemConstants::AGENCY_PERCENT : 0;
+        return $days * $this->getReservationPrice($constructionId, $marketingTypeId, $user_id);
+    }
 
-        return $days * ($construction->price * (100 + $marketing_type->charge) / 100 * (100 - $agency_charge) / 100);
+    /**
+     * @param int $constructionId
+     * @param int $marketingTypeId
+     * @param int $user_id
+     * @return float Price
+     */
+    private function getReservationPrice($constructionId, $marketingTypeId, $user_id) {
+        $construction = AdvertisingConstruction::findOne($constructionId);
+        $marketing_type = MarketingType::findOne($marketingTypeId);
+        $user = User::findOne($user_id);
+
+        $agency_charge = $user->is_agency ? SystemConstants::AGENCY_PERCENT : 0;
+        return $construction->price * (100 + $marketing_type->charge) / 100 * (100 - $agency_charge) / 100;
     }
 
     /**

@@ -11,6 +11,7 @@ namespace app\controllers;
 
 use app\models\SignupForm;
 use app\models\User;
+use app\models\entities\AdvertisingConstructionReservationPeriod;
 use app\services\AdvertisiongConstructionNotificationService;
 use app\services\ClientsService;
 use app\services\DocumentService;
@@ -138,6 +139,19 @@ class ClientsController extends Controller
         return $this->render('details', [
             'user' => $user,
             'ordersDataProvider' => $dataProvider
+        ]);
+    }
+
+    public function actionRowDetails($id, $advanced = false) {
+        $dataProvider = new ActiveDataProvider([
+            'query' => AdvertisingConstructionReservationPeriod::find()
+                ->where(['=', 'advertising_construction_reservation_id', $id])
+        ]);
+
+        return $this->renderAjax('_rowDetails', [
+            'dataProvider' => $dataProvider,
+            'advanced' => $advanced,
+            'id' => $id,
         ]);
     }
 

@@ -33,4 +33,28 @@ class DateService
             5 => 'Май', 6 => 'Июнь', 7 => 'Июль', 8 => 'Август',
             9 => 'Сентябрь', 10 => 'Октябрь', 11 => 'Ноябрь', 12 => 'Декабрь');
     }
+
+    public static function getMonthRanges($start, $end) {
+        $timeStart = strtotime($start);
+        $timeEnd   = strtotime($end) + 1;
+        $out       = [];
+    
+        $milestones[] = $timeStart;
+        $timeEndMonth = strtotime('first day of next month midnight', $timeStart);
+        while ($timeEndMonth < $timeEnd) {
+            $milestones[] = $timeEndMonth;
+            $timeEndMonth = strtotime('+1 month', $timeEndMonth);
+        }
+        $milestones[] = $timeEnd;
+    
+        $count = count($milestones);
+        for ($i = 1; $i < $count; $i++) {
+            $out[] = [
+                'start' => date('Y-m-d', $milestones[$i - 1]), // Here you can apply your formatting (like "date('Y-m-d H:i:s', $milestones[$i-1])") if you don't won't want just timestamp
+                'end'   => date('Y-m-d', $milestones[$i] - 1)
+            ];
+        }
+    
+        return $out;
+    }
 }
