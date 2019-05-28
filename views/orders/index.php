@@ -88,7 +88,19 @@ $this->title = 'Мои заказы';
                     'headerOptions' => ['class' => 'text-center', 'width' => '210'],
                     'contentOptions' =>['class' => 'text-center'],
                     'value' => function ($model) {
-                        return (new DateTime($model->from))->format('d.m.Y').' - '.(new DateTime($model->to))->format('d.m.Y');
+                        $firstPeriod = $model->advertisingConstructionReservationPeriods[0];
+                        $lastPeriod = $model->advertisingConstructionReservationPeriods[count($model->advertisingConstructionReservationPeriods) - 1];
+                        $borderTotalDays = (new \DateTime($lastPeriod->to))->diff(new \DateTime($firstPeriod->from))->days;
+                        $totalDays = -1;
+                        foreach ($model->advertisingConstructionReservationPeriods as $period) {
+                            $totalDays += (new \DateTime($period->to))->diff(new \DateTime($period->from))->days + 1;
+                        }
+
+                        if ($borderTotalDays == $totalDays) {
+                            return (new DateTime($firstPeriod->from))->format('d.m.Y').' - '.(new DateTime($lastPeriod->to))->format('d.m.Y');
+                        }
+                        
+                        return '- (подробнее)';
                     },
                     'url' => Url::to(['row-details']),
                 ],

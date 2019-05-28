@@ -114,7 +114,19 @@ InterruptReservationWidget::end();
                             'headerOptions' => ['class' => 'text-center', 'width' => '220'],
                             'contentOptions' =>['class' => 'text-center'],
                             'value' => function ($model) {
-                                return $model->from.' - '.$model->to;
+                                $firstPeriod = $model->advertisingConstructionReservationPeriods[0];
+                                $lastPeriod = $model->advertisingConstructionReservationPeriods[count($model->advertisingConstructionReservationPeriods) - 1];
+                                $borderTotalDays = (new \DateTime($lastPeriod->to))->diff(new \DateTime($firstPeriod->from))->days;
+                                $totalDays = -1;
+                                foreach ($model->advertisingConstructionReservationPeriods as $period) {
+                                    $totalDays += (new \DateTime($period->to))->diff(new \DateTime($period->from))->days + 1;
+                                }
+        
+                                if ($borderTotalDays == $totalDays) {
+                                    return (new DateTime($firstPeriod->from))->format('d.m.Y').' - '.(new DateTime($lastPeriod->to))->format('d.m.Y');
+                                }
+                                
+                                return '- (подробнее)';
                             },
                             'url' => Url::to(['row-details']),
                         ],

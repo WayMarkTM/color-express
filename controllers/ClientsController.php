@@ -145,7 +145,10 @@ class ClientsController extends Controller
     public function actionRowDetails($id, $advanced = false) {
         $dataProvider = new ActiveDataProvider([
             'query' => AdvertisingConstructionReservationPeriod::find()
-                ->where(['=', 'advertising_construction_reservation_id', $id])
+                ->where(['=', 'advertising_construction_reservation_id', $id]),
+            'sort' => [
+                'defaultOrder' => ['from' => SORT_ASC]
+            ],
         ]);
 
         return $this->renderAjax('_rowDetails', [
