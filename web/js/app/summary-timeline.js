@@ -47,7 +47,8 @@
 
     function _getDefaultItemConfig(reservation, title, groupId) {
         return {
-            id: reservation.id,
+            id: reservation.reservationPeriodId,
+            reservationId: reservation.id,
             title: title,
             content: reservation.thematic,
             start: reservation.from,

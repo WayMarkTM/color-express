@@ -158,21 +158,11 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
                         $position = View::POS_BEGIN;
                         $jsonReservations = array();
                         foreach ($bookings as $booking) {
-                            array_push($jsonReservations, [
-                                'id' => $booking->id,
-                                'from' => $booking->from,
-                                'to' => $booking->to,
-                                'type' => 'booking'
-                            ]);
+                            array_push($jsonReservations, $booking);
                         }
 
                         foreach($reservations as $reservation) {
-                            array_push($jsonReservations, [
-                                'id' => $reservation->id,
-                                'from' => $reservation->from,
-                                'to' => $reservation->to,
-                                'type' => 'reservation'
-                            ]);
+                            array_push($jsonReservations, $reservation);
                         }
 
                         $this->registerJs('var reservations = '.json_encode($jsonReservations).';', $position);

@@ -258,22 +258,25 @@ class AdvertisingConstructionReservationService
         $bookings = $this->getConstructionBookings($id);
         $json = array();
         foreach ($bookings as $booking) {
-            array_push($json, $this->getReservationJsonModel($booking, 'booking'));
+            foreach ($booking->advertisingConstructionReservationPeriods as $period) {
+                array_push($json, $this->getReservationJsonModel($reservationId, $period, 'booking'));
+            }
         }
 
         return $json;
     }
 
     /**
-     * @param $reservation AdvertisingConstructionReservation
-     * @param $type string
-     * @return array
+     * @param integer $reservationId
+     * @param AdvertisingConstructionReservationPeriod $reservationPeriod
+     * @param string $type
+     * @return array { id, from, to, type }
      */
-    private function getReservationJsonModel($reservation, $type) {
+    private function getReservationJsonModel($reservationId, $reservationPeriod, $type) {
         return [
-            'id' => $reservation->id,
-            'from' => $reservation->from,
-            'to' => $reservation->to,
+            'id' => $reservationId,
+            'from' => $reservationPeriod->from,
+            'to' => $reservationPeriod->to,
             'type' => $type
         ];
     }
@@ -297,7 +300,9 @@ class AdvertisingConstructionReservationService
         $reservations = $this->getConstructionReservations($id);
         $json = array();
         foreach ($reservations as $reservation) {
-            array_push($json, $this->getReservationJsonModel($reservation, 'reservation'));
+            foreach ($reservation->advertisingConstructionReservationPeriods as $period) {
+                array_push($json, $this->getReservationJsonModel($reservationId, $period, 'reservation'));
+            }
         }
 
         return $json;
@@ -322,7 +327,9 @@ class AdvertisingConstructionReservationService
             $bookingsResult = array();
             foreach($bookings as $booking) {
                 if ($this->isClientAndManagerFilterPassed($client, $manager, $booking)) {
-                    array_push($bookingsResult, $this->mapReservationForSummary($booking, 'booking'));
+                    foreach ($booking->advertisingConstructionReservationPeriods as $reservationPeriod) {
+                        array_push($bookingsResult, $this->mapReservationForSummary($booking, $reservationPeriod, 'booking'));
+                    }
                 }
             }
 
@@ -330,7 +337,9 @@ class AdvertisingConstructionReservationService
             $reservationsResult = array();
             foreach($reservations as $reservation) {
                 if ($this->isClientAndManagerFilterPassed($client, $manager, $reservation)) {
-                    array_push($reservationsResult, $this->mapReservationForSummary($reservation, 'reservation'));
+                    foreach ($reservation->advertisingConstructionReservationPeriods as $reservationPeriod) {
+                        array_push($reservationsResult, $this->mapReservationForSummary($reservation, $reservationPeriod, 'reservation'));
+                    }
                 }
             }
 
@@ -374,13 +383,16 @@ class AdvertisingConstructionReservationService
 
     /**
      * @param AdvertisingConstructionReservation $reservation
+     * @param AdvertisingConstructionReservationPeriod $reservationPeriod
+     * @param string $type
      * @return array
      */
-    private function mapReservationForSummary($reservation, $type) {
+    private function mapReservationForSummary($reservation, $reservationPeriod, $type) {
         return [
             'id' => $reservation->id,
-            'from' => $reservation->from,
-            'to' => $reservation->to,
+            'reservationPeriodId' => $reservationPeriod->id,
+            'from' => $reservationPeriod->from,
+            'to' => $reservationPeriod->to,
             'thematic' => $reservation->thematic,
             'comment' => $reservation->comment,
             'marketing_type' => $reservation->marketingType != null ? $reservation->marketingType->name : '',
@@ -403,8 +415,10 @@ class AdvertisingConstructionReservationService
 
         $dateService = new DateService();
         foreach ($reservations as $reservation) {
-            if ($dateService->intersects(new \DateTime($model['from']), new \DateTime($model['to']), new \DateTime($reservation->from), new \DateTime($reservation->to))) {
-                return false;
+            foreach ($reservation->advertisingConstructionReservationPeriods as $reservationPeriod) {
+                if ($dateService->intersects(new \DateTime($model['from']), new \DateTime($model['to']), new \DateTime($reservationPeriod->from), new \DateTime($reservationPeriod->to))) {
+                    return false;
+                }
             }
         }
 

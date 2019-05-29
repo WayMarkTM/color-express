@@ -70,6 +70,10 @@ class OrdersService
      */
     public function deleteOrder($id) {
         $reservation = AdvertisingConstructionReservation::findOne($id);
+        foreach ($reservation->advertisingConstructionReservationPeriods as $period) {
+            $period->delete();
+        }
+        
         $reservation->delete();
     }
 

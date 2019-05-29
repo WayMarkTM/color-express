@@ -6,6 +6,7 @@ use app\models\ReservationDates;
 use app\models\entities\AdvertisingConstruction;
 use app\models\entities\AdvertisingConstructionReservation;
 use app\models\entities\AdvertisingConstructionReservationPeriod;
+use app\services\DateService;
 use Yii;
 
 class AdvertisingConstructionReservationPeriodService
@@ -59,6 +60,51 @@ class AdvertisingConstructionReservationPeriodService
     return null;
   }
 
+  function validatePeriod($reservations, $period) {
+    $dateService = new DateService();
+
+    foreach ($reservations as $reservation) {
+      foreach ($reservation->advertisingConstructionReservationPeriods as $reservationPeriod) {
+          if ($dateService->intersects(new \DateTime($period['from']), new \DateTime($period['to']), new \DateTime($reservationPeriod->from), new \DateTime($reservationPeriod->to))) {
+              return false;
+          }
+      }
+    }
+
+    return true;
+  }
+
+  function validatePeriods($reservation, $periods) {
+    $construction = AdvertisingConstruction::findOne($reservation->advertising_construction_id);
+    $reservations = AdvertisingConstructionReservation::find()
+        ->where(['=', 'advertising_construction_id', $reservation->advertising_construction_id])
+        ->andWhere(['!=', 'id', $reservation->id])
+        ->andFilterWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED_RESERVED , AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)])
+        ->all();
+
+    $hasError = false;
+    $messages = 'Конструкция '.$construction->name.' ('.$construction->address.') забронирована на даты ';
+    foreach ($periods as $period) {
+      if (!$this->validatePeriod($reservations, $period)) {
+        if ($hasError) {
+          $messages .= ', ';
+        }
+
+        $messages .= 'c '.$period['from'].' по '.$period['to'];
+        $hasError = true;
+      }
+    }
+
+    if ($hasError) {
+      return [
+        'isValid' => false,
+        'message' => $messages,
+      ];
+    }
+
+    return null;
+  }
+
   /**
    * @param integer $reservationId
    * @param [{ id, from, to, price }] $periods
@@ -67,6 +113,11 @@ class AdvertisingConstructionReservationPeriodService
    */
   function savePeriods($reservationId, $periods) {
     $reservation = AdvertisingConstructionReservation::findOne($reservationId);
+    $validationResult = $this->validatePeriods($reservation, $periods);
+    if ($validationResult != null) {
+      return $validationResult;
+    }
+
     $dbReservationPeriods = $reservation->advertisingConstructionReservationPeriods;
     $periodIds = array_column($periods, 'id');
 

@@ -124,8 +124,8 @@ class ConstructionController extends Controller
         $reservationModel->fromDate = date("d.m.Y");
         $reservationModel->toDate = date("d.m.Y");
 
-        $bookings = $this->advertisingConstructionReservationService->getConstructionBookings($id);
-        $reservations = $this->advertisingConstructionReservationService->getConstructionReservations($id);
+        $bookings = $this->advertisingConstructionReservationService->getConstructionBookingsJson($id);
+        $reservations = $this->advertisingConstructionReservationService->getConstructionReservationsJson($id);
 
         $marketing_types = AdvertisingConstructionService::getMarketingTypeDropdownItems();
 
