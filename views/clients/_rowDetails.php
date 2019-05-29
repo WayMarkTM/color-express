@@ -62,11 +62,14 @@ $dataProvider = new ArrayDataProvider([
               class="form-control"
               uib-datepicker-popup="{{format}}"
               ng-model="period.from"
-              is-open="popup1.opened"
-              datepicker-options="$ctrl.datePickerOptions"
+              is-open="popup<?php echo $id; ?>From.opened"
+              datepicker-options="period.fromDatePickerOptions"
+              ng-focus='popup<?php echo $id; ?>From.opened = true'
+              ng-change="$ctrl.onDatePickerValueChanged"
               ng-required="true"
+              current-text="Сегодня"
               close-text="Закрыть"
-              auto-open
+              ng-keydown="$ctrl.onDatePickerKeydown($event)"
             />
           </td>
           <td class="text-center">
@@ -75,11 +78,14 @@ $dataProvider = new ArrayDataProvider([
               class="form-control"
               uib-datepicker-popup="{{format}}"
               ng-model="period.to"
-              is-open="popup2.opened"
-              datepicker-options="$ctrl.datePickerOptions"
+              is-open="popup<?php echo $id; ?>To.opened"
+              datepicker-options="period.toDatePickerOptions"
+              ng-focus='popup<?php echo $id; ?>To.opened = true'
+              ng-change="$ctrl.onDatePickerValueChanged"
               ng-required="true"
+              current-text="Сегодня"
               close-text="Закрыть"
-              auto-open
+              ng-keydown="$ctrl.onDatePickerKeydown($event)"
             />
           </td>
           <td class="text-center">
@@ -98,22 +104,33 @@ $dataProvider = new ArrayDataProvider([
         </tr>
       </tbody>
     </table>
-    <button
-      type="button"
-      class="custom-btn sm blue"
-      ng-click="$ctrl.addPeriod()"
-    >
-      Добавить период
-    </button>
+    <div class="row block-row">
+      <div class="col-sm-12">
+        <button
+          type="button"
+          class="custom-btn sm white"
+          ng-click="$ctrl.addPeriodToStart()"
+        >
+          Добавить в начало
+        </button>
+        <button
+          type="button"
+          class="custom-btn sm white"
+          ng-click="$ctrl.addPeriodToEnd()"
+        >
+          Добавить в конец
+        </button>
 
-    <button
-      type="button"
-      class="custom-btn sm blue"
-      ng-click="$ctrl.saveChanges()"
-    >
-      Сохранить
-    </button>
-  </div>
+        <button
+          type="button"
+          class="custom-btn sm blue"
+          ng-click="$ctrl.saveChanges()"
+        >
+          Сохранить
+        </button>
+      </div>
+    </div>
+  </div>    
 
   <script type="text/javascript">
     var $element = document.querySelector('#periods-editable-container-<?php echo $id; ?>');
@@ -129,22 +146,6 @@ $dataProvider = new ArrayDataProvider([
           $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name="csrf-token"]').attr('content');
       }
 
-      periodsModule.directive("autoOpen", ["$parse", function($parse) {
-        return {
-          link: function(scope, iElement, iAttrs) {
-            var isolatedScope = iElement.isolateScope();
-            iElement.on("focus", function() {
-              isolatedScope.$apply(function() {
-                $parse("isOpen").assign(isolatedScope, "true");
-              });
-            });
-
-            // Remove DOM Event Listener when $destroy lifecycle event is fired
-            scope.$on('$destroy', function() { iElement.off("focus") })
-          }
-        };
-      }]);
-
       periodsModule
           .controller('periodsListCtrl', periodsListCtrl);
 
@@ -156,16 +157,19 @@ $dataProvider = new ArrayDataProvider([
         vm.momentComparisonFormat = 'YYYYMMDD';
         vm.$onInit = init;
         vm.saveChanges = saveChanges;
-        vm.addPeriod = addPeriod;
+        vm.addPeriodToStart = addPeriodToStart;
+        vm.addPeriodToEnd = addPeriodToEnd;
         vm.deletePeriod = deletePeriod;
         vm.calculateCost = calculateCost;
         vm.updateTotalCost = updateTotalCost;
+        vm.onDatePickerValueChanged = onDatePickerValueChanged;
+        vm.recalculateDatePickerOptions = recalculateDatePickerOptions;
+        vm.onDatePickerKeydown = onDatePickerKeydown;
 
         function init() {
           vm.reservationId = reservationId<?php echo $id; ?>;
-
           vm.periods = periods<?php echo $id; ?>.map(mapDbPeriodToVm);
-
+          vm.recalculateDatePickerOptions();
           vm.reservedDates = _.chain(reservationPeriods<?php echo $id; ?>)
             .filter(function (period) {
               return period.reservationId != vm.reservationId;
@@ -176,13 +180,59 @@ $dataProvider = new ArrayDataProvider([
             .flatten()
             .value();
 
-          vm.datePickerOptions = {
+          $scope.$watch(function() { return vm.periods; }, function (newVal, oldVal) {
+            if (!_.isEqual(newVal, oldVal)) {
+              var totalCost = _.sumBy(newVal, function (period) {
+                return Number(calculateCost(period));
+              }).toFixed(2);
+              vm.updateTotalCost(totalCost);
+              vm.recalculateDatePickerOptions();
+            }
+          }, true);
+        }
+
+        function onDatePickerValueChanged() {
+          vm.recalculateDatePickerOptions();
+        }
+
+        function recalculateDatePickerOptions() {
+          _.forEach(vm.periods, function (period) {
+            var minFrom, maxFrom, minTo, minTo;
+            var indexOfPeriod = _.indexOf(vm.periods, period);
+            minFrom = indexOfPeriod > 0 ?
+              vm.periods[indexOfPeriod - 1].to.addDays(1) :
+              null;
+
+            maxFrom = period.to.addDays(-1);
+            minTo = period.from.addDays(1);
+
+            maxTo = indexOfPeriod < vm.periods.length - 1 ?
+              vm.periods[indexOfPeriod + 1].from.addDays(-1) :
+              null;
+
+            period.fromDatePickerOptions = getDatePickerOptions(minFrom, maxFrom);
+            period.toDatePickerOptions = getDatePickerOptions(minTo, maxTo);
+          });
+        }
+
+        function getDatePickerOptions(min, max) {
+          var params = {
             startingDay: 1,
             dateDisabled: function (params) {
               var result = _.includes(vm.reservedDates, moment(params.date).format(vm.momentComparisonFormat));
               return params.mode === 'day' && result;
             }
           };
+
+          if (min != null) {
+            params.minDate = min;
+          }
+
+          if (max != null) {
+            params.maxDate = max;
+          }
+
+          return params;
         }
 
         function mapDbPeriodToVm(p) {
@@ -198,9 +248,18 @@ $dataProvider = new ArrayDataProvider([
           return (period.price * (moment(period.to).diff(moment(period.from), 'days') + 1)).toFixed(2);
         }
 
-        function addPeriod() {
+        function addPeriodToStart() {
+          var firstPeriod = _.head(vm.periods);
+          vm.periods.unshift({
+            id: 0,
+            price: firstPeriod.price,
+            from: firstPeriod.from.addDays(-1),
+            to: firstPeriod.from.addDays(-1),
+          });
+        }
+
+        function addPeriodToEnd() {
           var lastPeriod = _.last(vm.periods);
-          console.log(lastPeriod);
           vm.periods.push({
             id: 0,
             price: lastPeriod.price,
@@ -231,17 +290,23 @@ $dataProvider = new ArrayDataProvider([
           
           return $http.post(GATEWAY_URLS.SAVE_PERIODS, submitModel)
             .then(function (response) {
-              if (response.data.isValid) {
-                toastr.success('Заказ успешно обновлен.');
-                vm.periods = response.data.periods.map(mapDbPeriodToVm);
-                vm.updateTotalCost(response.data.totalCost);
+              if (!response.data.isValid) {
+                toastr.error(response.data.message);
                 return;
               }
+
+              toastr.success('Заказ успешно обновлен.');
+              vm.periods = response.data.periods.map(mapDbPeriodToVm);
+              vm.updateTotalCost(response.data.totalCost);
             });
         }
 
         function updateTotalCost(totalCost) {
-          console.log('TODO:' + totalCost);
+          $('#periods-editable-container-<?php echo $id; ?>').closest('tr').prev().find('.cost').html(totalCost);
+        }
+
+        function onDatePickerKeydown(e) {
+          e.preventDefault();
         }
       }
 

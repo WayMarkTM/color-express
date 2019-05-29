@@ -842,3 +842,7 @@ td .table {
     max-width: 800px;
     margin-bottom: 0;
 }
+
+.uib-daypicker .uib-day .btn[disabled] {
+    background-color: lightgray;
+}

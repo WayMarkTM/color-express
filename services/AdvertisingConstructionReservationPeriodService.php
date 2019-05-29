@@ -49,6 +49,16 @@ class AdvertisingConstructionReservationPeriodService
     return $periods;
   }
 
+  function searchPeriod($periods, $id) {
+    foreach ($periods as $period) {
+        if ($period['id'] == $id) {
+            return $period;
+        }
+    }
+
+    return null;
+  }
+
   /**
    * @param integer $reservationId
    * @param [{ id, from, to, price }] $periods
@@ -63,10 +73,16 @@ class AdvertisingConstructionReservationPeriodService
     foreach ($dbReservationPeriods as $dbReservationPeriod) {
       // modified
       if (in_array($dbReservationPeriod->id, $periodIds)) {
+        $period = $this->searchPeriod($periods, $dbReservationPeriod->id);
         $dbReservationPeriod->price = $period['price'];
         $dbReservationPeriod->from = $period['from'];
         $dbReservationPeriod->to = $period['to'];
-        $dbReservationPeriod->save();
+        if (!$dbReservationPeriod->save()) {
+          return [
+            'isValid' => false,
+            'message' => 'Ошибка при обновлении периода '.$dbReservationPeriod->from.' - '.$dbReservationPeriod->to.var_dump($dbReservationPeriod->getErrors()),
+          ];
+        }
       } else {
       // deleted
         $dbReservationPeriod->delete();
@@ -80,7 +96,12 @@ class AdvertisingConstructionReservationPeriodService
         $dbPeriod->price = $period['price'];
         $dbPeriod->from = $period['from'];
         $dbPeriod->to = $period['to'];
-        $dbPeriod->save();
+        if (!$dbPeriod->save()) {
+          return [
+            'isValid'=> false,
+            'message'=> 'Ошибка при создании периода '.$dbPeriod->from.' - '.$dbPeriod->to,
+          ];
+        }
       }
     }
 
