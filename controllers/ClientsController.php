@@ -13,6 +13,7 @@ use app\models\SignupForm;
 use app\models\User;
 use app\models\entities\AdvertisingConstructionReservationPeriod;
 use app\services\AdvertisiongConstructionNotificationService;
+use app\services\AdvertisingConstructionReservationPeriodService;
 use app\services\ClientsService;
 use app\services\DocumentService;
 use app\services\MailService;
@@ -49,6 +50,11 @@ class ClientsController extends Controller
      */
     private $ordersService;
 
+    /**
+     * @var AdvertisingConstructionReservationPeriodService
+     */
+    private $reservationPeriodService;
+
     public function behaviors()
     {
         return [
@@ -76,6 +82,7 @@ class ClientsController extends Controller
         $this->subclientService = new SubclientService();
         $this->clientsService = new ClientsService();
         $this->ordersService = new OrdersService();
+        $this->reservationPeriodService = new AdvertisingConstructionReservationPeriodService();
         parent::init();
     }
 
@@ -142,19 +149,19 @@ class ClientsController extends Controller
         ]);
     }
 
-    public function actionRowDetails($id, $advanced = false) {
-        $dataProvider = new ActiveDataProvider([
-            'query' => AdvertisingConstructionReservationPeriod::find()
-                ->where(['=', 'advertising_construction_reservation_id', $id]),
-            'sort' => [
-                'defaultOrder' => ['from' => SORT_ASC]
-            ],
-        ]);
+    public function actionRowDetails($id, $constructionId, $isEditable = false) {
+        $periods = AdvertisingConstructionReservationPeriod::find()
+            ->where(['=', 'advertising_construction_reservation_id', $id])
+            ->orderBy('from ASC')
+            ->all();
+
+        $reservationDates = $this->reservationPeriodService->getConstructionReservationDates($constructionId);
 
         return $this->renderAjax('_rowDetails', [
-            'dataProvider' => $dataProvider,
-            'advanced' => $advanced,
+            'periods' => $periods,
+            'reservationDates' => $reservationDates,
             'id' => $id,
+            'isEditable' => $isEditable,
         ]);
     }
 

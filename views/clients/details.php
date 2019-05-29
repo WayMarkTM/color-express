@@ -22,6 +22,8 @@ use yii\widgets\Pjax;
 
 $this->title = $user->company;
 
+$this->registerJsFile('@web/js/ui-bootstrap-tpls-2.5.0.min.js');
+
 InterruptReservationWidget::begin();
 InterruptReservationWidget::end();
 ?>
@@ -112,7 +114,13 @@ InterruptReservationWidget::end();
                             'class' => ExpandRowColumn::class,
                             'label' => 'Даты использования',
                             'headerOptions' => ['class' => 'text-center', 'width' => '220'],
-                            'contentOptions' =>['class' => 'text-center'],
+                            'contentOptions' => function ($model) {
+                                if (count($model->advertisingConstructionReservationPeriods) > 1) {
+                                    return ['class' => 'text-center'];
+                                }
+
+                                return ['class' => 'text-center not-unwrappable'];                                
+                            },
                             'value' => function ($model) {
                                 $firstPeriod = $model->advertisingConstructionReservationPeriods[0];
                                 $lastPeriod = $model->advertisingConstructionReservationPeriods[count($model->advertisingConstructionReservationPeriods) - 1];
@@ -128,6 +136,13 @@ InterruptReservationWidget::end();
                                 
                                 return '- (подробнее)';
                             },
+                            'submitData' => function ($model, $key, $index) {
+                                return [
+                                    'id' => $model->id,
+                                    'constructionId' => $model->advertising_construction_id,
+                                    'isEditable' => $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED
+                                ];
+                            },
                             'url' => Url::to(['row-details']),
                         ],
                         [
@@ -136,15 +151,19 @@ InterruptReservationWidget::end();
                             'contentOptions' =>['class' => 'text-center'],
                             'format' => 'raw',
                             'value' => function ($model) {
+                                if (count($model->advertisingConstructionReservationPeriods) > 1) {
+                                    return '-';
+                                }
+
                                 $from = new \DateTime($model->from);
                                 $to = new \DateTime($model->to);
                                 $interval = intval(date_diff($to, $from)->days) + 1;
 
-                                $price = $model->cost / $interval;
+                                $price = number_format($model->cost / $interval, 2, ".", "");
 
                                 return $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ?
-                                    '<input class="form-control full-width price-per-day" data-period="'.$interval.'" type="text" value="'.number_format($price, 2, ".", "").'" />' :
-                                    number_format($price, 2, ".", "");
+                                    '<input class="form-control full-width price-per-day" data-period="'.$interval.'" type="text" value="'.$price.'" />' :
+                                    $price;
                             }
                         ],
                         [
@@ -267,6 +286,18 @@ InterruptReservationWidget::end();
 
 <script type="text/javascript">
     $(document).ready(function () {
+        Date.prototype.addDays = function(days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+
+        /* Disable unwrappping rows for reservations with only 1 period */
+        $('tr td.not-unwrappable span').on('click', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
         $('.thematic').on('keyup', function (e) {
             var confirmationLink = $(this).closest('td').find('.submit-thematic');
             confirmationLink.attr('style', 'display: inline;');
