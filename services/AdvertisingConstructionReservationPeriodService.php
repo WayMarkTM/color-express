@@ -168,7 +168,11 @@ class AdvertisingConstructionReservationPeriodService
       $totalCost += $this->calculatePeriodCost($period);
     }
 
+    $from = $resultPeriods[0]->from;
+    $to = $resultPeriods[count($resultPeriods) - 1]->to;
     $reservation->cost = $totalCost;
+    $reservation->from = $from;
+    $reservation->to = $to;
     $reservation->save();
 
     return [

@@ -55,12 +55,14 @@ $this->title = 'Мои заказы';
                 ],
                 [
                     'attribute' => 'status.name',
-                    'headerOptions' => ['class' => 'text-center', 'width' => '100'],
+                    'headerOptions' => ['class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
                     'label' => 'Статус',
                     'format' => 'raw',
                     'value' => function ($model) {
                         $className = '';
+                        $result = $model->status->name;
+
                         if ($model->status_id == AdvertisingConstructionStatuses::DECLINED) {
                             $className = 'highlight-declined';
                         }
@@ -73,7 +75,17 @@ $this->title = 'Мои заказы';
                             $className = 'highlight-processing';
                         }
 
-                        $result = $model->status->name;
+                        if ($model->status_id == AdvertisingConstructionStatuses::APPROVED) {
+                            foreach ($model->advertisingConstructionReservationPeriods as $period) {
+                                if (new \DateTime($period->to) > new \DateTime()) {
+                                    $result = 'Текущий';
+                                }
+                            }
+
+                            if ($result != 'Текущий') {
+                                $result = 'Завершенный';
+                            }
+                        }
 
                         if ($model->status_id == AdvertisingConstructionStatuses::RESERVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED) {
                             $result .= ' '.(new DateTime($model->reserv_till))->format('d.m');
@@ -86,7 +98,13 @@ $this->title = 'Мои заказы';
                     'class' => ExpandRowColumn::class,
                     'label' => 'Даты использования',
                     'headerOptions' => ['class' => 'text-center', 'width' => '210'],
-                    'contentOptions' =>['class' => 'text-center'],
+                    'contentOptions' => function ($model) {
+                        if (count($model->advertisingConstructionReservationPeriods) > 1) {
+                            return ['class' => 'text-center'];
+                        }
+
+                        return ['class' => 'text-center not-unwrappable'];                                
+                    },
                     'value' => function ($model) {
                         $firstPeriod = $model->advertisingConstructionReservationPeriods[0];
                         $lastPeriod = $model->advertisingConstructionReservationPeriods[count($model->advertisingConstructionReservationPeriods) - 1];
@@ -178,6 +196,12 @@ $this->title = 'Мои заказы';
 </div>
 
 <script type="text/javascript">
+    /* Disable unwrappping rows for reservations with only 1 period */
+    $('tr td.not-unwrappable span').on('click', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+    });
+
     $('.cancel-order-button').on('click', function () {
         toastr.warning('Свяжитесь, пожалуйста, с Вашим менеджером.');
     });

@@ -60,7 +60,7 @@ $dataProvider = new ArrayDataProvider([
             <input
               type="text"
               class="form-control"
-              uib-datepicker-popup="{{format}}"
+              uib-datepicker-popup="{{$ctrl.format}}"
               ng-model="period.from"
               is-open="popup<?php echo $id; ?>From.opened"
               datepicker-options="period.fromDatePickerOptions"
@@ -76,7 +76,7 @@ $dataProvider = new ArrayDataProvider([
             <input
               type="text"
               class="form-control"
-              uib-datepicker-popup="{{format}}"
+              uib-datepicker-popup="{{$ctrl.format}}"
               ng-model="period.to"
               is-open="popup<?php echo $id; ?>To.opened"
               datepicker-options="period.toDatePickerOptions"
@@ -155,6 +155,7 @@ $dataProvider = new ArrayDataProvider([
         var vm = this;
 
         vm.momentComparisonFormat = 'YYYYMMDD';
+        vm.format = 'dd.MM.yyyy';
         vm.$onInit = init;
         vm.saveChanges = saveChanges;
         vm.addPeriodToStart = addPeriodToStart;

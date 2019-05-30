@@ -89,6 +89,8 @@ InterruptReservationWidget::end();
                             'format' => 'raw',
                             'value' => function ($model) {
                                 $className = '';
+                                $result = $model->status->name;
+
                                 if ($model->status_id == AdvertisingConstructionStatuses::DECLINED) {
                                     $className = 'highlight-declined';
                                 }
@@ -101,7 +103,17 @@ InterruptReservationWidget::end();
                                     $className = 'highlight-processing';
                                 }
 
-                                $result = $model->status->name;
+                                if ($model->status_id == AdvertisingConstructionStatuses::APPROVED) {
+                                    foreach ($model->advertisingConstructionReservationPeriods as $period) {
+                                        if (new \DateTime($period->to) > new \DateTime()) {
+                                            $result = 'Текущий';
+                                        }
+                                    }
+
+                                    if ($result != 'Текущий') {
+                                        $result = 'Завершенный';
+                                    }
+                                }
 
                                 if ($model->status_id == AdvertisingConstructionStatuses::RESERVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED) {
                                     $result .= ' '.(new DateTime($model->reserv_till))->format('d.m');
@@ -140,7 +152,8 @@ InterruptReservationWidget::end();
                                 return [
                                     'id' => $model->id,
                                     'constructionId' => $model->advertising_construction_id,
-                                    'isEditable' => $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED
+                                    'isEditable' => $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ||
+                                        ($model->status_id == AdvertisingConstructionStatuses::APPROVED && new \DateTime($model->to) > new DateTime())
                                 ];
                             },
                             'url' => Url::to(['row-details']),

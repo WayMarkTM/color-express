@@ -136,7 +136,6 @@ class ClientsController extends Controller
             'query' => $orderService->getOrders($clientId),
             'sort' => [
                 'attributes' => ['id', 'advertisingConstructionName', 'address', 'status', 'type', 'cost'],
-                'defaultOrder' => ['id' => SORT_DESC]
             ],
             'pagination' => [
                 'pageSize' => 10
