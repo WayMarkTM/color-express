@@ -16,7 +16,6 @@ use app\services\AdvertisiongConstructionNotificationService;
 use app\services\AdvertisingConstructionReservationPeriodService;
 use app\services\ClientsService;
 use app\services\DocumentService;
-use app\services\MailService;
 use app\services\SubclientService;
 use app\services\UserService;
 use app\services\OrdersService;
@@ -24,7 +23,6 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
-use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\Response;
@@ -166,20 +164,14 @@ class ClientsController extends Controller
     }
 
     public function actionDetailsDocuments($clientId) {
-        $subclients = array();
-        $documentsCalendar = array();
         $user = $this->clientsService->getClientDetails($clientId);
-
-        if ($user->is_agency) {
-            $subclients = $this->subclientService->getSubclients($clientId);
-        } else {
-            $documentsCalendar = $this->documentService->getDocumentsCalendar($clientId);
-        }
+        $subclients = $this->subclientService->getSubclients($clientId);
+        $documentsCalendar = $this->documentService->getDocumentsCalendar($clientId);
 
         return $this->render('detailsDocuments', [
             'user' => $user,
             'documentsCalendar' => $documentsCalendar,
-            'subclients' => $subclients
+            'subclients' => $subclients,
         ]);
     }
 
@@ -195,15 +187,9 @@ class ClientsController extends Controller
     {
         $currentUserId = Yii::$app->user->getId();
         $user = User::findOne($currentUserId);
-        $subclients = array();
-        $documentsCalendar = array();
+        $subclients = $this->subclientService->getSubclients($currentUserId);
+        $documentsCalendar = $this->documentService->getDocumentsCalendar($currentUserId);
         AdvertisiongConstructionNotificationService::checkNotifications();
-
-        if ($user->is_agency) {
-            $subclients = $this->subclientService->getSubclients($currentUserId);
-        } else {
-            $documentsCalendar = $this->documentService->getDocumentsCalendar($currentUserId);
-        }
 
         return $this->render('documents', [
             'currentUser' => $user,

@@ -6,12 +6,14 @@ use app\components\AddDocumentWidget;
 use app\components\AddSubclientWidget;
 use app\services\JsonService;
 use yii\web\View;
+use app\helpers\Helpers;
 
 /* @var $isAgency bool */
 /* @var $selectedUserId integer */
 /* @var $documentsCalendar array */
 /* @var $subclients array|Subclient */
 /* @var $isViewMode bool */
+
 ?>
 
 <div class="documents-container" ng-app="documents" ng-controller="clientDocumentsCtrl as $ctrl">
@@ -55,9 +57,10 @@ use yii\web\View;
                 <thead>
                     <tr>
                         <th width="67">Год</th>
-                        <th width="300">Договора</th>
+                        <th width="200">Договора</th>
                         <th width="100">Месяц</th>
                         <th>Ежемесячные документы</th>
+                        <th>Условия оплаты</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -110,6 +113,22 @@ use yii\web\View;
                                 <?php } ?>
                             </div>
                         </td>
+                        <td id="term-payment">
+                            <?php  if (Helpers::isEmployee()) { ?>
+                                <input class="form-control thematic" ng-keydown="$ctrl.onTermPaymentInput()" style="width: calc(100% - 20px); display: inline;" type="text"
+                                       ng-model="$ctrl.termPayment"
+                                />
+                                <a class="submit-thematic"
+                                   ng-class="{'hidden': !$ctrl.isTermPaymentDirty }"
+                                   ng-click="$ctrl.updateTermPayment()"
+                                   href="#"
+                                >
+                                    <span style="color: #164a9e" class="glyphicon glyphicon-ok"></span>
+                                </a>
+                            <?php } else { ?>
+                                <div ng-bind="$ctrl.termPayment" ></div>
+                            <?php } ?>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -145,7 +164,7 @@ use yii\web\View;
 ?>
 
 <?php
-$modelAttributeNames = 'id,name,balance';
+$modelAttributeNames = 'id,name,balance,term_payment';
 ?>
 
 <?php

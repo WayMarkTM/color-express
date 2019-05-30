@@ -11,6 +11,7 @@ use Yii;
  * @property string $name
  * @property integer $user_id
  * @property float $balance
+ * @property string $term_payment
  *
  * @property Document[] $documents
  * @property User $user
@@ -33,6 +34,7 @@ class Subclient extends \yii\db\ActiveRecord
         return [
             [['name', 'user_id'], 'required'],
             [['user_id'], 'integer'],
+            [['term_payment'], 'string'],
             [['name'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -47,6 +49,7 @@ class Subclient extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'user_id' => 'User ID',
+            'term_payment' => 'Term Payment'
         ];
     }
 

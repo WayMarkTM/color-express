@@ -15,6 +15,7 @@ use app\models\entities\Contract;
 use app\models\entities\Document;
 use app\models\entities\Subclient;
 use app\services\DocumentService;
+use app\services\SubclientService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -34,11 +35,11 @@ class DocumentsController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['get-documents-calendar', 'get-subclient-documents-calendar', 'get-contracts', 'get-documents', 'delete-document', 'delete-contract', 'upload-validation', 'upload-contract-validation', 'delete-subclient'], //only be applied to
+                'only' => ['get-documents-calendar', 'get-subclient-documents-calendar', 'get-contracts', 'get-documents', 'delete-document', 'delete-contract', 'upload-validation', 'upload-contract-validation', 'delete-subclient', 'update-term-payment'], //only be applied to
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['delete-document', 'delete-contract', 'upload-validation', 'upload-contract-validation', 'delete-subclient'],
+                        'actions' => ['delete-document', 'delete-contract', 'upload-validation', 'upload-contract-validation', 'delete-subclient', 'update-term-payment'],
                         'roles' => ['employee'],
                     ],
                     [
@@ -129,6 +130,10 @@ class DocumentsController extends Controller
     }
 
     public function actionDeleteSubclient($id) {
+        if (!$id) {
+            return;
+        }
+
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         $documents = Document::find()
@@ -140,4 +145,21 @@ class DocumentsController extends Controller
 
         Subclient::findOne($id)->delete();
     }
+
+    public function actionUpdateTermPayment() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $model = Yii::$app->request->post();
+
+        if (Yii::$app->request->isAjax && !empty($model)) {
+            $subclientService = new SubclientService();
+            $subclientService->updateTermPayment($model['subclientId'], $model['termPayment']);
+
+            return ['success' => true];
+        }
+
+        return new MethodNotAllowedHttpException();
+    }
+
+
 }
