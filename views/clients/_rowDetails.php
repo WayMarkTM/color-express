@@ -47,11 +47,11 @@ $dataProvider = new ArrayDataProvider([
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th class="text-center">С</th>
-          <th class="text-center">По</th>
-          <th class="text-center">Стоимость в день, BYN</th>
-          <th class="text-center">Стоимость за период, BYN</th>
-          <th></th>
+          <th class="text-center" style="width: 120px">С</th>
+          <th class="text-center" style="width: 120px">По</th>
+          <th class="text-center" style="width: 120px">Стоимость в день, BYN</th>
+          <th class="text-center" style="width: 120px">Стоимость за период, BYN</th>
+          <th class="text-center" style="width: auto"></th>
         </tr>
       </thead>
       <tbody>
@@ -93,6 +93,27 @@ $dataProvider = new ArrayDataProvider([
           </td>
           <td class="text-center" ng-bind="$ctrl.calculateCost(period)"></td>
           <td class="text-center">
+            <button
+              type="button"
+              class="custom-btn sm white"
+              ng-click="$ctrl.addPeriodBefore(period)"
+            >
+              Добавить до
+            </button>
+            <button
+              type="button"
+              class="custom-btn sm white"
+              ng-click="$ctrl.addPeriodAfter(period)"
+            >
+              Добавить после
+            </button>
+            <button
+              type="button"
+              class="custom-btn sm blue"
+              ng-click="$ctrl.savePeriod(period)"
+            >
+              Сохранить
+            </button>
             <button
               type="button"
               class="custom-btn sm red"
@@ -166,6 +187,9 @@ $dataProvider = new ArrayDataProvider([
         vm.onDatePickerValueChanged = onDatePickerValueChanged;
         vm.recalculateDatePickerOptions = recalculateDatePickerOptions;
         vm.onDatePickerKeydown = onDatePickerKeydown;
+        vm.addPeriodBefore = addPeriodBefore;
+        vm.addPeriodAfter = addPeriodAfter;
+        vm.savePeriod = savePeriod;
 
         function init() {
           vm.reservationId = reservationId<?php echo $id; ?>;
@@ -269,20 +293,76 @@ $dataProvider = new ArrayDataProvider([
           });
         }
 
+        function addPeriodBefore(period) {
+          var index = _.findIndex(vm.periods, period);
+          if (index !== 0) {
+            var prevPeriod = vm.periods[index - 1];
+            if (prevPeriod.to.addDays(1).getTime() == period.from.getTime()) {
+              toastr.warning('Нет свободных дат.');
+              return;
+            }
+          }
+
+          vm.periods.splice(index, 0, {
+            id: 0,
+            price: period.price,
+            from: period.from.addDays(-1),
+            to: period.from.addDays(-1),
+          });
+        }
+
+        function addPeriodAfter(period) {
+          var index = _.findIndex(vm.periods, period);
+          if (index !== vm.periods.length - 1) {
+            var nextPeriod = vm.periods[index + 1];
+            if (nextPeriod.from.getTime() == period.to.addDays(1).getTime()) {
+              toastr.warning('Нет свободных дат.');
+              return;
+            }
+          }
+
+          vm.periods.splice(index + 1, 0, {
+            id: 0,
+            price: period.price,
+            from: period.to.addDays(1),
+            to: period.to.addDays(1),
+          });
+        }
+
         function deletePeriod(period) {
           var indexToDelete = _.indexOf(vm.periods, period);
           vm.periods.splice(indexToDelete, 1);
         }
 
+        function mapPeriodToSubmitModel(period) {
+          return {
+            id: period.id,
+            price: period.price,
+            from: moment(period.from).format('YYYY-MM-DD'),
+            to: moment(period.to).format('YYYY-MM-DD'),
+          };
+        }
+
+        function savePeriod(period) {
+          var submitModel = {
+            reservationId: vm.reservationId,
+            period: mapPeriodToSubmitModel(period)
+          };
+
+          return $http.post(GATEWAY_URLS.SAVE_PERIOD, submitModel)
+            .then(function (response) {
+              if (!response.data.isValid) {
+                toastr.error(response.data.message);
+                return;
+              }
+
+              toastr.success('Заказ успешно обновлен.');
+              period.id = response.data.period.id;
+            });
+        }
+
         function saveChanges() {
-          var submitModels = vm.periods.map(function (period) {
-            return {
-              id: period.id,
-              price: period.price,
-              from: moment(period.from).format('YYYY-MM-DD'),
-              to: moment(period.to).format('YYYY-MM-DD'),
-            };
-          });
+          var submitModels = vm.periods.map(mapPeriodToSubmitModel);
 
           var submitModel = {
             reservationId: vm.reservationId,

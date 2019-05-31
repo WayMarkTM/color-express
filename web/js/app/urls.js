@@ -2,6 +2,7 @@
  * Created by gromi on 3/26/2017.
  */
 var GATEWAY_URLS = {
+    SAVE_PERIOD: BASE_URL + 'reservation-period/save-period',
     SAVE_PERIODS: BASE_URL + 'reservation-period/save-periods',
     BUY_CONSTRUCTION: BASE_URL + 'construction/buy-construction',
     BUY_CONSTRUCTIONS: BASE_URL + 'construction/buy-constructions',

@@ -105,6 +105,43 @@ class AdvertisingConstructionReservationPeriodService
     return null;
   }
 
+  function savePeriod($reservationId, $period) {
+    $reservation = AdvertisingConstructionReservation::findOne($reservationId);
+    $construction = AdvertisingConstruction::findOne($reservation->advertising_construction_id);
+    $restReservations = AdvertisingConstructionReservation::find()
+      ->where(['=', 'advertising_construction_id', $reservation->advertising_construction_id])
+      ->andWhere(['!=', 'id', $reservation->id])
+      ->andFilterWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED_RESERVED , AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)])
+      ->all();
+
+    if (!$this->validatePeriod($restReservations, $period)) {
+      return [
+        'isValid' => false,
+        'message' => 'Конструкция '.$construction->name.' ('.$construction->address.') забронирована на даты c '.$period['from'].' по '.$period['to']
+      ];
+    }
+
+    $dbPeriod = $period['id'] > 0 ?
+      AdvertisingConstructionReservationPeriod::findOne($period['id']) :
+      new AdvertisingConstructionReservationPeriod();
+
+    $dbPeriod->advertising_construction_reservation_id = $reservationId;
+    $dbPeriod->from = $period['from'];
+    $dbPeriod->to = $period['to'];
+    $dbPeriod->price = $period['price'];
+    if (!$dbPeriod->save()) {
+      return [
+        'isValid'=> false,
+        'message'=> 'Ошибка при создании периода '.$dbPeriod->from.' - '.$dbPeriod->to,
+      ];
+    }
+
+    return [
+      'isValid' => true,
+      'period' => $dbPeriod,
+    ];
+  }
+
   /**
    * @param integer $reservationId
    * @param [{ id, from, to, price }] $periods
@@ -131,7 +168,7 @@ class AdvertisingConstructionReservationPeriodService
         if (!$dbReservationPeriod->save()) {
           return [
             'isValid' => false,
-            'message' => 'Ошибка при обновлении периода '.$dbReservationPeriod->from.' - '.$dbReservationPeriod->to.var_dump($dbReservationPeriod->getErrors()),
+            'message' => 'Ошибка при сохранении периода '.$dbReservationPeriod->from.' - '.$dbReservationPeriod->to,
           ];
         }
       } else {

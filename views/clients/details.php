@@ -343,8 +343,8 @@ InterruptReservationWidget::end();
 
         $('.approve-order').on('click', function () {
             var data = $(this).data(),
-                $pricePerDay = $(this).closest('tr').find('.price-per-day');
-            data.cost = $pricePerDay.val() * $pricePerDay.data('period');
+                $cost = $(this).closest('tr').find('.cost');
+            data.cost = $cost.html();
             colorApp.utilities.ajaxHelper.post({
                 url: GATEWAY_URLS.APPROVE_ORDER,
                 data: data

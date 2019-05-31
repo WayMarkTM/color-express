@@ -36,11 +36,11 @@ class ReservationPeriodController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['save-periods'],
+                'only' => ['save-periods', 'save-period'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['save-periods'],
+                        'actions' => ['save-periods', 'save-period'],
                         'roles' => ['employee'],
                     ],
                 ],
@@ -52,6 +52,23 @@ class ReservationPeriodController extends Controller
         $this->advertisingConstructionReservationPeriodService = new AdvertisingConstructionReservationPeriodService();
         $this->userService = new UserService();
         parent::init();
+    }
+
+    public function actionSavePeriod() {
+        $this->enableCsrfValidation = false;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $model = Yii::$app->request->post();
+
+        if (!Yii::$app->request->isAjax) {
+            return new MethodNotAllowedHttpException();
+        }
+
+        $reservationId = $model['reservationId'];
+        // { id, price, from, to }
+        $period = $model['period'];
+
+        return $this->advertisingConstructionReservationPeriodService->savePeriod($reservationId, $period);
     }
 
     public function actionSavePeriods() {
