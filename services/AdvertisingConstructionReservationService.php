@@ -519,9 +519,25 @@ class AdvertisingConstructionReservationService
 
     public function deleteOldReservation()
     {
-        AdvertisingConstructionReservation::deleteAll('reserv_till <= '. new Expression('CURDATE()') . ' and (status_id = '.
-            AdvertisingConstructionStatuses::RESERVED .' OR status_id = '. AdvertisingConstructionStatuses::APPROVED_RESERVED .' )');
-        echo 'Deleted old reservation is ended';
+        $reservations = AdvertisingConstructionReservation::find()
+            ->where('reserv_till <= '. new Expression('CURDATE()'))
+            ->andWhere('status_id = '.AdvertisingConstructionStatuses::RESERVED.' OR status_id = '.AdvertisingConstructionStatuses::APPROVED_RESERVED)
+            ->all();
+
+        echo 'Deleting '. count($reservations) .' old reservation... ';
+
+        foreach ($reservations as $reservation) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                AdvertisingConstructionReservationPeriod::deleteAll('advertising_construction_reservation_id = '.$reservation->id);
+                $reservation->delete();
+                $transaction->commit();
+            } catch (Exception $e) {
+                $transaction->rollback();
+            }
+        }
+
+        echo 'Deleting old reservations is finished';
     }
 
     /**
