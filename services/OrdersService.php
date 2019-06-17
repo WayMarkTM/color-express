@@ -103,6 +103,13 @@ class OrdersService
         }
     }
 
+    public function buyReservation($reservationId) {
+        $reservation = AdvertisingConstructionReservation::findOne($reservationId);
+        $reservation->status_id = AdvertisingConstructionStatuses::IN_BASKET_ORDER;
+        $reservation->employee_id = Yii::$app->user->getId();
+        $reservation->save();
+    }
+
     /**
      * @param integer $id
      * @param integer $status

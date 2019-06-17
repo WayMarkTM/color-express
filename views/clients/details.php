@@ -187,7 +187,7 @@ InterruptReservationWidget::end();
                         ],
                         [
                             'class' => 'yii\grid\ActionColumn',
-                            'template' => '{confirm}{cancel}{interrupt}{delete}',
+                            'template' => '{confirm}{buy}{cancel}{interrupt}{delete}',
                             'header' => 'Управление',
                             'headerOptions' => ['width' => '300', 'class' => 'text-center'],
                             'contentOptions' =>['class' => 'text-center'],
@@ -199,6 +199,14 @@ InterruptReservationWidget::end();
                                         'data-user-id' => $model->user_id,
                                         'data-id' => $model->id,
                                         'style' => 'width:50%;'.($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ? '' : 'display: none;')
+                                    ]);
+                                },
+                                'buy' => function ($url, $model) {
+                                    return Html::a('Купить', '#', [
+                                        'title' => 'Купить',
+                                        'class' => 'custom-btn sm blue buy-reservation',
+                                        'style' => 'width: 50%;'.($model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED ? '' : 'display:none;'),
+                                        'data-id' => $model->id
                                     ]);
                                 },
                                 'cancel' => function ($url, $model) {
@@ -223,7 +231,7 @@ InterruptReservationWidget::end();
                                     return Html::a('Удалить', '#', [
                                         'title' => 'Удалить',
                                         'class' => 'custom-btn sm red delete-reservation',
-                                        'style' => 'width: 50%;'.($model->status_id == AdvertisingConstructionStatuses::APPROVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED ? '' : 'display:none;'),
+                                        'style' => 'width: 50%;'.($model->status_id == AdvertisingConstructionStatuses::APPROVED ? '' : 'display:none;'),
                                         'data-id' => $model->id
                                     ]);
                                 }
@@ -361,6 +369,23 @@ InterruptReservationWidget::end();
             $('#interrupt-reservation-modal #interruptionform-cost').val(data.cost);
             $('#interrupt-reservation-modal').modal('show');
 
+        });
+
+        $('.buy-reservation').on('click', function (e) {
+            e.preventDefault();
+            var data = $(this).data();
+            colorApp.utilities.ajaxHelper.post({
+                url: GATEWAY_URLS.BUY_RESERVATION,
+                data: data
+            }).done(function (result) {
+                if (result.success) {
+                    window.location.href = '/shopping-cart/index';
+                } else {
+                    toastr.error('Произошла ошибка.');
+                }
+            }).catch(function () {
+                toastr.error('Произошла ошибка.');
+            });
         });
 
         $('.delete-reservation').on('click', function (e) {
