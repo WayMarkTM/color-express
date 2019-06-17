@@ -3,6 +3,7 @@
 use kartik\file\FileInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\AdvertisingConstructionForm */
@@ -72,6 +73,34 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'stock_text')->textInput() ?>
 
     <?= $form->field($model, 'is_published')->checkBox(['selected' => $model->is_published]) ?>
+    
+    <div class="form-group">
+        <?php
+            $rangeLayout = '<div class="row">
+                <div class="col-md-4">'.
+                '<label class="range-prefix">Демонтаж с </label>{input1}'.
+                '</div><div class="col-md-4">'.
+                '<label class="range-prefix">по </label>{input2}'.
+                '</div></div>';
+
+
+            echo DatePicker::widget([
+                'type' => DatePicker::TYPE_RANGE,
+                'name' => 'dismantling_from',
+                'attribute' => 'dismantling_from',
+                'name2' => 'dismantling_to',
+                'attribute2' => 'dismantling_to',
+                'layout' => $rangeLayout,
+                'form' => $form,
+                'model' => $model,
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'todayHighlight' => true,
+                    'format' => 'dd.mm.yyyy'
+                ]
+            ]);
+        ?>
+    </div>
 
     <?= $form->field($model, 'youtube_ids')->textInput() ?>
 

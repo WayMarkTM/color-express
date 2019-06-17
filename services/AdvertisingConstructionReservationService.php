@@ -102,6 +102,11 @@ class AdvertisingConstructionReservationService
      */
     private function checkOutReservation($reservation, $thematic, $comment) {
         try {
+            if ($this->isOnDismantling($model)) {
+                $construction = AdvertisingConstruction::findOne($reservation['advertising_construction_id']);
+                return 'Конструкция '.$construction->name.' ('.$construction->address.') будет на демонтаже c '.$construction->dismantling_from.' по '.$construction->dismantling_to;
+            }
+
             if (!$this->isDateRangesValid($reservation)) {
                 $construction = AdvertisingConstruction::findOne($reservation['advertising_construction_id']);
                 return 'Конструкция '.$construction->name.' ('.$construction->address.') забронирована на даты c '.$reservation['from'].' по '.$reservation['to'];
@@ -200,7 +205,13 @@ class AdvertisingConstructionReservationService
             $userId = Yii::$app->user->getId();
         }
 
-        // TODO: add validation on busy construction
+        if ($this->isOnDismantling($model)) {
+            return [
+                'isValid' => false,
+                'message' => 'Данные даты попадают на даты демонтажа конструкции.'
+            ];
+        }
+
         if (!$this->isDateRangesValid($model)) {
             return [
                 'isValid' => false,
@@ -327,8 +338,12 @@ class AdvertisingConstructionReservationService
             $bookingsResult = array();
             foreach($bookings as $booking) {
                 if ($this->isClientAndManagerFilterPassed($client, $manager, $booking)) {
-                    foreach ($booking->advertisingConstructionReservationPeriods as $reservationPeriod) {
-                        array_push($bookingsResult, $this->mapReservationForSummary($booking, $reservationPeriod, 'booking'));
+                    if ($this->isReservationContinuous($booking)) {
+                        array_push($bookingsResult, $this->mapReservationForSummary($booking, null, 'booking'));
+                    } else {
+                        foreach ($booking->advertisingConstructionReservationPeriods as $reservationPeriod) {
+                            array_push($bookingsResult, $this->mapReservationForSummary($booking, $reservationPeriod, 'booking'));
+                        }
                     }
                 }
             }
@@ -337,8 +352,12 @@ class AdvertisingConstructionReservationService
             $reservationsResult = array();
             foreach($reservations as $reservation) {
                 if ($this->isClientAndManagerFilterPassed($client, $manager, $reservation)) {
-                    foreach ($reservation->advertisingConstructionReservationPeriods as $reservationPeriod) {
-                        array_push($reservationsResult, $this->mapReservationForSummary($reservation, $reservationPeriod, 'reservation'));
+                    if ($this->isReservationContinuous($reservation)) {
+                        array_push($reservationsResult, $this->mapReservationForSummary($reservation, null, 'reservation'));
+                    } else {
+                        foreach ($reservation->advertisingConstructionReservationPeriods as $reservationPeriod) {
+                            array_push($bookingsResult, $this->mapReservationForSummary($reservation, $reservationPeriod, 'reservation'));
+                        }
                     }
                 }
             }
@@ -347,7 +366,11 @@ class AdvertisingConstructionReservationService
                 'id' => $construction->id,
                 'address' => $construction->address,
                 'bookings' => $bookingsResult,
-                'reservations' => $reservationsResult
+                'reservations' => $reservationsResult,
+                'dismantling' => $construction->dismantling_from != null && $construction->dismantling_to ? [
+                    'from' => $construction->dismantling_from,
+                    'to' => $construction->dismantling_to,
+                ] : null,
             ]);
         }
 
@@ -391,8 +414,8 @@ class AdvertisingConstructionReservationService
         return [
             'id' => $reservation->id,
             'reservationPeriodId' => $reservationPeriod->id,
-            'from' => $reservationPeriod->from,
-            'to' => $reservationPeriod->to,
+            'from' => $reservationPeriod != null ? $reservationPeriod->from : $reservation->from,
+            'to' => $reservationPeriod != null ? $reservationPeriod->to : $reservation->to,
             'thematic' => $reservation->thematic,
             'comment' => $reservation->comment,
             'marketing_type' => $reservation->marketingType != null ? $reservation->marketingType->name : '',
@@ -401,6 +424,25 @@ class AdvertisingConstructionReservationService
             'type' => $type,
             'reserv_till' => $reservation->reserv_till
         ];
+    }
+
+    /**
+     * @param mixed $model
+     * @return Boolean is model valid
+     */
+    public function isOnDismantling($model) {
+        $construction = AdvertisingConstruction::findOne($model['advertising_construction_id']);
+        if ($construction->dismantling_from == null || $construction->dismantling_to == null) {
+            return false;
+        }
+
+        $dateService = new DateService();
+        return $dateService->intersects(
+            new \DateTime($model['from']),
+            new \DateTime($model['to']),
+            new \DateTime($construction->dismantling_from),
+            new \DateTime($construction->dismantling_from)
+        );
     }
 
     /**
@@ -433,6 +475,10 @@ class AdvertisingConstructionReservationService
     }
 
     public function validateAndUpdateReservationRange($model) {
+        if ($this->isOnDismantling($model)) {
+            return false;
+        }
+
         if (!$this->isDateRangesValid($model)) {
             return false;
         }
@@ -555,6 +601,18 @@ class AdvertisingConstructionReservationService
         $reservation->cost = $model->cost;
         $reservation->save();
         return true;
+    }
+
+    /**
+     * @param AdvertisingConstructionReservation $reservation
+     * @return bool
+     */
+    public function isReservationContinuous($reservation) {
+        $firstPeriod = $reservation->advertisingConstructionReservationPeriods[0];
+        $lastPeriod = $reservation->advertisingConstructionReservationPeriods[count($reservation->advertisingConstructionReservationPeriods) - 1];
+        $borderTotalDays = (new \DateTime($lastPeriod->to))->diff(new \DateTime($firstPeriod->from))->days;
+        $totalDays =  (new \DateTime($reservation->to))->diff(new \DateTime($reservation->from))->days;
+        return $borderTotalDays == $totalDays;
     }
 
     public function notifyEmployeeBefore20DaysTheEndOfUse()

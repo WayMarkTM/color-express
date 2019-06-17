@@ -19,7 +19,7 @@ class StatusReportService extends BaseReportService implements iReportService
     public function generate($year, $fromMonth, $monthCount, $queryParams)
     {
         $search = new AdvertisingConstructionSearch();
-        $constructions = $search->searchItems($queryParams, true, true);
+        $constructions = $search->searchItems($queryParams, true, false, true);
         $fromDate = $this->getStartDate($year, $fromMonth);
         $toDate = $this->getEndDate($year, $fromMonth, $monthCount);
 

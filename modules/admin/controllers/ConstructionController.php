@@ -94,6 +94,14 @@ class ConstructionController extends BaseAdminController
         if ($model->load(Yii::$app->request->post())) {
             $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
             $model->documentFile = UploadedFile::getInstance($model, 'documentFile');
+            if ($model->dismantling_from != null) {
+                $model->dismantling_from = \DateTime::createFromFormat('d.m.Y', $model->dismantling_from)->format('Y-m-d');
+            }
+
+            if ($model->dismantling_to != null) {
+                $model->dismantling_to = \DateTime::createFromFormat('d.m.Y', $model->dismantling_to)->format('Y-m-d');
+            }
+
             if ($model->upload()) {
                 $id = $this->advertisingConstructionService->saveAdvertisingConstruction($model);
                 return $this->redirect(['view', 'id' => $id]);
@@ -125,6 +133,13 @@ class ConstructionController extends BaseAdminController
         if ($model->load(Yii::$app->request->post())) {
             $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
             $model->documentFile = UploadedFile::getInstance($model, 'documentFile');
+            if ($model->dismantling_from != null) {
+                $model->dismantling_from = \DateTime::createFromFormat('d.m.Y', $model->dismantling_from)->format('Y-m-d');
+            }
+
+            if ($model->dismantling_to != null) {
+                $model->dismantling_to = \DateTime::createFromFormat('d.m.Y', $model->dismantling_to)->format('Y-m-d');
+            }
 
             if ($model->upload()) {
                 $id = $this->advertisingConstructionService->saveAdvertisingConstruction($model);

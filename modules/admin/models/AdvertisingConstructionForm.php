@@ -13,6 +13,7 @@ use app\models\constants\AdvertisingConstructionTypes;
 use app\models\entities\AdvertisingConstruction;
 use app\models\entities\AdvertisingConstructionImage;
 use Yii;
+use yii\helpers\Json;
 use yii\base\Model;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
@@ -37,6 +38,8 @@ class AdvertisingConstructionForm extends Model
     public $longitude;
     public $use_manual_coordinates;
     public $youtube_ids;
+    public $dismantling_from;
+    public $dismantling_to;
     public $meta_description;
     public $meta_title;
     public $meta_keywords;
@@ -57,6 +60,7 @@ class AdvertisingConstructionForm extends Model
             [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
             [['nearest_locations', 'latitude', 'longitude', 'stock_text'], 'string'],
             [['size_id', 'type_id'], 'integer'],
+            [['dismantling_from', 'dismantling_to'], 'safe'],
             [['has_traffic_lights', 'is_published', 'use_manual_coordinates', 'has_stock'], 'boolean'],
             [['price'], 'number'],
             [['youtube_ids'], 'string'],
@@ -91,6 +95,8 @@ class AdvertisingConstructionForm extends Model
             'longitude' => 'Долгота',
             'use_manual_coordinates' => 'Использовать ручной ввод координат (в противном случае используется сторонний API для получения координат по адресу)',
             'youtube_ids' => 'ID видео из youtube, разделенные ";"',
+            'dismantling_from' => 'Демонтаж с',
+            'dismantling_to' => 'Демонтаж по',
             'meta_title' => 'Заголовок страницы',
             'meta_keywords' => 'Мета-тэг keywords',
             'meta_description' => 'Мета-тэг description'
@@ -121,6 +127,8 @@ class AdvertisingConstructionForm extends Model
         $model->meta_description = $this->meta_description;
         $model->meta_title = $this->meta_title;
         $model->meta_keywords = $this->meta_keywords;
+        $model->dismantling_from = $this->dismantling_from;
+        $model->dismantling_to = $this->dismantling_to;
 
         return $model;
     }
@@ -183,7 +191,12 @@ class AdvertisingConstructionForm extends Model
         $model->meta_description = $entity->meta_description;
         $model->meta_title = $entity->meta_title;
         $model->meta_keywords = $entity->meta_keywords;
-
+        $model->dismantling_from = $entity->dismantling_from != null ?
+            date('d.m.Y', strtotime($entity->dismantling_from)) :
+            null;
+        $model->dismantling_to = $entity->dismantling_to != null ?
+            date('d.m.Y', strtotime($entity->dismantling_to)) :
+            null;
         $model->uploaded_images = array();
 
         foreach ($entity->advertisingConstructionImages as $entityImage) {

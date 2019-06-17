@@ -91,7 +91,7 @@ class ConstructionController extends Controller
         $this->view->title = $seoService->getTitleAndSetMetaData(PageKey::CATALOG);
 
         $searchModel = new AdvertisingConstructionSearch();
-        $searchResults = $searchModel->searchItems(Yii::$app->request->queryParams, true, true);
+        $searchResults = $searchModel->searchItems(Yii::$app->request->queryParams, true, true, true);
 
         $sizes = AdvertisingConstructionService::getAdvertisingConstructionSizeDropdownItems($searchModel->type_id);
         $types = AdvertisingConstructionService::getAdvertisingConstructionTypeDropdownItems();
@@ -214,7 +214,7 @@ class ConstructionController extends Controller
         $address = Yii::$app->request->post('address');
 
         $searchModel = new AdvertisingConstructionSearch();
-        $searchResults = $searchModel->searchItems(Yii::$app->request->queryParams, true);
+        $searchResults = $searchModel->searchItems(Yii::$app->request->queryParams, true, false);
         $timelinesItems = $this->advertisingConstructionReservationService->getBookingsAndReservationForConstructions($searchResults, $address, $client, $manager);
 
         $managers = $this->userService->employeeDropDown();

@@ -43,6 +43,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'has_stock',
             'stock_text',
             'is_published',
+            'dismantling_from',
+            'dismantling_to',
             'youtube_ids',
             'meta_title',
             'meta_description',

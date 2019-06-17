@@ -27,6 +27,8 @@ use Yii;
  * @property string $meta_title
  * @property string $meta_description
  * @property string $meta_keywords
+ * @property string $dismantling_from
+ * @property string $dismantling_to
  *
  * @property AdvertisingConstructionSize $size
  * @property AdvertisingConstructionType $type
@@ -54,6 +56,7 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
             [['name', 'address', 'size_id', 'price', 'type_id'], 'required'],
             [['nearest_locations', 'traffic_info', 'latitude', 'longitude', 'requirements_document_path', 'stock_text'], 'string'],
             [['size_id', 'type_id'], 'integer'],
+            [['dismantling_from', 'dismantling_to'], 'safe'],
             [['has_traffic_lights', 'is_published', 'has_stock'], 'boolean'],
             [['price'], 'number'],
             [['youtube_ids'], 'string'],
@@ -90,7 +93,9 @@ class AdvertisingConstruction extends \yii\db\ActiveRecord
             'youtube_ids' => 'ID видео из youtube, разделенные ;',
             'meta_title' => 'Заголовок страницы',
             'meta_keywords' => 'Мета-тэг keywords',
-            'meta_description' => 'Мета-тэг description'
+            'meta_description' => 'Мета-тэг description',
+            'dismantling_from' => 'Демонтаж с',
+            'dismantling_to' => 'Демонтаж по',
         ];
     }
 

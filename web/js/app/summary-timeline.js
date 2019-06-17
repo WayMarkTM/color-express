@@ -73,6 +73,18 @@
         _.forEach(tl.reservations, function (reservation) {
             items.push(mapReservation(reservation, tl.id));
         })
+
+        if (tl.dismantling) {
+            items.push({
+                id: '#' + tl.id,
+                title: 'Демонтаж с ' + tl.dismantling.from + ' по ' + tl.dismantling.to,
+                content: 'Демонтаж',
+                start: tl.dismantling.from,
+                end: tl.dismantling.to,
+                group: tl.id,
+                className: 'dismantling',
+            });
+        }
     });
 
     var dataSet = new vis.DataSet(items);

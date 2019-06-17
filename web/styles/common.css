@@ -632,6 +632,10 @@ table td a:hover {
     border-radius: 0;
 }
 
+.vis-item.dismantling {
+    background-color: darkgray;
+}
+
 .vis-item.reserved {
     background: repeating-linear-gradient(
         135deg,

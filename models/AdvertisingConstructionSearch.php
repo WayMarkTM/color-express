@@ -91,7 +91,7 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
         return $dataProvider;
     }
 
-    public function searchItems($params, $showOnlyPublished, $setDefaultTypeId = false) {
+    public function searchItems($params, $showOnlyPublished, $hideDismantling, $setDefaultTypeId = false) {
         $query = AdvertisingConstruction::find();
 
         if (isset($params['ids'])) {
@@ -119,6 +119,11 @@ class AdvertisingConstructionSearch extends AdvertisingConstruction
 
         if ($showOnlyPublished) {
             $query = $query->where(['=', 'is_published', '1']);
+        }
+
+        if ($hideDismantling) {
+            $today = (new \DateTime('now'))->format('Y-m-d');
+            $query = $query->andWhere('(`dismantling_from` IS NULL OR `dismantling_from` > \''.$today.'\') OR (`dismantling_to` IS NULL OR `dismantling_to` < \''.$today.'\')');
         }
 
         $query->andFilterWhere([

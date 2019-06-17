@@ -25,7 +25,7 @@ class BusyReportService extends BaseReportService implements iReportService
     public function generate($year, $fromMonth, $monthCount, $queryParams)
     {
         $search = new AdvertisingConstructionSearch();
-        $constructions = $search->searchItems($queryParams, true, true);
+        $constructions = $search->searchItems($queryParams, true, false, true);
 
         $data = array();
         array_push($data, $this->getColumnTitles($monthCount, $fromMonth, $queryParams['AdvertisingConstructionSearch']['type_id']));
