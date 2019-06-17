@@ -8,6 +8,16 @@
 
     clientDocumentsCtrl.$inject = ['documentDataService', 'months', '$scope'];
 
+    documentModule
+        .config(appconfig);
+
+    appconfig.$inject = ['$httpProvider'];
+
+    function appconfig($httpProvider){
+        $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+        $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name="csrf-token"]').attr('content');
+    }
+
     function clientDocumentsCtrl(documentDataService, months, $scope) {
         var vm = this;
 
@@ -22,6 +32,8 @@
         vm.openAddDocumentModal = openAddDocumentModal;
         vm.openAddSubclientModal = openAddSubclientModal;
         vm.openAddContractModal = openAddContractModal;
+        vm.onTermPaymentInput = onTermPaymentInput;
+        vm.updateTermPayment = updateTermPayment;
         vm.deleteDocument = deleteDocument;
         vm.deleteContract = deleteContract;
         vm.deleteSubclient = deleteSubclient;
@@ -30,6 +42,7 @@
         function init() {
             vm.isDocumentsLoading = false;
             vm.isContractsLoading = false;
+            vm.isTermPaymentDirty = false;
 
             if (!!subclients && subclients.length > 0) {
                 initSubclients();
@@ -45,17 +58,24 @@
 
         function initSubclients() {
             vm.subclients = subclients;
+            vm.termPayment = subclients[0].term_payment;
         }
 
         function onSelectedSubclientChanged(newVal, oldVal) {
             if (newVal != oldVal) {
                 vm.calendar = null;
                 vm.selectedYear = null;
+                vm.isTermPaymentDirty = false;
             }
         }
 
         function selectSubclient(subclient) {
+            if (!subclient) {
+                return;
+            }
+
             vm.selectedSubclientId = subclient.id;
+            vm.termPayment = subclient.term_payment;
 
             documentDataService.loadSubclientCalendar(subclient.id)
                 .then(initCalendar);
@@ -66,6 +86,11 @@
             vm.years = _.keys(vm.calendar);
             vm.months = months;
         }
+
+        function onTermPaymentInput() {
+            vm.isTermPaymentDirty = true;
+        }
+
 
         function onSelectedYearChanged(newVal, oldVal) {
             if (newVal != oldVal) {
@@ -128,6 +153,20 @@
 
         function getContractLink(contract) {
             return '/uploads/contracts/' + selectedUserId + '/' + vm.selectedYear + '/' + contract.path;
+        }
+
+        function updateTermPayment() {
+            documentDataService.updateTermPayment(vm.selectedSubclientId, vm.termPayment)
+                .then(function() {
+                    subclients.some(function (subclient) {
+                        if (subclient.id === vm.selectedSubclientId) {
+                            subclient.term_payment = vm.termPayment;
+
+                            return true;
+                        }
+                    });
+                    toastr.success('Условия оплаты обновлены');
+                });
         }
 
         function deleteDocument($index, document) {
@@ -207,7 +246,8 @@
             loadSubclientCalendar: loadSubclientCalendar,
             deleteDocument: deleteDocument,
             deleteContract: deleteContract,
-            deleteSubclient: deleteSubclient
+            deleteSubclient: deleteSubclient,
+            updateTermPayment: updateTermPayment,
         };
 
         function loadCalendar() {
@@ -250,6 +290,15 @@
                 .then(function (response) {
                     return response.data.calendar;
                 });
+        }
+
+        function updateTermPayment(subclientId, termPayment) {
+            var url = GATEWAY_URLS.UPDATE_TERM_PAYMENT;
+
+            return $http.post(url, {
+                subclientId: subclientId,
+                termPayment: termPayment
+            });
         }
 
         function deleteDocument(documentId) {

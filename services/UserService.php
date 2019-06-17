@@ -16,6 +16,7 @@ use app\models\ClientModel;
 use app\models\RegistrationRequestModel;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
+use app\services\SubclientService;
 
 class UserService
 {
@@ -47,8 +48,16 @@ class UserService
             $user->setPassword($signupForm->password);
         }
 
-        if($user->validate() && $user->save())
+        if($user->validate() && $user->save()) {
+            if ($user->is_agency == 0) {
+                $subclientService = new SubclientService();
+
+                $subclientService->createSubclient(null, $user->id);
+            }
+
             return $user;
+        }
+
         return false;
     }
 
