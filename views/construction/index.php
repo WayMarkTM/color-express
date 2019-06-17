@@ -147,7 +147,7 @@ if ($this->title == null || $this->title == '') {
                                 <th class="text-center">Название</th>
                                 <th class="text-center">Адрес</th>
                                 <th class="text-center">Размер</th>
-                                <th class="text-center" style="width: 150px;">Цена в день, с НДС (BYN)</th>
+                                <th class="text-center" style="width: 150px;">Цена в день, с НДС (BYN) для бел./иностр. ТМ</th>
                                 <th class="text-center">Занятость</th>
                                 <th class="text-center"></th>
                             </tr>

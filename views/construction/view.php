@@ -248,6 +248,11 @@ $this->registerJs('var isGuest = '.json_encode(Yii::$app->user->isGuest).';', $p
                     <div class="details-row">
                         <p><span class="bold">Светофоры:</span> <?php echo $model->has_traffic_lights ? 'есть' : 'нет'; ?></p>
                     </div>
+                    <?php if (Yii::$app->user->getId() != null) { ?>
+                    <div class="details-row">
+                        <p><span class="bold">Цена в день, с НДС (BYN) для бел./иностр. ТМ: </span> <?php echo number_format($model->price, 2, ".", ""); ?></p>
+                    </div>
+                    <?php } ?>
                     <div class="details-row">
                         <a href="/<?php echo $model->requirements_document_path; ?>">Скачать технические требования для печати плаката.</a>
                     </div>
