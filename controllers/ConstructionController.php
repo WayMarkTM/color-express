@@ -131,13 +131,18 @@ class ConstructionController extends Controller
 
         $isNotificate = AdvertisiongConstructionNotificationService::getIsNotificate($id);
 
+        $constructionPrice = Yii::$app->user->getId() != null ?
+            $this->advertisingConstructionReservationService->getReservationPrice($id, null, Yii::$app->user->getId()) :
+            null;
+
         return $this->render('view', [
             'model' => $model,
             'reservationModel' => $reservationModel,
             'bookings' => $bookings,
             'reservations' => $reservations,
             'marketingTypes' => $marketing_types,
-            'isNotificate' => $isNotificate
+            'isNotificate' => $isNotificate,
+            'constructionPrice' => $constructionPrice,
         ]);
     }
 

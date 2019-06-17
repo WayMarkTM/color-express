@@ -540,13 +540,15 @@ class AdvertisingConstructionReservationService
      * @param int $user_id
      * @return float Price
      */
-    private function getReservationPrice($constructionId, $marketingTypeId, $user_id) {
+    public function getReservationPrice($constructionId, $marketingTypeId, $user_id) {
         $construction = AdvertisingConstruction::findOne($constructionId);
-        $marketing_type = MarketingType::findOne($marketingTypeId);
+        $marketing_type_charge = $marketingTypeId != null ?
+            MarketingType::findOne($marketingTypeId)->charge :
+            0;
         $user = User::findOne($user_id);
 
         $agency_charge = $user->is_agency ? SystemConstants::AGENCY_PERCENT : 0;
-        return $construction->price * (100 + $marketing_type->charge) / 100 * (100 - $agency_charge) / 100;
+        return $construction->price * (100 + $marketing_type_charge) / 100 * (100 - $agency_charge) / 100;
     }
 
     /**
