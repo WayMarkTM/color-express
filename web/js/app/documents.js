@@ -43,17 +43,19 @@
             vm.isDocumentsLoading = false;
             vm.isContractsLoading = false;
             vm.isTermPaymentDirty = false;
-
-            if (!!subclients && subclients.length > 0) {
+            if (!!subclients && subclients.length > 0 && subclients[0].name != 'По умолчанию') {
+                vm.isAgency = true;
                 initSubclients();
                 $scope.$watch(function () { return vm.selectedSubclientId; }, onSelectedSubclientChanged)
             } else {
+                vm.isAgency = false;
+                vm.selectedSubclientId = subclients[0].id;
+                vm.termPayment = subclients[0].term_payment;
                 initCalendar(documentCalendar);
             }
 
             $scope.$watch(function () { return vm.selectedYear; }, onSelectedYearChanged);
             $scope.$watch(function () { return vm.selectedMonthId; }, onSelectedMonthChanged);
-
         }
 
         function initSubclients() {
@@ -99,7 +101,7 @@
                 vm.isContractsLoading = true;
 
                 vm.contracts = null;
-                documentDataService.loadContracts(vm.selectedYear, vm.selectedSubclientId)
+                documentDataService.loadContracts(vm.selectedYear, vm.isAgency ? vm.selectedSubclientId : null)
                     .then(onContractsLoaded)
                     .finally(function () {
                         vm.isContractsLoading = false;
@@ -111,7 +113,7 @@
             if (newVal != oldVal && newVal != null) {
                 vm.documents = null;
                 vm.isDocumentsLoading = true;
-                documentDataService.loadDocuments(vm.selectedYear, vm.selectedMonthId, vm.selectedSubclientId)
+                documentDataService.loadDocuments(vm.selectedYear, vm.selectedMonthId, vm.isAgency ? vm.selectedSubclientId : null)
                     .then(onDocumentsLoaded)
                     .finally(function () {
                         vm.isDocumentsLoading = false;
