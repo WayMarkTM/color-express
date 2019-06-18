@@ -231,7 +231,7 @@ InterruptReservationWidget::end();
                                     return Html::a('Удалить', '#', [
                                         'title' => 'Удалить',
                                         'class' => 'custom-btn sm red delete-reservation',
-                                        'style' => 'width: 50%;'.($model->status_id == AdvertisingConstructionStatuses::APPROVED ? '' : 'display:none;'),
+                                        'style' => 'width: 50%;'.($model->status_id == AdvertisingConstructionStatuses::APPROVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED ? '' : 'display:none;'),
                                         'data-id' => $model->id
                                     ]);
                                 }
