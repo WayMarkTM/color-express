@@ -45,7 +45,7 @@ use yii\widgets\ActiveForm;
                         ]
                     ]); ?>
 
-                    <?= $form->field($interruptionForm, 'cost')->textInput(['placeholder' => 'Стоимость за период (BYN)']) ?>
+                    <?= $form->field($interruptionForm, 'cost')->textInput(['placeholder' => 'Стоимость за период, с НДС (BYN) для бел./иностр. ТМ']) ?>
 
                     <div class="form-group">
                         <div class="col-sm-12">

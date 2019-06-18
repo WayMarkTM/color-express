@@ -124,13 +124,13 @@ $this->title = 'Мои заказы';
                 ],
                 [
                     'attribute' => 'advertisingConstruction.price',
-                    'header' => $isAgency ? 'Прайсовая стоимость в день, с НДС (BYN)' : 'Стоимость в день, с НДС (BYN)',
+                    'header' => $isAgency ? 'Прайсовая цена в день, с НДС (BYN) для бел./иностр. ТМ' : 'Цена в день, с НДС (BYN) для бел./иностр. ТМ',
                     'headerOptions' => ['width' => '120', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
                 ],
                 [
                     'attribute' => 'cost',
-                    'header' => $isAgency ? 'Стоимость со скидкой за период, с НДС (BYN)' : 'Стоимость за период, с НДС (BYN)',
+                    'header' => $isAgency ? 'Стоимость со скидкой за период, с НДС (BYN) для бел./иностр. ТМ' : 'Стоимость за период, с НДС (BYN) для бел./иностр. ТМ',
                     'headerOptions' => ['width' => '120', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
                 ],
@@ -169,7 +169,7 @@ $this->title = 'Мои заказы';
 
             if ($isAgency) {
                 $stockPrice = array([
-                    'label' => 'Стоимость в день со скидкой, с НДС (BYN)',
+                    'label' => 'Стоимость в день со скидкой, с НДС (BYN) для бел./иностр. ТМ',
                     'headerOptions' => ['width' => '120', 'class' => 'text-center'],
                     'contentOptions' =>['class' => 'text-center'],
                     'value' => function ($model) {

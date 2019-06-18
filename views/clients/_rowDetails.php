@@ -49,8 +49,8 @@ $dataProvider = new ArrayDataProvider([
         <tr>
           <th class="text-center" style="width: 120px">С</th>
           <th class="text-center" style="width: 120px">По</th>
-          <th class="text-center" style="width: 120px">Стоимость в день, BYN</th>
-          <th class="text-center" style="width: 120px">Стоимость за период, BYN</th>
+          <th class="text-center" style="width: 120px">Цена в день, с НДС (BYN) для бел./иностр. ТМ</th>
+          <th class="text-center" style="width: 120px">Стоимость за период, с НДС (BYN) для бел./иностр. ТМ</th>
           <th class="text-center" style="width: auto"></th>
         </tr>
       </thead>
@@ -421,7 +421,7 @@ $dataProvider = new ArrayDataProvider([
         }
       ],
       [
-        'label' => 'Стоимость в день, BYN',
+        'label' => 'Цена в день, с НДС (BYN) для бел./иностр. ТМ',
         'headerOptions' => ['class' => 'text-center'],
         'contentOptions' =>['class' => 'text-center'],
         'format' => 'raw',
@@ -430,7 +430,7 @@ $dataProvider = new ArrayDataProvider([
         }
       ],
       [
-        'label' => 'Стоимость за период, BYN',
+        'label' => 'Стоимость за период, с НДС (BYN) для бел./иностр. ТМ',
         'headerOptions' => ['class' => 'text-center'],
         'contentOptions' =>['class' => 'text-center period-cost'],
         'value' => function ($model) {

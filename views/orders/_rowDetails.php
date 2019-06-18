@@ -26,7 +26,7 @@ use yii\widgets\Pjax;
       }
     ],
     [
-      'label' => 'Стоимость в день, BYN',
+      'label' => 'Стоимость в день, с НДС (BYN) для бел./иностр. ТМ',
       'headerOptions' => ['class' => 'text-center'],
       'contentOptions' =>['class' => 'text-center'],
       'value' => function ($model) {
@@ -34,7 +34,7 @@ use yii\widgets\Pjax;
       }
     ],
     [
-      'label' => 'Стоимость за период, BYN',
+      'label' => 'Стоимость за период, с НДС (BYN) для бел./иностр. ТМ',
       'headerOptions' => ['class' => 'text-center'],
       'contentOptions' =>['class' => 'text-center'],
       'value' => function ($model) {

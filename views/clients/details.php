@@ -159,7 +159,7 @@ InterruptReservationWidget::end();
                             'url' => Url::to(['row-details']),
                         ],
                         [
-                            'label' => 'Стоимость в день, BYN ',
+                            'label' => 'Цена в день, с НДС (BYN) для бел./иностр. ТМ',
                             'headerOptions' => ['width' => '140', 'class' => 'text-center'],
                             'contentOptions' =>['class' => 'text-center'],
                             'format' => 'raw',
@@ -180,7 +180,7 @@ InterruptReservationWidget::end();
                             }
                         ],
                         [
-                            'label' => 'Стоимость за период, BYN',
+                            'label' => 'Стоимость за период, с НДС (BYN) для бел./иностр. ТМ',
                             'headerOptions' => ['width' => '140', 'class' => 'text-center'],
                             'contentOptions' =>['class' => 'text-center cost'],
                             'attribute' => 'cost'

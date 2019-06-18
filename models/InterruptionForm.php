@@ -29,7 +29,7 @@ class InterruptionForm extends Model
     {
         return [
             'toDate' => 'Дата окончания',
-            'cost' => 'Стоимость за период (BYN)'
+            'cost' => 'Стоимость за период, с НДС (BYN) для бел./иностр. ТМ'
         ];
     }
 }

@@ -79,9 +79,9 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
                         <th class="text-center">Название</th>
                         <th class="text-center">Адрес</th>
                         <th class="text-center" width="240">Даты использования</th>
-                        <th class="text-center" width="140" ng-bind="$ctrl.isAgency ? 'Прайсовая стоимость в день, с НДС, BYN' : 'Стоимость в день, с НДС, BYN'"></th>
-                        <th class="text-center" width="140" ng-if="$ctrl.isAgency">Стоимость в день со скидкой, с НДС, BYN</th>
-                        <th class="text-center" width="140" ng-bind="$ctrl.isAgency ? 'Стоимость со скидкой за период, с НДС, BYN' : 'Стоимость за период, с НДС, BYN'"></th>
+                        <th class="text-center" width="140" ng-bind="$ctrl.isAgency ? 'Прайсовая цена в день, с НДС (BYN) для бел./иностр. ТМ' : 'Цена в день, с НДС (BYN) для бел./иностр. ТМ'"></th>
+                        <th class="text-center" width="140" ng-if="$ctrl.isAgency">Стоимость в день со скидкой, с НДС (BYN) для бел./иностр. ТМ</th>
+                        <th class="text-center" width="140" ng-bind="$ctrl.isAgency ? 'Стоимость со скидкой за период, с НДС (BYN) для бел./иностр. ТМ' : 'Стоимость за период, с НДС (BYN) для бел./иностр. ТМ'"></th>
                         <th class="text-center" width="180">Тип рекламы</th>
                         <th class="text-center" ng-if="$ctrl.isEmployee">Компания</th>
                         <th width="180">&nbsp;</th>
