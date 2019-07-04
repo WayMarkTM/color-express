@@ -15,6 +15,7 @@ class ReportService
 {
     const BUSY_REPORT = 1;
     const STATUS_REPORT = 2;
+    const SALES_REPORT = 3;
 
     private $dateService;
 
@@ -45,6 +46,10 @@ class ReportService
 
         if ($reportType == $this::STATUS_REPORT) {
             $reportService = new StatusReportService();
+        }
+
+        if ($reportType == $this::SALES_REPORT) {
+            $reportService = new SalesReportService();
         }
 
         if ($reportService == null) {

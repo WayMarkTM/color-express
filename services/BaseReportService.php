@@ -90,6 +90,13 @@ class BaseReportService
         }
     }
 
+    protected function saveSpreadsheet($spreadsheet) {
+        $path = $this->getPath();
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($path);
+        return $path;
+    }
+
     protected function saveExcelFile($xls) {
         $path = $this->getPath();
         $objWriter = new PHPExcel_Writer_Excel2007($xls);

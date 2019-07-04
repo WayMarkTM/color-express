@@ -4,6 +4,8 @@ namespace app\models\entities;
 
 use Yii;
 
+use app\models\constants\AdvertisingConstructionStatuses;
+
 /**
  * This is the model class for table "advertising_construction_reservation".
  *
@@ -71,6 +73,28 @@ class AdvertisingConstructionReservation extends \yii\db\ActiveRecord
             'marketing_type_id' => 'Тип рекламы',
             'comment' => 'Комментарий'
         ];
+    }
+
+    public function getStatusName() {
+        $result = $this->status->name;
+
+        if ($this->status_id == AdvertisingConstructionStatuses::APPROVED) {
+            foreach ($this->advertisingConstructionReservationPeriods as $period) {
+                if (new \DateTime($period->to) > new \DateTime()) {
+                    $result = 'Текущий';
+                }
+            }
+
+            if ($result != 'Текущий') {
+                $result = 'Завершенный';
+            }
+        }
+
+        if ($this->status_id == AdvertisingConstructionStatuses::RESERVED || $this->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED) {
+            $result .= ' '.(new DateTime($this->reserv_till))->format('d.m');
+        }
+
+        return $result;
     }
 
     /**

@@ -77,12 +77,11 @@ class AdvertisingConstructionReservationService
 
     private function validateFrontendReservations($reservations) {
         $result = array();
-        $dateService = new DateService();
 
         foreach ($reservations as $reservation1) {
             foreach ($reservations as $reservation2) {
                 if ($reservation1['advertising_construction_id'] == $reservation2['advertising_construction_id'] && $reservation1['id'] != $reservation2['id']) {
-                    if ($dateService->intersects(new \DateTime($reservation1['from']), new \DateTime($reservation1['to']),
+                    if (DateService::intersects(new \DateTime($reservation1['from']), new \DateTime($reservation1['to']),
                         new \DateTime($reservation2['from']), new \DateTime($reservation2['to']))) {
 
                         array_push($result, 'Даты бронирований конструкций "'.$reservation1['name'] .'" и "'.$reservation2['name'].'" пересекаются.');
@@ -436,8 +435,7 @@ class AdvertisingConstructionReservationService
             return false;
         }
 
-        $dateService = new DateService();
-        return $dateService->intersects(
+        return DateService::intersects(
             new \DateTime($model['from']),
             new \DateTime($model['to']),
             new \DateTime($construction->dismantling_from),
@@ -455,10 +453,9 @@ class AdvertisingConstructionReservationService
             ->andFilterWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED_RESERVED , AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)])
             ->all();
 
-        $dateService = new DateService();
         foreach ($reservations as $reservation) {
             foreach ($reservation->advertisingConstructionReservationPeriods as $reservationPeriod) {
-                if ($dateService->intersects(new \DateTime($model['from']), new \DateTime($model['to']), new \DateTime($reservationPeriod->from), new \DateTime($reservationPeriod->to))) {
+                if (DateService::intersects(new \DateTime($model['from']), new \DateTime($model['to']), new \DateTime($reservationPeriod->from), new \DateTime($reservationPeriod->to))) {
                     return false;
                 }
             }

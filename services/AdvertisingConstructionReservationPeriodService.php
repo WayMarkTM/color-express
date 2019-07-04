@@ -61,11 +61,9 @@ class AdvertisingConstructionReservationPeriodService
   }
 
   function validatePeriod($reservations, $period) {
-    $dateService = new DateService();
-
     foreach ($reservations as $reservation) {
       foreach ($reservation->advertisingConstructionReservationPeriods as $reservationPeriod) {
-          if ($dateService->intersects(new \DateTime($period['from']), new \DateTime($period['to']), new \DateTime($reservationPeriod->from), new \DateTime($reservationPeriod->to))) {
+          if (DateService::intersects(new \DateTime($period['from']), new \DateTime($period['to']), new \DateTime($reservationPeriod->from), new \DateTime($reservationPeriod->to))) {
               return false;
           }
       }
@@ -230,7 +228,7 @@ class AdvertisingConstructionReservationPeriodService
 
   function calculatePeriodCost($reservationPeriod) {
     $days = (new \DateTime($reservationPeriod->to))->diff(new \DateTime($reservationPeriod->from))->days + 1;
-    return round($days * $reservationPeriod->price, 2);
+    return number_format(round($days * $reservationPeriod->price, 2), 2, '.', '');
   }
 }
 

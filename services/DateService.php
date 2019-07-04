@@ -16,8 +16,16 @@ class DateService
     public static $YEAR_FROM = 1900;
     public static $YEAR_TO = 2200;
 
-    public function intersects($from1, $to1, $from2, $to2) {
+    public static function intersects($from1, $to1, $from2, $to2) {
         return $from1 <= $to2 && $from2 <= $to1;
+    }
+
+    public static function calculateIntervalLength($from, $to) {
+        if (($from instanceof \DateTime) && ($to instanceof \DateTime)) {
+            return $from->diff($to)->days + 1;
+        }
+
+        return (new \DateTime($from))->diff(new \DateTime($to))->days + 1;
     }
 
     public static function comparator($a, $b) {

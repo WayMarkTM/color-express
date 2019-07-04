@@ -286,7 +286,8 @@
         function init() {
             vm.reportTypes = {
                 BUSY: '1',
-                STATUS: '2'
+                STATUS: '2',
+                SALES: '3',
             };
 
             vm.months = months;
@@ -303,7 +304,7 @@
             }];
 
             vm.model = {
-                type: vm.reportTypes.BUSY,
+                type: vm.reportTypes.SALES,
                 from: vm.months[(new Date()).getMonth()],
                 year: 1900 + (new Date()).getYear(),
                 period: vm.periods[0]
