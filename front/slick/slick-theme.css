@@ -80,6 +80,7 @@
 .slick-prev
 {
     left: 45px;
+    z-index: 1000;
 }
 [dir='rtl'] .slick-prev
 {
@@ -123,7 +124,7 @@
 {
     position: absolute;
     bottom: -25px;
-
+    
     display: block;
 
     width: 100%;
