@@ -14,7 +14,7 @@ use yii\widgets\Pjax;
       'headerOptions' => ['class' => 'text-center'],
       'contentOptions' =>['class' => 'text-center'],
       'value' => function ($model) {
-        return (new DateTime($model->from))->format('d.m.Y');
+        return (new \DateTime($model->from))->format('d.m.Y');
       }
     ],
     [
@@ -22,7 +22,7 @@ use yii\widgets\Pjax;
       'headerOptions' => ['class' => 'text-center'],
       'contentOptions' =>['class' => 'text-center'],
       'value' => function ($model) {
-        return (new DateTime($model->to))->format('d.m.Y');
+        return (new \DateTime($model->to))->format('d.m.Y');
       }
     ],
     [

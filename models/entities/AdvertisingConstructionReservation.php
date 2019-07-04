@@ -91,7 +91,7 @@ class AdvertisingConstructionReservation extends \yii\db\ActiveRecord
         }
 
         if ($this->status_id == AdvertisingConstructionStatuses::RESERVED || $this->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED) {
-            $result .= ' '.(new DateTime($this->reserv_till))->format('d.m');
+            $result .= ' '.(new \DateTime($this->reserv_till))->format('d.m');
         }
 
         return $result;

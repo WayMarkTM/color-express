@@ -116,7 +116,7 @@ InterruptReservationWidget::end();
                                 }
 
                                 if ($model->status_id == AdvertisingConstructionStatuses::RESERVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED) {
-                                    $result .= ' '.(new DateTime($model->reserv_till))->format('d.m');
+                                    $result .= ' '.(new \DateTime($model->reserv_till))->format('d.m');
                                 }
 
                                 return '<span class="'. $className .'">'.$result.'</span>';
@@ -143,7 +143,7 @@ InterruptReservationWidget::end();
                                 }
         
                                 if ($borderTotalDays == $totalDays) {
-                                    return (new DateTime($firstPeriod->from))->format('d.m.Y').' - '.(new DateTime($lastPeriod->to))->format('d.m.Y');
+                                    return (new \DateTime($firstPeriod->from))->format('d.m.Y').' - '.(new \DateTime($lastPeriod->to))->format('d.m.Y');
                                 }
                                 
                                 return '- (подробнее)';
@@ -153,7 +153,7 @@ InterruptReservationWidget::end();
                                     'id' => $model->id,
                                     'constructionId' => $model->advertising_construction_id,
                                     'isEditable' => $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ||
-                                        ($model->status_id == AdvertisingConstructionStatuses::APPROVED && new \DateTime($model->to) > new DateTime())
+                                        ($model->status_id == AdvertisingConstructionStatuses::APPROVED && new \DateTime($model->to) > new \DateTime())
                                 ];
                             },
                             'url' => Url::to(['row-details']),

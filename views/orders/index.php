@@ -88,7 +88,7 @@ $this->title = 'Мои заказы';
                         }
 
                         if ($model->status_id == AdvertisingConstructionStatuses::RESERVED || $model->status_id == AdvertisingConstructionStatuses::APPROVED_RESERVED) {
-                            $result .= ' '.(new DateTime($model->reserv_till))->format('d.m');
+                            $result .= ' '.(new \DateTime($model->reserv_till))->format('d.m');
                         }
 
                         return '<span class="'. $className .'">'.$result.'</span>';
@@ -115,7 +115,7 @@ $this->title = 'Мои заказы';
                         }
 
                         if ($borderTotalDays == $totalDays) {
-                            return (new DateTime($firstPeriod->from))->format('d.m.Y').' - '.(new DateTime($lastPeriod->to))->format('d.m.Y');
+                            return (new \DateTime($firstPeriod->from))->format('d.m.Y').' - '.(new \DateTime($lastPeriod->to))->format('d.m.Y');
                         }
                         
                         return '- (подробнее)';
