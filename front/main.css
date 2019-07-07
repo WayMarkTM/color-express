@@ -2,8 +2,27 @@
     margin:0;
     padding:0;
 }
+body{
+    max-width: 1920px;
+}
+
 a:hover{
     text-decoration: none;
+}
+.text-size{
+    text-transform: uppercase;
+}
+.text-link-pdf{
+    font-size: 12px;
+    margin-bottom: 10px;
+    text-align: right;
+    margin-right: 30px;
+}
+.link-pdf-style{
+    color: white;
+}
+.link-pdf-style:hover{
+    color: white;
 }
 .navbar{
    background-image: url(image/top-header.png);
@@ -18,27 +37,44 @@ a:hover{
 .nav-item{
     margin-right: 40px;
 } 
-.p-0{
+.navbar-toggler{
+    background-color: rgb(6, 22, 95);
+}
+
+.company-name{
+    position: absolute;
+    margin-top: 5px;
+    left: 45%;
+}
+.company-name-txt-style{
+    font-weight: bold;
+    font-size: 25px;
+    color: white;
+}
+
+.pading-indent{
 padding: 0;
 }
 .nav-link{
     color: white;
     font-weight: bold;
+    font-family: 'Franklin Gothic Demi Cond';
 }
-
-.first-link:hover{
-    color: white;
+.footer-link-style{
+    color: #b9bbc1;
+}
+.footer-link-style:hover{
+    color: #b9bbc1; 
 }
 .navbar-light .navbar-nav .nav-link {
+    color: white;
+}
+.navbar-light .navbar-nav  .nav-link:hover {
     color: white;
 }
 .navbar-light .navbar-nav .active>.nav-link {
     color: #fecd4a;
 }
-.first-link{
-    color: #fecd4a;
-}
-
 .red-block{
     height: auto;
     width: 20%;
@@ -64,7 +100,7 @@ padding: 0;
 }
 .number{
     color: white;
-    margin-top: 1%;
+    margin-top: 10px;
 }
 .p-1{
     margin: 0 auto;
@@ -74,22 +110,51 @@ padding: 0;
     
 }
 .col-block-pos{
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 .col-text-style{
-    margin-top: 8%;
+    margin-top: 40px;
 }
 .img-gal-1{
-    margin-bottom: 3%;
+    margin: 15px;
 }
 .gal1-block-pos{
-    margin-top: 3%;
+    margin-top: 30px;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 .info-block-pos{
-    margin: 3% 0 2% 0;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
+.card{
+ 
+    margin: 20px auto;
+    border:none;
+}
+.opacity-block{
+    background-color:rgba(62, 58, 56, 0.5);
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+.card-text{
+    text-align: right;
+    margin-right: 30px;
+    margin-top: 10px;
+    margin-bottom: 1px;
+}
+.card-text-gal1{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 0px;
+}
+.card-img-overlay{
+    padding: 0;
 
+}
 .img-size{
     max-width: 100%;
 }
@@ -97,27 +162,147 @@ padding: 0;
     border: none; 
     background-color: #4564a0; 
     color: #4564a0; 
-    height: 2%; 
+    height: 12px; 
 }
 .partner-block-pos{
-    margin-top: 3%;
-    margin-bottom: 5%;
+    margin-top: 30px;
+    margin-bottom: 50px;
 }
-
 footer{
     background-color: #131629;
 }
 #footer-logo-text{
+    margin-right: 20px;
+    margin-top: 10px;
     color: white;
 }
 .footer-block{
-    margin-top: 1%;
-    margin-bottom: 1%;
+    margin-left: 40px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-right: 40px;
 }
-
+.footer-links{
+    margin: 10px;
+}
 .footer-text-style{
     color:#b9bbc1;
 }
+#logo-footer-style{
+    margin-bottom: 15px;
+}
+
+
+
+
+
+
+
+
+/* exclusive-offer */
+.ex-off-pdf-link{
+    display: flex;
+}
+.ex-off-pdf-link-text{
+    color: #2b519c;
+    margin-bottom: 0;
+}
+.ex-off-share-link{
+    display: flex;
+    float: right;
+}
+.ex-off-leftside, .ex-off-rightside{
+    margin-top: 100px;
+    margin-bottom: 70px;
+}
+.ex-off-container-pos{
+    margin: 80px 40px 50px 40px;
+}
+
+
+
+/* about-company */
+.ab-com-container-pos{
+    margin: 40px 20px 25px 20px;
+}
+.company-column-img-size{
+    border-radius: 50%;
+}
+.about-company-heading{
+    font-size: 25px;
+    font-weight: 400;
+}
+
+
+
+
+
+/* contacts */
+.brands-block{
+    border-top: 2px solid #c4c2c2;
+    margin-top: 10px;
+
+}
+.col-left-brand-block{
+    margin-top: 10px;
+    width: 25%;
+}
+.col-right-brand-block{
+    width: 75%;
+    margin-left:30px;
+}
+.brand-logo{
+    margin-top: 10px;
+    border-bottom: 2px solid #c4c2c2;
+    
+}
+.brand-position{
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+#brand-text{
+    margin-top: 10px;
+    font-size: 12px;
+    color: #3f5095;
+}
+#brand-logo-text{
+    font-size: 12px;
+}
+.addres-block{
+    margin-top: 20px;
+}
+.addres-text-style{
+    margin-bottom: 0;
+}
+.number-block{
+    width: 50%;
+    display: flex;
+    position: relative;
+}
+.contact-container-pos{
+    margin-left: 110px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+.contact-title{
+    margin-top: 70px;
+    margin-left: 110px;
+    color: #484848;
+    font-weight: 400;
+}
+.img-contact-pos{
+    position: absolute;
+    top:0;
+}
+.phone-number{
+    margin-left: 55px;
+}
+.img-contact-style{
+    align-self: center;
+    margin-right: 15px;
+    
+}
+
 
 
 
@@ -129,13 +314,80 @@ footer{
     }
 }
 
+@media (max-width:1000px){
+    .img-info-block{
+        display: none;
+    }
+}
 
+@media (max-width:800px){
+    .carousel{
+        display: none;
+    }
+}
 
+@media (max-width:1000px){
+    footer{
+        text-align: center !important;
+    }
+}
+@media (max-width:500px){
+    .footer-block{
+     margin-left: 20px;
+     margin-right: 20px;
+    }
+}
+@media (max-width:1290px){
+    .navbar-expand-lg .navbar-nav .nav-link {
+     padding-left: 0;
+     padding-right: 0;
 
+    }
+    
+}
+@media (max-width:600px){
+    .partner-right {
+     display: none;
+    }
+    
+}
+@media (min-width:990px){
+    .company-name{
+        display: none;
+    }
+}
+@media (max-width:1200px){
+    .nav-link-size{
+        font-size: 13px;
+    }
+}
+@media (max-width:1050px){
+    .nav-link-size{
+        font-size: 11px;
+    }
+}
 
-
-
-
+@media (min-width:1400px){
+    .footer-block{
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+}
+@media (max-width:500px){
+    .footer-logo-1{
+        display: none;
+    }
+}
+@media (max-width:500px){
+    .footer-logo-2{
+        display: none;
+    }
+}
+@media (max-width:600px){
+    .addres{
+        display: none;
+    }
+}
 
 
 
