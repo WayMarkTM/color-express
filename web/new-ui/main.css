@@ -1,0 +1,351 @@
+*, p {
+    margin:0;
+    padding:0;
+}
+
+a {
+    color: #fff;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #fff;
+}
+
+.img-icon {
+    width: 24px;
+}
+
+/* menu */
+
+.navbar {
+   background-image: url(image/top-header.png);
+   background-size: cover;
+   background-repeat: no-repeat;
+   border-radius: 0px;
+   border: none;
+}
+
+.nav-link{
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff !important;
+}
+
+.nav-link:hover {
+    color: rgba(255, 255, 255, .6) !important;
+}
+
+.navbar .active > .nav-link {
+    color: #fecd4a !important;
+}
+
+.red-block{
+    width: 20%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.navbar-logo {
+    width: 160px;
+}
+
+/* menu */
+
+/* footer */
+
+footer {
+    background-color: #131629;
+    padding: 20px 40px;
+}
+
+footer, footer a {
+    color: #b9bbc1;
+}
+
+.footer-info-text {
+    text-transform: uppercase;
+    color: white;
+}
+
+.footer-links{
+    margin: 10px;
+}
+
+.footer-second-logo {
+     margin-bottom: 15px;
+}
+
+.footer-main-logo, .footer-second-logo {
+    display: block;
+}
+
+/* footer */
+
+.content-block {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.section-header{
+    background: url(image/top-header.png) no-repeat;
+    background-size: cover;
+    padding: 20px 0 20px 0;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.section-header h3 {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.number{
+    color: white;
+    font-weight: bold;
+}
+
+.info-block-pos{
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+/* card */
+.card{
+    margin: 20px auto;
+    border:none;
+}
+
+.card-img {
+    border-radius: 0;
+}
+
+.card-img-overlay {
+    padding: 0;
+    width: 100%;
+    position: relative;
+}
+
+.card-desc {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background-color:rgba(62, 58, 56, 0.5);
+    color: #fff;
+    text-transform: uppercase;
+    padding: 10px 20px;
+}
+
+.card-example .card-desc {
+    text-align: right;
+}
+
+.card-opportunity .card-text {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.card-example .card-text {
+    line-height: 20px;
+}
+
+.card-link {
+    font-size: 12px;
+    text-align: right;
+    color: white;
+}
+
+.card-link:hover {
+    color: white;
+}
+
+/* card  */
+
+.services {
+    margin-bottom: 10px;
+}
+
+.service {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.service-text {
+    margin-top: 20px;
+}
+
+
+.line {
+    border: none; 
+    background-color: #4564a0; 
+    color: #4564a0; 
+    height: 12px; 
+}
+
+.partner-block-pos {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+
+/* exclusive-offer */
+.ex-off-pdf-link{
+    display: flex;
+}
+.ex-off-pdf-link-text{
+    color: #2b519c;
+    margin-bottom: 0;
+}
+.ex-off-share-link{
+    display: flex;
+    float: right;
+}
+.ex-off-leftside, .ex-off-rightside{
+    margin-top: 100px;
+    margin-bottom: 70px;
+}
+.ex-off-container-pos{
+    margin: 80px 40px 50px 40px;
+}
+
+
+
+/* about-company */
+.ab-com-container-pos{
+    margin: 40px 20px 25px 20px;
+}
+.company-column-img-size{
+    border-radius: 50%;
+}
+.about-company-heading{
+    font-size: 25px;
+    font-weight: 400;
+}
+
+
+
+
+
+/* contacts */
+.brands-block{
+    border-top: 2px solid #c4c2c2;
+    margin-top: 10px;
+
+}
+.col-left-brand-block{
+    margin-top: 10px;
+    width: 25%;
+}
+.col-right-brand-block{
+    width: 75%;
+    margin-left:30px;
+}
+.brand-logo{
+    margin-top: 10px;
+    border-bottom: 2px solid #c4c2c2;
+    
+}
+.brand-position{
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+#brand-text{
+    margin-top: 10px;
+    font-size: 12px;
+    color: #3f5095;
+}
+#brand-logo-text{
+    font-size: 12px;
+}
+.addres-block{
+    margin-top: 20px;
+}
+.addres-text-style{
+    margin-bottom: 0;
+}
+.number-block{
+    width: 50%;
+    display: flex;
+    position: relative;
+}
+.contact-container-pos{
+    margin-left: 110px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+.contact-title{
+    margin-top: 70px;
+    margin-left: 110px;
+    color: #484848;
+    font-weight: 400;
+}
+.img-contact-pos{
+    position: absolute;
+    top:0;
+}
+.phone-number{
+    margin-left: 55px;
+}
+.img-contact-style{
+    align-self: center;
+    margin-right: 15px;
+    
+}
+
+@media (max-width:1100px){
+    .navbar-logo {
+        width: 110px;
+    }
+}
+
+@media (max-width:992px){
+
+    .navbar-logo {
+        width: 130px;
+    }
+
+    .carousel-control-prev, .carousel-control-next, .carousel-indicators,
+    .red-block, .img-info-block, .footer-menu {
+        display: none;
+    }
+}
+
+@media (max-width:500px){
+
+    .card-img-overlay {
+        position: static;
+    }
+
+    .card-desc {
+        top: 0;
+    }
+
+    .footer-logo-1{
+        display: none;
+    }
+
+    .footer-logo-2{
+        display: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
