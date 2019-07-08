@@ -117,9 +117,12 @@ class AdvertisingConstructionReservationService
             $dbReservation->to = $reservation['to'];
             $dbReservation->thematic = $thematic;
             $dbReservation->comment = $comment;
-            $this->createReservationPeriods($reservation, $dbReservation);
-            $dbReservation->cost = $this->getReservationCost($dbReservation->advertising_construction_id,
-                $dbReservation->marketing_type_id, $dbReservation->from, $dbReservation->to, $dbReservation->user_id);
+
+            if (count($dbReservation->advertisingConstructionReservationPeriods) == 0) {
+                $this->createReservationPeriods($reservation, $dbReservation);
+                $dbReservation->cost = $this->getReservationCost($dbReservation->advertising_construction_id,
+                    $dbReservation->marketing_type_id, $dbReservation->from, $dbReservation->to, $dbReservation->user_id);
+            }
 
             if ($reservation['status_id'] == AdvertisingConstructionStatuses::IN_BASKET_RESERVED) {
                 $dbReservation->status_id = AdvertisingConstructionStatuses::RESERVED;
