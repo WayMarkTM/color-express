@@ -188,7 +188,6 @@ class ClientsController extends Controller
         $user = User::findOne($currentUserId);
         $subclients = $this->subclientService->getSubclients($currentUserId);
         $documentsCalendar = $this->documentService->getDocumentsCalendar($currentUserId);
-`
 
         return $this->render('documents', [
             'currentUser' => $user,

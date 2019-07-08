@@ -315,7 +315,7 @@ footer, footer a {
     }
 
     .carousel-control-prev, .carousel-control-next, .carousel-indicators,
-    .red-block, .img-info-block, .footer-menu {
+    .red-block, .img-info-block {
         display: none;
     }
 }
