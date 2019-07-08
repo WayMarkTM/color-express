@@ -45,17 +45,17 @@ class AdvertisiongConstructionNotificationService
             ->all();
 
         $mailService = new MailService();
-        foreach($notifications as $notificate) {
+        foreach($notifications as $notification) {
             /* @var $notificate AdvertisingConstructionNotification */
             $bcc = null;
-            $manage = $notificate->user->manage;
+            $manage = $notification->user->manage;
             if ($manage != null) {
                 $bcc = $manage->username;
             }
 
-            if($mailService->sendNotificateAboutFreeConstruction($notificate->user->username, $notificate->advertising_construction_id, $bcc)) {
-                $notificate->delete();
-                echo "Sucessfull send message to user: $notificate->user->username \n";
+            if($mailService->sendNotificateAboutFreeConstruction($notification->user->username, $notification->advertising_construction_id, $bcc)) {
+                $notification->delete();
+                echo "Successfully sent message to user: ".$notification->user->username."\n";
             }
         }
         return $notifications;
