@@ -20,21 +20,26 @@ a:hover{
     width: 24px;
 }
 
+.img-fluid {
+    width: 100%;
+}
+
 /* menu */
 
 .navbar {
-   background-image: url(image/top-header.png);
-   background-size: cover;
-   background-repeat: no-repeat;
-   border-radius: 0px;
-   border: none;
+    background-image: url(image/top-header.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 0;
+    border: none;
+    padding: .5rem 3rem;
 }
 
 .nav-link{
     font-weight: bold;
     text-transform: uppercase;
-    font-family: 'Franklin Gothic Medium', arial;
-    font-size: 20px;
+    font-family: 'Franklin Gothic ', arial;
+    font-size: 1.19rem;
     font-stretch: ultra-condensed;
     color: #fff !important;
 }
@@ -56,10 +61,11 @@ a:hover{
     color: white;
     text-align: center;
     text-transform: uppercase;
+    font-size: 1rem;
 }
 
 .navbar-logo {
-    width: 160px;
+    width: 10.7rem;
 }
 
 /* menu */
@@ -82,10 +88,19 @@ a:hover{
 .footer-info-text {
     text-transform: uppercase;
     color: white;
+    font-size: .7rem;
+}
+
+.footer-text, .footer-link {
+    font-size: .94rem;
 }
 
 .footer-links{
     margin: 10px;
+}
+
+.footer-link:hover {
+    color: white;
 }
 
 .footer-second-logo {
@@ -95,6 +110,14 @@ a:hover{
 .footer-main-logo, .footer-second-logo {
     display: block;
     margin-bottom: 10px;
+}
+
+.footer-main-logo {
+    width: 200px;
+}
+
+.footer-second-logo {
+    width: 240px;
 }
 
 /* footer */
@@ -114,7 +137,7 @@ a:hover{
 }
 
 .section-header h3 {
-    font-size: 24px;
+    font-size: 1.19rem;
     font-weight: 400;
 }
 
@@ -146,7 +169,7 @@ a:hover{
     top: auto;
     cursor: pointer;
     transition: .3s top;
-    background-color:rgba(62, 58, 56, 0.4);
+    background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
     text-transform: uppercase;
     padding: 10px 20px;
@@ -154,31 +177,27 @@ a:hover{
 }
 
 .card-example .card-desc {
-    top: 50%;
+    top: 45%;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card-opportunity .card-desc {
-    top: 55%;
+    top: 63%;
 }
 
 .card-opportunity .card-text {
     margin: auto;
     text-align: center;
 
-    padding-top: 10px;
-    padding-bottom: 10px;
+    font-size: .85rem;
+    line-height: 1.25;
 }
 
 .card-example .card-text {
-    line-height: 20px;
     flex-grow: 1;
     text-align: right;
-}
-
-.card-example .card-link {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+    line-height: 1.25;
 }
 
 .card-link {
@@ -204,8 +223,8 @@ a:hover{
 
 .service-text {
     margin-top: 20px;
-    font-size: 17px;
-    line-height: 24px;
+    font-size: .8rem;
+    line-height: 1.12;
 }
 
 
@@ -344,21 +363,48 @@ a:hover{
     }
 }
 
-@media (max-width:500px){
-
+@media (max-width:768px){
     .card .card-desc {
         top: 0;
     }
+}
 
-    .footer-logo-1{
-        display: none;
-    }
-
-    .footer-logo-2{
-        display: none;
+@media (min-width: 992px) {
+    html {
+        font-size: 14px;
     }
 }
 
+@media (min-width: 1030px){
+    html {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 1250px){
+    html {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 1500px){
+    html {
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 1900px) {
+    html {
+        font-size: 24px;
+    }
+}
+
+
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1500px;
+    }
+}
 
 
 
