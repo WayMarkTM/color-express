@@ -127,19 +127,9 @@ footer, footer a {
     border-radius: 0;
 }
 
-.card-img-overlay {
-    padding: 0;
-    width: 100%;
-    position: relative;
-}
-
-.card-desc {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    background-color:rgba(62, 58, 56, 0.5);
+.card-img-overlay.card-desc {
+    top: auto;
+    background-color:rgba(62, 58, 56, 0.3);
     color: #fff;
     text-transform: uppercase;
     padding: 10px 20px;

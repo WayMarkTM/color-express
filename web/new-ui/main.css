@@ -3,6 +3,10 @@
     padding:0;
 }
 
+body {
+    font-family: Arial;
+}
+
 a {
     color: #fff;
 }
@@ -29,6 +33,9 @@ a:hover{
 .nav-link{
     font-weight: bold;
     text-transform: uppercase;
+    font-family: 'Franklin Gothic Medium', arial;
+    font-size: 20px;
+    font-stretch: ultra-condensed;
     color: #fff !important;
 }
 
@@ -59,13 +66,17 @@ a:hover{
 
 /* footer */
 
-footer {
+.footer {
     background-color: #131629;
     padding: 20px 40px;
 }
 
-footer, footer a {
+.footer, .footer a {
     color: #b9bbc1;
+}
+
+.footer .col {
+    margin-bottom: 20px;
 }
 
 .footer-info-text {
@@ -83,6 +94,7 @@ footer, footer a {
 
 .footer-main-logo, .footer-second-logo {
     display: block;
+    margin-bottom: 10px;
 }
 
 /* footer */
@@ -102,9 +114,8 @@ footer, footer a {
 }
 
 .section-header h3 {
-    font-size: 16px;
+    font-size: 24px;
     font-weight: 400;
-    line-height: 24px;
 }
 
 .number{
@@ -123,50 +134,61 @@ footer, footer a {
     border:none;
 }
 
+.card:hover .card-desc {
+    top: 0
+}
+
 .card-img {
     border-radius: 0;
 }
 
-.card-img-overlay {
-    padding: 0;
-    width: 100%;
-    position: relative;
-}
-
-.card-desc {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    background-color:rgba(62, 58, 56, 0.5);
+.card-img-overlay.card-desc {
+    top: auto;
+    cursor: pointer;
+    transition: .3s top;
+    background-color:rgba(62, 58, 56, 0.4);
     color: #fff;
     text-transform: uppercase;
     padding: 10px 20px;
+    display: flex;
 }
 
 .card-example .card-desc {
-    text-align: right;
+    top: 50%;
+}
+
+.card-opportunity .card-desc {
+    top: 55%;
 }
 
 .card-opportunity .card-text {
+    margin: auto;
+    text-align: center;
+
     padding-top: 10px;
     padding-bottom: 10px;
-    text-align: center;
 }
 
 .card-example .card-text {
     line-height: 20px;
+    flex-grow: 1;
+    text-align: right;
+}
+
+.card-example .card-link {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
 
 .card-link {
     font-size: 12px;
     text-align: right;
-    color: white;
+    color: #fff;
 }
 
 .card-link:hover {
-    color: white;
+    color: rgba(255, 255, 255, .8);
 }
 
 /* card  */
@@ -182,6 +204,8 @@ footer, footer a {
 
 .service-text {
     margin-top: 20px;
+    font-size: 17px;
+    line-height: 24px;
 }
 
 
@@ -322,11 +346,7 @@ footer, footer a {
 
 @media (max-width:500px){
 
-    .card-img-overlay {
-        position: static;
-    }
-
-    .card-desc {
+    .card .card-desc {
         top: 0;
     }
 
