@@ -123,6 +123,10 @@ class MenuWidget extends Widget
                 'url' => ['/admin/page-metadata/index']
             ],
             [
+                'label' => 'Управление портфолио',
+                'url' => ['/admin/portfolio/index']
+            ],
+            [
                 'label' => 'Настройки сайта',
                 'url' => ['/admin/site-settings/index']
             ]

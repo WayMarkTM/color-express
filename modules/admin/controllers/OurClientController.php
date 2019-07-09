@@ -88,8 +88,7 @@ class OurClientController extends BaseAdminController
                 $entity = $ourClientService->saveOurClient($model);
                 return $this->redirect(['view', 'id' => $entity->id]);
             } else {
-                echo 'failed '.$model->imageFile;
-                return $this->redirect('www.google.com');
+                return 'failed '.$model->imageFile;
             }
         }
 
