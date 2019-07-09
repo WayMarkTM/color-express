@@ -179,7 +179,7 @@ a:hover{
 .card-example .card-desc {
     top: 45%;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 
 .card-opportunity .card-desc {
@@ -195,7 +195,7 @@ a:hover{
 }
 
 .card-example .card-text {
-    flex-grow: 1;
+    margin-bottom: 10px;
     text-align: right;
     line-height: 1.25;
 }
@@ -348,6 +348,12 @@ a:hover{
 @media (max-width:1100px){
     .navbar-logo {
         width: 110px;
+    }
+}
+
+@media (max-width:1200px) and (min-width: 992px) {
+    .card-example .card-text {
+        font-size: .9rem;
     }
 }
 
