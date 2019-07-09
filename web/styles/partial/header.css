@@ -1,0 +1,58 @@
+@font-face {
+    font-family: 'Franklin Gothic Medium';
+    src: url('/web/fonts/FranklinGothic-Medium.ttf');
+}
+
+.navbar {
+    background-image: url('/web/images/partial/header/bg-header.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 0;
+    border: none;
+    padding: .5rem 3rem;
+}
+
+.nav-link{
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: 'Franklin Gothic Medium', arial;
+    font-size: 1.19rem;
+    font-stretch: ultra-condensed;
+    color: #fff !important;
+}
+
+.nav-link:hover {
+    color: rgba(255, 255, 255, .6) !important;
+}
+
+.navbar .active > .nav-link {
+    color: #fecd4a !important;
+}
+
+.red-block{
+    width: 20%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+.navbar-logo {
+    width: 10.7rem;
+}
+
+@media (max-width:992px){
+
+    .navbar-logo {
+        width: 130px;
+    }
+
+    .carousel-control-prev, .carousel-control-next, .carousel-indicators,
+    .red-block{
+        display: none;
+    }
+}

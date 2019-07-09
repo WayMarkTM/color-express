@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Franklin Gothic Medium';
+    src: url('/fonts/framd.ttf');
+}
+
 *, p {
     margin:0;
     padding:0;
@@ -38,7 +43,7 @@ a:hover{
 .nav-link{
     font-weight: bold;
     text-transform: uppercase;
-    font-family: 'Franklin Gothic ', arial;
+    font-family: 'Franklin Gothic Medium', arial;
     font-size: 1.19rem;
     font-stretch: ultra-condensed;
     color: #fff !important;
