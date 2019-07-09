@@ -89,6 +89,7 @@ a:hover{
     text-transform: uppercase;
     color: white;
     font-size: .7rem;
+    margin-bottom: 20px;
 }
 
 .footer-text, .footer-link {
@@ -118,6 +119,20 @@ a:hover{
 
 .footer-second-logo {
     width: 240px;
+}
+
+.footer .address, .footer .footer-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer .social-link .img-icon {
+    width: 48px;
+}
+
+.footer .social-link + .social-link {
+    margin-left: 10px;
 }
 
 /* footer */
@@ -372,6 +387,10 @@ a:hover{
 @media (max-width:768px){
     .card .card-desc {
         top: 0;
+    }
+
+    .footer {
+        padding: 20px;
     }
 }
 
