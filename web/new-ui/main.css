@@ -30,7 +30,7 @@ a:hover{
 }
 
 .img-fluid {
-    width: 100%;
+    width: auto;
 }
 
 /* menu */
