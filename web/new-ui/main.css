@@ -41,7 +41,8 @@ a:hover{
     background-repeat: no-repeat;
     border-radius: 0;
     border: none;
-    padding: .5rem 3rem;
+    padding: .5rem 0 0 3rem;
+    align-items: stretch;
 }
 
 .nav-link{
@@ -61,20 +62,33 @@ a:hover{
     color: #fecd4a !important;
 }
 
+.navbar-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 25%;
+    height: 100%;
+}
+
 .red-block{
-    width: 20%;
-    position: absolute;
-    bottom: 0;
-    right: 0;
+    width: 100%;
     background-color: red;
     color: white;
     text-align: center;
     text-transform: uppercase;
-    font-size: 1rem;
+    font-size: .85rem;
+    line-height: 1.8;
+    font-weight: bold;
 }
 
 .navbar-logo {
     width: 10.7rem;
+}
+
+.number {
+    color: white;
+    font-weight: bold;
+    text-align: center;
 }
 
 /* menu */
@@ -166,11 +180,6 @@ a:hover{
 .section-header h3 {
     font-size: 1.19rem;
     font-weight: 400;
-}
-
-.number{
-    color: white;
-    font-weight: bold;
 }
 
 .info-block-pos{
