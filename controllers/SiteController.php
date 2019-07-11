@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\entities\OurClient;
+use app\models\entities\PortfolioItem;
 use app\models\entities\Vacancy;
 use app\models\FeedBackForm;
 use app\models\constants\PageKey;
@@ -212,5 +213,14 @@ class SiteController extends Controller
     {
         $this->view->title = $this->seoService->getTitleAndSetMetaData(PageKey::ADVANTAGES);
         return $this->render('advantages');
+    }
+
+    public function actionPortfolio()
+    {
+        $this->view->title = $this->seoService->getTitleAndSetMetaData(PageKey::PORTFOLIO);
+        $portfolioItems = PortfolioItem::find()->all();
+        return $this->render('portfolio', [
+            'portfolioItems' => $portfolioItems,
+        ]);
     }
 }

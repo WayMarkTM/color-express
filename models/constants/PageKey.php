@@ -17,4 +17,5 @@ class PageKey
     const OUR_CLIENTS = 'our-clients';
     const VACANCIES = 'vacancies';
     const CONTACTS = 'contacts';
+    const PORTFOLIO = 'portfolio';
 }
