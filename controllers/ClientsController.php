@@ -261,10 +261,7 @@ class ClientsController extends Controller
         $model = Yii::$app->request->post();
 
         if (Yii::$app->request->isAjax) {
-            $this->ordersService->approveOrder($model['id'], $model['cost']);
-            return [
-                'success' => true
-            ];
+            return $this->ordersService->approveOrder($model['id'], $model['cost'], $model['from'], $model['to']);
         }
 
         return new MethodNotAllowedHttpException();

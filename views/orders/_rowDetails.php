@@ -12,7 +12,7 @@ use yii\widgets\Pjax;
     [
       'label' => 'С',
       'headerOptions' => ['class' => 'text-center'],
-      'contentOptions' =>['class' => 'text-center'],
+      'contentOptions' =>['class' => 'text-center', 'style' => 'min-width: 120px'],
       'value' => function ($model) {
         return (new \DateTime($model->from))->format('d.m.Y');
       }
@@ -20,7 +20,7 @@ use yii\widgets\Pjax;
     [
       'label' => 'По',
       'headerOptions' => ['class' => 'text-center'],
-      'contentOptions' =>['class' => 'text-center'],
+      'contentOptions' =>['class' => 'text-center', 'style' => 'min-width: 120px'],
       'value' => function ($model) {
         return (new \DateTime($model->to))->format('d.m.Y');
       }
@@ -28,7 +28,7 @@ use yii\widgets\Pjax;
     [
       'label' => 'Стоимость в день, с НДС (BYN) для бел./иностр. ТМ',
       'headerOptions' => ['class' => 'text-center'],
-      'contentOptions' =>['class' => 'text-center'],
+      'contentOptions' =>['class' => 'text-center', 'style' => 'min-width: 120px'],
       'value' => function ($model) {
         return number_format($model->price, 2, ".", "");
       }
@@ -36,7 +36,7 @@ use yii\widgets\Pjax;
     [
       'label' => 'Стоимость за период, с НДС (BYN) для бел./иностр. ТМ',
       'headerOptions' => ['class' => 'text-center'],
-      'contentOptions' =>['class' => 'text-center'],
+      'contentOptions' =>['class' => 'text-center', 'style' => 'min-width: 120px'],
       'value' => function ($model) {
         $fromDate = new \DateTime($model->from);
         $toDate = new \DateTime($model->to);

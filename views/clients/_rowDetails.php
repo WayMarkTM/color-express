@@ -407,7 +407,7 @@ $dataProvider = new ArrayDataProvider([
       [
         'label' => 'С',
         'headerOptions' => ['class' => 'text-center'],
-        'contentOptions' =>['class' => 'text-center'],
+        'contentOptions' =>['class' => 'text-center', 'style' => 'min-width: 120px'],
         'value' => function ($model) {
           return $model->from;
         }
@@ -415,7 +415,7 @@ $dataProvider = new ArrayDataProvider([
       [
         'label' => 'По',
         'headerOptions' => ['class' => 'text-center'],
-        'contentOptions' =>['class' => 'text-center'],
+        'contentOptions' =>['class' => 'text-center', 'style' => 'min-width: 120px'],
         'value' => function ($model) {
           return $model->to;
         }
@@ -423,7 +423,7 @@ $dataProvider = new ArrayDataProvider([
       [
         'label' => 'Цена в день, с НДС (BYN) для бел./иностр. ТМ',
         'headerOptions' => ['class' => 'text-center'],
-        'contentOptions' =>['class' => 'text-center'],
+        'contentOptions' =>['class' => 'text-center', 'style' => 'min-width: 120px'],
         'format' => 'raw',
         'value' => function ($model) {
           return number_format($model->price, 2, ".", "");
@@ -432,7 +432,7 @@ $dataProvider = new ArrayDataProvider([
       [
         'label' => 'Стоимость за период, с НДС (BYN) для бел./иностр. ТМ',
         'headerOptions' => ['class' => 'text-center'],
-        'contentOptions' =>['class' => 'text-center period-cost'],
+        'contentOptions' =>['class' => 'text-center period-cost', 'style' => 'min-width: 120px'],
         'value' => function ($model) {
           $fromDate = new \DateTime($model->from);
           $toDate = new \DateTime($model->to);

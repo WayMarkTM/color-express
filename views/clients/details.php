@@ -10,6 +10,7 @@ use dimmitri\grid\ExpandRowColumn;
 use app\components\InterruptReservationWidget;
 use app\models\constants\AdvertisingConstructionStatuses;
 use app\models\constants\SystemConstants;
+use kartik\date\DatePicker;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -125,7 +126,7 @@ InterruptReservationWidget::end();
                         [
                             'class' => ExpandRowColumn::class,
                             'label' => 'Даты использования',
-                            'headerOptions' => ['class' => 'text-center', 'width' => '220'],
+                            'headerOptions' => ['class' => 'text-center', 'width' => '260'],
                             'contentOptions' => function ($model) {
                                 if (count($model->advertisingConstructionReservationPeriods) > 1) {
                                     return ['class' => 'text-center'];
@@ -133,6 +134,7 @@ InterruptReservationWidget::end();
 
                                 return ['class' => 'text-center not-unwrappable'];                                
                             },
+                            'format' => 'raw',
                             'value' => function ($model) {
                                 $firstPeriod = $model->advertisingConstructionReservationPeriods[0];
                                 $lastPeriod = $model->advertisingConstructionReservationPeriods[count($model->advertisingConstructionReservationPeriods) - 1];
@@ -140,6 +142,38 @@ InterruptReservationWidget::end();
                                 $totalDays = -1;
                                 foreach ($model->advertisingConstructionReservationPeriods as $period) {
                                     $totalDays += (new \DateTime($period->to))->diff(new \DateTime($period->from))->days + 1;
+                                }
+
+                                if (count($model->advertisingConstructionReservationPeriods) == 1 &&
+                                    ($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ||
+                                    ($model->status_id == AdvertisingConstructionStatuses::APPROVED && new \DateTime($model->to) > new \DateTime()))) {
+                                    $rangeLayout = '<div class="row"><div class="col-md-6" style="padding-right: 5px">'.
+                                        '{input1}'.
+                                        '</div><div class="col-md-6" style="padding-left: 5px">'.
+                                        '{input2}'.
+                                        '</div></div>';
+                
+                                    return DatePicker::widget([
+                                        'type' => DatePicker::TYPE_RANGE,
+                                        'name' => 'from',
+                                        'attribute' => 'from',
+                                        'name2' => 'to',
+                                        'attribute2' => 'to',
+                                        'layout' => $rangeLayout,
+                                        'value' => (new \DateTime($model->from))->format('d.m.Y'),
+                                        'value2' => (new \DateTime($model->to))->format('d.m.Y'),
+                                        'options' => [
+                                            'class' => 'date-from'
+                                        ],
+                                        'options2' => [
+                                            'class' => 'date-to'
+                                        ],
+                                        'pluginOptions' => [
+                                            'autoclose' => true,
+                                            'todayHighlight' => true,
+                                            'format' => 'dd.mm.yyyy'
+                                        ]
+                                    ]);
                                 }
         
                                 if ($borderTotalDays == $totalDays) {
@@ -341,23 +375,50 @@ InterruptReservationWidget::end();
             });            
         })
 
-        $('.price-per-day').on('change', function (e) {
-            var price = $(this).val(),
-                period = $(this).data('period'),
+        function calculatePeriod($dateFrom, $dateTo) {
+            if ($dateFrom == null || $dateTo == null) {
+                return $(this).data('period');
+            }
+
+            var format = 'DD.MM.YYYY';
+            return moment($dateTo.val(), format).diff(moment($dateFrom.val(), format), 'days') + 1;
+        }
+
+        function onDateOrPriceChanged(e) {
+            var price = $(this).closest('tr').find('.price-per-day').val(),
+                period = calculatePeriod($(this).closest('tr').find('.date-from'), $(this).closest('tr').find('.date-to')),
                 $cost = $(this).closest('tr').find('.cost');
 
             $cost.text(price*period);
-        });
+        }
+
+        $('.price-per-day').on('change', onDateOrPriceChanged);
+        $('.date-from').on('change', onDateOrPriceChanged);
+        $('.date-to').on('change', onDateOrPriceChanged);
 
         $('.approve-order').on('click', function () {
             var data = $(this).data(),
-                $cost = $(this).closest('tr').find('.cost');
+                $cost = $(this).closest('tr').find('.cost'),
+                dateFrom = $(this).closest('tr').find('.date-from').val(),
+                dateTo = $(this).closest('tr').find('.date-to').val();
+                
             data.cost = $cost.html();
+            if (dateFrom != null && dateTo != null) {
+                var formatFrom = 'DD.MM.YYYY',
+                    formatTo = 'YYYY-MM-DD';
+                data.from = moment(dateFrom, formatFrom).format(formatTo);
+                data.to = moment(dateTo, formatFrom).format(formatTo);
+            }
+
             colorApp.utilities.ajaxHelper.post({
                 url: GATEWAY_URLS.APPROVE_ORDER,
                 data: data
             }).done(function (result) {
-                window.location.reload();
+                if (result.success) {
+                    window.location.reload();
+                } else {
+                    toastr.error(result.message);
+                }
             });
         });
 

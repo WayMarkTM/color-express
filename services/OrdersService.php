@@ -80,9 +80,43 @@ class OrdersService
     /**
      * @param integer $id
      * @param number $cost
+     * @param date $from
+     * @param date $to
      */
-    public function approveOrder($id, $cost) {
+    public function approveOrder($id, $cost, $from, $to) {
         $reservation = AdvertisingConstructionReservation::findOne($id);
+        if ($from != null && $to != null) {
+            $reservationService = new AdvertisingConstructionReservationService();
+            $validationModel = [
+                'id' => $id,
+                'advertising_construction_id' => $reservation->advertising_construction_id,
+                'from' => $from,
+                'to' => $to,
+            ];
+
+            if (!$reservationService->isDateRangesValid($validationModel)) {
+                return [
+                    'success' => false,
+                    'message' => 'Конструкция забронирована на даты с '.$from.' по '.$to,
+                ];
+            }
+
+            if ($reservationService->isOnDismantling($validationModel)) {
+                return [
+                    'success' => false,
+                    'message' => 'В заданный период конструкция на демонтаже',
+                ];
+            }
+
+            $reservation->from = $from;
+            $reservation->to = $to;
+
+            $reservation->advertisingConstructionReservationPeriods[0]->from = $from;
+            $reservation->advertisingConstructionReservationPeriods[0]->to = $to;
+            $reservation->advertisingConstructionReservationPeriods[0]->price = $cost/DateService::calculateIntervalLength($from, $to) ;
+            $reservation->advertisingConstructionReservationPeriods[0]->save();
+        }
+
         $prev_status_id = $reservation->status_id;
 
         if ($reservation->status_id == AdvertisingConstructionStatuses::IN_PROCESSING) {
@@ -101,6 +135,10 @@ class OrdersService
                 $mailService->approveOrDeclineOrder($user, $reservation, $prev_status_id, true);
             }
         }
+
+        return [
+            'success' => true
+        ];
     }
 
     public function buyReservation($reservationId) {

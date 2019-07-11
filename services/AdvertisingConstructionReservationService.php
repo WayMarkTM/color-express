@@ -451,10 +451,16 @@ class AdvertisingConstructionReservationService
      * @return Boolean is model valid
      */
     public function isDateRangesValid($model) {
-        $reservations = AdvertisingConstructionReservation::find()
+        $reservationsQuery = AdvertisingConstructionReservation::find()
             ->where(['=', 'advertising_construction_id', $model['advertising_construction_id']])
-            ->andFilterWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED_RESERVED , AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)])
-            ->all();
+            ->andFilterWhere(['in', 'status_id', array(AdvertisingConstructionStatuses::RESERVED, AdvertisingConstructionStatuses::APPROVED_RESERVED , AdvertisingConstructionStatuses::IN_PROCESSING, AdvertisingConstructionStatuses::APPROVED)]);
+            
+        if ($model['id']) {
+            $reservationsQuery = $reservationsQuery
+                ->andFilterWhere(['!=', 'id', $model['id']]);
+        }
+        
+        $reservations = $reservationsQuery->all();
 
         foreach ($reservations as $reservation) {
             foreach ($reservation->advertisingConstructionReservationPeriods as $reservationPeriod) {
