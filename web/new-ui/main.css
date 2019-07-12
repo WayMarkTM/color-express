@@ -185,11 +185,14 @@ a:hover{
     color: #fff;
     text-align: center;
     text-transform: uppercase;
+    height: 131px;
+    display: flex;
 }
 
 .section-header h3 {
     font-size: 1.19rem;
     font-weight: 400;
+    margin: auto;
 }
 
 .info-block-pos{
