@@ -470,6 +470,7 @@ a:hover{
 .footer-tel p,
 .address p {
     line-height: 1.2;
+    white-space: nowrap;
 }
 
 .address {
