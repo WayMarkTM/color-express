@@ -142,7 +142,7 @@ $this->title = 'Мои заказы';
                     'contentOptions' =>['class' => 'text-center'],
                     'buttons' => [
                         'buy' => function ($url ,$model) {
-                            return Html::a('Купить', ['construction/details?id='.$model->advertisingConstruction->id], [
+                            return Html::a('Купить', ['shopping-cart/index'], [
                                 'title' => 'Купить',
                                 'class' => 'custom-btn sm blue buy-reserved-construction',
                                 'data-id' => $model->id,
@@ -214,7 +214,7 @@ $this->title = 'Мои заказы';
             data: data
         }).done(function (result) {
             if (result.isValid) {
-                window.location.reload();
+                window.location.href = '/shopping-cart/index';
             } else {
                 toastr.error("Произошла ошибка. Свяжитесь с Вашим администратором.");
             }

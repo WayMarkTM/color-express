@@ -567,7 +567,7 @@ class AdvertisingConstructionReservationService
             throw new MethodNotAllowedHttpException();
         }
 
-        $reservation->status_id = AdvertisingConstructionStatuses::APPROVED;
+        $reservation->status_id = AdvertisingConstructionStatuses::IN_BASKET_ORDER;
         $reservation->save();
     }
 
