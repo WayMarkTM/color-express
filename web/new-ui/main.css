@@ -92,8 +92,13 @@ a:hover {
     font-weight: bold;
 }
 
+.navbar-brand {
+    display: flex;
+}
+
 .navbar-logo {
     width: 10.7rem;
+    margin: auto;
 }
 
 .number {
@@ -422,6 +427,10 @@ a:hover {
 
 @media (max-width: 992px) {
 
+    .navbar {
+        padding: .5rem 1rem;
+    }
+
     .navbar-logo {
         width: 130px;
     }
@@ -469,6 +478,14 @@ a:hover {
 @media (min-width: 1900px) {
     html {
         font-size: 24px;
+    }
+
+    .navbar {
+        height: 135px;
+    }
+
+    .navbar .number {
+        margin-bottom: .9rem;
     }
 }
 
