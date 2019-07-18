@@ -58,7 +58,7 @@ a:hover {
 .nav-link {
     font-weight: normal;
     text-transform: uppercase;
-    font-family: 'Franklin Gothic Medium', arial;
+    font-family: 'Franklin Gothic Extra Condensed', arial;
     font-size: 1.1rem;
     font-stretch: ultra-condensed;
     white-space: nowrap;
@@ -71,6 +71,7 @@ a:hover {
 
 .navbar .active > .nav-link {
     color: #fecd4a !important;
+    font-weight: bold;
 }
 
 .navbar-info {
