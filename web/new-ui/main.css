@@ -467,6 +467,14 @@ a:hover {
     html {
         font-size: 18px;
     }
+
+    .navbar {
+        height: 80px;
+    }
+
+    .carousel-item .d-block {
+        height: calc(100vh - 80px);
+    }
 }
 
 @media (min-width: 1500px) {
@@ -475,9 +483,19 @@ a:hover {
     }
 }
 
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1550px;
+    }
+}
+
 @media (min-width: 1900px) {
     html {
         font-size: 24px;
+    }
+
+    .carousel-item .d-block {
+        height: calc(100vh - 135px);
     }
 
     .navbar {
@@ -492,12 +510,6 @@ a:hover {
     .red-block {
         position: absolute;
         bottom: 0;
-    }
-}
-
-@media (min-width: 1600px) {
-    .container {
-        max-width: 1550px;
     }
 }
 
