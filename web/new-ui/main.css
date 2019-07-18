@@ -484,8 +484,14 @@ a:hover {
         height: 135px;
     }
 
-    .navbar .number {
-        margin-bottom: .9rem;
+    .navbar-info {
+        position: relative;
+        justify-content: center;
+    }
+
+    .red-block {
+        position: absolute;
+        bottom: 0;
     }
 }
 
