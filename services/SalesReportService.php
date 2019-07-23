@@ -35,6 +35,10 @@ class SalesReportService extends BaseNewReportService implements iReportService
           array_push($data, $this->getDataLineFromDismantling($construction, $reservation, $dismantlingFrom, $dismantlingTo));
         }
 
+        if (count($reservations) == 0) {
+          array_push($data, $this->getDataLineFromConstruction($construction, $fromDate, $toDate));
+        }
+
         foreach($reservations as $reservation) {
           foreach($reservation->advertisingConstructionReservationPeriods as $period) {
             $periodStartDate = new \DateTime(date('Y-m-d', strtotime($period->from)));
@@ -82,6 +86,27 @@ class SalesReportService extends BaseNewReportService implements iReportService
         $reservation->user->subclients[0]->term_payment,
         $reservation->employee->surname
       ];
+  }
+
+  private function getDataLineFromConstruction($construction, $fromDate, $toDate) {
+    return [
+      $construction->name,
+      $construction->size->size,
+      $construction->address,
+      null,
+      $this->formatDateRange($fromDate, $toDate),
+      0,
+      0,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+    ];
   }
 
   private function getDataLineFromDismantling($construction, $reservation, $dismantlingFrom, $dismantlingTo) {

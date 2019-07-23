@@ -208,7 +208,8 @@ InterruptReservationWidget::end();
 
                                 $price = number_format($model->cost / $interval, 2, ".", "");
 
-                                return $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ?
+                                return $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ||
+                                    ($model->status_id == AdvertisingConstructionStatuses::APPROVED && new \DateTime($model->to) > new \DateTime()) ?
                                     '<input class="form-control full-width price-per-day" data-period="'.$interval.'" type="text" value="'.$price.'" />' :
                                     $price;
                             }
@@ -389,7 +390,7 @@ InterruptReservationWidget::end();
                 period = calculatePeriod($(this).closest('tr').find('.date-from'), $(this).closest('tr').find('.date-to')),
                 $cost = $(this).closest('tr').find('.cost');
 
-            $cost.text(price*period);
+            $cost.text((price*period).toFixed(2));
         }
 
         $('.price-per-day').on('change', onDateOrPriceChanged);
