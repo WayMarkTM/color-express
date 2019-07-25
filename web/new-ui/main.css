@@ -469,8 +469,12 @@ a:hover {
         font-size: 18px;
     }
 
-    .navbar {
+    .navbar, .section-header {
         height: 80px;
+    }
+
+    .section-header {
+        padding: 0;
     }
 
     .carousel-item .d-block {
