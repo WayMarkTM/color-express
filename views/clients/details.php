@@ -136,15 +136,18 @@ InterruptReservationWidget::end();
                             },
                             'format' => 'raw',
                             'value' => function ($model) {
-                                $firstPeriod = $model->advertisingConstructionReservationPeriods[0];
-                                $lastPeriod = $model->advertisingConstructionReservationPeriods[count($model->advertisingConstructionReservationPeriods) - 1];
+                                $periods = $model->getAdvertisingConstructionReservationPeriods()
+                                    ->orderBy('from ASC')
+                                    ->all();
+                                $firstPeriod = $periods[0];
+                                $lastPeriod = $periods[count($periods) - 1];
                                 $borderTotalDays = (new \DateTime($lastPeriod->to))->diff(new \DateTime($firstPeriod->from))->days;
                                 $totalDays = -1;
-                                foreach ($model->advertisingConstructionReservationPeriods as $period) {
+                                foreach ($periods as $period) {
                                     $totalDays += (new \DateTime($period->to))->diff(new \DateTime($period->from))->days + 1;
                                 }
 
-                                if (count($model->advertisingConstructionReservationPeriods) == 1 &&
+                                if (count($periods) == 1 &&
                                     ($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ||
                                     ($model->status_id == AdvertisingConstructionStatuses::APPROVED && new \DateTime($model->to) > new \DateTime()))) {
                                     $rangeLayout = '<div class="row"><div class="col-md-6" style="padding-right: 5px">'.

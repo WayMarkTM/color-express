@@ -202,7 +202,7 @@ class AdvertisingConstructionReservationPeriodService
       array_push($mappedPeriods, $this->mapPeriodForJson($period));
       $totalCost += $this->calculatePeriodCost($period);
     }
-
+    
     $from = $resultPeriods[0]->from;
     $to = $resultPeriods[count($resultPeriods) - 1]->to;
     $reservation->cost = $totalCost;

@@ -616,8 +616,12 @@ class AdvertisingConstructionReservationService
      * @return bool
      */
     public function isReservationContinuous($reservation) {
-        $firstPeriod = $reservation->advertisingConstructionReservationPeriods[0];
-        $lastPeriod = $reservation->advertisingConstructionReservationPeriods[count($reservation->advertisingConstructionReservationPeriods) - 1];
+        $periods = $model->getAdvertisingConstructionReservationPeriods()
+            ->orderBy('from ASC')
+            ->all();
+
+        $firstPeriod = $periods[0];
+        $lastPeriod = $periods[count($reservation->advertisingConstructionReservationPeriods) - 1];
         $borderTotalDays = (new \DateTime($lastPeriod->to))->diff(new \DateTime($firstPeriod->from))->days;
         $totalDays =  (new \DateTime($reservation->to))->diff(new \DateTime($reservation->from))->days;
         return $borderTotalDays == $totalDays;

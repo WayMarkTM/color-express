@@ -106,11 +106,14 @@ $this->title = 'Мои заказы';
                         return ['class' => 'text-center not-unwrappable'];                                
                     },
                     'value' => function ($model) {
-                        $firstPeriod = $model->advertisingConstructionReservationPeriods[0];
-                        $lastPeriod = $model->advertisingConstructionReservationPeriods[count($model->advertisingConstructionReservationPeriods) - 1];
+                        $periods = $model->getAdvertisingConstructionReservationPeriods()
+                            ->orderBy('from ASC')
+                            ->all();
+                        $firstPeriod = $periods[0];
+                        $lastPeriod = $periods[count($periods) - 1];
                         $borderTotalDays = (new \DateTime($lastPeriod->to))->diff(new \DateTime($firstPeriod->from))->days;
                         $totalDays = -1;
-                        foreach ($model->advertisingConstructionReservationPeriods as $period) {
+                        foreach ($periods as $period) {
                             $totalDays += (new \DateTime($period->to))->diff(new \DateTime($period->from))->days + 1;
                         }
 

@@ -168,7 +168,7 @@ class SalesReportService extends BaseNewReportService implements iReportService
     $sheet->setCellValue('F'.($dataRowsCount + $dataRowsFromIndex), 'Средняя');
     $sheet->setCellValue('G'.($dataRowsCount + $dataRowsFromIndex), $this->calculateAverageBusyCoefficient($data));
     for ($i = $dataRowsFromIndex; $i <= $dataRowsCount + $dataRowsFromIndex; $i++) {
-      $newValue = number_format(round($sheet->getCell('G'.$i)->getValue(), 2), 2, '.', '')."%";
+      $newValue = number_format(round($sheet->getCell('G'.$i)->getValue(), 2), 2, ',', '');
       $sheet->setCellValue('G'.$i, $newValue);
     }
 
@@ -232,7 +232,7 @@ class SalesReportService extends BaseNewReportService implements iReportService
           'Демонтаж',
           'Даты использования',
           'Количество дней',
-          'Занятость',
+          'Занятость, %',
           'Юр. лицо',
           'Тематика',
           'Тип рекламы',
