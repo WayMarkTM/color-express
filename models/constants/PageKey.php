@@ -11,6 +11,7 @@ namespace app\models\constants;
 
 class PageKey
 {
+    const INDEX = 'index';
     const CATALOG = 'catalog';
     const ADVANTAGES = 'advantages';
     const ABOUT = 'about';
@@ -18,4 +19,5 @@ class PageKey
     const VACANCIES = 'vacancies';
     const CONTACTS = 'contacts';
     const PORTFOLIO = 'portfolio';
+    const OFFERS = 'offers';
 }

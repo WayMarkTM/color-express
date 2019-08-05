@@ -1,7 +1,40 @@
+@media (min-width: 992px) {
+    footer {
+        font-size: 14px;
+    }
+  }
+  
+  @media (min-width: 1030px) {
+    footer {
+        font-size: 16px;
+    }
+  }
+  
+  @media (min-width: 1250px) {
+    footer {
+        font-size: 18px;
+    }
+  }
+  
+  @media (min-width: 1500px) {
+    footer {
+        font-size: 20px;
+    }
+  }
+  
+  @media (min-width: 1900px) {
+    footer {
+        font-size: 24px;
+    }
+  }
 
 .footer {
     background-color: #131629;
-    padding: 20px 40px;
+    padding: 10px 20px 40px 10px;
+}
+
+.footer-container {
+    margin: 0 auto;
 }
 
 .footer, .footer a {
@@ -15,15 +48,15 @@
 .footer-info-text {
     text-transform: uppercase;
     color: white;
-    font-size: .7rem;
+    font-size: .7em;
     margin-bottom: 20px;
 }
 
 .footer-text, .footer-link {
-    font-size: .94rem;
+    font-size: .94em;
 }
 
-.footer-links{
+.footer-links {
     margin: 10px;
 }
 
@@ -51,19 +84,28 @@
 .footer .address, .footer .footer-info {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .footer .social-link .img-icon {
-    width: 48px;
+    width: 40px;
 }
 
 .footer .social-link + .social-link {
     margin-left: 10px;
 }
 
-@media (max-width:768px){
-    .footer {
-        padding: 20px;
-    }
+.footer-menu p,
+.footer-tel p,
+.address p {
+    line-height: 1.2;
+    white-space: nowrap;
 }
+
+.address {
+    font-size: 0.9em;
+}
+
+.footer-company-name {
+    font-size: 0.8em;
+}
+

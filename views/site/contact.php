@@ -8,40 +8,6 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
-use dosamigos\google\maps\LatLng;
-use dosamigos\google\maps\services\DirectionsWayPoint;
-use dosamigos\google\maps\services\TravelMode;
-use dosamigos\google\maps\overlays\PolylineOptions;
-use dosamigos\google\maps\services\DirectionsRenderer;
-use dosamigos\google\maps\services\DirectionsService;
-use dosamigos\google\maps\overlays\InfoWindow;
-use dosamigos\google\maps\overlays\Marker;
-use dosamigos\google\maps\Map;
-use dosamigos\google\maps\services\DirectionsRequest;
-use dosamigos\google\maps\overlays\Polygon;
-use dosamigos\google\maps\layers\BicyclingLayer;
-
-$coord = new LatLng(['lat' => $contactSettings->latitude, 'lng' => $contactSettings->longitude]);
-
-$map = new Map([
-    'center' => $coord,
-    'zoom' => 17,
-    'width' => '100%',
-    'height' => '365'
-]);
-
-$marker = new Marker([
-    'position' => $coord,
-    'title' => 'Колорэкспресс',
-]);
-
-$marker->attachInfoWindow(
-    new InfoWindow([
-        'content' => '<p>'.$contactSettings->address.'</p>'
-    ])
-);
-
-$map->addOverlay($marker);
 
 if ($this->title == null || $this->title == '') {
     $this->title = "Контакты";
@@ -50,64 +16,129 @@ if ($this->title == null || $this->title == '') {
 
 <div class="row">
     <div class="col-sm-12">
-        <?php echo $map->display(); ?>
+        <h1 class="text-uppercase font-weight-normal mb-5">Контакты</h1>
     </div>
 </div>
-<div class="row section-row">
-    <div class="col-sm-4">
-        <?php if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>
-            Ваше сообщение отправлено. Мы свяжемся с Вами в ближайшее время.
-        <?php else: ?>
-            <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
-            <?= $form->field($model, 'name')->textInput(['autofocus' => true, 'placeholder' => 'Ваше имя *'])->label(false) ?>
-            <?= $form->field($model, 'phone')->textInput(['placeholder' => '+375 (__) ___-__-__ *'])->label(false) ?>
-            <?= $form->field($model, 'body')->textarea(['rows' => 6, 'placeholder' => 'Ваше сообщение (до 2000 символов)'])->label(false) ?>
-            <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-                'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
-            ]) ?>
-            <div class="form-group">
-                <?= Html::submitButton('Отправить', ['class' => 'custom-btn primary full-width', 'name' => 'contact-button']) ?>
+
+
+<div class="row">
+    <div class="col-sm-7">
+        <div class="row mb-4">
+            <div class="col-sm-12">
+                <p class="my-0 text-uppercase"><strong>ООО "Колорэкспресс"</strong></p>
+                <p>
+                    Департамент наружной рекламы
+                </p>
             </div>
-            <?php ActiveForm::end(); ?>
-        <?php endif; ?>
+        </div>
+        <div class="row mb-5">
+            <div class="col-sm-12 col-md-6 col-lg-4 d-flex">
+                <div class="pr-3 pt-1">
+                    <img src="/images/external/telephone.png" />
+                </div>
+                <div>
+                    <p class="my-0"><a href="tel:+375173991096" class="text-body">+375 (17) 399-10-96</a></p>
+                    <p class="my-0"><a href="tel:+375173991097" class="text-body">+375 (17) 399-10-97</a></p>
+                    <p class="my-0"><a href="tel:+375173991087" class="text-body">+375 (17) 399-10-87</a></p>
+                    <p class="my-0"><a href="tel:+375173991095" class="text-body">+375 (17) 399-10-95</a></p>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4 d-flex">
+                <div class="pr-3 pt-1">
+                    <img src="/images/external/mobile.png" />
+                </div>
+                <div>
+                    <p class="my-0"><a href="tel:+375291992787" class="text-body">+375 (29) 199-27-87</a></p>
+                    <p class="my-0"><a href="tel:+375296450443" class="text-body">+375 (29) 645-04-43</a></p>
+                    <p class="my-0"><a href="tel:+375293067022" class="text-body">+375 (29) 306-70-22</a></p>
+                    <p class="my-0"><a href="tel:+375447425921" class="text-body">+375 (44) 742-59-21</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-sm-12 d-flex">
+                <div class="pr-3 pl-1">
+                    <img src="/images/external/message.png" />
+                </div>
+                <div class="pt-1">
+                    Email: outdoor@colorexpress.by
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-sm-12 d-flex">
+                <div class="pr-3">
+                    <img src="/images/external/location.png" />
+                </div>
+                <div>
+                    <p class="my-0">Наш адрес:</p>
+                    <p>г. Минск, ул. Железнодорожная, 44</p>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row mt-4">
+            <div class="col-sm-12 col-md-4">
+                <img src="/images/external/logo-contact.png" class="mw-100" />
+                <p class="mt-3">
+                    ООО "Колорэкспресс" - мультибрендовая компания с 25-ти летней историей, имеющая в своем портфеле три бренда
+                </p>
+            </div>
+            <div class="col-sm-12 col-md-8">
+                <div class="row">
+                    <div class="col-4">
+                        <a href="http://leader-outdoor.by">
+                            <img src="/images/external/leader-logo.png" />
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a href="https://krasavik.by">
+                            <img src="/images/external/krasavik-logo.png" />
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a href="http://colorexpo.by/">
+                            <img src="/images/external/brand-colorexpo.png" />
+                        </a>
+                    </div>
+                </div>
+                <hr />
+                <p class="my-0 text-danger font-weight-bold">www.leaderoutdoor.by</p>
+                <p class="text-uppercase text-secondary">Имиджевые надкрышные рекламные конструкции</p>
+                <p>
+                    Большие световые короба и объемные буквы с подсветкой обеспечивают положительное эмоциональное и эстетическое воздействие на самую широкую аудиторию. Ваш бренд на крышной установке становится не просто рекламой, а частью городского пейзажа.
+                </p>
+            </div>
+        </div>
     </div>
-    <div class="col-sm-8">
-        <div class="row">
-            <div class="col-sm-12">
-                <p class="note-message">Свяжитесь с нами любым удобным для вас способом, и мы ответим на все интересующие вас вопросы!</p>
-            </div>
-        </div>
-        <div class="row block-row">
-            <div class="col-sm-12">
-                <div class="info-block">
-                    <h4 class="info-block-header"><i class="icon phone-icon"></i>Контакты для связи с ООО "Колорэкспресс": </h4>
-                    <div class="info-block-content">
-                        <?php foreach($contactSettings->phones as $phone) {
-                            echo '<p>'.$phone.'</p>';
-                        } ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row block-row">
-            <div class="col-sm-12">
-                <div class="info-block">
-                    <h4 class="info-block-header"><i class="icon email-icon"></i>Email: </h4>
-                    <div class="info-block-content">
-                        <p><?php echo $contactSettings->email; ?></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row block-row">
-            <div class="col-sm-12">
-                <div class="info-block">
-                    <h4 class="info-block-header"><i class="icon address-icon"></i>Наш адрес: </h4>
-                    <div class="info-block-content">
-                        <p><?php echo $contactSettings->address; ?></p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="col-sm-5">
+        <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+        <script type="text/javascript">
+            ymaps.ready(init);
+
+            function init () {
+                var map = new ymaps.Map('map', {
+                        center: [<?php echo $contactSettings->latitude; ?>, <?php echo $contactSettings->longitude; ?>],
+                        zoom: 16
+                    }, {
+                        searchControlProvider: 'yandex#search'
+                    }),
+                    myGeoObject = new ymaps.GeoObject({
+                        geometry: {
+                            type: "Point",
+                            coordinates: [<?php echo $contactSettings->latitude; ?>, <?php echo $contactSettings->longitude; ?>]
+                        },
+                        properties: {
+                            balloonContent: 'Железнодорожная улица, 44'
+                        }
+                    }, {
+                        preset:'islands#icon',
+                        iconColor: '#a5260a'
+                    });
+
+                map.geoObjects.add(myGeoObject);
+            }
+        </script>
+        <div id="map" style="height: 500px; width: 100%"></div>
     </div>
 </div>

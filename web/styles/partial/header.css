@@ -1,23 +1,51 @@
-@font-face {
-    font-family: 'Franklin Gothic Medium';
-    src: url('/web/fonts/FranklinGothic-Medium.ttf');
-}
+@media (min-width: 992px) {
+    header {
+        font-size: 14px;
+    }
+  }
+  
+  @media (min-width: 1030px) {
+    header {
+        font-size: 16px;
+    }
+  }
+  
+  @media (min-width: 1250px) {
+    header {
+        font-size: 18px;
+    }
+  }
+  
+  @media (min-width: 1500px) {
+    header {
+        font-size: 20px;
+    }
+  }
+  
+  @media (min-width: 1900px) {
+    header {
+        font-size: 24px;
+    }
+  }
+  
 
 .navbar {
-    background-image: url('/web/images/partial/header/bg-header.jpg');
+    background-image: url('/images/external/top-header.png');
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: 0;
     border: none;
-    padding: .5rem 3rem;
+    padding: 0 0 0 3em;
+    align-items: stretch;
 }
 
-.nav-link{
-    font-weight: bold;
+.nav-link {
+    font-weight: normal;
     text-transform: uppercase;
-    font-family: 'Franklin Gothic Medium', arial;
-    font-size: 1.19rem;
+    font-family: 'Franklin Gothic Extra Condensed', arial;
+    font-size: 1.1em;
     font-stretch: ultra-condensed;
+    white-space: nowrap;
     color: #fff !important;
 }
 
@@ -26,33 +54,44 @@
 }
 
 .navbar .active > .nav-link {
-    color: #fecd4a !important;
+    text-decoration: underline;
 }
 
-.red-block{
-    width: 20%;
-    position: absolute;
-    bottom: 0;
-    right: 0;
+.nav-link.special {
+    color: #fecd4a !important;
+    font-weight: bold;
+}
+
+.navbar-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 25%;
+    height: 100%;
+}
+
+.red-block {
+    width: 100%;
     background-color: red;
     color: white;
     text-align: center;
     text-transform: uppercase;
-    font-size: 1rem;
+    font-size: .85em;
+    line-height: 1.8;
+    font-weight: bold;
+}
+
+.navbar-brand {
+    display: flex;
 }
 
 .navbar-logo {
-    width: 10.7rem;
+    width: 10.7em;
+    margin: auto;
 }
 
-@media (max-width:992px){
-
-    .navbar-logo {
-        width: 130px;
-    }
-
-    .carousel-control-prev, .carousel-control-next, .carousel-indicators,
-    .red-block{
-        display: none;
-    }
+.number {
+    color: white;
+    font-weight: bold;
+    text-align: center;
 }

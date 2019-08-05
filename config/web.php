@@ -22,16 +22,6 @@ $config = [
                     'js' => [
                         'jquery.min.js'
                     ]
-                ],
-                'yii\bootstrap\BootstrapAsset' => [
-                    'css' => [
-                        'css/bootstrap.min.css',
-                    ]
-                ],
-                'yii\bootstrap\BootstrapPluginAsset' => [
-                    'js' => [
-                        'js/bootstrap.min.js',
-                    ]
                 ]
             ]
         ],
@@ -81,12 +71,15 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
-                'index' => 'construction/index',
+                'index' => 'site/index',
+                'catalog' => 'construction/index',
                 'our-clients' => 'site/clients',
                 'about' => 'site/about',
                 'vacancies' => 'site/vacancies',
                 'contacts' => 'site/contact',
-                'advantages' => 'site/advantages'
+                'advantages' => 'site/advantages',
+                'portfolio' => 'site/portfolio',
+                'offers' => 'site/offers',
             ],
         ],
         'authManager' => [
@@ -100,7 +93,7 @@ $config = [
     ],
     'language' => 'ru-RU',
     'params' => $params,
-    'defaultRoute' => 'construction/index'
+    'defaultRoute' => 'site/index'
 ];
 
 if (YII_ENV_DEV) {

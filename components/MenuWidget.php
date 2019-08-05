@@ -8,7 +8,6 @@
 
 namespace app\components;
 
-
 use app\models\constants\SiteSettingKey;
 use app\models\entities\SiteSettings;
 use app\models\User;

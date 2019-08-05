@@ -21,6 +21,7 @@ class AppAsset extends AssetBundle
     public $css = [
         'styles/toastr.min.css',
         'styles/common.css',
+        'styles/external.css',
         'styles/controls.css',
         'styles/info-block.css',
         'styles/advantages.css',

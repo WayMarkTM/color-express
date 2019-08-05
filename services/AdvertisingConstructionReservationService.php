@@ -616,7 +616,7 @@ class AdvertisingConstructionReservationService
      * @return bool
      */
     public function isReservationContinuous($reservation) {
-        $periods = $model->getAdvertisingConstructionReservationPeriods()
+        $periods = $reservation->getAdvertisingConstructionReservationPeriods()
             ->orderBy('from ASC')
             ->all();
 

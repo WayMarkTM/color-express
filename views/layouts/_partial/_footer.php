@@ -1,52 +1,71 @@
 <?php
 
-$this->registerCssFile(Yii::$app->request->baseUrl.'/css/partial/footer.css');
+$this->registerCssFile(Yii::$app->request->baseUrl.'/styles/partial/footer.css');
 
 ?>
 
 <footer class="footer">
-    <div class="container">
+    <div class="container footer-container">
         <div class="row justify-content-between">
-            <div class="col footer-info">
-                <a class="footer-main-logo" href="/">
-                    <img class="img-fluid" src="/web/images/icons/brand-icon.png" alt="">
+            <div class="col-sm-12 col-lg-3 footer-info mt-2">
+                <a class="footer-main-logo" href="">
+                    <img class="img-fluid" src="images/external/logo.png" alt="">
                 </a>
-                <span class="footer-info-text">оператор наружной рекламы</span>
-                <div class="social-links">
-                    <a class="social-link" href=""><img class="img-icon" src="/web/images/icons/facebook-icon.png" alt=""></a>
-                    <a class="social-link" href=""><img class="img-icon" src="/web/images/icons/instagram-icon.png" alt=""></a>
+                <span class="footer-info-text">оператор наружной<br/>рекламы</span>
+                <div class="social-links ml-4">
+                    <a class="social-link" target="_blank" href="https://www.facebook.com/colorexpo.by/"><img class="img-icon" src="images/external/facebook.png" alt=""></a>
+                    <a class="social-link" target="_blank" href="https://www.instagram.com/colorexpress_minsk/"><img class="img-icon" src="images/external/insta.png" alt=""></a>
                 </div>
             </div>
-            <div class="col footer-tel">
-                <p class="footer-text">
-                    <strong>Телефоны:</strong> <br><br>
-                    +375 17 399 10 96 <br>
-                    +375 17 399 10 97 <br>
-                    +375 17 399 10 87 <br><br>
-                    E-mail: <br>
-                    <a class="footer-link" href="">outdoor@colorexpress.by</a>
+            <div class="col-sm-12 col-lg-4 footer-tel mt-2">
+                <p class="footer-text font-weight-bold">
+                    Телефоны:
+                </p>
+                <p class="my-0">
+                    <a href="tel:+375173991096">+375 17 399 10 96</a>
+                </p>
+                <p class="my-0">
+                    <a href="tel:+375173991097">+375 17 399 10 97</a>
+                </p>
+                <p>
+                    <a href="tel:+375173991087">+375 17 399 10 87</a>
+                </p>
+                <p class="my-0">E-mail:</P>
+                <p class="my-0">
+                    <a class="footer-link" href="mailto:outdoor@colorexpress.by">outdoor@colorexpress.by</a>
                 </p>
             </div>
-            <div class="col footer-menu">
-                <p class="footer-text"><strong>Информация:</strong></p>
-                <br>
-                <a class="footer-link" href="">Купить онлайн </a> <br>
-                <a class="footer-link" href="">Exclusive offer</a> <br>
-                <a class="footer-link" href="">О компании </a> <br>
-                <a class="footer-link" href="">Портфолио</a> <br>
-                <a class="footer-link" href="">F.A.Q </a> <br>
-                <a class="footer-link" href="">Контакты</a>
+            <div class="col-sm-12 col-lg-3 footer-menu mt-2">
+                <p class="footer-text font-weight-bold">Информация:</p>
+                <p class="my-0">
+                    <a class="footer-link" href="/catalog">Купить online </a>
+                </p>
+                <p class="my-0">
+                    <a class="footer-link" href="/offers">Exclusive offer</a>
+                </p>
+                <p class="my-0">
+                    <a class="footer-link" href="/about">О компании </a>
+                </p>
+                <p class="my-0">
+                    <a class="footer-link" href="/portfolio">Портфолио</a>
+                </p>
+                <p class="my-0">
+                    <a class="footer-link" href="/faq">F.A.Q </a>
+                </p>
+                <p class="my-0">
+                    <a class="footer-link" href="/contacts">Контакты</a>
+                </p>
             </div>
-            <div class="col address">
+            <div class="col-sm-12 col-lg-2 address mt-2">
                 <a class="footer-second-logo" href="/">
-                    <img class="img-fluid" src="/web/images/icons/brand-footer-icon.png" alt="">
+                    <img class="img-fluid" src="images/external/logo-footer.png" alt="">
                 </a>
-                <p class="footer-text">
-                    <strong>ООО &laquo;Колорэкспресс&raquo;</strong> <br><br>
-                    Беларусь, г. Минск, <br>
-                    ул. Железнодоржная, <br>
-                    дом 44
+                <p class="footer-company-name footer-text font-weight-bold">
+                    ООО &laquo;Колорэкспресс&raquo;
                 </p>
+                <p class="my-0">г. Минск,</p>
+                <p class="my-0">ул. Железнодорожная,</p>
+                <p class="my-0">дом 44, пом. 263</p>
             </div>
         </div>
     </div>

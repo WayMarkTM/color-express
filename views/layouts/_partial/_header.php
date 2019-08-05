@@ -1,14 +1,14 @@
 <?php
+use app\components\NavbarWidget;
 
-$this->registerCssFile(Yii::$app->request->baseUrl.'/css/partial/header.css');
-
+$this->registerCssFile(Yii::$app->request->baseUrl.'/styles/partial/header.css');
 ?>
 
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark my-0">
         <a class="navbar-brand" href="/">
             <div class="navbar-logo">
-                <img class="img-fluid" src="/web/images/icons/brand-icon.png" alt="">
+                <img class="img-fluid" src="images/external/logo.png" alt="">
             </div>
         </a>
         <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
@@ -16,26 +16,15 @@ $this->registerCssFile(Yii::$app->request->baseUrl.'/css/partial/header.css');
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse nav-link-size" id="navbarTogglerDemo01">
-            <ul class="navbar-nav mx-auto ">
-                <li class="nav-item active">
-                    <a class="nav-link " href="#">купить онлайн <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="exclusive-offer.html">exclusive-offer</a>
-                </li>
-                <li class="nav-item">s
-                    <a class="nav-link" href="about-company.html">о компании</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="portfolio.html">портфолио</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contacts.html">контакты</a>
-                </li>
-            </ul>
-            <span class="number">+375 29 306-70-22</span>
-            <div class="red-block">
-                <a href="#">primium outdoor</a>
+            <?php 
+                NavbarWidget::begin();
+                NavbarWidget::end();
+            ?>
+            <div class="navbar-info">
+                <a href="tel:+375293067022" class="number">+375 29 306-70-22</a>
+                <div class="red-block">
+                    premium outdoor
+                </div>
             </div>
         </div>
     </nav>

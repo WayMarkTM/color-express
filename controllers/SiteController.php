@@ -25,6 +25,8 @@ use yii\widgets\ActiveForm;
 
 class SiteController extends Controller
 {
+    public $layout = 'external';
+
     /**
      * @inheritdoc
      */
@@ -84,6 +86,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $this->view->title = $this->seoService->getTitleAndSetMetaData(PageKey::INDEX);
+        $this->layout = "external-base.php";
         return $this->render('index');
     }
 
@@ -222,5 +226,10 @@ class SiteController extends Controller
         return $this->render('portfolio', [
             'portfolioItems' => $portfolioItems,
         ]);
+    }
+
+    public function actionOffers() {
+        $this->view->title = $this->seoService->getTitleAndSetMetaData(PageKey::OFFERS);
+        return $this->render('offers');
     }
 }

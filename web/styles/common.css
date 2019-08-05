@@ -19,7 +19,7 @@ html, body {
     padding: 0;
 }
 
-body {
+body:not(.external) {
     background-image: url('../images/background.jpg');
     background-size: cover;
     background-repeat: no-repeat;
