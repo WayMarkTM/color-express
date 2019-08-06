@@ -28,7 +28,8 @@ class SiteSettingsService
         $model->longitude = SiteSettings::findOne(SiteSettingKey::ADDRESS_LONG)->value;
         $model->instagram = SiteSettings::findOne(SiteSettingKey::INSTAGRAM)->value;
         $model->facebook = SiteSettings::findOne(SiteSettingKey::FACEBOOK)->value;
-        $model->phones = explode(";", SiteSettings::findOne(SiteSettingKey::PHONES)->value);
+        $model->leftPhones = explode(";", SiteSettings::findOne(SiteSettingKey::CONTACT_LEFT_PHONES)->value);
+        $model->rightPhones = explode(";", SiteSettings::findOne(SiteSettingKey::CONTACT_RIGHT_PHONES)->value);
 
         return $model;
     }

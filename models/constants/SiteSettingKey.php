@@ -22,4 +22,8 @@ class SiteSettingKey
     const STOCK_SHOW = 9;
     const INSTAGRAM = 10;
     const FACEBOOK = 11;
+    const HEADER_PHONE = 12;
+    const FOOTER_PHONES = 13;
+    const CONTACT_LEFT_PHONES = 14;
+    const CONTACT_RIGHT_PHONES = 15;
 }

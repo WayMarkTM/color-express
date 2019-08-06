@@ -1,10 +1,13 @@
+<meta property="og:title" content="Программа Лояльности Удачное размещение">
+<meta property="og:image" content="/images/external/facebook.png">
+
 <div class="row">
-  <div class="col-sm-12 col-md-7 col-lg-7 pr-5">
+  <div class="col-sm-12 col-md-6 col-lg-6">
     <h1 class="font-weight-normal text-uppercase mb-4">Программа Лояльности "Удачное размещение"</h1>
     <p><strong>Уважаемые партнеры!</strong></p>
     <p>Компания ООО "Колорэкспресс" запускает программу лояльности "Удачное размещение" для своих клиентов, которая позволит сэкономить рекламный бюджет до 50%.</p>
     <p>20-ого числа каждого месяца мы будем отправлять Вам список рекламных конструкций, доступных к бронированию по специальным ценам в рамках программы "Удачное размещение".</p>
-    <p>Билборды 3*12м и световые короба 3*4,5м по проспекту Независимости, призматроны 3*9м и рекламные конструкциии 1,8*12м на мостах в г. Минске по отличным ценам.</p>
+    <p><a class="text-body underlined-link" href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=1&AdvertisingConstructionSearch%5Bsize_id%5D=3&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0">Билборды 3*12м</a> и <a class="text-body underlined-link" href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=3&AdvertisingConstructionSearch%5Bsize_id%5D=6&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0">световые короба 3*4,5м</a> по проспекту Независимости, <a class="text-body underlined-link" href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=1&AdvertisingConstructionSearch%5Bsize_id%5D=1&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0">призматроны 3*9м</a> и <a class="text-body underlined-link" href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=4&AdvertisingConstructionSearch%5Bsize_id%5D=4&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0">рекламные конструкциии 1,8*12м на мостах</a> в г. Минске по отличным ценам.</p>
     <p>Становитесь участником программы лояльности "Удачное размещение" и бронируйте конструкции на сайте colorexpo.by, либо у наших менеджеров +375 (17) 399-10-96/97.</p>
     <p class="text-right">
       Поделиться
@@ -15,7 +18,7 @@
       </a>
     </p>
   </div>
-  <div class="col-sm-12 col-md-5 col-lg-5 pl-5">
+  <div class="col-sm-12 offset-md-1 offset-lg-1 col-md-5 col-lg-5 pl-5">
     <img src="/images/external/ex-of-img.png" class="mw-100 mt-3" />
   </div>
 </div>

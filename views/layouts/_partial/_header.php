@@ -1,7 +1,9 @@
 <?php
+use app\models\constants\SiteSettingKey;
+use app\models\entities\SiteSettings;
 use app\components\NavbarWidget;
 
-$this->registerCssFile(Yii::$app->request->baseUrl.'/styles/partial/header.css');
+$this->registerCssFile(Yii::$app->request->baseUrl.'/styles/partial/header.css', ['depends' => ['app\assets\ExternalAsset']]);
 ?>
 
 <header>
@@ -21,7 +23,7 @@ $this->registerCssFile(Yii::$app->request->baseUrl.'/styles/partial/header.css')
                 NavbarWidget::end();
             ?>
             <div class="navbar-info">
-                <a href="tel:+375293067022" class="number">+375 29 306-70-22</a>
+                <a href="tel:<?php echo SiteSettings::findOne(SiteSettingKey::HEADER_PHONE)->value; ?>" class="number"><?php echo SiteSettings::findOne(SiteSettingKey::HEADER_PHONE)->value; ?></a>
                 <div class="red-block">
                     premium outdoor
                 </div>

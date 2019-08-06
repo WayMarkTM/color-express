@@ -95,3 +95,45 @@
     font-weight: bold;
     text-align: center;
 }
+
+@media (max-width: 1100px) {
+    .navbar-logo {
+        width: 110px;
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar {
+        padding: .5rem 1rem;
+    }
+
+    .navbar-logo {
+        width: 130px;
+    }
+
+    .red-block {
+        display: none;
+    }
+}
+
+@media (min-width: 1250px) {
+    .navbar {
+        height: 80px;
+    }
+}
+
+@media (min-width: 1900px) {
+    .navbar-info {
+        position: relative;
+        justify-content: center;
+    }
+
+    .navbar {
+        height: 135px;
+    }
+  
+    .red-block {
+        position: absolute;
+        bottom: 0;
+    }
+}

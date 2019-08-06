@@ -28,6 +28,12 @@
     }
   }
 
+  @media (max-width: 768px) {
+    .footer {
+        padding: 20px;
+    }
+  }
+
 .footer {
     background-color: #131629;
     padding: 10px 20px 40px 10px;

@@ -1,5 +1,8 @@
 <?php
 
+use app\models\constants\SiteSettingKey;
+use app\models\entities\SiteSettings;
+
 $this->registerCssFile(Yii::$app->request->baseUrl.'/styles/partial/footer.css');
 
 ?>
@@ -13,26 +16,22 @@ $this->registerCssFile(Yii::$app->request->baseUrl.'/styles/partial/footer.css')
                 </a>
                 <span class="footer-info-text">оператор наружной<br/>рекламы</span>
                 <div class="social-links ml-4">
-                    <a class="social-link" target="_blank" href="https://www.facebook.com/colorexpo.by/"><img class="img-icon" src="images/external/facebook.png" alt=""></a>
-                    <a class="social-link" target="_blank" href="https://www.instagram.com/colorexpress_minsk/"><img class="img-icon" src="images/external/insta.png" alt=""></a>
+                    <a class="social-link" target="_blank" href="<?php echo SiteSettings::findOne(SiteSettingKey::FACEBOOK)->value; ?>"><img class="img-icon" src="images/external/facebook.png" alt=""></a>
+                    <a class="social-link" target="_blank" href="<?php echo SiteSettings::findOne(SiteSettingKey::INSTAGRAM)->value; ?>"><img class="img-icon" src="images/external/insta.png" alt=""></a>
                 </div>
             </div>
             <div class="col-sm-12 col-lg-4 footer-tel mt-2">
                 <p class="footer-text font-weight-bold">
                     Телефоны:
                 </p>
+                <?php foreach (explode(";", SiteSettings::findOne(SiteSettingKey::FOOTER_PHONES)->value) as $phone) { ?>
+                    <p class="my-0">
+                        <a href="tel:<?php echo $phone; ?>"><?php echo $phone; ?></a>
+                    </p>
+                <?php } ?>
+                <p class="mb-0 mt-3">E-mail:</P>
                 <p class="my-0">
-                    <a href="tel:+375173991096">+375 17 399 10 96</a>
-                </p>
-                <p class="my-0">
-                    <a href="tel:+375173991097">+375 17 399 10 97</a>
-                </p>
-                <p>
-                    <a href="tel:+375173991087">+375 17 399 10 87</a>
-                </p>
-                <p class="my-0">E-mail:</P>
-                <p class="my-0">
-                    <a class="footer-link" href="mailto:outdoor@colorexpress.by">outdoor@colorexpress.by</a>
+                    <a class="footer-link" href="mailto:<?php echo SiteSettings::findOne(SiteSettingKey::CONTACT_EMAIL)->value; ?>"><?php echo SiteSettings::findOne(SiteSettingKey::CONTACT_EMAIL)->value; ?></a>
                 </p>
             </div>
             <div class="col-sm-12 col-lg-3 footer-menu mt-2">
@@ -50,7 +49,7 @@ $this->registerCssFile(Yii::$app->request->baseUrl.'/styles/partial/footer.css')
                     <a class="footer-link" href="/portfolio">Портфолио</a>
                 </p>
                 <p class="my-0">
-                    <a class="footer-link" href="/faq">F.A.Q </a>
+                    <a class="footer-link" href="<?php echo SiteSettings::findOne(SiteSettingKey::PRESENTATION_LINK)->value; ?>">F.A.Q </a>
                 </p>
                 <p class="my-0">
                     <a class="footer-link" href="/contacts">Контакты</a>

@@ -5,6 +5,8 @@
 /* @var $model app\models\ContactForm */
 /* @var $contactSettings app\models\ContactSettings */
 
+use app\models\constants\SiteSettingKey;
+use app\models\entities\SiteSettings;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
@@ -32,26 +34,28 @@ if ($this->title == null || $this->title == '') {
             </div>
         </div>
         <div class="row mb-5">
-            <div class="col-sm-12 col-md-6 col-lg-4 d-flex">
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-5 d-flex">
                 <div class="pr-3 pt-1">
                     <img src="/images/external/telephone.png" />
                 </div>
                 <div>
-                    <p class="my-0"><a href="tel:+375173991096" class="text-body">+375 (17) 399-10-96</a></p>
-                    <p class="my-0"><a href="tel:+375173991097" class="text-body">+375 (17) 399-10-97</a></p>
-                    <p class="my-0"><a href="tel:+375173991087" class="text-body">+375 (17) 399-10-87</a></p>
-                    <p class="my-0"><a href="tel:+375173991095" class="text-body">+375 (17) 399-10-95</a></p>
+                    <?php foreach ($contactSettings->leftPhones as $phone) { ?>
+                        <p class="my-0">
+                            <a href="tel:<?php echo $phone; ?>" class="text-body"><?php echo $phone; ?></a>
+                        </p>
+                    <?php } ?>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-4 d-flex">
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-5 d-flex">
                 <div class="pr-3 pt-1">
                     <img src="/images/external/mobile.png" />
                 </div>
                 <div>
-                    <p class="my-0"><a href="tel:+375291992787" class="text-body">+375 (29) 199-27-87</a></p>
-                    <p class="my-0"><a href="tel:+375296450443" class="text-body">+375 (29) 645-04-43</a></p>
-                    <p class="my-0"><a href="tel:+375293067022" class="text-body">+375 (29) 306-70-22</a></p>
-                    <p class="my-0"><a href="tel:+375447425921" class="text-body">+375 (44) 742-59-21</a></p>
+                    <?php foreach ($contactSettings->rightPhones as $phone) { ?>
+                        <p class="my-0">
+                            <a href="tel:<?php echo $phone; ?>" class="text-body"><?php echo $phone; ?></a>
+                        </p>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -61,7 +65,7 @@ if ($this->title == null || $this->title == '') {
                     <img src="/images/external/message.png" />
                 </div>
                 <div class="pt-1">
-                    Email: outdoor@colorexpress.by
+                    Email: <a href="mailto:<?php echo $contactSettings->email; ?>"><?php echo $contactSettings->email; ?></a>
                 </div>
             </div>
         </div>
@@ -72,7 +76,7 @@ if ($this->title == null || $this->title == '') {
                 </div>
                 <div>
                     <p class="my-0">Наш адрес:</p>
-                    <p>г. Минск, ул. Железнодорожная, 44</p>
+                    <p><?php echo $contactSettings->address; ?></p>
                 </div>
             </div>
         </div>

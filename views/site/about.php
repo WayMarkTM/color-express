@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="row">
-    <div class="col-sm-12 col-md-6 col-lg-6">
+    <div class="col-sm-12 col-md-5 col-lg-5">
         <h1 class="text-uppercase font-weight-normal">О Компании</h1>
         <p><strong>ООО «Колорэкспресс»</strong> – один из ведущих операторов наружной рекламы, который уже более 25 лет успешно сотрудничает с белорусскими и иностранными брендами.</p>
         <p>Компания постоянно инвестирует в развитие сети рекламных носителей, отвечающих основным требованиям, предъявляемым клиентами (размер, видимость, место), что сегодня позволяет ООО «Колорэкспресс» найти подход даже к самым требовательным клиентам.</p>
@@ -20,13 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <p>Компания ООО «Колорэкспресс» предлагает <strong>размещение рекламы на МКАД</strong> и значимых улицах города Минска на собственных световых рекламных конструкциях.</p>
         <p>Своим клиентам мы предлагаем <strong>полный комплекс услуг</strong>:</p>
         <ul class="list-unstyled">
-            <li><strong>Реклама на бигбордах / билбордах в Минске.</strong></li>
-            <li><strong>Реклама на растяжках</strong> (мостах).</li>
-            <li>Реклама на брандмауэрах.</li>
-            <li>Реклама на световых коробах на фасадах зданий, в переходах.</li>
+            <li><strong>Реклама <a class="underlined-link text-body" href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=1&AdvertisingConstructionSearch%5Bsize_id%5D=&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0">на бигбордах / билбордах в Минске.</a></strong></li>
+            <li><strong>Реклама </strong><a class="underlined-link text-body" href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=4&AdvertisingConstructionSearch%5Bsize_id%5D=&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0"><strong>на растяжках</strong> (мостах).</a></li>
+            <li>Реклама <a class="underlined-link text-body" href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=2&AdvertisingConstructionSearch%5Bsize_id%5D=&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0">на брандмауэрах.</a></li>
+            <li>Реклама <a class="underlined-link text-body" href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=3&AdvertisingConstructionSearch%5Bsize_id%5D=&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0">на световых коробах на фасадах зданий</a>, <a class="underlined-link text-body" href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=6&AdvertisingConstructionSearch%5Bsize_id%5D=&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0">в переходах.</a></li>
         </ul>
     </div>
-    <div class="col-sm-12 col-md-6 col-lg-6">
+    <div class="col-sm-12 offset-md-1 offset-lg-1 col-md-6 col-lg-6">
         <img src="/images/external/ab-company-img.png" class="mw-100" />
     </div>
 </div>

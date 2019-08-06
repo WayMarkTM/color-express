@@ -39,7 +39,7 @@
     </div>
     <div class="section-header">
     <h3>
-        <span class="font-weight-bold">colorexpo - online</span> платформа для покупки <br>
+        <strong>colorexpo - online платформа</strong> для покупки <br>
         наружной рекламы
     </h3>
     </div>
@@ -58,7 +58,7 @@
             </a>
         </div>
         <div class="col-lg-6 col-sm-12 card-opportunity">
-            <a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=5">
+            <a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=4">
                 <div class="card">
                     <img class="card-img" src="images/external/gal1-col2.png" alt="Card images/external">
                     <div class="card-img-overlay card-desc">
@@ -121,8 +121,8 @@
     </div>
     <div class="section-header">
     <h3>
-        <span class="font-weight-bold">colorexpo - online</span> платформа для покупки <br>
-        наружной рекламы
+        <strong>colorexpo</strong> - ваш надежный партнер <br>
+        в наружной рекламе
     </h3>
     </div>
     <div class="container my-5 services">
@@ -182,7 +182,7 @@
     </div>
     <div class="section-header">
     <h3>
-        <span class="font-weight-bold">colorexpo - оператор</span> наружной рекламы <br>
+        <strong>colorexpo - оператор наружной рекламы</strong><br>
         ооо &laquo;колорэкспресс&raquo;
     </h3>
     </div>
@@ -199,11 +199,11 @@
                 Минска на собственных световых рекламных конструкциях. <br><br>
                 В каталоге рекламных конструкций вы сможете заказать размещение наружной рекламы на: <br>
                 <ul>
-                    <li><a href="#"> Биллбордах 3*12м</a>, <a href="#">билбордах4*8м</a> и <a href="#">призматронах 3*9м</a></li>
-                    <li><a href="#"> Рекламных конструкциях на мостах и путепроводах различных размеров</a></li>
-                    <li><a href="#"> Световых коробах на зданиях</a> в центре Минска </li>
-                    <li><a href="#"> Брандмауэрах </a></li>
-                    <li><a href="#">В центральном переходе г. Минска «пр-кт Независимости - ул. Ленина»</a></li>
+                    <li><a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=1&AdvertisingConstructionSearch%5Bsize_id%5D=3&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0"> Биллбордах 3*12м</a>, <a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=1&AdvertisingConstructionSearch%5Bsize_id%5D=2&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0">билбордах4*8м</a> и <a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=1&AdvertisingConstructionSearch%5Bsize_id%5D=1&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0">призматронах 3*9м</a></li>
+                    <li><a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=8&AdvertisingConstructionSearch%5Bsize_id%5D=&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0"> Рекламных конструкциях на мостах и путепроводах различных размеров</a></li>
+                    <li><a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=3&AdvertisingConstructionSearch%5Bsize_id%5D=&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0"> Световых коробах на зданиях</a> в центре Минска </li>
+                    <li><a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=2&AdvertisingConstructionSearch%5Bsize_id%5D=&AdvertisingConstructionSearch%5Baddress%5D=&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0"> Брандмауэрах </a></li>
+                    <li><a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=6&AdvertisingConstructionSearch%5Bsize_id%5D=&AdvertisingConstructionSearch%5Baddress%5D=Независимости&AdvertisingConstructionSearch%5BfromDate%5D=&AdvertisingConstructionSearch%5BtoDate%5D=&AdvertisingConstructionSearch%5BshowOnlyFreeConstructions%5D=0">В центральном переходе г. Минска «пр-кт Независимости - ул. Ленина»</a></li>
                 </ul>
             </p>
         </div>
@@ -307,3 +307,9 @@
     </div>
     </div>
 </div>
+
+<script>
+    $('.carousel').carousel({
+        interval: 4000
+    });
+</script>

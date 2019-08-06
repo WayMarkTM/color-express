@@ -9,7 +9,8 @@
 namespace app\models;
 
 /**
- * @property $phones array|string
+ * @property $leftPhones array|string
+ * @property $rightPhones array|string
  * @property $email string
  * @property $address string
  * @property $latitude string
@@ -19,7 +20,8 @@ namespace app\models;
  */
 class ContactSettings
 {
-    public $phones;
+    public $leftPhones;
+    public $rightPhones;
     public $email;
     public $address;
     public $latitude;
