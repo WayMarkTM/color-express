@@ -51,7 +51,7 @@ body:not(.external) {
     padding-top: 22px;
     background: url(../images/side.png) rgba(19, 22, 41, 0.8);
     background-repeat: no-repeat;
-    width: 360px;
+    width: 260px;
     overflow-x: hidden;
     background-blend-mode: multiply;
     position: relative;
@@ -209,7 +209,7 @@ body:not(.external) {
     background-color: rgba(255, 255, 255, 0.5);
     min-height: 100%;
     padding: 0 22px;
-    width: calc(100% - 360px);
+    width: calc(100% - 260px);
 }
 
 .page-container {

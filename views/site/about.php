@@ -45,27 +45,27 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="row mt-3 px-5">
     <div class="col-lg-4 col-md-6 col-sm-12 service">
-        <img class="img-thumbnail rounded-circle w-75" src="../images/about-company/1.png" alt="">
+        <img class="img-thumbnail rounded-circle w-50" src="../images/about-company/1.png" alt="">
         <p class="service-text">Регистрируйтесь на сайте.</p>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 service">
-        <img class="img-thumbnail rounded-circle w-75" src="../images/about-company/2.png" alt="">
+        <img class="img-thumbnail rounded-circle w-50" src="../images/about-company/2.png" alt="">
         <p class="service-text">Пользуйтесь удобным сервисом для поиска и бронирования рекламных конструкций.</p>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 service">
-        <img class="img-thumbnail rounded-circle w-75" src="../images/about-company/3.png" alt="">
+        <img class="img-thumbnail rounded-circle w-50" src="../images/about-company/3.png" alt="">
         <p class="service-text">Следите за доступностью конструкций в режиме онлайн.</p>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 service">
-        <img class="img-thumbnail rounded-circle w-75" src="../images/about-company/4.png" alt="">
+        <img class="img-thumbnail rounded-circle w-50" src="../images/about-company/4.png" alt="">
         <p class="service-text">Просматривайте историю Ваших заказов в личном кабинете.</p>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 service">
-        <img class="img-thumbnail rounded-circle w-75" src="../images/about-company/5.png" alt="">
+        <img class="img-thumbnail rounded-circle w-50" src="../images/about-company/5.png" alt="">
         <p class="service-text">Получайте оповещение о доступности конструкции, если в данный момент она недоступна.</p>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 service">
-        <img class="img-thumbnail rounded-circle w-75" src="../images/about-company/6.png" alt="">
+        <img class="img-thumbnail rounded-circle w-50" src="../images/about-company/6.png" alt="">
         <p class="service-text">Документы по каждой сделке в личном кабинете.</p>
     </div>
 </div>

@@ -67,18 +67,18 @@ AppAsset::register($this);
             <div class="p-5">
                 <div class="row">
                     <div class="col-12">
-                        <p class="text-white h2 font-weight-normal mb-5">Добро пожаловать в online сервис по покупке наружной рекламы компании "Колорэкспресс"!</p>
-                        <p class="text-white h2 font-weight-normal mb-5">Удобный сервис, предлагаемый на нашем сайте, позволит тратить минимум времени на поиск и покупку рекламной конструкции в городе Минске.</p>
+                        <p class="text-white h3 font-weight-normal mb-5">Добро пожаловать в online сервис по покупке наружной рекламы компании "Колорэкспресс"!</p>
+                        <p class="text-white h3 font-weight-normal mb-5">Удобный сервис, предлагаемый на нашем сайте, позволит тратить минимум времени на поиск и покупку рекламной конструкции в городе Минске.</p>
                     </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-12">
-                        <button class="custom-btn red w-75" type="button" data-toggle="modal" data-target="#signin">Вход в систему</button>
+                        <button class="custom-btn red w-100" type="button" data-toggle="modal" data-target="#signin">Вход в систему</button>
                     </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-12">
-                        <button class="custom-btn red w-75" type="button" data-toggle="modal" data-target="#signup">Регистрация</a>
+                        <button class="custom-btn red w-100" type="button" data-toggle="modal" data-target="#signup">Регистрация</a>
                     </div>
                 </div>
             </div>
