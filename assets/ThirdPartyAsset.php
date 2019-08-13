@@ -17,6 +17,5 @@ class ThirdPartyAsset extends AssetBundle
         'js/bootstrap.min.js',
     ];
     public $depends = [
-        'yii\web\YiiAsset',
     ];
 }

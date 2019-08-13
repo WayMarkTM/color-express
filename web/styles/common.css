@@ -20,11 +20,8 @@ html, body {
 }
 
 body:not(.external) {
-    background-image: url('../images/background.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
     letter-spacing: 1px;
+    font-size: 14px;
 }
 
 .download-presentation-link {
@@ -51,14 +48,13 @@ body:not(.external) {
 }
 
 .side-menu {
-    background-color: rgba(0, 0, 0, 0.7);
-    width: 250px;
-    height: 100%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
+    padding-top: 22px;
+    background: url(../images/side.png) rgba(19, 22, 41, 0.8);
+    background-repeat: no-repeat;
+    width: 360px;
     overflow-x: hidden;
+    background-blend-mode: multiply;
+    position: relative;
 }
 
 .side-menu a {
@@ -73,7 +69,7 @@ body:not(.external) {
 .menu-container {
     padding: 0 30px 0 30px;
     overflow-y: auto;
-    height: calc(100% - 360px);
+    height: auto;
 }
 
 .menu-container ul {
@@ -105,7 +101,7 @@ body:not(.external) {
 }
 
 .sign-buttons-container {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     padding: 0 30px 40px 30px;
@@ -204,14 +200,16 @@ body:not(.external) {
 }
 
 .wrap {
-    height: 100%;
+    min-height: 100%;
     min-width: 1400px;
+    display: flex;
 }
 
 .page-wrapper {
     background-color: rgba(255, 255, 255, 0.5);
     min-height: 100%;
-    padding: 22px 22px 22px 272px;
+    padding: 0 22px;
+    width: calc(100% - 360px);
 }
 
 .page-container {
@@ -325,7 +323,7 @@ body:not(.external) {
 }
 
 .modal-form {
-    padding: 20px 90px 40px 90px;
+    padding: 20px 50px 40px 50px;
 }
 
 .modal-btn, .modal-btn:hover {
@@ -512,7 +510,6 @@ table td a:hover {
 }
 
 #control-tabs {
-    margin-top: -23px;
     margin-bottom: 23px;
 }
 
@@ -849,4 +846,20 @@ td .table {
 
 .uib-daypicker .uib-day .btn[disabled] {
     background-color: lightgray;
+}
+
+.content-box {
+    box-sizing: content-box !important;
+}
+
+.modal.fade.in {
+    opacity: 1;
+}
+
+.modal-backdrop.in {
+    opacity: .5;
+}
+
+.modal-title {
+    font-size: 18px;
 }

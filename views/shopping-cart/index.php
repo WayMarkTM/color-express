@@ -64,7 +64,7 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
 
 <link rel="stylesheet" href="/web/styles/vis.min.css" />
 <div class="shopping-cart-container" ng-app="shoppingCart" ng-controller="shoppingCartCtrl as $ctrl">
-    <form name="$ctrl.form" class="form-inline" ng-submit="$ctrl.submit()" novalidate>
+    <form name="$ctrl.form" ng-submit="$ctrl.submit()" novalidate>
         <div class="row">
             <div class="col-md-12">
                 <h3 class="text-uppercase">Корзина</h3>
@@ -151,7 +151,7 @@ $this->registerJsFile('@web/js/app/shopping-cart.js');
             </div>
             <hr/>
             <div class="row block-row">
-                <div class="col-md-4 col-md-offset-4">
+                <div class="col-md-4 offset-md-4">
                     <button type="submit" class="custom-btn blue full-width">Подтвердить</button>
                 </div>
             </div>

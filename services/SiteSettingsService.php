@@ -30,6 +30,7 @@ class SiteSettingsService
         $model->facebook = SiteSettings::findOne(SiteSettingKey::FACEBOOK)->value;
         $model->leftPhones = explode(";", SiteSettings::findOne(SiteSettingKey::CONTACT_LEFT_PHONES)->value);
         $model->rightPhones = explode(";", SiteSettings::findOne(SiteSettingKey::CONTACT_RIGHT_PHONES)->value);
+        $model->phones = explode(";", SiteSettings::findOne(SiteSettingKey::PHONES)->value);
 
         return $model;
     }

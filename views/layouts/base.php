@@ -4,7 +4,6 @@
 /* @var $content string */
 
 use app\components\AddDocumentWidget;
-use app\components\CompanyInfoWidget;
 use app\components\MenuWidget;
 use app\components\AddSubclientWidget;
 use app\components\StockWidget;
@@ -14,11 +13,13 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\helpers\Url;
 use app\assets\AppAsset;
+use app\assets\ThirdPartyAsset;
 use app\components\AuthWidget;
 use app\components\SignupWidget;
 use app\components\ManagerWidget;
 use app\components\WelcomeWidget;
 
+ThirdPartyAsset::register($this);
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -54,48 +55,62 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
+<?php $this->beginContent('@app/views/layouts/_partial/_header.php'); ?>
+<?php $this->endContent(); ?>
+
 <div class="wrap">
     <div class="side-menu">
-        <div class="logo-container">
-            <a href="/" class="logo"></a>
-        </div>
         <?php
             if(!Yii::$app->user->isGuest) {
                 echo WelcomeWidget::widget();
-            }
+            } else { ?>
+            <div class="p-5">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="text-white h2 font-weight-normal mb-5">Добро пожаловать в online сервис по покупке наружной рекламы компании "Колорэкспресс"!</p>
+                        <p class="text-white h2 font-weight-normal mb-5">Удобный сервис, предлагаемый на нашем сайте, позволит тратить минимум времени на поиск и покупку рекламной конструкции в городе Минске.</p>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <button class="custom-btn red w-75" type="button" data-toggle="modal" data-target="#signin">Вход в систему</button>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <button class="custom-btn red w-75" type="button" data-toggle="modal" data-target="#signup">Регистрация</a>
+                    </div>
+                </div>
+            </div>
+        <?php }
 
+        if (!Yii::$app->user->isGuest) {
             MenuWidget::begin();
             MenuWidget::end();
+        }
 
-            if(Yii::$app->user->can('client') && !Yii::$app->user->can('admin')) {
-                echo BalanceWidget::widget();
-            }
+        if(Yii::$app->user->can('client') && !Yii::$app->user->can('admin')) {
+            echo BalanceWidget::widget();
+        }
 
         if(Yii::$app->user->can('client') && !Yii::$app->user->can('admin')) {
                 echo ManagerWidget::widget();
             }
         ?>
-        <div class="sign-buttons-container">
-            <?php
-                if(Yii::$app->user->isGuest) {
-                    CompanyInfoWidget::begin();
-                    CompanyInfoWidget::end();
-                }
-            ?>
-            <? if(Yii::$app->user->isGuest): ?>
-                <a href="#" class="pull-left" data-toggle="modal" data-target="#signup">Регистрация</a>
-                <button class="custom-btn red pull-right" type="button" data-toggle="modal" data-target="#signin">Вход</button>
-
-            <? else: ?>
-                <a href="<?= Url::toRoute('/site/logout')?>" class="custom-btn" type="button">Выход</a>
-            <? endif; ?>
-        </div>
+        <? if(!Yii::$app->user->isGuest): ?>
+            <div class="px-5 mt-4 w-100 text-right">
+                <a href="<?= Url::toRoute('/site/logout')?>" class="custom-btn">Выход</a>
+            </div>
+        <? endif; ?>
     </div>
 
     <div class="page-wrapper">
         <?= $content ?>
     </div>
 </div>
+<?php $this->beginContent('@app/views/layouts/_partial/_footer.php'); ?>
+<?php $this->endContent(); ?>
+
 
 <?php $this->endBody() ?>
 <?php

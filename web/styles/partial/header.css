@@ -37,6 +37,8 @@
     border: none;
     padding: 0 0 0 3em;
     align-items: stretch;
+    font-family: Arial;
+    letter-spacing: 0;
 }
 
 .nav-link {
@@ -68,6 +70,22 @@
     justify-content: flex-end;
     width: 25%;
     height: 100%;
+}
+
+.navbar-brand {
+    padding-top: .3125em;
+    padding-bottom: .3125em;
+    margin-right: 1em;
+    font-size: 1.25em;
+    float: none;
+    padding-left: 0;
+    padding-right: 0;
+    height: inherit;
+}
+
+.navbar-collapse {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .red-block {

@@ -35,14 +35,14 @@ if (!$multiple) {
 }
 ?>
 
-<div id="company-selection" class="modal fade" role="dialog" <?php echo $multiple ? '' : 'ng-app="company"' ?> ng-controller="companyListCtrl as $ctrl">
+<div id="company-selection" class="modal" role="dialog" <?php echo $multiple ? '' : 'ng-app="company"' ?> ng-controller="companyListCtrl as $ctrl">
     <div class="hidden render-modal" ng-click="$ctrl.render()"></div>
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-5">
-                        <h4>Список компаний</h4>
+                        <h3>Список компаний</h3>
                     </div>
                     <?php if ($isEmployee): ?>
                         <div class="col-sm-7">

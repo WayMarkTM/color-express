@@ -79,12 +79,11 @@ ya-map {
 }
 
 .advertising-construction-details .datepicker-row .input-group div.form-control {
-    width: auto;
-    margin-left: 20px;
+    width: calc(100% - 35px);
+    margin-left: 15px;
 }
 
 .advertising-construction-search .form-horizontal .control-label {
-    padding-left: 30px;
     text-align: left;
 }
 

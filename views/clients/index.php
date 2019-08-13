@@ -23,7 +23,7 @@ $this->title = 'Управление клиентами';
 ?>
 <div class="row">
     <div class="col-md-5">
-        <ul class="nav nav-tabs custom-tabs">
+        <ul class="nav nav-tabs custom-tabs mt-2">
             <li role="presentation" class="<?= $tab == 'my-clients' ? 'active' : '' ?>">
                 <a href="<?= Url::toRoute(['clients/index']) ?>" class="text-uppercase">Список Ваших клиентов</a>
             </li>
@@ -32,11 +32,11 @@ $this->title = 'Управление клиентами';
             </li>
         </ul>
     </div>
-    <div class="col-md-7">
-        <div class="col-md-3">
-            <a data-toggle="modal" data-target="#signup" class="custom-btn blue">Добавить клиента</a>
+    <div class="col-md-7 row">
+        <div class="col-md-4">
+            <a data-toggle="modal" data-target="#signup" class="custom-btn blue text-white w-100">Добавить клиента</a>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-8">
             <?php
             $form = ActiveForm::begin()
             ?>
@@ -115,7 +115,7 @@ $this->title = 'Управление клиентами';
                     },
                     'buttons' => [
                         'update' => function ($url, $model, $key) {
-                            return  Html::a('','#', ['class' => 'glyphicon glyphicon-pencil client-editable', 'data-user-id' => $model->id]);
+                            return  Html::a('Редактировать','#', ['class' => 'glyphicon glyphicon-pencil client-editable', 'data-user-id' => $model->id]);
                         }
                     ]
                 ],

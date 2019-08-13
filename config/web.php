@@ -19,10 +19,8 @@ $config = [
                     ],
                 ],
                 'yii\web\JqueryAsset' => [
-                    'js' => [
-                        'jquery.min.js'
-                    ]
-                ]
+                    'js'=>[]
+                ],
             ]
         ],
         'request' => [

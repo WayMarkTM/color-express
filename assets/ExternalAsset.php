@@ -10,12 +10,12 @@ class ExternalAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'styles/fonts.css',
         'styles/external.css',
     ];
     public $js = [
     ];
     public $depends = [
         'app\assets\ThirdPartyAsset',
-        'yii\web\YiiAsset',
     ];
 }

@@ -10,7 +10,7 @@ $this->registerCssFile(Yii::$app->request->baseUrl.'/styles/partial/header.css',
     <nav class="navbar navbar-expand-lg navbar-dark my-0">
         <a class="navbar-brand" href="/">
             <div class="navbar-logo">
-                <img class="img-fluid" src="images/external/logo.png" alt="">
+                <img class="img-fluid" src="/images/external/logo.png" alt="">
             </div>
         </a>
         <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"

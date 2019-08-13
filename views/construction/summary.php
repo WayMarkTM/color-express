@@ -72,7 +72,7 @@ $this->title = "Сводка";
 </div>
 <hr/>
 <div class="row">
-    <div class="col-sm-4 col-sm-offset-4">
+    <div class="col-sm-4 offset-sm-4">
         <button type="button" class="custom-btn blue full-width" id="backToFilter">Вернуться назад к фильтру</button>
     </div>
 </div>

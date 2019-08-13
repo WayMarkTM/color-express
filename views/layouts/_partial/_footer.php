@@ -12,12 +12,12 @@ $this->registerCssFile(Yii::$app->request->baseUrl.'/styles/partial/footer.css')
         <div class="row justify-content-between">
             <div class="col-sm-12 col-lg-3 footer-info mt-2">
                 <a class="footer-main-logo" href="">
-                    <img class="img-fluid" src="images/external/logo.png" alt="">
+                    <img class="img-fluid" src="/images/external/logo.png" alt="">
                 </a>
                 <span class="footer-info-text">оператор наружной<br/>рекламы</span>
                 <div class="social-links ml-4">
-                    <a class="social-link" target="_blank" href="<?php echo SiteSettings::findOne(SiteSettingKey::FACEBOOK)->value; ?>"><img class="img-icon" src="images/external/facebook.png" alt=""></a>
-                    <a class="social-link" target="_blank" href="<?php echo SiteSettings::findOne(SiteSettingKey::INSTAGRAM)->value; ?>"><img class="img-icon" src="images/external/insta.png" alt=""></a>
+                    <a class="social-link" target="_blank" href="<?php echo SiteSettings::findOne(SiteSettingKey::FACEBOOK)->value; ?>"><img class="img-icon" src="/images/external/facebook.png" alt=""></a>
+                    <a class="social-link" target="_blank" href="<?php echo SiteSettings::findOne(SiteSettingKey::INSTAGRAM)->value; ?>"><img class="img-icon" src="/images/external/insta.png" alt=""></a>
                 </div>
             </div>
             <div class="col-sm-12 col-lg-4 footer-tel mt-2">
@@ -57,7 +57,7 @@ $this->registerCssFile(Yii::$app->request->baseUrl.'/styles/partial/footer.css')
             </div>
             <div class="col-sm-12 col-lg-2 address mt-2">
                 <a class="footer-second-logo" href="/">
-                    <img class="img-fluid" src="images/external/logo-footer.png" alt="">
+                    <img class="img-fluid" src="/images/external/logo-footer.png" alt="">
                 </a>
                 <p class="footer-company-name footer-text font-weight-bold">
                     ООО &laquo;Колорэкспресс&raquo;

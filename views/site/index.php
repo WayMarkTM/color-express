@@ -15,16 +15,16 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="images/external/slider-img1.png" alt="Первый слайд">
+                <img class="d-block w-100" src="/images/external/slider-img1.png" alt="Первый слайд">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="images/external/slider-img2.png" alt="Второй слайд">
+                <img class="d-block w-100" src="/images/external/slider-img2.png" alt="Второй слайд">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="images/external/slider-img3.png" alt="Третий слайд">
+                <img class="d-block w-100" src="/images/external/slider-img3.png" alt="Третий слайд">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="images/external/slider-img4.png" alt="Третий слайд">
+                <img class="d-block w-100" src="/images/external/slider-img4.png" alt="Третий слайд">
             </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -48,7 +48,7 @@
         <div class="col-lg-6 col-sm-12 card-opportunity">
             <a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=8">
                 <div class="card">
-                    <img class="card-img" src="images/external/gal1-col1.png" alt="Card images/external">
+                    <img class="card-img" src="/images/external/gal1-col1.png" alt="Card images/external">
                     <div class="card-img-overlay card-desc">
                         <p class="card-text my-0">реклама больших форматов на мостах и<br>
                             путепроводах
@@ -60,7 +60,7 @@
         <div class="col-lg-6 col-sm-12 card-opportunity">
             <a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=4">
                 <div class="card">
-                    <img class="card-img" src="images/external/gal1-col2.png" alt="Card images/external">
+                    <img class="card-img" src="/images/external/gal1-col2.png" alt="Card images/external">
                     <div class="card-img-overlay card-desc">
                         <p class="card-text my-0">реклама на мостах и<br>
                             путепроводах
@@ -72,7 +72,7 @@
         <div class="col-lg-6 col-sm-12 card-opportunity">
             <a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=1">
                 <div class="card">
-                    <img class="card-img" src="images/external/gal1-col3.png" alt="Card images/external">
+                    <img class="card-img" src="/images/external/gal1-col3.png" alt="Card images/external">
                     <div class="card-img-overlay card-desc">
                         <p class="card-text my-0">реклама на билбордах и призматронах<br>
                             3*12м, 4*8м, 3*9м
@@ -84,7 +84,7 @@
         <div class="col-lg-6 col-sm-12 card-opportunity">
             <a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=2">
                 <div class="card">
-                    <img class="card-img" src="images/external/gal1-col4.png" alt="Card images/external">
+                    <img class="card-img" src="/images/external/gal1-col4.png" alt="Card images/external">
                     <div class="card-img-overlay card-desc">
                         <p class="card-text my-0">РЕКЛАМА НА КРУПНОФОРМАТНЫХ<br>
                             БРАНДМАУЭРАХ
@@ -96,7 +96,7 @@
         <div class="col-lg-6 col-sm-12 card-opportunity">
             <a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=3">
                 <div class="card">
-                    <img class="card-img" src="images/external/gal1-col5.png" alt="Card images/external">
+                    <img class="card-img" src="/images/external/gal1-col5.png" alt="Card images/external">
                     <div class="card-img-overlay card-desc">
                         <p class="card-text my-0">РЕКЛАМА НА ЗДАНИЯХ<br>
                             В ЦЕНТРЕ г. МИНСКА
@@ -108,7 +108,7 @@
         <div class="col-lg-6 col-sm-12 card-opportunity">
             <a href="/catalog?AdvertisingConstructionSearch%5Btype_id%5D=6">
                 <div class="card">
-                    <img class="card-img" src="images/external/gal1-col6.png" alt="Card images/external">
+                    <img class="card-img" src="/images/external/gal1-col6.png" alt="Card images/external">
                     <div class="card-img-overlay card-desc">
                         <p class="card-text my-0">РЕКЛАМА В ПЕРЕХОДАХ<br>
                             В ЦЕНТРЕ г. МИНСКА
@@ -127,24 +127,24 @@
     </div>
     <div class="container my-5 services">
     <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="images/external/column-img-1.png" alt="">
+        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="/images/external/column-img-1.png" alt="">
             <p class="service-text">В вашем распоряжении <br>
                 рекламные поверхности в ЦЕНТРЕ города и на самых <br>
                 загруженных развязках и<br>
                 перекрестках</p>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="images/external/column-img-2.png" alt="">
+        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="/images/external/column-img-2.png" alt="">
             <p class="service-text">Предоставим 4 000 кв.м. <br>
                 рекламных поверхностей <br>
                 для ваших маркетинговых <br>
                 задач </p>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="images/external/column-img-3.png" alt="">
+        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="/images/external/column-img-3.png" alt="">
             <p class="service-text">Оперативно подберем<br>
                 плоскости для решения задач <br>
                 вашей рекламной кампании</p>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="images/external/column-img-4.png" alt="">
+        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="/images/external/column-img-4.png" alt="">
             <p class="service-text">
                 Предоставим доступ к <br>
                 онлайн-платформе для <br>
@@ -155,15 +155,15 @@
                 любой сложности
             </p>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="images/external/column-img-5.png" alt="">
+        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="/images/external/column-img-5.png" alt="">
             <p class="service-text">Обеспечим простое
                 ценообразование</p>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="images/external/column-img-6.png" alt="">
+        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="/images/external/column-img-6.png" alt="">
             <p class="service-text"> Напечатаем рекламные <br>
                 материалы (при необходимости)</p>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="images/external/column-img-7.png" alt="">
+        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="/images/external/column-img-7.png" alt="">
             <p class="service-text">
                 Проведем еженедельний <br>
                 мониторинг качества <br>
@@ -172,7 +172,7 @@
                 конструкции
             </p>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="images/external/column-img-8.png" alt="">
+        <div class="col-lg-3 col-md-6 col-sm-12 service"><img src="/images/external/column-img-8.png" alt="">
             <p class="service-text">Организуем постоянную поддержку <br>
                 закрепленным за вашим проектом <br>
                 менеджером для решения <br>
@@ -207,7 +207,7 @@
                 </ul>
             </p>
         </div>
-        <div class="col img-info-block"><img class="img-fluid" src="images/external/info-block-img.png" alt=""></div>
+        <div class="col img-info-block"><img class="img-fluid" src="/images/external/info-block-img.png" alt=""></div>
     </div>
     </div>
     <div class="section-header">
@@ -217,74 +217,74 @@
     <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-12 card-example">
             <div class="card">
-                <img class="card-img" src="images/external/gal2-col1.png" alt="Card images/external">
+                <img class="card-img" src="/images/external/gal2-col1.png" alt="Card images/external">
                 <div class="card-img-overlay card-desc">
                     <p class="card-text my-0">реклама на билбордах</p>
                     <a class="card-link" target="_blank" href="https://drive.google.com/open?id=1j-wf4RWvzZkOnfw9ZjtL6klN2k3VvD_Y">
                         скачать презентацию
-                        <img class="img-icon" src="images/external/pdf-icon.png" alt="">
+                        <img class="img-icon" src="/images/external/pdf-icon.png" alt="">
                     </a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 card-example">
             <div class="card">
-                <img class="card-img" src="images/external/gal2-col2.png" alt="Card images/external">
+                <img class="card-img" src="/images/external/gal2-col2.png" alt="Card images/external">
                 <div class="card-img-overlay card-desc">
                     <p class="card-text my-0">реклама больших<br>
                         форматов на мостах</p>
                     <a class="card-link" target="_blank" href="https://drive.google.com/open?id=1jacDNPsYDQcF8zGP4VS5q4T2Y6Vxi5TL">
                         скачать презентацию
-                        <img class="img-icon" src="images/external/pdf-icon.png" alt="">
+                        <img class="img-icon" src="/images/external/pdf-icon.png" alt="">
                     </a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 card-example">
             <div class="card">
-                <img class="card-img" src="images/external/gal2-col3.png" alt="Card images/external">
+                <img class="card-img" src="/images/external/gal2-col3.png" alt="Card images/external">
                 <div class="card-img-overlay card-desc">
                     <p class="card-text my-0">реклама на мостах</p>
                     <a class="card-link" target="_blank" href="https://drive.google.com/open?id=1huBwbNtLjcZegPOYrm0DPX3wIQkejvx1">
                         скачать презентацию
-                        <img class="img-icon" src="images/external/pdf-icon.png" alt="">
+                        <img class="img-icon" src="/images/external/pdf-icon.png" alt="">
                     </a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 card-example">
             <div class="card">
-                <img class="card-img" src="images/external/gal2-col4.png" alt="Card images/external">
+                <img class="card-img" src="/images/external/gal2-col4.png" alt="Card images/external">
                 <div class="card-img-overlay card-desc">
                     <p class="card-text my-0">реклама на брандмауэрах</p>
                     <a class="card-link" target="_blank" href="https://drive.google.com/open?id=1hsqdyLKwL_9XKbh06AH1lmVu9mJ27G3V">
                         скачать презентацию
-                        <img class="img-icon" src="images/external/pdf-icon.png" alt="">
+                        <img class="img-icon" src="/images/external/pdf-icon.png" alt="">
                     </a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 card-example">
             <div class="card">
-                <img class="card-img" src="images/external/gal2-col5.png" alt="Card images/external">
+                <img class="card-img" src="/images/external/gal2-col5.png" alt="Card images/external">
                 <div class="card-img-overlay card-desc">
                     <p class="card-text my-0">РЕКЛАМА НА ЗДАНИЯХ<br>
                         В ЦЕНТРЕ г.МИНСКА</p>
                     <a class="card-link" target="_blank" href="https://drive.google.com/open?id=1OGEWKo8f2D9KND0skL7BNadUOpYjAmav">
                         скачать презентацию
-                        <img class="img-icon" src="images/external/pdf-icon.png" alt="">
+                        <img class="img-icon" src="/images/external/pdf-icon.png" alt="">
                     </a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 card-example">
             <div class="card">
-                <img class="card-img" src="images/external/gal2-col6.png" alt="Card images/external">
+                <img class="card-img" src="/images/external/gal2-col6.png" alt="Card images/external">
                 <div class="card-img-overlay card-desc">
                     <p class="card-text my-0">реклама в переходах</p>
                     <a class="card-link" target="_blank" href="https://drive.google.com/open?id=1HX421g8tzwMrNptaMUbytdJ85ChYGrEW">
                         скачать презентацию
-                        <img class="img-icon" src="images/external/pdf-icon.png" alt="">
+                        <img class="img-icon" src="/images/external/pdf-icon.png" alt="">
                     </a>
                 </div>
             </div>
@@ -298,11 +298,11 @@
     <div class="row">
         <div class="col-sm-12 col-lg-6">
             <hr class="line">
-            <img class="img-fluid" src="images/external/partner-left.png" alt="">
+            <img class="img-fluid" src="/images/external/partner-left.png" alt="">
         </div>
         <div class="col-sm-12 col-lg-6">
             <hr class="line">
-            <img class="img-fluid" src="images/external/partner-right.png" alt="">
+            <img class="img-fluid" src="/images/external/partner-right.png" alt="">
         </div>
     </div>
     </div>

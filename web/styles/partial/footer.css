@@ -37,6 +37,23 @@
 .footer {
     background-color: #131629;
     padding: 10px 20px 40px 10px;
+    font-family: Arial;
+    letter-spacing: 0;
+}
+
+.footer p {
+    margin-bottom: 1em;
+}
+
+.footer .mt-3 {
+    margin-top: 1em!important;
+}
+.footer .mt-2 {
+    margin-top: .5em!important;
+}
+
+.footer .ml-4 {
+    margin-left: 1.5em!important;
 }
 
 .footer-container {

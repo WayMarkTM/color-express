@@ -1,12 +1,12 @@
 <?php
 /* @var $reloadWidget string */
 ?>
-<div id="signup" class="modal fade" role="dialog">
+<div id="signup" class="modal" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title text-uppercase"><strong>Регистрация</strong></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <?= $this->render('@app/views/layouts/_partial/_client_form', [

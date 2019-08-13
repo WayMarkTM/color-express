@@ -36,13 +36,13 @@ use kartik\date\DatePicker;
     ]); ?>
 
     <?= $form->field($model, 'type_id')->hiddenInput()->label('') ?>
-    <?= $form->field($model, 'size_id')->dropDownList($sizes, ['prompt' => 'Выберите размер'])->label('По размеру:') ?>
-    <?= $form->field($model, 'address')->textInput(['placeholder' => 'Независимости проспект, 80'])->label('По адресу:') ?>
+    <?= $form->field($model, 'size_id')->dropDownList($sizes, ['prompt' => 'Выберите размер'])->label('По размеру:', ['class' => 'col-sm-4']) ?>
+    <?= $form->field($model, 'address')->textInput(['placeholder' => 'Независимости проспект, 80'])->label('По адресу:', ['class' => 'col-sm-4']) ?>
     <?php
-    $rangeLayout = '<div class="form-group"><label class="col-sm-3 control-label">По датам: </label>'.
-        '<div class="col-sm-6">'.
+    $rangeLayout = '<div class="row w-100"><label class="col-4 control-label">По датам: </label>'.
+        '<div class="col-6">'.
         '<span class="range-prefix">с </span>{input1}'.
-        '</div></div><div class="form-group"><div class="col-sm-offset-3 col-sm-6">'.
+        '</div></div><div class="row w-100"><div class="offset-4 col-6">'.
         '<span class="range-prefix">по </span>{input2}'.
         '</div></div>';
 

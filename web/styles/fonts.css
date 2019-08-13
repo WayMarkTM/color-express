@@ -1,0 +1,14 @@
+@font-face {
+  font-family: 'Franklin Gothic Medium';
+  src: url('/fonts/framd.ttf');
+}
+
+@font-face {
+  font-family: 'Franklin Gothic Extra Condensed';
+  src: url('/fonts/FranklinGothic-RomanCondensed.otf');
+}
+
+@font-face {
+  font-family: 'Franklin Gothic Roman Condensed';
+  src: url('/fonts/FranklinGothic-ExtraCondensed.otf');
+}

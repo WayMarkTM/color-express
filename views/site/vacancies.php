@@ -33,7 +33,7 @@ if ($this->title == null || $this->title == '') {
             <?php $i++; }
         ?>
     </div>
-    <div class="col-md-offset-1 col-md-5">
+    <div class="offset-md-1 col-md-5">
         <div class="row">
             <div class="col-md-12">
                 <?php if (Yii::$app->session->hasFlash('contactFormSubmitted')): ?>

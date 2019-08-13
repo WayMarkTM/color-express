@@ -20,7 +20,7 @@ class MenuWidget extends Widget
         $items = array();
 
         if (Yii::$app->user->isGuest) {
-            $items = $this->getGuestMenu();
+            $items = [];
         } else {
             $user_id = Yii::$app->user->getId();
             $user = User::findIdentity($user_id);
@@ -128,46 +128,6 @@ class MenuWidget extends Widget
             [
                 'label' => 'Настройки сайта',
                 'url' => ['/admin/site-settings/index']
-            ]
-        ];
-    }
-
-    private function getGuestMenu() {
-        return [
-            [
-                'label' => 'Каталог рекламных конструкций',
-                'url' => ['/construction/index'],
-                'visible' => Yii::$app->user->isGuest,
-            ],
-            [
-                'label' => 'Преимущества',
-                'url' => ['/site/advantages'],
-                'visible' => Yii::$app->user->isGuest,
-            ],
-            [
-                'label' => 'О компании',
-                'url' => ['/site/about'],
-                'visible' => Yii::$app->user->isGuest,
-            ],
-            [
-                'label' => 'Наши клиенты',
-                'url' => ['/site/clients'],
-                'visible' => Yii::$app->user->isGuest,
-            ],
-            [
-                'label' => 'Вакансии',
-                'url' => ['/site/vacancies'],
-                'visible' => Yii::$app->user->isGuest,
-            ],
-            [
-                'label' => 'Контакты',
-                'url' => ['/site/contact'],
-                'visible' => Yii::$app->user->isGuest,
-            ],
-            [
-                'label' => 'Инструкция к сайту',
-                'url' => SiteSettings::findOne(SiteSettingKey::PRESENTATION_LINK)->value,
-                'visible' => Yii::$app->user->isGuest
             ]
         ];
     }

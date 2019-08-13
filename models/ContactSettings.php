@@ -22,6 +22,7 @@ class ContactSettings
 {
     public $leftPhones;
     public $rightPhones;
+    public $phones;
     public $email;
     public $address;
     public $latitude;
