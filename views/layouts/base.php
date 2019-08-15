@@ -51,6 +51,8 @@ AppAsset::register($this);
         var BASE_URL = '<?php echo Url::home(true); ?>';
     </script>
     <?php $this->head() ?>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
 </head>
 <body>
 <?php $this->beginBody() ?>

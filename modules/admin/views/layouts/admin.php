@@ -16,6 +16,7 @@ use yii\widgets\Breadcrumbs;
 <?php $this->beginContent('@app/views/layouts/main.php'); ?>
     <?= Breadcrumbs::widget([
         'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+        'itemTemplate' => '{link}&nbsp;/&nbsp;'
     ]) ?>
 
     <?= $content ?>

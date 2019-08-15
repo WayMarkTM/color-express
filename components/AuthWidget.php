@@ -26,7 +26,7 @@ class AuthWidget extends Widget
             } elseif(Yii::$app->user->can('employee')) {
                 Yii::$app->getResponse()->redirect(Url::toRoute('/clients/index'));
             } else {
-                Yii::$app->getResponse()->redirect(Url::home(true));
+                Yii::$app->getResponse()->redirect(Url::toRoute('/construction/index'));
             }
         }
         return $this->render('_signin', [
