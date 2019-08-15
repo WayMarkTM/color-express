@@ -15,16 +15,13 @@ if ($this->title == null || $this->title == '') {
     $this->title = "Контакты";
 }
 ?>
-
-<div class="row">
-    <div class="col-sm-12">
-        <h1 class="text-uppercase font-weight-normal mb-5">Контакты</h1>
-    </div>
-</div>
-
-
 <div class="row">
     <div class="col-sm-7">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 class="text-uppercase font-weight-normal mb-5">Контакты</h1>
+            </div>
+        </div>
         <div class="row mb-4">
             <div class="col-sm-12">
                 <p class="my-0 text-uppercase"><strong>ООО "Колорэкспресс"</strong></p>
@@ -143,6 +140,6 @@ if ($this->title == null || $this->title == '') {
                 map.geoObjects.add(myGeoObject);
             }
         </script>
-        <div id="map" style="height: 500px; width: 100%"></div>
+        <div id="map" style="height: 700px; width: 100%"></div>
     </div>
 </div>

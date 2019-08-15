@@ -2,7 +2,7 @@
 <meta property="og:image" content="/images/external/facebook.png">
 
 <div class="row">
-  <div class="col-sm-12 col-md-6 col-lg-6">
+  <div class="col-sm-12 col-md-5 col-lg-5">
     <h1 class="font-weight-normal text-uppercase mb-4">Программа Лояльности "Удачное размещение"</h1>
     <p><strong>Уважаемые партнеры!</strong></p>
     <p>Компания ООО "Колорэкспресс" запускает программу лояльности "Удачное размещение" для своих клиентов, которая позволит сэкономить рекламный бюджет до 50%.</p>
@@ -18,7 +18,7 @@
       </a>
     </p>
   </div>
-  <div class="col-sm-12 offset-md-1 offset-lg-1 col-md-5 col-lg-5 pl-5">
-    <img src="/images/external/ex-of-img.png" class="mw-100 mt-3" />
+  <div class="col-sm-12 offset-md-1 offset-lg-1 col-md-6 col-lg-6">
+    <img src="/images/external/ex-of-img.png" class="w-100 mw-100" />
   </div>
 </div>
