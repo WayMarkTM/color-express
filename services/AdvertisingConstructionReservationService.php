@@ -620,10 +620,12 @@ class AdvertisingConstructionReservationService
             ->orderBy('from ASC')
             ->all();
 
-        $firstPeriod = $periods[0];
-        $lastPeriod = $periods[count($reservation->advertisingConstructionReservationPeriods) - 1];
-        $borderTotalDays = (new \DateTime($lastPeriod->to))->diff(new \DateTime($firstPeriod->from))->days;
-        $totalDays =  (new \DateTime($reservation->to))->diff(new \DateTime($reservation->from))->days;
+        $borderTotalDays = 0;
+        foreach ($periods as $period) {
+            $borderTotalDays += (new \DateTime($period->to))->diff(new \DateTime($period->from))->days + 1;
+        }
+
+        $totalDays =  (new \DateTime($reservation->to))->diff(new \DateTime($reservation->from))->days + 1;
         return $borderTotalDays == $totalDays;
     }
 
