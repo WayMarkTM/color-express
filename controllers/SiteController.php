@@ -222,7 +222,7 @@ class SiteController extends Controller
     public function actionPortfolio()
     {
         $this->view->title = $this->seoService->getTitleAndSetMetaData(PageKey::PORTFOLIO);
-        $portfolioItems = PortfolioItem::find()->all();
+        $portfolioItems = PortfolioItem::find()->orderBy('id DESC')->all();
         return $this->render('portfolio', [
             'portfolioItems' => $portfolioItems,
         ]);

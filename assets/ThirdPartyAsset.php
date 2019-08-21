@@ -14,6 +14,7 @@ class ThirdPartyAsset extends AssetBundle
     ];
     public $js = [
         'js/jquery-3.2.0.min.js',
+        'js/jquery.pjax.js',
         'js/bootstrap.min.js',
     ];
     public $depends = [

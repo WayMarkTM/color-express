@@ -115,7 +115,7 @@ $this->title = 'Управление клиентами';
                     },
                     'buttons' => [
                         'update' => function ($url, $model, $key) {
-                            return  Html::a('Редактировать','#', ['class' => 'glyphicon glyphicon-pencil client-editable', 'data-user-id' => $model->id]);
+                            return  Html::a('','#', ['class' => 'glyphicon glyphicon-pencil client-editable', 'data-user-id' => $model->id]);
                         }
                     ]
                 ],
@@ -127,9 +127,25 @@ $this->title = 'Управление клиентами';
 
 <script type="text/javascript">
     function updateManager(user) {
-        debugger;
         document.location.href='<?=Url::to(['update-manager'])?>?id=' + $(user).data('user-id') + '&manager_id=' +  user.value;
     }
+
+    (function() {
+        $('#clients-list').on('click', '.client-editable', (function(e) {
+            debugger;
+            e.preventDefault();
+            var client_id = $(this).data('user-id');
+            $.get( '/clients/get-client-info', 
+                {
+                    'id': client_id,
+                    'scenario': '".$scenario."'
+                },
+                function(userData) {
+                    $('#".$id." .modal-body').html(userData);
+                    $('#".$id."').modal('show');    
+            });
+        });
+    });
 </script>
 <?= $this->render('@app/views/layouts/_partial/_modalClientData', [
     'title' => 'Изменить данные компании',
