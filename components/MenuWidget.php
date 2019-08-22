@@ -106,16 +106,8 @@ class MenuWidget extends Widget
                 'url' => ['/admin/advertising-construction-type/index']
             ],
             [
-                'label' => 'Управление нашими клиентами',
-                'url' => ['/admin/our-client/index']
-            ],
-            [
                 'label' => 'Управление сотрудниками',
                 'url' => ['/admin/user/index']
-            ],
-            [
-                'label' => 'Управление вакансиями',
-                'url' => ['/admin/vacancy/index']
             ],
             [
                 'label' => 'Мета-данные о страницах',
@@ -124,6 +116,14 @@ class MenuWidget extends Widget
             [
                 'label' => 'Управление портфолио',
                 'url' => ['/admin/portfolio/index']
+            ],
+            [
+                'label' => 'Управление секциями на главной',
+                'url' => ['/admin/section/index']
+            ],
+            [
+                'label' => 'Управление каруселью на главной',
+                'url' => ['/admin/carousel-image/index']
             ],
             [
                 'label' => 'Настройки сайта',

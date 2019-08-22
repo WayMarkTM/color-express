@@ -4,21 +4,22 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\entities\PortfolioItem */
+/* @var $model app\models\entities\CarouselImage */
 
-$this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Записи в портфолио', 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Изображения в карусели', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="portfolio-item-view">
+<div class="carousel-image-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
+
     <p>
         <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'custom-btn blue']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'custom-btn red',
             'data' => [
-                'confirm' => 'Вы уверены, что хотите удалить эту запись?',
+                'confirm' => 'Вы уверены, что хотите удалить это изображение?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,14 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'title',
-            [
-                'label' => 'Изображение',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return '<img src="/'.$model->image_url.'" />';
-                }
-            ]
+            'order',
+            'path',
         ],
     ]) ?>
 

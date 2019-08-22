@@ -4,24 +4,27 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
+/* @var $searchModel app\modules\admin\models\SectionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Записи в портфолио';
+$this->title = 'Секции на главной';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="portfolio-item-index">
+<div class="section-index">
 <h3>
     <?= Html::encode($this->title) ?>
-    <?= Html::a('Добавить запись в портфолио', ['create'], ['class' => 'custom-btn blue']) ?>
+    <?= Html::a('Добавить секцию', ['create'], ['class' => 'custom-btn blue']) ?>
 </h3>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            'type.name',
             'title',
-            'image_url:url',
+            'order',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

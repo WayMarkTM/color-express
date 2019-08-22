@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\entities\PortfolioItem */
+/* @var $model app\models\entities\SectionDetail */
 
-$this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Записи в портфолио', 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Содержимое секции', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="portfolio-item-view">
+<div class="section-detail-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <p>
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'custom-btn red',
             'data' => [
-                'confirm' => 'Вы уверены, что хотите удалить эту запись?',
+                'confirm' => 'Вы уверены, что хотите удалить это содержимое секции?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,14 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'title',
-            [
-                'label' => 'Изображение',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return '<img src="/'.$model->image_url.'" />';
-                }
-            ]
+            'section_id',
+            'formatted_text:ntext',
+            'order',
+            'image_path',
+            'link_to',
+            'link_text',
+            'link_icon',
         ],
     ]) ?>
 
