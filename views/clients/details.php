@@ -126,7 +126,7 @@ InterruptReservationWidget::end();
                         [
                             'class' => ExpandRowColumn::class,
                             'label' => 'Даты использования',
-                            'headerOptions' => ['class' => 'text-center', 'width' => '260'],
+                            'headerOptions' => ['class' => 'text-center', 'width' => '280'],
                             'contentOptions' => function ($model) {
                                 if (count($model->advertisingConstructionReservationPeriods) > 1) {
                                     return ['class' => 'text-center'];
@@ -150,11 +150,13 @@ InterruptReservationWidget::end();
                                 if (count($periods) == 1 &&
                                     ($model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ||
                                     ($model->status_id == AdvertisingConstructionStatuses::APPROVED && new \DateTime($model->to) > new \DateTime()))) {
-                                    $rangeLayout = '<div class="row"><div class="col-md-6" style="padding-right: 5px">'.
+                                    $rangeLayout = '<div class="row"><div class="col-md-5 pr-2">'.
                                         '{input1}'.
-                                        '</div><div class="col-md-6" style="padding-left: 5px">'.
+                                        '</div><div class="col-md-5 px-2">'.
                                         '{input2}'.
-                                        '</div></div>';
+                                        '</div><div class="col-md-2 pl-0">
+                                            <a href="#" class="save-date-range align-middle" data-id="'.$model->id.'"><i class="glyphicon glyphicon-ok"></i></a>
+                                        </div></div>';
                 
                                     return DatePicker::widget([
                                         'type' => DatePicker::TYPE_RANGE,
@@ -213,7 +215,7 @@ InterruptReservationWidget::end();
 
                                 return $model->status_id == AdvertisingConstructionStatuses::IN_PROCESSING || $model->status_id == AdvertisingConstructionStatuses::RESERVED ||
                                     ($model->status_id == AdvertisingConstructionStatuses::APPROVED && new \DateTime($model->to) > new \DateTime()) ?
-                                    '<input class="form-control full-width price-per-day" data-period="'.$interval.'" type="text" value="'.$price.'" />' :
+                                    '<div class="row mx-3"><div class="col-md-10 pr-2 pl-3"><input class="form-control full-width price-per-day" data-period="'.$interval.'" type="text" value="'.$price.'" /></div><div class="col-md-2 pl-2 pr-3"><a href="#" class="save-price align-middle" data-id="'.$model->id.'"><i class="glyphicon glyphicon-ok"></i></a></div></div>' :
                                     $price;
                             }
                         ],
@@ -400,7 +402,56 @@ InterruptReservationWidget::end();
         $('.date-from').on('change', onDateOrPriceChanged);
         $('.date-to').on('change', onDateOrPriceChanged);
 
-        $('.approve-order').on('click', function () {
+        $('.save-price').on('click', function () {
+            var data = $(this).data(),
+                price = $(this).closest('.row').find('.price-per-day').val();
+
+            data.price = price;
+
+            colorApp.utilities.ajaxHelper.post({
+                url: GATEWAY_URLS.SAVE_ORDER_PRICE,
+                data: data
+            }).done(function (result) {
+                if (result.success) {
+                    toastr.success('Цена в день обновлена');
+                } else {
+                    toastr.error(result.message);
+                }
+            });
+        });
+
+        $('.save-date-range').on('click', function (e) {
+            e.preventDefault();
+            var data = $(this).data(),
+                $cost = $(this).closest('tr').find('.cost'),
+                dateFrom = $(this).closest('tr').find('.date-from').val(),
+                dateTo = $(this).closest('tr').find('.date-to').val();
+
+            data.cost = $cost.html();
+            if (dateFrom != null && dateTo != null) {
+                var formatFrom = 'DD.MM.YYYY',
+                    formatTo = 'YYYY-MM-DD';
+                data.from = moment(dateFrom, formatFrom).format(formatTo);
+                data.to = moment(dateTo, formatFrom).format(formatTo);
+            }
+
+            colorApp.utilities.ajaxHelper.post({
+                url: GATEWAY_URLS.SAVE_ORDER_DATES,
+                data: data
+            }).done(function (result) {
+                if (result.success) {
+                    toastr.success('Даты использования обновлены');
+                    if (result.needReload) {
+                        window.location.reload();
+                    }
+                } else {
+                    toastr.error(result.message);
+                }
+            });
+        });
+
+        $('.approve-order').on('click', function (e) {
+            e.preventDefault();
             var data = $(this).data(),
                 $cost = $(this).closest('tr').find('.cost'),
                 dateFrom = $(this).closest('tr').find('.date-from').val(),

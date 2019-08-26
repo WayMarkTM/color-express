@@ -58,11 +58,11 @@ class ClientsController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'details', 'delete', 'update-manager', 'delete-order', 'buy-reservation', 'decline-order', 'approve-order', 'details-documents', 'get-client-info', 'update-manager', 'get-current-employee-clients', 'document'], //only be applied to
+                'only' => ['index', 'details', 'delete', 'update-manager', 'delete-order', 'buy-reservation', 'decline-order', 'approve-order', 'details-documents', 'get-client-info', 'update-manager', 'get-current-employee-clients', 'document', 'save-order-price', 'save-order-dates'], //only be applied to
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'details', 'delete', 'update-manager', 'delete-order', 'buy-reservation', 'decline-order', 'approve-order', 'details-documents', 'get-client-info', 'update-manager', 'get-current-employee-clients'],
+                        'actions' => ['index', 'details', 'delete', 'update-manager', 'delete-order', 'buy-reservation', 'decline-order', 'approve-order', 'details-documents', 'get-client-info', 'update-manager', 'get-current-employee-clients', 'save-order-price', 'save-order-dates'],
                         'roles' => ['employee'],
                     ],
                     [
@@ -251,6 +251,34 @@ class ClientsController extends Controller
         $service->declineOrder($orderId);
 
         return $this->redirect('details?clientId='.$clientId);
+    }
+
+    public function actionSaveOrderDates() {
+        $this->enableCsrfValidation = false;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        /* id, userId, cost */
+        $model = Yii::$app->request->post();
+
+        if (Yii::$app->request->isAjax) {
+            return $this->ordersService->saveReservationDates($model['id'], $model['from'], $model['to']);
+        }
+
+        return new MethodNotAllowedHttpException();
+    }
+
+    public function actionSaveOrderPrice() {
+        $this->enableCsrfValidation = false;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        /* id, userId, cost */
+        $model = Yii::$app->request->post();
+
+        if (Yii::$app->request->isAjax) {
+            return $this->ordersService->saveReservationPrice($model['id'], $model['price']);
+        }
+
+        return new MethodNotAllowedHttpException();
     }
 
     public function actionApproveOrder() {

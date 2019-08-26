@@ -23,6 +23,8 @@ var GATEWAY_URLS = {
     VALIDATE_CONSTRUCTION_DATE_RANGE: BASE_URL + 'construction/validate-and-save-construction-date-range',
     CHECKOUT: BASE_URL + 'shopping-cart/checkout',
     APPROVE_ORDER: BASE_URL + 'clients/approve-order',
+    SAVE_ORDER_DATES: BASE_URL + 'clients/save-order-dates',
+    SAVE_ORDER_PRICE: BASE_URL + 'clients/save-order-price',
     BUY_RESERVED_CONSTRUCTION: BASE_URL + 'orders/buy-reserved-construction',
     GET_REPORT: BASE_URL + 'reports/download',
     DELETE_ORDER: BASE_URL + 'clients/delete-order',

@@ -10,6 +10,7 @@ namespace app\services;
 
 use app\models\constants\AdvertisingConstructionStatuses;
 use app\models\entities\AdvertisingConstructionReservation;
+use app\models\entities\AdvertisingConstructionReservationPeriod;
 use app\models\User;
 use Yii;
 use yii\base\Exception;
@@ -75,6 +76,92 @@ class OrdersService
         }
         
         $reservation->delete();
+    }
+
+    /**
+     * @param integer $id
+     * @param number $price
+     */
+    public function saveReservationPrice($id, $price) {
+        $reservation = AdvertisingConstructionReservation::findOne($id);
+        $interval = DateService::calculateIntervalLength($reservation->from, $reservation->to);
+        $reservation->cost = $price * $interval;
+        $reservation->advertisingConstructionReservationPeriods[0]->price = $price;
+        $reservation->advertisingConstructionReservationPeriods[0]->save();
+        $reservation->save();
+        return [
+            'success' => true,
+        ];
+    }
+
+    /**
+     * @param integer $id
+     * @param date $from
+     * @param date $to
+     */
+    public function saveReservationDates($id, $from, $to) {
+        $reservation = AdvertisingConstructionReservation::findOne($id);
+        $needReload = false;
+
+        if ($from != null && $to != null) {
+            $reservationService = new AdvertisingConstructionReservationService();
+            $validationModel = [
+                'id' => $id,
+                'advertising_construction_id' => $reservation->advertising_construction_id,
+                'from' => $from,
+                'to' => $to,
+            ];
+
+            if (!$reservationService->isDateRangesValid($validationModel)) {
+                return [
+                    'success' => false,
+                    'message' => 'Конструкция забронирована на даты с '.$from.' по '.$to,
+                ];
+            }
+
+            if ($reservationService->isOnDismantling($validationModel)) {
+                return [
+                    'success' => false,
+                    'message' => 'В заданный период конструкция на демонтаже',
+                ];
+            }
+
+            $price = $reservation->cost / DateService::calculateIntervalLength($reservation->from, $reservation->to);
+            $reservation->from = $from;
+            $reservation->to = $to;
+            $reservation->cost = $price * DateService::calculateIntervalLength($reservation->from, $reservation->to);
+
+            $periods = DateService::getMonthRanges($from, $to);
+            if (count($periods) == 1) {
+                $reservation->advertisingConstructionReservationPeriods[0]->from = $from;
+                $reservation->advertisingConstructionReservationPeriods[0]->to = $to;
+                $reservation->advertisingConstructionReservationPeriods[0]->price = $price;
+                $reservation->advertisingConstructionReservationPeriods[0]->save();
+            } else {
+                $needReload = true;
+                $reservation->advertisingConstructionReservationPeriods[0]->delete();
+                foreach ($periods as $period) {
+                    $reservationPeriod = new AdvertisingConstructionReservationPeriod();
+                    $reservationPeriod->advertising_construction_reservation_id = $reservation->id;
+                    $reservationPeriod->from = $period['start'];
+                    $reservationPeriod->to = $period['end'];
+                    $reservationPeriod->price = $price;
+        
+                    if (!$reservationPeriod->save()) {
+                        throw new Exception('Error during saving entity reservation period: '.Json::encode($reservationPeriod->getErrors()));
+                    }
+        
+                    $reservationPeriod->save();
+                }
+            }
+
+            $reservation->save();
+        }
+        
+        return [
+            'success' => true,
+            'needReload' => $needReload,
+        ];
     }
 
     /**
