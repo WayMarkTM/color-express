@@ -8,17 +8,17 @@ use yii\base\Model;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
 
-class PortfolioItemForm extends BaseImageForm
+class CarouselItemForm extends BaseImageForm
 {
     public $id;
-    public $title;
+    public $order;
     public $isNewRecord;
 
     public function rules()
     {
         return [
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
-            [['title'], 'string'],
+            [['order'], 'number'],
             [['id'], 'number']
         ];
     }
@@ -26,7 +26,7 @@ class PortfolioItemForm extends BaseImageForm
     public function attributeLabels()
     {
         return [
-            'title' => 'Описание',
+            'order' => 'Порядковый номер',
             'imageFile' => 'Изображение'
         ];
     }

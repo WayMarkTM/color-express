@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\entities\CarouselImage */
 
-$this->title = 'Create Carousel Image';
-$this->params['breadcrumbs'][] = ['label' => 'Carousel Images', 'url' => ['index']];
+$this->title = 'Добавить изображение в карусель';
+$this->params['breadcrumbs'][] = ['label' => 'Изображения в карусели', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="carousel-image-create">

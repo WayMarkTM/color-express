@@ -31,7 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'order',
-            'path',
+            [
+                'label' => 'Изображение',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return '<img src="'.$model->path.'" />';
+                }
+            ]
         ],
     ]) ?>
 

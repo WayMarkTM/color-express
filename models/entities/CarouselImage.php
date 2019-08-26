@@ -40,8 +40,8 @@ class CarouselImage extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'order' => 'Order',
-            'path' => 'Path',
+            'order' => 'Порядковый номер',
+            'path' => 'Путь к изображению',
         ];
     }
 }

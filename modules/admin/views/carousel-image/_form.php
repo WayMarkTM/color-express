@@ -12,9 +12,18 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'order')->textInput() ?>
+    <?= $form->field($model, 'id')->hiddenInput(['value' => $model->id])->label(false) ?>
 
-    <?= $form->field($model, 'path')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'order')->textInput() ?>
+    
+    <?php if (!$model->isNewRecord) { ?>
+        <p>
+            <img src="<?php echo $model->path; ?>" />
+        </p>
+        <p>Если Вы выберете новый файл, то старое изображение будет заменено.</p>
+    <?php } ?>
+
+    <?= $form->field($model, 'imageFile')->fileInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'custom-btn blue']) ?>

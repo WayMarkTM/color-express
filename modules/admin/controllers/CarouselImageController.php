@@ -4,10 +4,13 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\models\entities\CarouselImage;
+use app\modules\admin\models\CarouselItemForm;
+use app\services\CarouselService;
 use yii\data\ActiveDataProvider;
 use app\modules\admin\controllers\BaseAdminController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * CarouselImageController implements the CRUD actions for CarouselImage model.
@@ -63,15 +66,25 @@ class CarouselImageController extends BaseAdminController
      */
     public function actionCreate()
     {
-        $model = new CarouselImage();
+        $model = new CarouselItemForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if (Yii::$app->request->isPost) {
+            $model->load(Yii::$app->request->post());
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                $carouselService = new CarouselService();
+                $entity = $carouselService->saveCarouselItem($model);
+                return $this->redirect(['view', 'id' => $entity->id]);
+            } else {
+                return 'failed '.$model->imageFile;
+            }
         }
+
+        $model->isNewRecord = true;
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -82,15 +95,24 @@ class CarouselImageController extends BaseAdminController
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $carouselService = new CarouselService();
+        if (Yii::$app->request->isPost) {
+            $model = new CarouselItemForm();
+            $model->load(Yii::$app->request->post());
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->imageFile == null || $model->upload()) {
+                $entity = $carouselService->saveCarouselItem($model);
+                return $this->redirect(['view', 'id' => $entity->id]);
+            } else {
+                return 'failed '.$model->imageFile;
+            }
         }
+
+        $entity = $this->findModel($id);
+        $model = $carouselService->getCarouselItemForm($entity);
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**

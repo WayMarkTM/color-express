@@ -6,7 +6,7 @@ use app\models\entities\CarouselImage;
 use app\models\constants\SectionType;
 
 $sections = Section::find()->orderBy('order ASC')->all();
-$carouselImages = CarouselImage::find()->all()
+$carouselImages = CarouselImage::find()->orderBy('order ASC')->all()
 
 ?>
 <link rel="stylesheet" href="/styles/landing.css" />
