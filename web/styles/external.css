@@ -334,3 +334,13 @@ footer a:hover {
 .main-content {
   min-height: calc(100% - 135px - 223px);
 }
+
+.exclusive-offer-body a {
+  color: #212529;
+  text-decoration: underline;
+}
+
+.exclusive-offer-body a:hover {
+  text-decoration: none;
+}
+

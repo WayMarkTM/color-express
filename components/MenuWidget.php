@@ -126,6 +126,10 @@ class MenuWidget extends Widget
                 'url' => ['/admin/carousel-image/index']
             ],
             [
+                'label' => 'Управление Exclusive Offer',
+                'url' => ['/admin/exclusive-offer/index']
+            ],
+            [
                 'label' => 'Настройки сайта',
                 'url' => ['/admin/site-settings/index']
             ]
