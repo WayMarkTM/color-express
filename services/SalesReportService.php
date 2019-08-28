@@ -14,40 +14,52 @@ class SalesReportService extends BaseNewReportService implements iReportService
   {
       $search = new AdvertisingConstructionSearch();
       $constructions = $search->searchItems($queryParams, true, false, true);
-      $fromDate = $this->getStartDate($year, $fromMonth);
-      $toDate = $this->getEndDate($year, $fromMonth, $monthCount);
+      // $fromDate = $this->getStartDate($year, $fromMonth);
+      // $toDate = $this->getEndDate($year, $fromMonth, $monthCount);
       $reportStartDate = $this->getStartDateTime($year, $fromMonth);
       $reportEndDate = $this->getEndDateTime($year, $fromMonth, $monthCount);
 
       $data = array();
 
       foreach($constructions as $construction) {
-        $reservations = $this->getReservations($construction, $fromDate, $toDate);
-        $hasDismantling = $construction->dismantling_from != null && $construction->dismantling_to != null;
-        $hasDismantlingInReportPeriod = false;
-        if ($hasDismantling) {
-          $dismantlingFrom = new \DateTime(date('Y-m-d', strtotime($construction->dismantling_from)));
-          $dismantlingTo = new \DateTime(date('Y-m-d', strtotime($construction->dismantling_to)));
-          $hasDismantlingInReportPeriod = DateService::intersects($dismantlingFrom, $dismantlingTo, $reportStartDate, $reportEndDate);
-        }
-
-        if ($hasDismantlingInReportPeriod) {
-          array_push($data, $this->getDataLineFromDismantling($construction, $reservation, $dismantlingFrom, $dismantlingTo));
-        }
-
-        if (count($reservations) == 0) {
-          array_push($data, $this->getDataLineFromConstruction($construction, $fromDate, $toDate));
-        }
-
-        foreach($reservations as $reservation) {
-          foreach($reservation->advertisingConstructionReservationPeriods as $period) {
-            $periodStartDate = new \DateTime(date('Y-m-d', strtotime($period->from)));
-            $periodEndDate = new \DateTime(date('Y-m-d', strtotime($period->to)));
-
-            if (DateService::intersects($periodStartDate, $periodEndDate, $reportStartDate, $reportEndDate)) {
-                array_push($data, $this->getDataLineFromPeriod($construction, $reservation, $period));
-            }
+        for($i = 0; $i < $monthCount; $i++) {
+          $currentMonth = $fromMonth + $i;
+          $currentYear = $year;
+          if ($currentMonth > 12) {
+              $currentMonth %= 12;
+              $currentYear += 1;
           }
+
+          $fromDate = $this->getStartDate($currentYear, $currentMonth);
+          $toDate = $this->getEndDate($currentYear, $currentMonth, 1);
+
+          $reservations = $this->getReservations($construction, $fromDate, $toDate);
+          $hasDismantling = $construction->dismantling_from != null && $construction->dismantling_to != null;
+          $hasDismantlingInMonth = false;
+          if ($hasDismantling) {
+            $dismantlingFrom = new \DateTime(date('Y-m-d', strtotime($construction->dismantling_from)));
+            $dismantlingTo = new \DateTime(date('Y-m-d', strtotime($construction->dismantling_to)));
+            $hasDismantlingInMonth = DateService::intersects($dismantlingFrom, $dismantlingTo, $fromDate, $toDate);
+          }
+
+          if ($hasDismantlingInMonth) {
+            array_push($data, $this->getDataLineFromDismantling($construction, $reservation, $dismantlingFrom, $dismantlingTo));
+          }
+
+          if (count($reservations) == 0) {
+            array_push($data, $this->getDataLineFromConstruction($construction, $fromDate, $toDate));
+          }
+
+          foreach($reservations as $reservation) {
+            foreach($reservation->advertisingConstructionReservationPeriods as $period) {
+              $periodStartDate = new \DateTime(date('Y-m-d', strtotime($period->from)));
+              $periodEndDate = new \DateTime(date('Y-m-d', strtotime($period->to)));
+  
+              if (DateService::intersects($periodStartDate, $periodEndDate, new \DateTime($fromDate), new \DateTime($toDate))) {
+                  array_push($data, $this->getDataLineFromPeriod($construction, $reservation, $period));
+              }
+            }
+          }          
         }
       }
 
@@ -109,7 +121,7 @@ class SalesReportService extends BaseNewReportService implements iReportService
     ];
   }
 
-  private function getDataLineFromDismantling($construction, $reservation, $dismantlingFrom, $dismantlingTo) {
+  private function getDataLineFromDismantling($construction, $dismantlingFrom, $dismantlingTo) {
     $intervalLength = DateService::calculateIntervalLength($dismantlingFrom, $dismantlingTo);
     
     return [
