@@ -99,6 +99,7 @@ class CarouselImageController extends BaseAdminController
         if (Yii::$app->request->isPost) {
             $model = new CarouselItemForm();
             $model->load(Yii::$app->request->post());
+            echo Json::encode($$model);
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             if ($model->imageFile == null || $model->upload()) {
                 $entity = $carouselService->saveCarouselItem($model);

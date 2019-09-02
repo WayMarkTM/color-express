@@ -30,7 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'section_id',
-            'formatted_text:ntext',
+            [
+                'label' => 'Форматированный текст',
+                'format' => 'raw',
+                'value' => $model->formatted_text,
+            ],
             'order',
             'image_path',
             'link_to',

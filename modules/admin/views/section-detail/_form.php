@@ -14,6 +14,8 @@ use dosamigos\ckeditor\CKEditor;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'id')->hiddenInput(['value' => $model->id])->label(false) ?>
+
     <?= $form->field($model, 'section_id')->textInput() ?>
 
     <?= $form->field($model, 'formatted_text')->widget(CKEditor::className(), [
@@ -23,7 +25,14 @@ use dosamigos\ckeditor\CKEditor;
 
     <?= $form->field($model, 'order')->textInput() ?>
 
-    <?= $form->field($model, 'image_path')->textInput(['maxlength' => true]) ?>
+    <?php if (!$model->isNewRecord) { ?>
+        <p>
+            <img src="<?php echo $model->path; ?>" />
+        </p>
+        <p>Если Вы выберете новый файл, то старое изображение будет заменено.</p>
+    <?php } ?>
+
+    <?= $form->field($model, 'imageFile')->fileInput() ?>
 
     <?= $form->field($model, 'link_to')->textInput(['maxlength' => true]) ?>
 

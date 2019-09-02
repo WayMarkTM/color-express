@@ -51,6 +51,19 @@ $carouselImages = CarouselImage::find()->orderBy('order ASC')->all()
                     </div>
                 <?php }
                 break;
+            case SectionType::FREE_TEXT_WITH_IMAGE:
+                $sectionDetails = $section->getSectionDetails()->orderBy('order ASC')->all();
+                foreach ($sectionDetails as $sectionDetail) { ?>
+                    <div class="row info-block-pos">
+                        <div class="col">
+                            <?php echo $sectionDetail->formatted_text; ?>
+                        </div>
+                        <div class="col">
+                            <img class="w-100" src="<?php echo $sectionDetail->image_path; ?>" />
+                        </div>
+                    </div>
+                <?php }
+                break;
             case SectionType::CIRCLES: ?>
                 <div class="row">
                 <?php

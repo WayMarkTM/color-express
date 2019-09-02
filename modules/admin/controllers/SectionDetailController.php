@@ -4,10 +4,13 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\models\entities\SectionDetail;
+use app\modules\admin\models\SectionDetailForm;
 use app\modules\admin\models\SectionDetailSearch;
 use app\modules\admin\controllers\BaseAdminController;
+use app\services\SectionDetailService;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * SectionDetailController implements the CRUD actions for SectionDetail model.
@@ -63,15 +66,25 @@ class SectionDetailController extends BaseAdminController
      */
     public function actionCreate()
     {
-        $model = new SectionDetail();
+        $model = new SectionDetailForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if (Yii::$app->request->isPost) {
+            $model->load(Yii::$app->request->post());
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                $sectionDetailService = new SectionDetailService();
+                $entity = $sectionDetailService->saveItem($model);
+                return $this->redirect(['view', 'id' => $entity->id]);
+            } else {
+                return 'failed '.$model->imageFile;
+            }
         }
+
+        $model->isNewRecord = true;
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -82,15 +95,24 @@ class SectionDetailController extends BaseAdminController
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $sectionDetailService = new SectionDetailService();
+        if (Yii::$app->request->isPost) {
+            $model = new SectionDetailForm();
+            $model->load(Yii::$app->request->post());
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->imageFile == null || $model->upload()) {
+                $entity = $sectionDetailService->saveItem($model, $id);
+                return $this->redirect(['view', 'id' => $entity->id]);
+            } else {
+                return 'failed '.$model->imageFile;
+            }
         }
+
+        $entity = $this->findModel($id);
+        $model = $sectionDetailService->getForm($entity);
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**

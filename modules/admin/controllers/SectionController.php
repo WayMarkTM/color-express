@@ -4,11 +4,13 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\models\entities\Section;
+use app\models\entities\SectionType;
 use app\modules\admin\models\SectionSearch;
 use app\modules\admin\models\SectionDetailSearch;
 use app\modules\admin\controllers\BaseAdminController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * SectionController implements the CRUD actions for Section model.
@@ -62,6 +64,10 @@ class SectionController extends BaseAdminController
         ]);
     }
 
+    private function getSectionTypeDropdownItems() {
+        return ArrayHelper::map(SectionType::find()->all(), 'id', 'name');
+    }
+
     /**
      * Creates a new Section model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -76,6 +82,7 @@ class SectionController extends BaseAdminController
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'types' => $this->getSectionTypeDropdownItems()
             ]);
         }
     }
@@ -95,6 +102,7 @@ class SectionController extends BaseAdminController
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'types' => $this->getSectionTypeDropdownItems()
             ]);
         }
     }
