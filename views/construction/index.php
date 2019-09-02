@@ -216,7 +216,7 @@ if ($this->title == null || $this->title == '') {
         <div class="row">
             <div class="col-sm-12">
                 <div class="col-sm-12">
-                {{ $ctrl.getSelectedConstructionAdditionalText() }}
+                    <?php echo $constructionType->additional_text; ?>
                 </div>
             </div>
         </div>
