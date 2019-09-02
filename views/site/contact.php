@@ -15,6 +15,10 @@ if ($this->title == null || $this->title == '') {
     $this->title = "Контакты";
 }
 ?>
+<link rel="stylesheet" href="styles/rubytabs.css">
+<script src="js/rubytabs.js"></script>
+<link rel="stylesheet" href="js/rubyanimate.js">
+
 <div class="row">
     <div class="col-sm-7">
         <div class="row">
@@ -86,8 +90,53 @@ if ($this->title == null || $this->title == '') {
                 </p>
             </div>
             <div class="col-sm-12 col-md-8">
-                <div class="row">
-                    <div class="col-4">
+                <div class="rt01 rt01underline"
+                    data-tabs='{
+                        "fx"    : "cssOne",
+                        "cssTwoOut" : "moveLeftFront",
+                        "cssTwoIn"  : "moveRightFront",
+                        "speed" : 800,
+                        "pag"   : { "align" : "begin", "isArrow" : false }
+                    }'>
+                    <div>
+                        <div class="rt01pagitem">
+                            <img src="/images/external/leader-logo.png" />
+                        </div>
+                        <p class="my-0">
+                            <a href="http://leader-outdoor.by" class="text-danger font-weight-bold">www.leaderoutdoor.by</a>
+                        </p>
+                        <p class="text-uppercase text-secondary">Имиджевые надкрышные рекламные конструкции</p>
+                        <p>
+                            Большие световые короба и объемные буквы с подсветкой обеспечивают положительное эмоциональное и эстетическое воздействие на самую широкую аудиторию. Ваш бренд на крышной установке становится не просто рекламой, а частью городского пейзажа.
+                        </p>
+                    </div>
+                    <div>
+                        <div class="rt01pagitem">
+                            <img src="/images/external/krasavik-logo.png" />
+                        </div>
+                        <p class="my-0">
+                            <a href="http://krasavik.by" class="text-danger font-weight-bold">www.krasavik.by</a>
+                        </p>
+                        <p class="text-uppercase text-secondary">Крупнейший поставщик сувенирной продукции из Европы и России</p>
+                        <p>
+                            В ассортименте компании – более 7 000 наименований продукции, которые вы можете заказать прямо с европейских и российских складов в беспрецедентно короткие для Беларуси сроки.
+                        </p>
+                    </div>
+                    <div>
+                        <div class="rt01pagitem">
+                            <img src="/images/external/brand-colorexpo.png" />
+                        </div>
+                        <p class="my-0">
+                            <a href="http://colorexpo.by" class="text-danger font-weight-bold">www.colorexpo.by</a>
+                        </p>
+                        <p class="text-uppercase text-secondary">Оператор наружной рекламы "premium outdoor" в Минске</p>
+                        <p>
+                            Размещение наружной рекламы на собственных рекламных конструкциях: билборды, брандмауэры, призматроны, световые короба на зданиях и в переходах, реклама на мостах и путепроводах.
+                        </p>
+                    </div>
+                </div>
+
+                    <!-- <div class="col-4">
                         <a href="http://leader-outdoor.by">
                             <img src="/images/external/leader-logo.png" />
                         </a>
@@ -101,14 +150,7 @@ if ($this->title == null || $this->title == '') {
                         <a href="http://colorexpo.by/">
                             <img src="/images/external/brand-colorexpo.png" />
                         </a>
-                    </div>
-                </div>
-                <hr />
-                <p class="my-0 text-danger font-weight-bold">www.leaderoutdoor.by</p>
-                <p class="text-uppercase text-secondary">Имиджевые надкрышные рекламные конструкции</p>
-                <p>
-                    Большие световые короба и объемные буквы с подсветкой обеспечивают положительное эмоциональное и эстетическое воздействие на самую широкую аудиторию. Ваш бренд на крышной установке становится не просто рекламой, а частью городского пейзажа.
-                </p>
+                    </div> -->
             </div>
         </div>
     </div>
