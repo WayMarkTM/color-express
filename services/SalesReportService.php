@@ -39,11 +39,11 @@ class SalesReportService extends BaseNewReportService implements iReportService
           if ($hasDismantling) {
             $dismantlingFrom = new \DateTime(date('Y-m-d', strtotime($construction->dismantling_from)));
             $dismantlingTo = new \DateTime(date('Y-m-d', strtotime($construction->dismantling_to)));
-            $hasDismantlingInMonth = DateService::intersects($dismantlingFrom, $dismantlingTo, $fromDate, $toDate);
-          }
+            $hasDismantlingInMonth = DateService::intersects($dismantlingFrom, $dismantlingTo, new \DateTime($fromDate), new \DateTime($toDate));
 
-          if ($hasDismantlingInMonth) {
-            array_push($data, $this->getDataLineFromDismantling($construction, $reservation, $dismantlingFrom, $dismantlingTo));
+            if ($hasDismantlingInMonth) {
+              array_push($data, $this->getDataLineFromDismantling($construction, $dismantlingFrom, $dismantlingTo));
+            }
           }
 
           if (count($reservations) == 0) {
